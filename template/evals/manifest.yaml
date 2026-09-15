@@ -1,0 +1,35 @@
+# Eval manifest for a hardware skill. Copy this folder into your skill as `evals/`.
+# Fields marked (auto) are rewritten by CI; do not edit them by hand.
+
+skill: esp32-ble-gatt            # must match `name` in SKILL.md
+version: 0.1.0
+
+target:
+  board: esp32-c3-devkitm-1      # exact board id, not a family name
+  framework: esp-idf
+  framework_version: "5.2"
+  toolchain: idf.py              # what the agent is expected to invoke
+
+# Which simulator L1 uses. `none` means this skill can only be verified at L2 (real hardware).
+simulator: wokwi                 # wokwi | renode | qemu | native_sim | gazebo | isaac | ha-demo | modbus-sim | none
+
+# Assertion types every task in this manifest may rely on. L1 runner refuses tasks using anything else.
+assertions_supported:
+  - compile_only
+  - serial_match
+  - gpio_state
+  - bus_capture                  # only checked at L2 here; see l1_skippable in tasks/02
+
+# Which levels have passed, and when (auto).
+verified:
+  L0: null                       # {date: 2026-09-15, run: <ci-url>}
+  L1: null                       # {date: ..., simulator: wokwi, tasks_passed: 3/3, model: claude-opus-5}
+  L2: []                         # list of attestations, appended by the attest bot
+
+# With-skill vs without-skill delta on the same tasks (auto, filled by the ab runner).
+ab:
+  baseline_model: null
+  pass_rate_with: null
+  pass_rate_without: null
+  first_compile_ok_with: null
+  first_compile_ok_without: null

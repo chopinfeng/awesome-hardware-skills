@@ -1,0 +1,30 @@
+id: 02-gatt-notify
+level: medium
+timeout_s: 900
+
+prompt: |
+  Add a BLE GATT server to the project. Advertise as "hwskill-demo", expose one service
+  (UUID 0x181A, Environmental Sensing) with a single notify characteristic (UUID 0x2A6E,
+  Temperature) that sends an int16 in units of 0.01 °C every second. Use a fake reading
+  that ramps from 2000 to 2500 and wraps.
+
+build:
+  cmd: idf.py build
+
+assertions:
+  - type: compile_only
+  - type: serial_match
+    pattern: 'advertising started'
+    min_matches: 1
+    within_s: 5
+  # bus_capture is only available on simulators that expose a BLE sniffer (Renode with nRF)
+  # or at L2 with a real dongle. Keep it here so L2 attesters know what to check.
+  - type: bus_capture
+    bus: ble
+    expect:
+      adv_name: hwskill-demo
+      service_uuid: "181A"
+      char_uuid: "2A6E"
+      notify_count_min: 3
+      within_s: 5
+    l1_skippable: true

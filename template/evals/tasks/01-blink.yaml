@@ -1,0 +1,31 @@
+# One task = one prompt the agent receives + the physical side effects that prove it worked.
+id: 01-blink
+level: easy                      # easy | medium | hard
+timeout_s: 600
+
+prompt: |
+  Create a new ESP-IDF project for the esp32-c3-devkitm-1 that blinks the onboard LED
+  on GPIO8 at 2 Hz and prints "tick" over UART0 at 115200 baud on every toggle.
+
+# What the runner does after the agent says it's done.
+build:
+  cmd: idf.py build
+  cwd: .                         # relative to the agent's working directory
+
+# Observable assertions. Each must pass. Avoid LLM-judged assertions; prefer things a script can check.
+assertions:
+  - type: compile_only
+  - type: serial_match
+    baud: 115200
+    pattern: '^tick$'
+    min_matches: 4
+    within_s: 3
+  - type: gpio_state
+    pin: 8
+    expect: toggles
+    min_edges: 4
+    within_s: 3
+
+# Optional: a known-good reference the A/B runner can diff against for regression hunting.
+fixtures:
+  serial_expected: fixtures/01-blink.serial.txt

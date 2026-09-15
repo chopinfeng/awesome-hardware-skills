@@ -1,0 +1,61 @@
+name: L2 hardware attestation
+description: Report that you ran a listed skill's evals on real hardware.
+title: "[attest] <skill-name> on <board>"
+labels: ["attestation"]
+body:
+  - type: input
+    id: skill
+    attributes:
+      label: Skill
+      description: Repo URL (and path if it lives in a monorepo)
+      placeholder: https://github.com/owner/repo/tree/main/skills/esp32-ble-gatt
+    validations:
+      required: true
+  - type: input
+    id: board
+    attributes:
+      label: Board
+      description: Exact board id and revision
+      placeholder: esp32-c3-devkitm-1 rev 1.1
+    validations:
+      required: true
+  - type: input
+    id: framework
+    attributes:
+      label: Framework / SDK version
+      placeholder: esp-idf 5.2.2
+    validations:
+      required: true
+  - type: input
+    id: model
+    attributes:
+      label: Agent model and harness
+      placeholder: claude-opus-5 via Claude Code 2.x
+    validations:
+      required: true
+  - type: textarea
+    id: results
+    attributes:
+      label: Task results
+      description: One line per task, `id: pass|fail`, with a note for fails.
+      placeholder: |
+        01-blink: pass
+        02-gatt-notify: pass (bus_capture verified with nRF52840 sniffer)
+    validations:
+      required: true
+  - type: input
+    id: transcript
+    attributes:
+      label: Transcript link
+      description: Gist or repo containing the full agent session. Required — attestations without a transcript are not merged.
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Confirmation
+      options:
+        - label: I ran the tasks exactly as written in the skill's `evals/tasks/`, with no extra hints beyond the prompt.
+          required: true
+        - label: The transcript is unedited.
+          required: true
