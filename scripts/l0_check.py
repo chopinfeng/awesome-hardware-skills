@@ -66,7 +66,7 @@ def check_readme(path: Path) -> None:
         if url in urls:
             fail(f"{path}:{n}: duplicate url {url} (first at line {urls[url]})")
         urls[url] = n
-        if not (desc[0].isupper() or desc[0].isdigit() or desc[0] == "`") or not desc.rstrip().endswith((".", ")", "`")):
+        if not (desc[0].isupper() or desc[0].isdigit() or desc[0] in "`\"") or not desc.rstrip().endswith((".", ")", "`")):
             fail(f"{path}:{n}: description should start with a capital, digit or code span and end with a period")
     with ThreadPoolExecutor(16) as ex:
         for url, status in ex.map(head, urls):
