@@ -1,23 +1,23 @@
-# Awesome Hardware Skills
+# Awesome Hardware Skills [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 
 > Skills, MCP servers, simulators, benchmarks and CI infrastructure that let AI coding agents (Claude Code, Codex, Cursor, OpenClaw, …) build, flash, debug and control physical hardware — with a verification ladder so you can tell which ones actually work on a board.
 
-Most "awesome MCP" lists tell you a hardware server *exists*. This list also tracks whether anyone has proven it works: every skill entry can carry a badge from a three-level ladder (static checks → simulator run → real-hardware attestation) plus a with-skill / without-skill delta. See [How entries are verified](#how-entries-are-verified).
+Most "awesome MCP" lists tell you a hardware server *exists*. This list also tracks whether anyone has proven it works: every skill entry can carry a badge from a three-level ladder (static checks → simulator run → real-hardware attestation) plus a with-skill / without-skill delta. The ladder is explained in the first section below.
 
-Snapshot: 2026-09-15. Stars and last-push dates are from that day. `stale` marks projects with no push in 12+ months.
+Snapshot: 2026-09-15. Stars, last-push dates and skills.sh install counts are from that day. `stale` marks projects with no push in 12+ months.
 
 ## Contents
 
 - [How entries are verified](#how-entries-are-verified)
-- [Skills (SKILL.md form)](#skills)
+- [Skills](#skills)
   - [Official vendor skills](#official-vendor-skills)
   - [MCU / Embedded](#mcu--embedded)
-  - [RTOS (Zephyr / FreeRTOS / NCS)](#rtos)
-  - [Robotics (ROS / Isaac / drones)](#robotics)
+  - [RTOS](#rtos)
+  - [Robotics](#robotics)
   - [EDA / PCB](#eda--pcb)
   - [FPGA / HDL](#fpga--hdl)
-  - [SBC / Linux (Jetson / Raspberry Pi)](#sbc--linux)
-  - [Wireless (BLE / Zigbee / Matter)](#wireless)
+  - [SBC / Linux](#sbc--linux)
+  - [Wireless](#wireless)
   - [Industrial / IoT / 3D printing](#industrial--iot--3d-printing)
   - [Smart Home](#smart-home)
 - [MCP servers and bridges](#mcp-servers-and-bridges)
@@ -27,24 +27,25 @@ Snapshot: 2026-09-15. Stars and last-push dates are from that day. `stale` marks
   - [Virtual hardware and device farms](#virtual-hardware-and-device-farms)
 - [Benchmarks and evals](#benchmarks-and-evals)
 - [Papers and articles](#papers-and-articles)
-- [Agent-ready docs (llms.txt)](#agent-ready-docs)
-- [Gaps — what does not exist yet](#gaps)
+- [Agent-ready docs](#agent-ready-docs)
+- [Gaps](#gaps)
 - [Related lists](#related-lists)
-- [Contributing](#contributing)
 
 ## How entries are verified
 
-Hardware skills are hard to validate in CI because the CI runner does not own the board. So this list uses a ladder instead of a single green check:
+Hardware skills are hard to validate in CI because the CI runner does not own the board. So this list uses a ladder instead of a single green check.
 
-| Badge | Meaning |
-|---|---|
-| `L0` | Static checks pass: SKILL.md frontmatter, description specific enough to trigger, no secrets, links resolve, `evals/` package well-formed. |
-| `L1 (wokwi)` | Every task in the skill's `evals/` passes in the named simulator, run by this repo's CI. |
-| `L2 ×3` | Three independent people ran the tasks on real hardware and filed an [attestation](.github/ISSUE_TEMPLATE/attestation.yml) with an unedited transcript. |
-| `ΔPass +42%` | With-skill minus without-skill task pass rate on the same model — proves the skill carries knowledge the model did not already have. |
-| `stale` | No L1 re-run in 90 days, or no upstream push in 12 months. |
+**`L0`** — Static checks pass: SKILL.md frontmatter, description specific enough to trigger, no secrets, links resolve, `evals/` package well-formed. Enforced today by `scripts/l0_check.py` in CI.
 
-Tasks assert on physical side effects a script can observe (serial output, GPIO edges, bus captures, ROS topics, HTTP probes), never on "the code looks right". The eval package format lives in [`template/evals/`](template/evals/); the static checker is [`scripts/l0_check.py`](scripts/l0_check.py). Details in [CONTRIBUTING.md](CONTRIBUTING.md).
+**`L1 (wokwi)`** — Every task in the skill's `evals/` passes in the named simulator, run by this repo's CI. The task format is defined; the runner that drives Wokwi / Renode / `native_sim` is not written yet.
+
+**`L2 ×3`** — Three independent people ran the tasks on real hardware and filed an attestation issue with an unedited transcript.
+
+**`ΔPass +42%`** — With-skill minus without-skill task pass rate on the same model, proving the skill carries knowledge the model did not already have. Runner not written yet.
+
+**`stale`** — No L1 re-run in 90 days, or no upstream push in 12 months.
+
+Tasks assert on physical side effects a script can observe (serial output, GPIO edges, bus captures, ROS topics, HTTP probes), never on "the code looks right". The eval package format lives in `template/evals/`; see the Contributing section at the end for how to add one.
 
 This is the launch snapshot: no entry has an `evals/` package yet, so no badges are shown. The first targets for L1 are the ESP32, Zephyr and Arduino skills below, because Wokwi, Renode and `native_sim` can run them without a board.
 
@@ -57,7 +58,7 @@ Entries in the [Agent Skills](https://agentskills.io) format: a folder with a `S
 First-party skills published by the company that makes the hardware or the SDK. Rare, so listed together.
 
 - [NVIDIA/skills](https://github.com/nvidia/skills) - 330+ skills mirrored from NVIDIA product repos; the hardware clusters are `jetson-*` (BSP customization, pinmux, flashing, memory audit, LLM serving on-device), `hsb-*` (Holoscan Sensor Bridge FPGA flashing), `i4h-*` (Isaac for Healthcare robot data collection and RL) and `physical-ai-*`. Jetson skills are the most-installed hardware skills on skills.sh. (official · coll · ★3.3k · 2026-09)
-- [isaac-sim/IsaacSim `.claude/skills/`](https://github.com/isaac-sim/IsaacSim/tree/main/.claude/skills) - 40 skills for Isaac Sim: headless deployment, ROS 2 bridge, URDF/MJCF → USD, manipulation IK, navigation primitives, occupancy maps, data collection. (official · coll · ★4.1k · 2026-09)
+- [isaac-sim/IsaacSim `.claude/skills/`](https://github.com/isaac-sim/IsaacSim/tree/main/.claude/skills) - 43 skills for Isaac Sim: headless deployment, ROS 2 bridge, URDF/MJCF → USD, manipulation IK, navigation primitives, occupancy maps, data collection. (official · coll · ★4.1k · 2026-09)
 - [PX4/PX4-Autopilot `.agents/skills/build-px4`](https://github.com/PX4/PX4-Autopilot/tree/main/.agents/skills/build-px4) - Build PX4 board firmware inside the px4-dev container, worktree-aware; no flashing. (official · ★12.6k · 2026-09)
 - [project-chip/connectedhomeip `.agents/skills/`](https://github.com/project-chip/connectedhomeip/tree/master/.agents/skills) - 14 Matter SDK contributor skills: ZAP cluster generation, code-driven cluster TDD, chip-tool testing, binary size comparison. (official · coll · ★8.9k · 2026-09)
 - [home-assistant/core `.claude/skills/`](https://github.com/home-assistant/core/tree/dev/.claude/skills) - `ha-integration-knowledge`, `ha-quality-scale-verify`, `ha-review` for writing Home Assistant integrations. (official · coll · ★90k · 2026-09)
@@ -152,7 +153,7 @@ First-party skills published by the company that makes the hardware or the SDK. 
 ### Industrial / IoT / 3D printing
 
 - [earthtojake/text-to-cad `bambu-labs` / `gcode`](https://github.com/earthtojake/text-to-cad/tree/main/skills/bambu-labs) - Bambu printer control and G-code generation; `bambu-labs` has ~6.7k installs on skills.sh. (★15.8k · 2026-09)
-- [LeoKemp223/embed-ai-tool `modbus-debug` / `can-debug` / `visa-debug`](https://github.com/LeoKemp223/embed-ai-tool/tree/master/skills/modbus-debug) - Bus-level debugging with scripts; the only CAN and VISA/SCPI skills found. (★919 · 2026-08)
+- [LeoKemp223/embed-ai-tool `modbus-debug` / `can-debug` / `visa-debug`](https://github.com/LeoKemp223/embed-ai-tool/tree/master/skills/modbus-debug) - Bus-level debugging with bundled scripts; the only CAN and VISA / SCPI skills found that actually drive an adapter rather than explain the protocol. (★919 · 2026-08)
 - [santiagomoneta/3d-printing-skills](https://github.com/santiagomoneta/3d-printing-skills) - Klipper config, diagnostics and calibration through the Moonraker API, plus OrcaSlicer. (coll · ★4 · 2026-03)
 - [studioxvii/modbus-skills](https://github.com/studioxvii/modbus-skills/tree/main/plugins/modbus-skills/skills) - 20 read-only Modbus engineering skills: extract a register map from an OEM PDF, normalize it, check byte order, plan reads, build modpoll / ModScan / Node-RED packs, analyze captures. Small but well-structured. (coll · ★1 · 2026-09)
 
@@ -165,7 +166,7 @@ First-party skills published by the company that makes the hardware or the SDK. 
 
 ## MCP servers and bridges
 
-Tool servers an agent calls at runtime. Best current surveys of this space are Veecle's [August 2026 review](https://veecle.ai/blog/hardware-mcp-servers-reviewed) and [vendor follow-up](https://veecle.ai/blog/hardware-mcp-servers-2026); [beriberikix/awesome-mcp-hardware](https://github.com/beriberikix/awesome-mcp-hardware) is the upstream list.
+Tool servers an agent calls at runtime. The best current surveys of this space are Veecle's two August 2026 reviews (linked under Papers and articles); beriberikix/awesome-mcp-hardware (under Related lists) is the upstream list this section started from.
 
 ### MCU / Embedded (MCP)
 
@@ -191,7 +192,7 @@ Tool servers an agent calls at runtime. Best current surveys of this space are V
 - [mcp2everything/mcp2serial](https://github.com/mcp2everything/mcp2serial) - PySerial-based MCP for serial devices such as the Pico. (★49 · stale since 2024-12)
 - [Ipiano/gdb-mcp](https://github.com/Ipiano/gdb-mcp) - Drives GDB/MI directly for embedded and native targets. (★48 · 2026-03)
 - [es617/dbgprobe-mcp-server](https://github.com/es617/dbgprobe-mcp-server) - Symbol-aware (ELF / SVD) on-chip debug through J-Link, CMSIS-DAP and ST-Link. (★10 · 2026-03)
-- [daedalus/mcp-canbus](https://github.com/daedalus/mcp-canbus) - CAN bus MCP; the only CAN entry found. (★0 · 2026-03)
+- [daedalus/mcp-canbus](https://github.com/daedalus/mcp-canbus) - CAN bus MCP; the only CAN MCP server found. (★0 · 2026-03)
 
 ### Robotics (MCP)
 
@@ -203,11 +204,9 @@ Tool servers an agent calls at runtime. Best current surveys of this space are V
 - [lpigeon/unitree-go2-mcp-server](https://github.com/lpigeon/unitree-go2-mcp-server) - Control a Unitree Go2 robot dog through ROS 2. (★87 · 2026-06)
 - [kakimochi/ros2-mcp-server](https://github.com/kakimochi/ros2-mcp-server) - Topic-based ROS 2 control. (★83 · 2025-06)
 - [IliaLarchenko/robot_MCP](https://github.com/IliaLarchenko/robot_MCP) - SO-ARM100 / 101 and LeKiwi arm control in the LeRobot ecosystem. (★83 · 2025-08)
-- [groundlight/mcp-vision](https://github.com/groundlight/mcp-vision) - Zero-shot vision models as MCP tools for robot perception. (★62 · 2025-05)
 - [Yutarop/ros-mcp](https://github.com/Yutarop/ros-mcp) - ROS topics, services and actions as MCP tools. (★36 · 2025-08)
 - [jackccrawford/reachy-mini-mcp](https://github.com/jackccrawford/reachy-mini-mcp) - Pollen Robotics Reachy Mini control. (★29 · 2026-07)
 - [binabik-ai/mcp-rosbags](https://github.com/binabik-ai/mcp-rosbags) - Offline rosbag analysis. (★28 · 2025-09)
-- [robotmem/robotmem](https://github.com/robotmem/robotmem) - Persistent hybrid + spatial memory for MCP-controlled robots. (★28 · 2026-03)
 - [0xKoda/drone-mcp](https://github.com/0xKoda/drone-mcp) - DJI Tello drone control. (★25 · 2025-04)
 - [ion-g-ion/MAVLinkMCP](https://github.com/ion-g-ion/MAVLinkMCP) - PX4 / ArduPilot drones via MAVLink. (★23 · 2026-08)
 - [showkeyjar/robot-mcp-server](https://github.com/showkeyjar/robot-mcp-server) - Unitree and DJI drone motion control. (★12 · 2026-03)
@@ -226,7 +225,7 @@ Tool servers an agent calls at runtime. Best current surveys of this space are V
 ### Smart Home (MCP)
 
 - [home-assistant/core `mcp_server`](https://www.home-assistant.io/integrations/mcp_server/) - Built-in MCP server integration exposing the Assist API over Streamable HTTP. (official · ★90k · 2026-09)
-- [homeassistant-ai/ha-mcp](https://github.com/homeassistant-ai/ha-mcp) - 86 tools; the most feature-rich Home Assistant MCP. (★4.7k · 2026-09)
+- [homeassistant-ai/ha-mcp](https://github.com/homeassistant-ai/ha-mcp) - 87 tools; the most feature-rich Home Assistant MCP. (★4.7k · 2026-09)
 - [tevonsb/homeassistant-mcp](https://github.com/tevonsb/homeassistant-mcp) - Home Assistant MCP with SSE real-time updates. (★576 · 2026-01)
 - [voska/hass-mcp](https://github.com/voska/hass-mcp) - Token-efficient Home Assistant control and query. (★340 · 2026-08)
 - [jango-blockchained/advanced-homeassistant-mcp](https://github.com/jango-blockchained/advanced-homeassistant-mcp) - 50+ Home Assistant tools over three transports. (★56 · 2026-06)
@@ -247,7 +246,6 @@ Tool servers an agent calls at runtime. Best current surveys of this space are V
 ### EDA / PCB / CAD (MCP)
 
 - [mixelpixx/KiCAD-MCP-Server](https://github.com/mixelpixx/KiCAD-MCP-Server) - Edit KiCad schematics and PCBs directly from Claude. (★2.2k · 2026-09)
-- [daobataotie/CAD-MCP](https://github.com/daobataotie/CAD-MCP) - Natural-language CAD operations across AutoCAD, GstarCAD and ZWCAD. (★548 · 2025-07)
 - [lamaalrajih/kicad-mcp](https://github.com/lamaalrajih/kicad-mcp) - KiCad project management, DRC, BOM and netlist analysis. (★521 · 2025-10)
 - [salitronic/eda-agent](https://github.com/salitronic/eda-agent) - 290+ tools driving a live Altium Designer session, optionally KiCad / EasyEDA Pro. (★199 · 2026-09)
 - [jhacksman/OpenSCAD-MCP-Server](https://github.com/jhacksman/OpenSCAD-MCP-Server) - Text or image → parametric OpenSCAD 3D models. (★190 · 2026-09)
@@ -265,12 +263,12 @@ Tool servers an agent calls at runtime. Best current surveys of this space are V
 
 ## Agent frameworks and on-device runtimes
 
-- [openclaw/openclaw](https://github.com/openclaw/openclaw) - Ships `robot` and `esp32` skills (ROS 2 wiring, GPIO pitfalls); community ports such as [openclaw-esp32](https://github.com/hrwtech/openclaw-esp32) run the agent loop on ESP32 boards. (★390k · 2026-09)
-- [huggingface/lerobot](https://github.com/huggingface/lerobot) - End-to-end robot learning: datasets, ACT / Diffusion / VLA policies, drivers for SO-100 / 101, Koch and LeKiwi. (★27.5k · 2026-09)
+- [openclaw/openclaw](https://github.com/openclaw/openclaw) - The most widely used personal agent runtime bundles no hardware skills itself, but community ports such as [openclaw-esp32](https://github.com/hrwtech/openclaw-esp32) run its agent loop on ESP32 boards and several entries above (RTL-CLAW, Seeed's Jetson skills) target it. (★390k · 2026-09)
+- [Hugging Face LeRobot](https://github.com/huggingface/lerobot) - End-to-end robot learning: datasets, ACT / Diffusion / VLA policies, drivers for SO-100 / 101, Koch and LeKiwi. (★27.5k · 2026-09)
 - [isaac-sim/IsaacLab](https://github.com/isaac-sim/IsaacLab) - Unified robot-learning framework on Isaac Sim: RL, imitation, sim-to-real. (★8.1k · 2026-09)
 - [NVIDIA/Isaac-GR00T](https://github.com/NVIDIA/Isaac-GR00T) - GR00T foundation model for generalist humanoids with fine-tuning and inference stack. (★8.1k · 2026-08)
 - [openvla/openvla](https://github.com/openvla/openvla) - 7B open vision-language-action model for manipulation; the reference VLA, now frozen. (★7k · 2025-03)
-- [espressif/esp-claw](https://github.com/espressif/esp-claw) - Agent runtime that runs on ESP32-S3 / P4 / C5: capabilities in C, skills in Lua, bidirectional MCP, event router. The 43 skills in [esp-claw-skills-lab](https://github.com/espressif/esp-claw-skills-lab) are Lua apps, not SKILL.md. (official · ★2.1k · 2026-09)
+- [espressif/esp-claw](https://github.com/espressif/esp-claw) - Agent runtime that runs on ESP32-S3 / P4 / C5: capabilities in C, skills in Lua, bidirectional MCP, event router. The 43 skills in [esp-claw-skills-lab](https://github.com/espressif/esp-claw-skills-lab) are SKILL.md + Lua scripts executed on-device by esp-claw's Lua VM (JSON frontmatter, not the agentskills.io format), so they are not installable into a host agent. (official · ★2.1k · 2026-09)
 - [nasa-jpl/rosa](https://github.com/nasa-jpl/rosa) - LangChain agent that inspects, diagnoses and operates ROS 1 / 2 robots by natural language. (★1.6k · 2026-03)
 - [acon96/home-llm](https://github.com/acon96/home-llm) - Home Assistant integration plus fine-tuned local models for device control. (★1.4k · 2026-09)
 - [Home Assistant LLM API](https://developers.home-assistant.io/docs/core/llm/) - The official Assist LLM API: integrations register tools any conversation agent can call. (official)
@@ -313,7 +311,7 @@ Not viable for CI, listed so nobody re-checks: Tinkercad Circuits (no API), Simu
 
 ## Benchmarks and evals
 
-Only the first two validate on physical MCUs; everything else is compile-only or sim-only.
+Only the first two have published results on physical MCUs; everything else is compile-only or sim-only.
 
 - [iot-agent/iot-skillsbench](https://github.com/iot-agent/iot-skillsbench) - 42 HIL tasks on ATmega2560 / Arduino, ESP32-S3 / ESP-IDF and nRF52840 / Zephyr across 23 peripherals and 3 difficulty levels; compares no-skills vs LLM-generated vs expert-written skills on real boards. Its 30 expert skills are single-file `.md` with frontmatter, trivially convertible to SKILL.md. Paper: [arXiv 2603.19583](https://arxiv.org/abs/2603.19583). (★41 · 2026-07)
 - [ubicomplab/embedded-arena](https://github.com/ubicomplab/embedded-arena) - HIL arena: the agent edits model and firmware, the harness compiles, flashes and scores deployability, current, energy and temperature. Frontier models score 0% without hardware feedback and succeed within three iterations with it. Paper: [arXiv 2606.16190](https://arxiv.org/abs/2606.16190). (★11 · 2026-07)
@@ -370,17 +368,27 @@ Checked and absent (404 or HTML): Zephyr, Espressif, Nordic, ST, PlatformIO, KiC
 
 Where no good skill exists as of the snapshot. If you build one of these, it is the fastest route onto this list.
 
-- **First-party MCU skills.** Nothing from Espressif (placeholder repo), STMicro, Nordic (MCP only), Raspberry Pi / Pico SDK, NXP, Renesas, Microchip or TI. Everything MCU-side is community.
-- **Zephyr Project, KiCad, Open Robotics and Arduino** publish no skills; Zephyr and KiCad also have no llms.txt.
-- **Hardware-in-the-loop from the agent's side** — flash → run → read serial → iterate. Only tinyusb `hil`, SensorsIot's harness, LeoKemp's toolkit and cwc-makers close this loop. Highest value, least covered.
-- **MicroPython / CircuitPython.** Adafruit's four test skills and scattered one-offs; no general skill of quality.
-- **Raspberry Pi Linux.** No serious skill beyond `gpio-config`; Pico / RP2040 has only per-board pinout skills.
-- **Wireless.** No dedicated BLE central / peripheral skill outside the Zephyr collections; nothing for LoRa / LoRaWAN, Thread, device-side Matter, or Wi-Fi provisioning. BLE has no real MCP either.
-- **Industrial.** Modbus is covered (read-only). OPC UA, CAN / CANopen, EtherCAT, PROFINET and IEC 61131 PLC programming are effectively empty; the only CAN entries are one skill and one 0-star MCP.
-- **Test and measurement.** No skill for oscilloscopes, logic analyzers or SCPI instruments beyond `logicmso` and `visa-debug`; MCPs cover one Keysight scope and one Saleae.
-- **Embedded Linux.** Nothing for Yocto, Buildroot or device tree beyond generic pattern skills.
-- **Renode MCP server.** The most agent-shaped OSS emulator has no MCP, so L1 for Cortex-M skills currently means Wokwi's hosted service or a custom runner.
-- **Drones.** Only PX4's build skill and one Chinese PX4 collection; nothing for ArduPilot.
+**First-party MCU skills.** Nothing from Espressif (placeholder repo), STMicro, Nordic, Raspberry Pi / Pico SDK, NXP, Renesas, Microchip or TI. No silicon vendor has shipped one; Adafruit and Seeed are the only board makers that have.
+
+**Zephyr Project, KiCad, Open Robotics and Arduino** publish no skills; Zephyr and KiCad also have no llms.txt.
+
+**Hardware-in-the-loop from the agent's side** — flash → run → read serial → iterate. Only tinyusb `hil`, SensorsIot's harness, LeoKemp's and zhinkgit's toolkits, Adafruit's CircuitPython runner and cwc-makers close this loop. Highest value, least covered.
+
+**MicroPython / CircuitPython.** Adafruit's four test skills and scattered one-offs; no general skill of quality.
+
+**Raspberry Pi Linux.** No serious skill beyond `gpio-config`; Pico / RP2040 has only per-board pinout skills.
+
+**Wireless.** No dedicated BLE central / peripheral skill outside the Zephyr collections; nothing for LoRa / LoRaWAN, Thread, device-side Matter, or Wi-Fi provisioning. BLE has no real MCP either.
+
+**Industrial.** Modbus is covered (read-only). OPC UA, CANopen, EtherCAT, PROFINET and IEC 61131 PLC programming are effectively empty; CAN itself has one scripted skill, one Zephyr sub-skill and one 0-star MCP.
+
+**Test and measurement.** No skill for oscilloscopes, logic analyzers or SCPI instruments beyond iothackbot's logic-analyzer capture and LeoKemp's `visa-debug`; MCPs cover one Keysight scope and one Saleae.
+
+**Embedded Linux.** Nothing for Yocto, Buildroot or device tree beyond generic pattern skills.
+
+**Renode MCP server.** The most agent-shaped OSS emulator has no MCP, so L1 for Cortex-M skills currently means Wokwi's hosted service or a custom runner.
+
+**Drones.** Only PX4's build skill and one Chinese PX4 collection; no ArduPilot skill at all (MAVLinkMCP covers it on the MCP side).
 
 ## Related lists
 
@@ -393,8 +401,4 @@ Where no good skill exists as of the snapshot. If you build one of these, it is 
 
 ## Contributing
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md). Short version: one line per entry in the right category, run `python scripts/l0_check.py readme README.md`, and if you are adding a skill you maintain, copy [`template/evals/`](template/evals/) into it so it can climb the ladder.
-
-## License
-
-[CC0 1.0](LICENSE).
+Read [CONTRIBUTING.md](CONTRIBUTING.md). Short version: one line per entry in the right category, run `python scripts/l0_check.py readme README.md`, and if you are adding a skill you maintain, copy [`template/evals/`](template/evals/) into it and file an [L2 attestation](.github/ISSUE_TEMPLATE/attestation.yml) once you have run it on a board.

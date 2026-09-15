@@ -89,7 +89,7 @@ def check_skill(root: Path) -> None:
     for k in ("name", "description"):
         if not meta.get(k):
             fail(f"{skill_md}: frontmatter missing `{k}`")
-    if len(meta.get("description", "")) < 80:
+    if len(meta.get("description") or "") < 80:
         fail(f"{skill_md}: description under 80 chars — too short to trigger reliably")
     if SECRET_RE.search(text):
         fail(f"{skill_md}: looks like it contains a credential")
@@ -122,7 +122,7 @@ def check_skill(root: Path) -> None:
             fail(f"{t}: id must equal filename stem")
         if task.get("level") not in LEVELS:
             fail(f"{t}: level must be one of {sorted(LEVELS)}")
-        if not task.get("prompt", "").strip():
+        if not (task.get("prompt") or "").strip():
             fail(f"{t}: prompt is empty")
         for a in task.get("assertions") or []:
             if a.get("type") not in ASSERTION_TYPES:

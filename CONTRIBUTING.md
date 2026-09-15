@@ -2,11 +2,13 @@
 
 ## Adding an entry to the list
 
-One line per entry, in the right category, sorted by stars descending:
+One line per entry, in the right category. Within a category, entries are ordered by how useful the maintainers judge them, not by stars — a 15k-star monorepo that happens to contain one small skill should not outrank a focused 50-star skill. Format:
 
 ```
-- [Name](https://github.com/owner/repo) - One sentence, starts uppercase, ends with a period.
+- [Name](https://github.com/owner/repo) - One sentence, starts uppercase, ends with a period. (tags · ★stars · YYYY-MM)
 ```
+
+Tags in the trailing parenthesis: `official` (repo lives under the vendor's own org), `coll` (a collection of several skills), `cursor-rules`, `placeholder`, `stale since YYYY-MM`. Use `k` for thousands of stars.
 
 Then run `python scripts/l0_check.py readme README.md` before opening the PR. CI runs the same check plus a weekly link-rot sweep.
 
