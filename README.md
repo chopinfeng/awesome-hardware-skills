@@ -37,11 +37,11 @@ Hardware skills are hard to validate in CI because the CI runner does not own th
 
 **`L0`** — Static checks pass: SKILL.md frontmatter, description specific enough to trigger, no secrets, links resolve, `evals/` package well-formed. Enforced today by `scripts/l0_check.py` in CI.
 
-**`L1 (wokwi)`** — Every task in the skill's `evals/` passes in the named simulator, run by this repo's CI. The task format is defined; the runner that drives Wokwi / Renode / `native_sim` is not written yet.
+**`L1 (wokwi)`** — Every task in the skill's `evals/` passes in the named simulator (Wokwi, Renode, `native_sim`, …), run by this repo's CI. Coming soon.
 
 **`L2 ×3`** — Three independent people ran the tasks on real hardware and filed an attestation issue with an unedited transcript.
 
-**`ΔPass +42%`** — With-skill minus without-skill task pass rate on the same model, proving the skill carries knowledge the model did not already have. Runner not written yet.
+**`ΔPass +42%`** — With-skill minus without-skill task pass rate on the same model, proving the skill carries knowledge the model did not already have. Coming soon.
 
 **`stale`** — No L1 re-run in 90 days, or no upstream push in 12 months.
 
