@@ -24,6 +24,17 @@ body:
     validations:
       required: true
   - type: input
+    id: chip_id
+    attributes:
+      label: Chip unique ID
+      description: >-
+        The chip's unique ID used by every counted run — the MAC esptool reports for ESP32, FICR DEVICEID for nRF52,
+        the 96-bit UID for STM32, or the ID picotool reports for RP2040/RP2350. It must be the same across all runs
+        and self-tests.
+      placeholder: "30:ed:a0:88:88:a0"
+    validations:
+      required: true
+  - type: input
     id: framework
     attributes:
       label: Framework / SDK version
@@ -43,10 +54,11 @@ body:
     attributes:
       label: Bench self-tests
       description: >-
-        Phase 1. Result of flashing every task's reference solution at the start and at the end of each session.
-        Runs from a session whose closing self-test failed are invalid and must be rerun.
+        Phase 1. Result of flashing every task's reference solution at the start and at the end of each session,
+        and for ESP32-series boards whether the eFuse summary was unchanged. Runs from a session whose closing
+        self-test failed are invalid and must be rerun.
       placeholder: |
-        session 2026-09-20-a  start: pass  end: pass
+        session 2026-09-20-a  start: pass  end: pass  efuse: unchanged
     validations:
       required: true
   - type: textarea
@@ -54,12 +66,13 @@ body:
     attributes:
       label: Run results
       description: >-
-        Phase 2. Every run in order, including failed and invalid ones — three counted runs per task. A run passes
-        only if every assertion held on the board, including ones marked l1_skippable. A task passes in at least
-        two of three.
+        Phase 2. Every run in order, including failed and invalid ones. A run passes only if every assertion held on
+        the board, including ones marked l1_skippable, and the reboot guard did not fire. A task passes in two of at
+        most three runs. Finish with each task's k/n and the pooled pass rate with its 95% Wilson interval.
       placeholder: |
-        01-blink        run 1: pass   run 2: pass   run 3: fail (timeout)   -> task pass (2/3)
-        02-gatt-notify  run 4: pass   run 5: invalid (USB disconnect, rerun as 6)   run 6: pass   run 7: pass   -> task pass (3/3)
+        01-blink        run 1: pass   run 2: pass                                  -> task pass (2/2)
+        02-gatt-notify  run 3: pass   run 4: fail (crash)   run 5: invalid (USB disconnect)   run 6: pass   -> task pass (2/3)
+        pooled: 4/5 counted runs pass, 95% Wilson [0.38, 0.96]
     validations:
       required: true
   - type: textarea
@@ -67,10 +80,17 @@ body:
     attributes:
       label: Hardware evidence
       description: >-
-        The flash tool's output showing it detected the chip and wrote the image — for example esptool's chip line,
-        the arduino-cli upload port, or probe-rs's target — and a serial log read back from the board. Output from
-        a simulator or a hosted virtual board is not accepted.
+        The flash tool's output showing the detected chip and its unique ID, and a serial log read back from the
+        board. Output from a simulator or a hosted virtual board is not accepted.
       render: text
+    validations:
+      required: true
+  - type: textarea
+    id: bench_photo
+    attributes:
+      label: Bench photos
+      description: >-
+        One photo per session of the board cabled to the host, with the terminal visible. Drag the images here.
     validations:
       required: true
   - type: input
@@ -78,8 +98,14 @@ body:
     attributes:
       label: Run records and transcripts
       description: >-
-        Link to the directory holding every run record, its evidence files and the unedited agent transcripts.
-        Attestations without them are not accepted.
+        A commit or tag permalink — not a branch — to the directory holding every run record, its evidence files,
+        the unedited agent transcripts and a SHA256SUMS file covering all of them.
+    validations:
+      required: true
+  - type: input
+    id: records_digest
+    attributes:
+      label: SHA-256 of SHA256SUMS
     validations:
       required: true
   - type: checkboxes
@@ -91,9 +117,13 @@ body:
           required: true
         - label: The runs were on a physical board — not a simulator and not a hosted virtual board.
           required: true
+        - label: >-
+            Before every run I restored the host baseline, fully reset the board, and installed the skill without
+            its evals/, which the agent could not read.
+          required: true
+        - label: I decided which runs were invalid from bench evidence, before reading their assertion results.
+          required: true
         - label: I reported every run, including failed and invalid ones, and did not choose which runs to count.
           required: true
-        - label: I gave the agent each prompt verbatim, with no extra hints.
-          required: true
-        - label: The transcripts are unedited.
+        - label: I gave the agent each prompt verbatim, with no extra hints, and the transcripts are unedited.
           required: true

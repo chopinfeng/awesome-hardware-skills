@@ -50,12 +50,14 @@ The short version:
 2. Write about three tasks — easy, medium, hard — whose assertions observe physical side effects, with at least
    one stronger than `compile_only`.
 3. Run `python scripts/l0_check.py skill path/to/skill` until it passes.
-4. **Phase 0 — validate the eval.** For each task add a `reference/` and a `broken/` solution under
+4. **Phase 0 — validate the eval.** For each task add `reference/`, `broken/` and `spoof/` solutions under
    `evals/fixtures/<task-id>/`, and show on the board that the reference passes, an empty project fails every
-   assertion, and the broken solution is caught. Record it as `eval_validated` in the manifest.
-5. **Phases 1–2 — pass runs.** Run each task three times on a physical board — or ask someone who owns one —
-   between two passing bench self-tests, and file an **L2 hardware attestation** issue with every run record.
-   A task passes in at least two of its three runs; until every task has, the skill has not passed.
+   assertion, and the broken and spoof solutions are caught. Check that the skill contains no task's answer.
+   Record it as `eval_validated` in the manifest.
+5. **Phases 1–2 — pass runs.** Between two passing bench self-tests, run each task on a physical board — or ask
+   someone who owns one — with the skill installed *without* its `evals/`, the host restored to a baseline and
+   the board fully reset before every run, and file an **L2 hardware attestation** issue with every run record.
+   A task passes in two of at most three runs; until every task has, the skill has not passed.
 
 A skill without an `evals/` package can still be listed; it simply shows no badge.
 

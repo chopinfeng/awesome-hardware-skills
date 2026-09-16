@@ -204,6 +204,8 @@ def check_skill(root: Path) -> None:
             fail(f"{t}: level must be one of {sorted(LEVELS)}")
         if not (task.get("prompt") or "").strip():
             fail(f"{t}: prompt is empty")
+        if not isinstance(task.get("timeout_s"), (int, float)) or task["timeout_s"] <= 0:
+            fail(f"{t}: timeout_s must be a positive number of seconds")
         for a in task.get("assertions") or []:
             if a.get("type") not in ASSERTION_TYPES:
                 fail(f"{t}: unknown assertion type {a.get('type')}")

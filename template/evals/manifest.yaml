@@ -25,7 +25,16 @@ assertions_supported:
 # Phase 0 of the test plan in EVALS.md: on the board, the reference solution in fixtures/<task-id>/reference
 # passes, an empty project fails every assertion, and fixtures/<task-id>/broken is caught.
 # Required before any attestation is accepted.
-eval_validated: null             # {date, board, framework_version, reference_passed, empty_failed, broken_caught, evidence}
+eval_validated: null             # {date, board, framework_version, reference_passed, empty_failed, broken_caught, spoof_caught, leakage_reviewed, evidence}
+
+# Patterns the reboot guard fails on after time zero. These are the ESP32-series defaults; other families define their own.
+reboot_patterns:
+  - '^(rst:0x|ESP-ROM:|ets )'
+  - 'Guru Meditation|abort\(\) was called|Backtrace:'
+  - 'Brownout detector'
+
+# Only if Phase 3 will stop early: error rate and maximum runs per arm, recorded before the first A/B run.
+sequential_plan: null
 
 # Which levels have passed, and when.
 verified:
@@ -33,7 +42,8 @@ verified:
   L1: null                       # (reserved) {date, simulator, tasks_passed, model}
   L2: []                         # the only level that counts as passing; appended by a maintainer from accepted issues
 
-# Phase 3 of the test plan: five alternating runs per task in each arm, on a physical board. Keep sample sizes.
+# Phase 3: five alternating runs per task in each arm on a physical board. Record k/n per arm and
+# ΔPass with its 95% Newcombe interval and label (gain | low-gain | inconclusive).
 ab:
   baseline_model: null
   pass_rate_with: null
