@@ -1,5 +1,7 @@
 # Awesome Hardware Skills [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 
+*English · [简体中文](README.zh-CN.md)*
+
 > Skills, MCP servers, on-device agent runtimes, simulators, benchmarks and CI infrastructure that let AI coding agents (Claude Code, Codex, Cursor, OpenClaw, …) build, flash, debug and control physical hardware — with a verification ladder so you can tell which ones actually work on a board.
 
 Most "awesome MCP" lists tell you a hardware server *exists*. This list also tracks whether anyone has proven it works: every skill entry can carry a badge from a three-level ladder (static checks → simulator run → real-hardware attestation) plus a with-skill / without-skill delta. The ladder is explained in the first section below.
@@ -470,7 +472,6 @@ MCP servers that run on the microcontroller or SBC itself, so the device is the 
 - [anviod/edgeCore](https://github.com/anviod/edgeCore) - Industrial edge runtime speaking Modbus, BACnet, OPC UA, S7 and EtherNet/IP, deployed on the plant floor. (★126 · 2026-09)
 - [rivie13/studio5000-AI-Assistant](https://github.com/rivie13/studio5000-AI-Assistant) - Rockwell Automation SDK and internal documentation as MCP tools for Studio 5000. (★35 · 2025-12)
 - [Nodeblue-AI/studio5000-mcp-server](https://github.com/Nodeblue-AI/studio5000-mcp-server) - Parses Studio 5000 L5X project exports for Rockwell and Allen-Bradley PLCs; the sibling `bridge-mcp-server` correlates them with Ignition SCADA. (★19 · 2026-08)
-
 - [ThingsPanel/thingspanel-mcp](https://github.com/ThingsPanel/thingspanel-mcp) - ThingsPanel IoT platform device control and data analysis. (★47 · 2025-11)
 - [chewcw/tia-portal-openness-mcpserver](https://github.com/chewcw/tia-portal-openness-mcpserver) - Siemens TIA Portal Openness MCP. (★37 · 2026-05)
 - [kukapay/opcua-mcp](https://github.com/kukapay/opcua-mcp) - Connect to OPC UA systems: monitor, analyze and control nodes. (★28 · 2025-10)

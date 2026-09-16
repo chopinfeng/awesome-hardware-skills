@@ -19,7 +19,12 @@ One line per entry, in the right category. Within a category, entries are ordere
 Tags in the trailing parenthesis: `official` (repo lives under the vendor's own org), `coll` (a collection of several skills), `cursor-rules`, `placeholder`, `stale since YYYY-MM`. Use `k` for thousands of stars.
 
 Then run `python scripts/l0_check.py readme README.md` before opening the PR — and
-`python scripts/l0_check.py links GAPS.md` if you touched that file. CI runs the same check plus a weekly link-rot sweep.
+`python scripts/l0_check.py links GAPS.md` if you touched that file.
+
+The list also exists in Simplified Chinese as [README.zh-CN.md](README.zh-CN.md), and CI checks that both files
+carry the same entries in the same order. If you read Chinese, add the translated line in the same place. If you
+do not, just edit `README.md` — the `translation-sync` job will fail, and that is expected: a maintainer will
+backfill the translation. CI runs the same check plus a weekly link-rot sweep.
 
 Quality bar for listing at all:
 

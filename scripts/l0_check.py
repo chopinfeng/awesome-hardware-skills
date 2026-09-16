@@ -3,6 +3,7 @@
 
   l0_check.py readme README.md          lint list entries + verify links resolve
   l0_check.py links GAPS.md             verify every link in a markdown file resolves
+  l0_check.py sync README.md README.zh-CN.md   translations list the same entries in the same order
   l0_check.py skill path/to/skill       lint a skill's SKILL.md frontmatter + evals/ package
 """
 from __future__ import annotations
@@ -108,6 +109,25 @@ def check_links(path: Path) -> None:
     print(f"checked {len(remote)} links in {path}")
 
 
+def entry_urls(path: Path) -> list[str]:
+    return [m.group(2) for ln in path.read_text().splitlines() if (m := ENTRY_RE.match(ln))]
+
+
+def check_sync(source: Path, translation: Path) -> None:
+    """A translation must carry exactly the source's entries, in the same order."""
+    src, dst = entry_urls(source), entry_urls(translation)
+    missing = [u for u in src if u not in set(dst)]
+    extra = [u for u in dst if u not in set(src)]
+    for u in missing:
+        fail(f"{translation}: missing entry present in {source}: {u}")
+    for u in extra:
+        fail(f"{translation}: entry not present in {source}: {u}")
+    if not missing and not extra and src != dst:
+        i = next(i for i, (a, b) in enumerate(zip(src, dst)) if a != b)
+        fail(f"{translation}: entry order diverges from {source} at position {i + 1}: {dst[i]} (expected {src[i]})")
+    print(f"checked {len(src)} entries in {source} against {len(dst)} in {translation}")
+
+
 def check_skill(root: Path) -> None:
     skill_md = root / "SKILL.md"
     if not skill_md.exists():
@@ -170,6 +190,6 @@ def check_skill(root: Path) -> None:
 
 
 if __name__ == "__main__":
-    mode, target = sys.argv[1], Path(sys.argv[2])
-    {"readme": check_readme, "links": check_links, "skill": check_skill}[mode](target)
+    mode, targets = sys.argv[1], [Path(a) for a in sys.argv[2:]]
+    {"readme": check_readme, "links": check_links, "sync": check_sync, "skill": check_skill}[mode](*targets)
     sys.exit(1 if fail.count else 0)

@@ -19,6 +19,18 @@ jobs:
       - run: python scripts/l0_check.py links GAPS.md
       - run: python scripts/l0_check.py links CONTRIBUTING.md
 
+  translation-sync:
+    # Non-English readers see the same list. An English-only PR failing here is fine:
+    # a maintainer backfills the translation before or after merging.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pyyaml
+      - run: python scripts/l0_check.py sync README.md README.zh-CN.md
+      - run: python scripts/l0_check.py links README.zh-CN.md
+
   template:
     runs-on: ubuntu-latest
     steps:
