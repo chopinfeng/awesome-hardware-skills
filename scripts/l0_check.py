@@ -125,7 +125,13 @@ def check_sync(source: Path, translation: Path) -> None:
     if not missing and not extra and src != dst:
         i = next(i for i, (a, b) in enumerate(zip(src, dst)) if a != b)
         fail(f"{translation}: entry order diverges from {source} at position {i + 1}: {dst[i]} (expected {src[i]})")
-    print(f"checked {len(src)} entries in {source} against {len(dst)} in {translation}")
+    heading = re.compile(r"^(#{2,3}) ", re.M)
+    src_h = [h for h in heading.findall(source.read_text())]
+    dst_h = [h for h in heading.findall(translation.read_text())]
+    if src_h != dst_h:
+        fail(f"{translation}: section structure differs from {source} "
+             f"({len(src_h)} vs {len(dst_h)} level-2/3 headings) — a section was added or removed on one side only")
+    print(f"checked {len(src)} entries and {len(src_h)} sections in {source} against {translation}")
 
 
 def check_skill(root: Path) -> None:

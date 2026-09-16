@@ -1,5 +1,7 @@
 # Contributing
 
+*English · [简体中文](CONTRIBUTING.zh-CN.md)*
+
 ## Where to start
 
 If you want to build rather than catalogue, [GAPS.md](GAPS.md) lists what is missing, with evidence and five
@@ -19,12 +21,14 @@ One line per entry, in the right category. Within a category, entries are ordere
 Tags in the trailing parenthesis: `official` (repo lives under the vendor's own org), `coll` (a collection of several skills), `cursor-rules`, `placeholder`, `stale since YYYY-MM`. Use `k` for thousands of stars.
 
 Then run `python scripts/l0_check.py readme README.md` before opening the PR — and
-`python scripts/l0_check.py links GAPS.md` if you touched that file.
+`python scripts/l0_check.py links GAPS.md` if you touched that file. CI runs the same checks plus a weekly
+link-rot sweep.
 
 The list also exists in Simplified Chinese as [README.zh-CN.md](README.zh-CN.md), and CI checks that both files
 carry the same entries in the same order. If you read Chinese, add the translated line in the same place. If you
 do not, just edit `README.md` — the `translation-sync` job will fail, and that is expected: a maintainer will
-backfill the translation. CI runs the same check plus a weekly link-rot sweep.
+backfill the translation. The same applies to `GAPS.md` and this file, whose translations are
+[GAPS.zh-CN.md](GAPS.zh-CN.md) and [CONTRIBUTING.zh-CN.md](CONTRIBUTING.zh-CN.md).
 
 Quality bar for listing at all:
 
@@ -39,10 +43,10 @@ Entries in the **Skills** sections carry a badge showing how far their `evals/` 
 | Badge | Meaning |
 |---|---|
 | `L0` | Static checks pass: frontmatter, description length, no secrets, links resolve, evals package is well-formed. |
-| `L1 (wokwi)` | All tasks pass in the named simulator, run by our CI. |
+| `L1 (wokwi)` | All tasks pass in the named simulator, run by this repo's CI. Coming soon. |
 | `L2 ×3` | Three independent people ran the tasks on real hardware and filed an attestation with a transcript. |
-| `ΔPass +42%` | With-skill pass rate minus without-skill pass rate on the same tasks and model. |
-| `stale` | L1 has not been re-run in 90 days. |
+| `ΔPass +42%` | With-skill pass rate minus without-skill pass rate on the same tasks and model. Coming soon. |
+| `stale` | No L1 re-run in 90 days, or no upstream push in 12 months. |
 
 A skill without an `evals/` package can still be listed, but shows no badge. Add one by copying [`template/evals/`](template/evals/) into the skill and filling in `manifest.yaml` and at least one task with an assertion stronger than `compile_only`. `python scripts/l0_check.py skill path/to/skill` tells you if the package is well-formed.
 
@@ -55,11 +59,11 @@ A skill without an `evals/` package can still be listed, but shows no badge. Add
 
 ### Filing an L2 attestation
 
-Open an issue using the **L2 hardware attestation** template. Attestations are only merged when they include an unedited transcript link; the bot appends them to the skill's `manifest.yaml` under `verified.L2`.
+Open an issue using the **L2 hardware attestation** template. Attestations are only accepted when they include an unedited transcript link; a maintainer then appends them to the skill's `manifest.yaml` under `verified.L2`.
 
 ### The A/B run
 
-`ΔPass` comes from running every task twice against the same model: once with the skill installed, once with the skill removed and only the SKILL.md `description` replaced by a generic one-liner. A skill that does not move pass rate or first-compile-ok rate by at least 15 points is marked `low-gain` — it is probably restating what the model already knows, and the maintainer will ask what non-obvious knowledge it is meant to carry.
+Coming soon. Once the runner lands, `ΔPass` will come from running every task twice against the same model: once with the skill installed, once with the skill removed and only the SKILL.md `description` replaced by a generic one-liner. A skill that does not move pass rate or first-compile-ok rate by at least 15 points will be marked `low-gain` — it is probably restating what the model already knows, and the maintainer will ask what non-obvious knowledge it is meant to carry.
 
 ## Adding a simulator or assertion type
 

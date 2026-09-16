@@ -29,7 +29,11 @@ jobs:
         with: { python-version: "3.12" }
       - run: pip install pyyaml
       - run: python scripts/l0_check.py sync README.md README.zh-CN.md
+      - run: python scripts/l0_check.py sync GAPS.md GAPS.zh-CN.md
+      - run: python scripts/l0_check.py sync CONTRIBUTING.md CONTRIBUTING.zh-CN.md
       - run: python scripts/l0_check.py links README.zh-CN.md
+      - run: python scripts/l0_check.py links GAPS.zh-CN.md
+      - run: python scripts/l0_check.py links CONTRIBUTING.zh-CN.md
 
   template:
     runs-on: ubuntu-latest

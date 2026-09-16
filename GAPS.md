@@ -1,5 +1,7 @@
 # Open gaps
 
+*English · [简体中文](GAPS.zh-CN.md)*
+
 This file is the other half of the list. The README records what exists; this records what does not, with
 enough evidence that you can check the claim rather than take it on faith, and enough detail that you could
 start building.

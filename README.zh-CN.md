@@ -6,7 +6,7 @@
 
 大多数"awesome MCP"列表只告诉你某个硬件 server **存在**。这份列表还追踪有没有人证明过它能用：每个 Skill 条目都可以带上三级阶梯的徽章（静态检查 → 模拟器运行 → 真机实测背书），外加一项"装了 Skill 与不装"的差值。阶梯的含义见下面第一节。
 
-配套文件 [GAPS.md](GAPS.md) 追踪的是**尚不存在**的东西——每条空白都附上核查证据、现存最接近的东西（好让这条声明可被证伪），以及带有 eval 断言的、范围明确的首次贡献建议。
+配套文件 [GAPS.zh-CN.md](GAPS.zh-CN.md) 追踪的是**尚不存在**的东西——每条空白都附上核查证据、现存最接近的东西（好让这条声明可被证伪），以及带有 eval 断言的、范围明确的首次贡献建议。
 
 快照时间：2026-09-16。星数、最近推送时间以及 skills.sh / ClawHub 的安装量均取自当天。`stale` 表示 12 个月以上没有推送；`official` 表示仓库位于硬件或 SDK 厂商自己的 GitHub 组织下。
 
@@ -857,7 +857,7 @@ A2A（Agent2Agent）发布十七个月后仍没有任何真正的硬件实现：
 
 ## 空白
 
-尚不存在的东西记录在 **`GAPS.md`** 中（英文），附有每条声明背后的证据、现存最接近的东西（好让声明保持可证伪），以及五个范围明确、连 eval 断言都已写好的首次贡献建议。要点如下：
+尚不存在的东西记录在 **`GAPS.zh-CN.md`** 中，附有每条声明背后的证据、现存最接近的东西（好让声明保持可证伪），以及五个范围明确、连 eval 断言都已写好的首次贡献建议。要点如下：
 
 **A2A 从未真正落到硬件上。** 发布十七个月后，没有任何仓库在真实物理设备上端到端实现 Linux 基金会的 A2A 规范。这份 3618 行的规范中，*robot*、*actuator*、*sensor*、*embedded* 出现次数均为零，1721 个 issue 中也没有一个在要求设备控制。这看起来是设计上的必然而非疏忽：设备是独占的、物理上不可逆的、有时限约束的，而 A2A 建模的是不透明对等方之间可重试的对话。此后所有设备侧的协议尝试——MCP-over-MQTT、Arm Device Connect、DCP——都选择依附于 MCP。
 
@@ -882,6 +882,6 @@ A2A（Agent2Agent）发布十七个月后仍没有任何真正的硬件实现：
 
 ## 贡献
 
-请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)（英文）。简而言之：每个条目一行、放进正确的分类，运行 `python scripts/l0_check.py readme README.md`；如果你添加的是自己维护的 Skill，请把 [`template/evals/`](template/evals/) 复制进去，并在真实板子上跑过之后提交一份 [L2 实测背书](.github/ISSUE_TEMPLATE/attestation.yml)。
+请阅读 [CONTRIBUTING.zh-CN.md](CONTRIBUTING.zh-CN.md)。简而言之：每个条目一行、放进正确的分类，运行 `python scripts/l0_check.py readme README.md`；如果你添加的是自己维护的 Skill，请把 [`template/evals/`](template/evals/) 复制进去，并在真实板子上跑过之后提交一份 [L2 实测背书](.github/ISSUE_TEMPLATE/attestation.yml)。
 
 新增或修改条目时，请**同时修改** `README.md` 与本文件——CI 会检查两份文档的条目是否一一对应。
