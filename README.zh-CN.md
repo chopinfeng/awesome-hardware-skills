@@ -59,7 +59,7 @@
 
 **`stale`** —— 90 天内没有重跑 L1，或上游 12 个月没有推送。
 
-任务的断言针对的是脚本可观测的物理副作用（串口输出、GPIO 跳变、总线抓包、ROS topic、HTTP 探测），绝不是"代码看起来对"。eval 包的格式见 `template/evals/`；如何添加见文末的贡献一节。
+任务的断言针对的是脚本可观测的物理副作用（串口输出、GPIO 跳变、总线抓包、ROS topic、HTTP 探测），绝不是"代码看起来对"。完整方法——包格式、断言类型、每一级检查什么、今天已经实现了哪些——见 [EVALS.zh-CN.md](EVALS.zh-CN.md)。
 
 这是首次发布的快照：还没有任何条目带 `evals/` 包，因此暂不显示徽章。L1 的首批目标是下面的 ESP32、Zephyr 和 Arduino 类 Skill，因为 Wokwi、Renode 和 `native_sim` 无需板子即可运行它们。
 

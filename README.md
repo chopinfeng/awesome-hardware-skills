@@ -59,7 +59,7 @@ Hardware skills are hard to validate in CI because the CI runner does not own th
 
 **`stale`** — No L1 re-run in 90 days, or no upstream push in 12 months.
 
-Tasks assert on physical side effects a script can observe (serial output, GPIO edges, bus captures, ROS topics, HTTP probes), never on "the code looks right". The eval package format lives in `template/evals/`; see the Contributing section at the end for how to add one.
+Tasks assert on physical side effects a script can observe (serial output, GPIO edges, bus captures, ROS topics, HTTP probes), never on "the code looks right". The full method — package format, assertion types, what each level checks and what is built today — is in [EVALS.md](EVALS.md).
 
 This is the launch snapshot: no entry has an `evals/` package yet, so no badges are shown. The first targets for L1 are the ESP32, Zephyr and Arduino skills below, because Wokwi, Renode and `native_sim` can run them without a board.
 

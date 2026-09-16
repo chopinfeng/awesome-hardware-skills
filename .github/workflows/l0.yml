@@ -18,6 +18,7 @@ jobs:
       - run: python scripts/l0_check.py readme README.md
       - run: python scripts/l0_check.py links GAPS.md
       - run: python scripts/l0_check.py links CONTRIBUTING.md
+      - run: python scripts/l0_check.py links EVALS.md
 
   translation-sync:
     # Non-English readers see the same list. An English-only PR failing here is fine:
@@ -31,9 +32,11 @@ jobs:
       - run: python scripts/l0_check.py sync README.md README.zh-CN.md
       - run: python scripts/l0_check.py sync GAPS.md GAPS.zh-CN.md
       - run: python scripts/l0_check.py sync CONTRIBUTING.md CONTRIBUTING.zh-CN.md
+      - run: python scripts/l0_check.py sync EVALS.md EVALS.zh-CN.md
       - run: python scripts/l0_check.py links README.zh-CN.md
       - run: python scripts/l0_check.py links GAPS.zh-CN.md
       - run: python scripts/l0_check.py links CONTRIBUTING.zh-CN.md
+      - run: python scripts/l0_check.py links EVALS.zh-CN.md
 
   template:
     runs-on: ubuntu-latest

@@ -36,35 +36,24 @@ Quality bar for listing at all:
 - Not abandoned: at least one push in the last 12 months, unless it is the only option for a hardware category.
 - For skills (SKILL.md form): the description must be specific enough to trigger reliably — a bare "helps with ESP32" does not qualify.
 
-## Verification badges
+## Adding an evals package
 
-Entries in the **Skills** sections carry a badge showing how far their `evals/` package has been verified:
+Entries in the **Skills** sections can carry verification badges — `L0`, `L1`, `L2 ×N`, `ΔPass` — earned by
+shipping an `evals/` package inside the skill. The whole method is in **[EVALS.md](EVALS.md)**: the package
+format, every assertion type and its fields, what each level checks, which levels exist today, and how to
+avoid assertions that pass without checking anything.
 
-| Badge | Meaning |
-|---|---|
-| `L0` | Static checks pass: frontmatter, description length, no secrets, links resolve, evals package is well-formed. |
-| `L1 (wokwi)` | All tasks pass in the named simulator, run by this repo's CI. Coming soon. |
-| `L2 ×3` | Three independent people ran the tasks on real hardware and filed an attestation with a transcript. |
-| `ΔPass +42%` | With-skill pass rate minus without-skill pass rate on the same tasks and model. Coming soon. |
-| `stale` | No L1 re-run in 90 days, or no upstream push in 12 months. |
+The short version:
 
-A skill without an `evals/` package can still be listed, but shows no badge. Add one by copying [`template/evals/`](template/evals/) into the skill and filling in `manifest.yaml` and at least one task with an assertion stronger than `compile_only`. `python scripts/l0_check.py skill path/to/skill` tells you if the package is well-formed.
+1. Copy [`template/evals/`](template/evals/) into your skill and fill in `manifest.yaml`.
+2. Write about three tasks — easy, medium, hard — whose assertions observe physical side effects, with at least
+   one stronger than `compile_only`.
+3. Check that each assertion fails against an empty project.
+4. Run `python scripts/l0_check.py skill path/to/skill` until it passes.
+5. If you own the board, run the tasks and file an **L2 hardware attestation** issue with an unedited transcript.
 
-### Writing good tasks
-
-- The prompt is the *only* thing the agent sees. If a human needs a hint to do it, the task is under-specified.
-- Assert on physical side effects a script can observe: serial output, GPIO edges, bus captures, a ROS topic, an HTTP probe. Never "the code looks right".
-- Mark assertions that need real hardware (a BLE sniffer, a physical sensor) with `l1_skippable: true` so L1 can still run the rest.
-- Three tasks — easy / medium / hard — is the sweet spot. One task tells us nothing about generalization; ten is too expensive to A/B.
-
-### Filing an L2 attestation
-
-Open an issue using the **L2 hardware attestation** template. Attestations are only accepted when they include an unedited transcript link; a maintainer then appends them to the skill's `manifest.yaml` under `verified.L2`.
-
-### The A/B run
-
-Coming soon. Once the runner lands, `ΔPass` will come from running every task twice against the same model: once with the skill installed, once with the skill removed and only the SKILL.md `description` replaced by a generic one-liner. A skill that does not move pass rate or first-compile-ok rate by at least 15 points will be marked `low-gain` — it is probably restating what the model already knows, and the maintainer will ask what non-obvious knowledge it is meant to carry.
+A skill without an `evals/` package can still be listed; it simply shows no badge.
 
 ## Adding a simulator or assertion type
 
-Simulator ids and assertion types are enumerated in `scripts/l0_check.py`. To add one, open a PR that extends those sets and adds a short section to `README.md` under **Verification infrastructure** explaining how the runner drives it.
+See the last section of [EVALS.md](EVALS.md).

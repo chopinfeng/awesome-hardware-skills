@@ -1,5 +1,6 @@
 # Eval manifest for a hardware skill. Copy this folder into your skill as `evals/`.
-# Fields marked (auto) are rewritten by CI; do not edit them by hand.
+# Fields marked (reserved) are for the L1 and A/B runners, which do not exist yet. Leave them null.
+# The full method is documented in EVALS.md at the root of awesome-hardware-skills.
 
 skill: esp32-ble-gatt            # must match `name` in SKILL.md
 version: 0.1.0
@@ -11,7 +12,7 @@ target:
   toolchain: idf.py              # what the agent is expected to invoke
 
 # Which simulator L1 uses. `none` means this skill can only be verified at L2 (real hardware).
-simulator: wokwi                 # wokwi | renode | qemu | native_sim | gazebo | isaac | ha-demo | modbus-sim | none
+simulator: wokwi                 # wokwi | renode | qemu | native_sim | gazebo | isaac | mujoco | webots | ha-demo | modbus-sim | opcua-sim | none
 
 # Assertion types every task in this manifest may rely on. L1 runner refuses tasks using anything else.
 assertions_supported:
@@ -20,13 +21,13 @@ assertions_supported:
   - gpio_state
   - bus_capture                  # only checked at L2 here; see l1_skippable in tasks/02
 
-# Which levels have passed, and when (auto).
+# Which levels have passed, and when.
 verified:
-  L0: null                       # {date: 2026-09-15, run: <ci-url>}
-  L1: null                       # {date: ..., simulator: wokwi, tasks_passed: 3/3, model: claude-opus-5}
-  L2: []                         # list of attestations, appended by the attest bot
+  L0: null                       # {date: 2026-09-15, run: <ci-url>}  — fill in after l0_check.py passes
+  L1: null                       # (reserved) {date, simulator, tasks_passed, model}
+  L2: []                         # attestations, appended by a maintainer from accepted issues
 
-# With-skill vs without-skill delta on the same tasks (auto, filled by the ab runner).
+# With-skill vs without-skill delta on the same tasks (reserved, for the A/B runner).
 ab:
   baseline_model: null
   pass_rate_with: null

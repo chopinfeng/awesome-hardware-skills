@@ -30,35 +30,20 @@
 - 没有被弃置：过去 12 个月内至少有一次推送，除非它是某个硬件类别下唯一的选择。
 - 对 Skill（SKILL.md 形式）而言：description 必须具体到能够稳定触发——一句光秃秃的"帮你搞定 ESP32"不合格。
 
-## 验证徽章
+## 添加 evals 包
 
-**Skills** 各分类中的条目会带一个徽章，表示其 `evals/` 包被验证到了哪一级：
+**Skills** 各分类中的条目可以带验证徽章——`L0`、`L1`、`L2 ×N`、`ΔPass`——方法是在 Skill 内部提供一个 `evals/` 包。完整方法见 **[EVALS.zh-CN.md](EVALS.zh-CN.md)**：包的格式、每种断言类型及其字段、每一级具体检查什么、哪些级别今天已经可用，以及如何避免写出不检查任何东西就能通过的断言。
 
-| 徽章 | 含义 |
-|---|---|
-| `L0` | 静态检查通过：frontmatter、description 长度、不含密钥、链接可达、evals 包结构正确。 |
-| `L1 (wokwi)` | 所有任务都在指定模拟器中通过，由本仓库 CI 运行。即将推出。 |
-| `L2 ×3` | 三位互不相关的人在真实硬件上跑完了这些任务，并提交了附带会话记录的背书。 |
-| `ΔPass +42%` | 同一批任务、同一模型下，装了 Skill 与不装 Skill 的通过率之差。即将推出。 |
-| `stale` | 90 天内没有重跑 L1，或上游 12 个月没有推送。 |
+简短版本：
 
-没有 `evals/` 包的 Skill 仍然可以被收录，只是不显示徽章。要添加一个，把 [`template/evals/`](template/evals/) 复制到 Skill 中，填写 `manifest.yaml`，并至少写一个断言强于 `compile_only` 的任务。运行 `python scripts/l0_check.py skill path/to/skill` 即可知道这个包的结构是否正确。
+1. 把 [`template/evals/`](template/evals/) 复制到你的 Skill 中，填写 `manifest.yaml`。
+2. 写大约三个任务——简单、中等、困难——其断言观测物理副作用，并且至少有一条强于 `compile_only`。
+3. 确认每条断言在空工程上都会失败。
+4. 运行 `python scripts/l0_check.py skill path/to/skill`，直到通过。
+5. 如果你有这块板子，就跑一遍这些任务，并附上未经编辑的会话记录，提交一个 **L2 hardware attestation** issue。
 
-### 如何写好任务
-
-- prompt 是 Agent 能看到的**唯一**信息。如果一个人需要提示才能完成，说明任务描述不充分。
-- 断言要针对脚本可观测的物理副作用：串口输出、GPIO 跳变、总线抓包、ROS topic、HTTP 探测。绝不能是"代码看起来对"。
-- 需要真实硬件的断言（BLE 嗅探器、实体传感器）请标记 `l1_skippable: true`，这样 L1 仍能跑其余部分。
-- 三个任务——简单 / 中等 / 困难——是最合适的数量。一个任务说明不了泛化能力；十个任务做 A/B 对比又太贵。
-
-### 提交 L2 实测背书
-
-用 **L2 hardware attestation** 模板开一个 issue。只有附带未经编辑的完整会话记录链接的背书才会被接受；之后由维护者将其追加到该 Skill 的 `manifest.yaml` 中 `verified.L2` 之下。
-
-### A/B 对照
-
-即将推出。runner 就绪后，`ΔPass` 将这样得出：每个任务对同一模型跑两次，一次装上 Skill，一次移除 Skill、只把 SKILL.md 的 `description` 换成一句泛泛的描述。如果一个 Skill 没能让通过率或首次编译成功率提升至少 15 个百分点，就会被标记为 `low-gain`——它很可能只是在复述模型已经知道的东西，维护者会追问它到底打算承载哪些非显而易见的知识。
+没有 `evals/` 包的 Skill 仍然可以被收录，只是不显示徽章。
 
 ## 添加新的模拟器或断言类型
 
-模拟器 id 与断言类型都枚举在 `scripts/l0_check.py` 中。如需新增，请提交一个 PR 扩展这些集合，并在 `README.md` 的 **Verification infrastructure** 一节下补充一小段，说明 runner 如何驱动它。
+见 [EVALS.zh-CN.md](EVALS.zh-CN.md) 的最后一节。
