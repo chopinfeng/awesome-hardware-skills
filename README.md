@@ -760,7 +760,7 @@ What you need to run a hardware skill's `evals/` without owning the board — an
 ### Simulators and emulators
 
 - [wokwi/wokwi-cli](https://github.com/wokwi/wokwi-cli) - ESP32 family, AVR, RP2040, nRF52, partial STM32, plus sensors and displays. YAML scenarios assert on serial text and set pins; GitHub Action; free CI token for open source. The simulator core is hosted and closed. Our `L1 (wokwi)` backend. (★66 · 2026-06)
-- [renode/renode](https://github.com/renode/renode) - Cortex-M / A / R, RISC-V, Xtensa, whole boards and multi-node networks; `.resc` scripts, Robot Framework harness, Zephyr twister integration, deterministic. MIT. No MCP server exists yet — the biggest gap in this list. Our `L1 (renode)` backend. (★2.9k · 2026-09)
+- [renode/renode](https://github.com/renode/renode) - Cortex-M / A / R, RISC-V, Xtensa, whole boards and multi-node networks; `.resc` scripts, Robot Framework harness, Zephyr twister integration, deterministic. MIT. The assertion layer already exists — `renode-test` drives Robot Framework with keywords like `Wait For Line On Uart` — but nothing wraps a live session for an agent. Our `L1 (renode)` backend. (★2.9k · 2026-09)
 - [qemu/qemu](https://github.com/qemu/qemu) - ARM `mps2` and friends, RISC-V, x86; [Espressif's fork](https://github.com/espressif/qemu) adds Xtensa / ESP32. QMP JSON API and GDB stub. Used for FreeRTOS fuzz-and-patch loops in the literature. (★13.7k · 2026-09)
 - [Zephyr native_sim](https://docs.zephyrproject.org/latest/boards/native/native_sim/doc/index.html) - Build any Zephyr app as a host Linux binary with emulated I2C / SPI / GPIO and BabbleSim BLE; `twister -p native_sim`. The cheapest L1 for Zephyr skills. (official)
 - [gazebosim/gz-sim](https://github.com/gazebosim/gz-sim) - Robot worlds with ROS 2 bridge and sensors; `gz sim -s -r world.sdf` runs headless. (★1.5k · 2026-09)
@@ -872,8 +872,11 @@ Texas Instruments. STMicroelectronics has 786 public repos and none; Infineon ha
 whose tree is `README.md` plus `skills/.gitkeep`, created and abandoned within three hours on 2026-04-24. Seven
 vendors ship an MCP server and not one of them can execute anything in simulation.
 
-**Renode still has no MCP server**, which is why simulator-backed L1 verification is not free yet. It is the
-single highest-leverage thing missing from this list.
+**Renode has no agent-facing interface.** The emulator is not the limitation: it is deterministic, runs
+headless, and already ships an assertion harness in `renode-test` and Robot Framework. What is missing is
+something that holds a live session for an agent, so that interactive firmware debugging and the L1 runner
+share one integration rather than each re-deriving a brittle shell recipe. Still the single
+highest-leverage thing missing from this list.
 
 **Hardware-in-the-loop remains the least-covered pattern** — flash, run, read serial, iterate — even though it
 is the one with published evidence behind it: frontier models score 0% deployment success without hardware

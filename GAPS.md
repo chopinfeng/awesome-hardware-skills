@@ -144,20 +144,34 @@ than STMicroelectronics; they are simply companies that decided to.
 constraints, the difference between what the reference manual says and what the part does. Every community
 skill in this list is a reconstruction of knowledge the vendor already has in a PDF.
 
-## Renode has no MCP server
+## Renode has no agent-facing interface
 
-**Status: EMPTY.** This one blocks the ladder, so it sits at the top of the wanted list.
+**Status: EMPTY.** Top of the wanted list — but read the next paragraph before assuming it blocks anything.
 
 **Checked.** The `renode` org has 8 repos and `antmicro` has 884; neither contains an MCP server. Renode's
 host-integration documentation covers Arduino, CAN, file sharing and UART, with no agent or LLM integration,
 and a code search for "Model Context Protocol" across the docs repo returns nothing.
 
-**Why it matters.** Renode is the most agent-shaped open-source emulator in existence — Cortex-M, A and R,
-RISC-V and Xtensa, whole boards with peripherals, multi-node networks, deterministic execution, scriptable
-through `.resc` and already wired into Zephyr's twister. It is MIT licensed and runs anywhere. Because it has
-no MCP server, L1 verification for every Cortex-M skill in this list currently means Wokwi's hosted service or
-a bespoke runner. A Renode MCP would make simulator-backed verification free and local for a large share of
-the catalogue.
+**Why it matters — and what is not true.** Renode is the most agent-shaped open-source emulator in
+existence: Cortex-M, A and R, RISC-V and Xtensa, whole boards with peripherals, multi-node networks,
+deterministic execution, scriptable through `.resc`, MIT licensed and already wired into Zephyr's twister.
+
+It is worth being precise about what is missing, because the obvious phrasing is wrong. Renode is not
+*incapable* of being driven by an agent, and CI is not blocked on this. `renode-test` already runs Robot
+Framework suites with keywords built for exactly this job — `Wait For Line On Uart` and friends — so the
+assertion layer a verification runner needs is sitting there, finished. Anyone writing an L1 runner should
+reuse it rather than reinvent it.
+
+What is missing is a wrapper an agent can hold a *session* through. Three things make that more than a
+convenience. Renode is a stateful process — load a platform, load an ELF, start, read UART, set a breakpoint,
+inspect memory — and all of that has to happen inside one living emulation, which a one-shot shell call cannot
+express. Renode runs on deterministic virtual time, so "advance 500 ms" is a different operation from
+`sleep 0.5`, and an agent reduced to shelling out degrades into wall-clock sleeps and `grep`, which is
+precisely the flakiness an emulator was supposed to remove. And the monitor prints human-oriented text with
+asynchronous log lines interleaved, while eval assertions need typed observations.
+
+The payoff is that one artifact serves both audiences: a developer debugging firmware conversationally, and
+the L1 runner in this repo's CI. Today each would build its own.
 
 **Closest thing that exists.** [eust-w/agentic-embedded-lab](https://github.com/eust-w/agentic-embedded-lab) —
 an agent-native embedded lab with pluggable simulation and evidence-driven validation — and
@@ -285,8 +299,14 @@ comes with the first three eval assertions so the result can climb the ladder ra
 
 Wrap the machine interface, not the GUI: `renode --disable-xwt -e` with the telnet monitor socket, or the
 WebSocket layer already in the Renode tree. Tools worth exposing: `load_platform`, `load_elf`, `start`,
-`pause`, `reset`, `read_uart(timeout_ms)`, `write_uart`, `read_memory`, `set_breakpoint`, and `run_robot_test`
-reusing `renode-test`.
+`pause`, `reset`, `read_uart(timeout_ms)`, `write_uart`, `read_memory`, `set_breakpoint`, and a
+`run_robot_test` that simply hands off to `renode-test`.
+
+Do not rebuild the assertion layer. Robot Framework suites are already the idiomatic way to assert on a Renode
+run, and the most useful server is a thin one that exposes an interactive session for exploration and defers
+to `renode-test` whenever the question is "did this pass". Expose virtual time explicitly — a `run_for` in
+virtual milliseconds rather than a wall-clock timeout — since that determinism is the whole reason to prefer
+an emulator over a board in CI.
 
 First three evals: load `stm32f4_discovery`, flash a blink ELF, assert GPIO port A toggles within one second
 of virtual time; load a Zephyr `hello_world` ELF and assert the UART analyser emits `Hello World! <board>`
@@ -340,7 +360,7 @@ CI-testable; only the third needs a board.
 
 Every claim here is a snapshot, and snapshots rot. If you find something that contradicts a gap, that is a
 contribution — open a PR that moves the entry into the README and edits the gap. The two most likely to be
-wrong first are the Renode MCP and the vendor census, because both are one commit away from changing.
+wrong first are the Renode gap and the vendor census, because both are one commit away from changing.
 
 Two gaps in earlier revisions of this repo were already wrong and have been corrected: Cadence and Synopsys
 tooling was listed as empty when
