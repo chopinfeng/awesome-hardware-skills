@@ -4,7 +4,7 @@
 
 > Skills, MCP servers, on-device agent runtimes, simulators, benchmarks and CI infrastructure that let AI coding agents (Claude Code, Codex, Cursor, OpenClaw, …) build, flash, debug and control physical hardware — with a verification ladder so you can tell which ones actually work on a board.
 
-Most "awesome MCP" lists tell you a hardware server *exists*. This list also tracks whether anyone has proven it works: every skill entry can carry a badge from a three-level ladder (static checks → simulator run → real-hardware attestation) plus a with-skill / without-skill delta. The ladder is explained in the first section below.
+Most "awesome MCP" lists tell you a hardware server *exists*. This list also tracks whether anyone has proven it works: every skill entry can carry badges from a three-level ladder — static checks, a simulator pre-check, and a run on a physical board — and **only the run on a physical board counts as passing**. The ladder is explained in the first section below.
 
 A companion file, [GAPS.md](GAPS.md), tracks what does **not** exist yet — each gap with the evidence
 behind it, the closest artifact that does exist so the claim can be falsified, and scoped first
@@ -47,21 +47,21 @@ Snapshot: 2026-09-16. Stars, last-push dates and skills.sh / ClawHub install cou
 
 ## How entries are verified
 
-Hardware skills are hard to validate in CI because the CI runner does not own the board. So this list uses a ladder instead of a single green check.
+A skill passes only when its tasks have run on a physical board and every assertion held. Static checks and simulators are useful for catching failures early, but neither ever counts as a pass: a simulator that does not model the power-management IC, the radio or the flash timing will approve firmware that fails on the part itself. So this list uses a ladder of pre-checks leading to one test that counts.
 
-**`L0`** — Static checks pass: SKILL.md frontmatter, description specific enough to trigger, no secrets, links resolve, `evals/` package well-formed. Enforced today by `scripts/l0_check.py` in CI.
+**`L0`** — Well-formed. SKILL.md frontmatter, description specific enough to trigger, no secrets, links resolve, `evals/` package well-formed. Enforced today by `scripts/l0_check.py` in CI. A pre-check, not a pass.
 
-**`L1 (wokwi)`** — Every task in the skill's `evals/` passes in the named simulator (Wokwi, Renode, `native_sim`, …), run by this repo's CI. Coming soon.
+**`L1 (wokwi)`** — Simulator pre-check. The assertions a simulator can evaluate pass in the named one (Wokwi, Renode, `native_sim`, …), run by this repo's CI. It catches failures before anyone reaches for a board and never counts as passing. Coming soon.
 
-**`L2 ×3`** — Three independent people ran the tasks on real hardware and filed an attestation issue with an unedited transcript.
+**`L2 ×N`** — **Passed.** Someone ran every task on a physical board, every assertion held — including those a simulator would skip — and they filed an attestation with an unedited transcript, the flash tool's chip-detection output and the serial log read back from the board. `×N` counts independent people who reproduced it on their own boards. Hosted virtual boards such as Wokwi or Chiplab do not count; a remote farm that flashes real boards does.
 
-**`ΔPass +42%`** — With-skill minus without-skill task pass rate on the same model, proving the skill carries knowledge the model did not already have. Coming soon.
+**`ΔPass +42%`** — With-skill minus without-skill task pass rate on the same model, measured on a physical board, proving the skill carries knowledge the model did not already have. Coming soon.
 
-**`stale`** — No L1 re-run in 90 days, or no upstream push in 12 months.
+**`stale`** — The most recent passing attestation is more than 12 months old, the skill's tasks changed after it, or upstream has not pushed in 12 months.
 
 Tasks assert on physical side effects a script can observe (serial output, GPIO edges, bus captures, ROS topics, HTTP probes), never on "the code looks right". The full method — package format, assertion types, what each level checks and what is built today — is in [EVALS.md](EVALS.md).
 
-This is the launch snapshot: no entry has an `evals/` package yet, so no badges are shown. The first targets for L1 are the ESP32, Zephyr and Arduino skills below, because Wokwi, Renode and `native_sim` can run them without a board.
+As of the snapshot, one listed skill ships an `evals/` package and it is at `L0`. **No skill in this list has passed yet**, because passing needs someone to run the tasks on the board. If you own one of the boards below, that is the most valuable contribution you can make.
 
 ## Skills
 
@@ -757,12 +757,12 @@ Agent loops that run on the microcontroller or SBC itself, with tool calling, ra
 
 ## Verification infrastructure
 
-What you need to run a hardware skill's `evals/` without owning the board — and how far each option gets you.
+Tools for running a hardware skill's `evals/`. Simulators and hosted virtual boards are for iterating and pre-checking — none of them can make a skill pass, because passing requires a physical board. Device farms that drive real boards are the exception: a run on one counts.
 
 ### Simulators and emulators
 
-- [wokwi/wokwi-cli](https://github.com/wokwi/wokwi-cli) - ESP32 family, AVR, RP2040, nRF52, partial STM32, plus sensors and displays. YAML scenarios assert on serial text and set pins; GitHub Action; free CI token for open source. The simulator core is hosted and closed. Our `L1 (wokwi)` backend. (★66 · 2026-06)
-- [renode/renode](https://github.com/renode/renode) - Cortex-M / A / R, RISC-V, Xtensa, whole boards and multi-node networks; `.resc` scripts, Robot Framework harness, Zephyr twister integration, deterministic. MIT. The assertion layer already exists — `renode-test` drives Robot Framework with keywords like `Wait For Line On Uart` — but nothing wraps a live session for an agent. Our `L1 (renode)` backend. (★2.9k · 2026-09)
+- [wokwi/wokwi-cli](https://github.com/wokwi/wokwi-cli) - ESP32 family, AVR, RP2040, nRF52, partial STM32, plus sensors and displays. YAML scenarios assert on serial text and set pins; GitHub Action; free CI token for open source. The simulator core is hosted and closed. Our `L1 (wokwi)` pre-check backend. (★66 · 2026-06)
+- [renode/renode](https://github.com/renode/renode) - Cortex-M / A / R, RISC-V, Xtensa, whole boards and multi-node networks; `.resc` scripts, Robot Framework harness, Zephyr twister integration, deterministic. MIT. The assertion layer already exists — `renode-test` drives Robot Framework with keywords like `Wait For Line On Uart` — but nothing wraps a live session for an agent. Our `L1 (renode)` pre-check backend. (★2.9k · 2026-09)
 - [qemu/qemu](https://github.com/qemu/qemu) - ARM `mps2` and friends, RISC-V, x86; [Espressif's fork](https://github.com/espressif/qemu) adds Xtensa / ESP32. QMP JSON API and GDB stub. Used for FreeRTOS fuzz-and-patch loops in the literature. (★13.7k · 2026-09)
 - [Zephyr native_sim](https://docs.zephyrproject.org/latest/boards/native/native_sim/doc/index.html) - Build any Zephyr app as a host Linux binary with emulated I2C / SPI / GPIO and BabbleSim BLE; `twister -p native_sim`. The cheapest L1 for Zephyr skills. (official)
 - [gazebosim/gz-sim](https://github.com/gazebosim/gz-sim) - Robot worlds with ROS 2 bridge and sensors; `gz sim -s -r world.sdf` runs headless. (★1.5k · 2026-09)
@@ -770,9 +770,9 @@ What you need to run a hardware skill's `evals/` without owning the board — an
 - [isaac-sim/IsaacSim](https://github.com/isaac-sim/IsaacSim) - Photoreal robot sim; `--headless` and Python standalone scripts; source public since 5.0, RTX GPU required. Nightly rather than per-PR material. (★4.1k · 2026-09)
 - [cyberbotics/webots](https://github.com/cyberbotics/webots) - Robots with ROS 2 bridge; `webots --batch --no-rendering`. (★4.6k · 2026-09)
 - [mani-skill/ManiSkill](https://github.com/mani-skill/ManiSkill) - GPU-parallel manipulation sim on SAPIEN with offscreen Vulkan; doubles as a benchmark. (★3.3k · 2026-08)
-- [pymodbus-dev/pymodbus](https://github.com/pymodbus-dev/pymodbus) - `pymodbus.simulator` serves a Modbus TCP / RTU device from a JSON register definition, with an HTTP control API. Our `L1 (modbus-sim)` backend. (★2.8k · 2026-09)
+- [pymodbus-dev/pymodbus](https://github.com/pymodbus-dev/pymodbus) - `pymodbus.simulator` serves a Modbus TCP / RTU device from a JSON register definition, with an HTTP control API. Our `L1 (modbus-sim)` pre-check backend. (★2.8k · 2026-09)
 - [open62541/open62541](https://github.com/open62541/open62541) - OPC UA server / client; example servers make a usable PLC stand-in. (★3.2k · 2026-09)
-- [Home Assistant demo mode](https://www.home-assistant.io/integrations/demo/) - `hass --demo-mode` creates fake lights, climate and sensors behind the real REST / WebSocket API. Our `L1 (ha-demo)` backend. (official)
+- [Home Assistant demo mode](https://www.home-assistant.io/integrations/demo/) - `hass --demo-mode` creates fake lights, climate and sensors behind the real REST / WebSocket API. Our `L1 (ha-demo)` pre-check backend. (official)
 - [micropython/micropython unix port](https://github.com/micropython/micropython/tree/master/ports/unix) - MicroPython VM on the host; logic-level checks only, no peripherals. (★22k · 2026-09)
 - [ARM-software/AVH](https://github.com/ARM-software/AVH) - Arm Virtual Hardware: Cortex-M FVPs (Corstone-300 / 310 / 315) with GitHub Actions examples; free for open source and evaluation. (official · ★54 · 2026-09)
 
@@ -877,12 +877,13 @@ vendors ship an MCP server and not one of them can execute anything in simulatio
 **Renode has no agent-facing interface.** The emulator is not the limitation: it is deterministic, runs
 headless, and already ships an assertion harness in `renode-test` and Robot Framework. What is missing is
 something that holds a live session for an agent, so that interactive firmware debugging and the L1 runner
-share one integration rather than each re-deriving a brittle shell recipe. Still the single
-highest-leverage thing missing from this list.
+share one integration rather than each re-deriving a brittle shell recipe. Worth building for fast
+iteration — but it cannot make any skill pass, so the real verification bottleneck is access to boards,
+not emulators.
 
 **Hardware-in-the-loop remains the least-covered pattern** — flash, run, read serial, iterate — even though it
 is the one with published evidence behind it: frontier models score 0% deployment success without hardware
-feedback and beat human experts within seven iterations with it.
+feedback and beat human experts within seven iterations with it. It is also the only route to a passing skill.
 
 Also empty, each verified rather than assumed: Wi-Fi provisioning, Raspberry Pi 5 Linux, device tree and
 U-Boot, Thread and device-side Matter, non-offensive NFC, Lattice FPGA tooling, VLA policies as agent tools,

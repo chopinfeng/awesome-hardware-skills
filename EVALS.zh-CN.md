@@ -16,14 +16,16 @@
 |---|---|---|
 | Eval 包格式 | 已定义 | `template/evals/` 与本文档 |
 | `L0` 静态检查 | **可用**，已接入 CI | `scripts/l0_check.py skill <path>` |
-| `L1` 模拟器 runner | 尚未构建 | 设计见下文 |
-| `L2` 真机实测背书 | **可用**，人工流程 | Issue 模板 `.github/ISSUE_TEMPLATE/attestation.yml`；由维护者记录被接受的背书 |
+| `L1` 模拟器预检 runner | 尚未构建——且永远不算通过 | 设计见下文 |
+| `L2` 真机实测背书 | **可用**，人工流程——**唯一算作通过的一级** | Issue 模板 `.github/ISSUE_TEMPLATE/attestation.yml`；由维护者记录被接受的背书 |
 | `ΔPass` A/B runner | 尚未构建 | 设计见下文 |
-| `stale` 标记 | 尚未构建 | 依赖 L1 runner |
+| `stale` 标记 | 尚未构建 | 由维护者根据背书日期标记 |
 
 第一个以此格式提供 eval 包的第三方 Skill 是 [fxp/m5stack-embedded-dev-skill](https://github.com/fxp/m5stack-embedded-dev-skill)，文末会以它作为实例。
 
 ## 原则
+
+**只有真实的板子能让一个 Skill 通过。** 静态检查和模拟器能低成本地尽早发现问题，两者都值得有，但都不算通过。模拟器只建模那些容易建模的部分；而硬件中真正要命的故障，恰恰藏在它们跳过的地方——电源管理芯片、射频、闪存时序、USB 供电不足时的掉电复位。只有当有人在真实芯片上跑完了任务、且每一条断言都成立时，一个 Skill 才算通过。本仓库中任何其他情况都不叫"通过"。
 
 **对物理现象断言，而不是对文字断言。** 一个任务通过，是因为脚本观测到了现实世界中的副作用：UART 上的一行输出、GPIO 上的一次跳变、总线上的一个数据包、ROS topic 上的一条消息、HTTP 端点的一次响应。绝不是因为某个模型或某个人判断"代码看起来对"。硬件在这方面格外合适，因为固件做的几乎每件事都能从芯片外部观测到。
 
@@ -64,14 +66,14 @@ my-skill/
 | `target.framework` | 是 | `esp-idf`、`arduino`、`zephyr`、`ros2` 等。 |
 | `target.framework_version` | 是 | 编写与测试这些任务时所用的版本。硬件 SDK 的小版本之间就可能不兼容，这个字段是结果可复现的前提。 |
 | `target.toolchain` | 否 | 预期 Agent 调用的工具：`idf.py`、`arduino-cli`、`west`。 |
-| `simulator` | 是 | L1 将在哪里运行。取值为 `wokwi`、`renode`、`qemu`、`native_sim`、`gazebo`、`isaac`、`mujoco`、`webots`、`ha-demo`、`modbus-sim`、`opcua-sim` 或 `none` 之一。 |
+| `simulator` | 是 | L1 预检将在哪里运行；与这个 Skill 能否通过无关。取值为 `wokwi`、`renode`、`qemu`、`native_sim`、`gazebo`、`isaac`、`mujoco`、`webots`、`ha-demo`、`modbus-sim`、`opcua-sim` 或 `none` 之一。 |
 | `assertions_supported` | 是 | 本包中任一任务用到的所有断言类型。 |
 | `verified.L0` | 否 | `l0_check.py` 通过后填写 `{date, run}`。 |
 | `verified.L1` | 保留 | 由 L1 runner 写入。保持 `null`。 |
 | `verified.L2` | 否 | 被接受的背书列表，由维护者添加。 |
 | `ab.*` | 保留 | 由 A/B runner 写入。保持 `null`。 |
 
-当没有任何公开模拟器能建模任务所依赖的硬件时，请使用 `simulator: none`，并在注释中说明原因。M5Stack 的包是个好榜样：Core2 的电源管理芯片没有被任何公开的 Wokwi 或 Renode 板型建模，所以它声明了 `none`，而不是声称一个会悄悄跳过关键部分的模拟器。
+当没有任何公开模拟器能建模任务所依赖的硬件时，请使用 `simulator: none`，并在注释中说明原因。M5Stack 的包是个好榜样：Core2 的电源管理芯片没有被任何公开的 Wokwi 或 Renode 板型建模，所以它声明了 `none`，而不是声称一个会悄悄跳过关键部分的模拟器。声明 `none` 没有任何代价：所有 Skill 都以同样的方式通过——在板子上。
 
 ### 任务文件
 
@@ -92,7 +94,7 @@ my-skill/
 
 ## 断言类型
 
-每条断言都有一个 `type`。任何断言都可以设置 `l1_skippable: true`，表示它需要模拟器提供不了的真实硬件——BLE 嗅探器、实体按键、读取真实环境的传感器。L1 会跳过它并计入其余断言；L2 的背书者仍然必须检查它。
+每条断言都有一个 `type`。任何断言都可以设置 `l1_skippable: true`，表示它需要模拟器提供不了的真实硬件——BLE 嗅探器、实体按键、读取真实环境的传感器。L1 预检会跳过它；但在真实板子上它仍然必须成立，任何一条断言没被检查的任务都不算通过。
 
 合法类型的集合枚举在 `scripts/l0_check.py` 中。其中五种已经由真实的 eval 包确立了字段格式。另外三种是保留的：类型名会被接受，但字段尚未定义，由第一个需要它的包通过向本文档提交 PR 来定义。
 
@@ -148,11 +150,13 @@ python scripts/l0_check.py skill path/to/my-skill
 
 它**不**检查断言内部的字段、`build` 块、正则是否合法，也不检查一条断言是否有可能失败。L0 表示这个包结构正确，而不表示它是好的。
 
-## 第 1 级——模拟器
+## 第 1 级——模拟器预检
 
 **尚未构建。** 本节是 runner 将要遵循的设计。
 
-对每个任务，runner 在装有该 Skill 的干净工作目录中把 prompt 交给 Agent，等待 Agent 完成或达到 `timeout_s`，运行 `build.cmd`，把产物加载进声明的模拟器，然后评估所有未标记 `l1_skippable` 的断言。当所有任务都在某个指定模型上通过时，这个包就达到 L1，记录为 `{date, simulator, tasks_passed, model}`。
+L1 是预检，不是通过。它的作用是在有人烧录板子之前，低成本地拦下问题——一个连在 Wokwi 里都过不了的任务，不值得背书者花一个下午。处于 L1 的包仍然不算通过。
+
+对每个任务，runner 在装有该 Skill 的干净工作目录中把 prompt 交给 Agent，等待 Agent 完成或达到 `timeout_s`，运行 `build.cmd`，把产物加载进声明的模拟器，然后评估所有未标记 `l1_skippable` 的断言。当所有任务的这些断言都在某个指定模型上通过时，这个包就达到 L1，记录为 `{date, simulator, tasks_passed, model}`。
 
 有三个决定已经确定：
 
@@ -162,22 +166,22 @@ python scripts/l0_check.py skill path/to/my-skill
 
 哪个模拟器能支持哪些断言，汇总在 README 的验证基础设施一节。Renode 缺少面向 Agent 的会话接口，这是 [GAPS.zh-CN.md](GAPS.zh-CN.md) 中排在第一位的问题。
 
-## 第 2 级——真实硬件
+## 第 2 级——真实硬件（通过）
 
-**可用，人工流程。** 任何拥有目标板子的人都可以提交背书。
+**可用，人工流程。** 这是唯一算作通过的一级。任何拥有目标板子的人都可以提交背书。
 
-1. 安装该 Skill，严格按照 `evals/tasks/` 中写的内容运行每个任务，只给 Agent prompt，别的什么都不给。
-2. 评估每一条断言，包括标记了 `l1_skippable` 的——这正是 L2 存在的意义。
-3. 把完整、未经编辑的 Agent 会话记录保存到公开位置。
-4. 用 **L2 hardware attestation** 模板开一个 issue。模板会要求填写：Skill、精确的板型与版本、框架版本、Agent 模型与运行环境、每个任务一行 `pass` 或 `fail`，以及会话记录链接，并要求确认没有给过额外提示、会话记录未经编辑。
+1. 安装该 Skill，严格按照 `evals/tasks/` 中写的内容运行每个任务，只给 Agent prompt，别的什么都不给，并且在真实板子上运行。模拟器不算，Wokwi、Chiplab 这类托管虚拟板也不算。远程烧录真实板子的设备农场——比如驱动物理目标的 Jumpstarter 或 labgrid——算。
+2. 评估每一条断言，包括标记了 `l1_skippable` 的。全部成立，任务才算通过。
+3. 把完整、未经编辑的 Agent 会话记录保存到公开位置，并附上硬件证据：烧录工具识别到芯片并写入镜像的输出——esptool 的 `Chip is …` 那一行、`arduino-cli upload` 的端口、probe-rs 的目标——以及从板子上读回的串口日志。
+4. 用 **L2 hardware attestation** 模板开一个 issue。模板会要求填写：Skill、精确的板型与版本、框架版本、Agent 模型与运行环境、每个任务一行 `pass` 或 `fail`、硬件证据与会话记录链接，并要求确认是在真实板子上运行的、没有给过额外提示、会话记录未经编辑。
 
-没有会话记录的背书不会被接受。背书被接受后，由维护者将其追加到该包的 `verified.L2` 中。README 会为 N 份独立背书显示 `L2 ×N`，"独立"指不同的人、不同的板子；达到三份，这个徽章才算有分量。
+缺少会话记录或硬件证据的背书不会被接受。背书被接受后，由维护者将其追加到该包的 `verified.L2` 中。只要有一份被接受的背书显示所有任务都通过，这个包就算通过。README 会为 N 份独立背书显示 `L2 ×N`——"独立"指不同的人、不同的板子——用来衡量这个结果的可复现程度。
 
 ## ΔPass——这个 Skill 是否真的携带了知识？
 
 **尚未构建。** 本节是 A/B runner 将要遵循的设计。
 
-每个任务在同一模型与同一运行环境下跑两次：一次装上 Skill；另一次移除 Skill，并把它的 `description` 替换为一句泛泛的占位描述，这样两组之间唯一的差别就是 Skill 所携带的知识。runner 为每一组记录两个比率——任务通过率，以及首次编译成功率，即第一次构建无需 Agent 修复任何东西就成功的尝试所占的比例。
+每个任务在同一模型、同一运行环境、同一块真实板子上跑两次：一次装上 Skill；另一次移除 Skill，并把它的 `description` 替换为一句泛泛的占位描述，这样两组之间唯一的差别就是 Skill 所携带的知识。在模拟器上测得的比率不算数，理由与模拟器上的通过不算数相同。runner 为每一组记录两个比率——任务通过率，以及首次编译成功率，即第一次构建无需 Agent 修复任何东西就成功的尝试所占的比例。
 
 `ΔPass` 是装了 Skill 的通过率减去不装 Skill 的通过率。如果一个 Skill 在两个比率上都没能带来至少 15 个百分点的提升，就会被标记为 `low-gain`。这不是拒绝，而是一个问题：它很可能只是在复述模型已经知道的东西，维护者会追问它到底打算承载哪条非显而易见的事实。
 
@@ -189,9 +193,9 @@ python scripts/l0_check.py skill path/to/my-skill
 
 - **`01-hello-serial-tick`**（简单）——每秒打印一次 `tick`。`compile_only` 加一条 `serial_match`，要求六秒内有四行匹配 `^tick$`。最简单的诚实任务。
 - **`02-i2c-scan-no-redundant-wire-begin`**（中等）——扫描内部 I2C 总线，但不能再次调用 `Wire.begin()`。一条针对地址 `0x34` 上电源管理芯片的 `serial_match`，加一条 `exit_code` 源码检查。它承载了这个 Skill 真正要教的东西，也是一个适合用 `exit_code` 的好例子：在这个板子版本上，即使违反了规则，扫描照样成功，所以任何运行时观测都抓不到这个错误。
-- **`03-isr-safe-button-notify`**（困难）——在不使用阻塞调用的前提下，从 GPIO 中断通知主循环。`serial_match` 需要真实地按下按键，所以正确地标记了 `l1_skippable`。其 `exit_code` 检查正是"空转断言"一节中的那个例子：按目前发布的写法，只要处理函数没有 `IRAM_ATTR`，一个带阻塞调用的处理函数也能通过。这件事比看上去更重要，因为在 L1 下串口断言被跳过后，它就是这个任务在 L1 唯一实质性的检查。加上 `if not m: sys.exit(1)` 这道防护即可修复。
+- **`03-isr-safe-button-notify`**（困难）——在不使用阻塞调用的前提下，从 GPIO 中断通知主循环。`serial_match` 需要真实地按下按键，所以正确地标记了 `l1_skippable`。其 `exit_code` 检查正是"空转断言"一节中的那个例子：按目前发布的写法，只要处理函数没有 `IRAM_ATTR`，一个带阻塞调用的处理函数也能通过。这件事比看上去更重要，因为在 L1 预检中串口断言会被跳过，这时它就是唯一在检查处理函数的断言。加上 `if not m: sys.exit(1)` 这道防护即可修复。
 
-它的 manifest 声明了 `simulator: none`，并解释了没有公开模拟器能建模 Core2 的 PMIC。L1 在设计上不可达，所以这个包获得徽章的路径是：现在是 L0，之后靠 L2 背书。
+它的 manifest 声明了 `simulator: none`，并解释了没有公开模拟器能建模 Core2 的 PMIC。这对它没有任何代价：它通往"通过"的路径和其他所有包一样——由拥有 Core2 的人在板子上跑完这三个任务。在此之前，它处于 L0，尚未通过。
 
 ## 扩展这套方法
 

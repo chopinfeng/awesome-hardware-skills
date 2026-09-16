@@ -19,16 +19,22 @@ mistake a planned piece for a working one.
 |---|---|---|
 | Eval package format | Defined | `template/evals/`, and this document |
 | `L0` static checks | **Working**, in CI | `scripts/l0_check.py skill <path>` |
-| `L1` simulator runner | Not built | Design below |
-| `L2` real-hardware attestation | **Working**, by hand | Issue template `.github/ISSUE_TEMPLATE/attestation.yml`; a maintainer records accepted attestations |
+| `L1` simulator pre-check runner | Not built — and never a pass | Design below |
+| `L2` real-hardware attestation | **Working**, by hand — **the only level that counts as passing** | Issue template `.github/ISSUE_TEMPLATE/attestation.yml`; a maintainer records accepted attestations |
 | `ΔPass` A/B runner | Not built | Design below |
-| `stale` marking | Not built | Depends on the L1 runner |
+| `stale` marking | Not built | Applied by a maintainer from attestation dates |
 
 The first third-party skill to ship a package in this format is
 [fxp/m5stack-embedded-dev-skill](https://github.com/fxp/m5stack-embedded-dev-skill). It is used as the worked
 example near the end.
 
 ## Principles
+
+**Only a physical board can make a skill pass.** Static checks and simulators catch failures early and cheaply,
+and both are worth having, but neither counts as a pass. Simulators model the parts that are easy to model;
+the failures that matter in hardware live in the parts they skip — the power-management IC, the radio, the
+flash timing, the brown-out on a weak USB port. A skill has passed when someone has run its tasks on the real
+part and every assertion held. Nothing else is called passing anywhere in this repo.
 
 **Assert on physics, not prose.** A task passes when a script observes a side effect in the world: a line on
 a UART, an edge on a GPIO, a packet on a bus, a message on a ROS topic, a response from an HTTP endpoint. It
@@ -77,7 +83,7 @@ Start by copying [`template/evals/`](template/evals/).
 | `target.framework` | yes | `esp-idf`, `arduino`, `zephyr`, `ros2`, and so on. |
 | `target.framework_version` | yes | The version the tasks were authored and tested against. Hardware SDKs break between minor versions; this is what makes a result reproducible. |
 | `target.toolchain` | no | What the agent is expected to invoke: `idf.py`, `arduino-cli`, `west`. |
-| `simulator` | yes | Where L1 will run. One of `wokwi`, `renode`, `qemu`, `native_sim`, `gazebo`, `isaac`, `mujoco`, `webots`, `ha-demo`, `modbus-sim`, `opcua-sim`, or `none`. |
+| `simulator` | yes | Where L1 pre-checks will run; it has no bearing on whether the skill can pass. One of `wokwi`, `renode`, `qemu`, `native_sim`, `gazebo`, `isaac`, `mujoco`, `webots`, `ha-demo`, `modbus-sim`, `opcua-sim`, or `none`. |
 | `assertions_supported` | yes | Every assertion type any task in this package uses. |
 | `verified.L0` | no | `{date, run}` once `l0_check.py` passes. |
 | `verified.L1` | reserved | Written by the L1 runner. Leave `null`. |
@@ -87,7 +93,7 @@ Start by copying [`template/evals/`](template/evals/).
 Use `simulator: none` when no public simulator models the hardware the tasks depend on, and say why in a
 comment. The M5Stack package is a good model: the Core2's power-management IC is not modelled by any public
 Wokwi or Renode board, so it declares `none` rather than claiming a simulator that would silently skip the
-parts that matter.
+parts that matter. Declaring `none` costs nothing: every skill passes the same way, on a board.
 
 ### Task files
 
@@ -110,8 +116,8 @@ generalises; ten are expensive to run twice for every A/B comparison.
 ## Assertion types
 
 Every assertion has a `type`. Any assertion may also set `l1_skippable: true`, meaning it needs real hardware
-the simulator cannot provide — a BLE sniffer, a physical button, a sensor reading a real room. L1 skips it and
-credits the rest; L2 attesters must still check it.
+the simulator cannot provide — a BLE sniffer, a physical button, a sensor reading a real room. An L1 pre-check
+skips it; on a real board it must still hold, and a task with any assertion left unchecked has not passed.
 
 The set of valid types is enumerated in `scripts/l0_check.py`. Five have field schemas established by real
 packages. Three are reserved: the name is accepted, but the fields are not defined yet, and the first package
@@ -189,14 +195,17 @@ It verifies, and only verifies, the following:
 It does **not** check the fields inside an assertion, the `build` block, whether a pattern is a valid regular
 expression, or whether an assertion can fail. L0 means the package is well-formed, not that it is good.
 
-## Level 1 — simulator
+## Level 1 — simulator pre-check
 
 **Not built.** This section is the design the runner will follow.
 
+L1 is a pre-check, not a pass. Its job is to catch failures cheaply before anyone flashes a board — a task that
+cannot even pass in Wokwi is not worth an attester's afternoon. A package at L1 has still not passed.
+
 For each task the runner gives the agent the prompt in a clean working directory with the skill installed,
 waits for the agent to finish or for `timeout_s`, runs `build.cmd`, loads the artefact into the declared
-simulator, and evaluates every assertion not marked `l1_skippable`. A package reaches L1 when every task passes
-on a named model, recorded as `{date, simulator, tasks_passed, model}`.
+simulator, and evaluates every assertion not marked `l1_skippable`. A package reaches L1 when those assertions
+pass for every task on a named model, recorded as `{date, simulator, tasks_passed, model}`.
 
 Three decisions are already settled:
 
@@ -212,29 +221,37 @@ Three decisions are already settled:
 Which simulator can support which assertion is summarised in the README's verification infrastructure section.
 Renode lacks an agent-facing session interface, which is the top item in [GAPS.md](GAPS.md).
 
-## Level 2 — real hardware
+## Level 2 — real hardware (passing)
 
-**Working, by hand.** Anyone who owns the target board can attest.
+**Working, by hand.** This is the only level that counts as passing. Anyone who owns the target board can
+attest.
 
 1. Install the skill and run each task exactly as written in `evals/tasks/`, giving the agent the prompt and
-   nothing else.
-2. Evaluate every assertion, including those marked `l1_skippable` — that is what L2 is for.
-3. Save the complete, unedited agent transcript somewhere public.
+   nothing else, against a physical board. A simulator does not count, and neither does a hosted virtual board
+   such as Wokwi or Chiplab. A remote farm that flashes real boards — Jumpstarter or labgrid driving physical
+   targets — does.
+2. Evaluate every assertion, including those marked `l1_skippable`. A task passes only if all of them hold.
+3. Save the complete, unedited agent transcript somewhere public. Keep the hardware evidence with it: the flash
+   tool's output showing it detected the chip and wrote the image — esptool's `Chip is …` line, the
+   `arduino-cli upload` port, probe-rs's target — and the serial log read back from the board.
 4. Open an issue with the **L2 hardware attestation** template, which asks for the skill, the exact board and
-   revision, the framework version, the agent model and harness, a `pass` or `fail` line per task, and the
-   transcript link, and requires confirming that no hints were given and the transcript is unedited.
+   revision, the framework version, the agent model and harness, a `pass` or `fail` line per task, the hardware
+   evidence and the transcript link, and requires confirming that the run was on a physical board, that no
+   hints were given and that the transcript is unedited.
 
-Attestations without a transcript are not accepted. Once accepted, a maintainer appends the attestation to
-the package's `verified.L2`. The README shows `L2 ×N` for N independent attestations, where independent means
-different people with different boards; three is the bar for the badge to carry weight.
+Attestations without a transcript and hardware evidence are not accepted. Once accepted, a maintainer appends
+the attestation to the package's `verified.L2`. A package has passed once one accepted attestation shows every
+task passing. The README shows `L2 ×N` for N independent attestations — different people with different boards —
+as a measure of how reproducible that result is.
 
 ## ΔPass — does the skill carry knowledge?
 
 **Not built.** This section is the design the A/B runner will follow.
 
-Every task runs twice on the same model and harness: once with the skill installed, and once with the skill
+Every task runs twice on the same model, harness and physical board: once with the skill installed, and once with the skill
 removed and its `description` replaced by a generic one-line placeholder, so that the only difference between
-the arms is the skill's knowledge. The runner records two rates per arm — task pass rate, and first-compile-ok
+the arms is the skill's knowledge. Rates measured in a simulator do not count, for the same reason a simulator
+pass does not. The runner records two rates per arm — task pass rate, and first-compile-ok
 rate, the share of attempts whose first build succeeds without the agent having to fix anything.
 
 `ΔPass` is the with-skill pass rate minus the without-skill pass rate. A skill that moves neither rate by at
@@ -259,11 +276,12 @@ with Arduino and M5Unified. Its package shows most of the method in three tasks:
 - **`03-isr-safe-button-notify`** (hard) — notify the main loop from a GPIO interrupt without blocking calls.
   The `serial_match` needs a real button press, so it is correctly marked `l1_skippable`. The `exit_code` check
   is the example in the section on vacuous assertions: as published, it passes a handler that blocks, as long
-  as the handler lacks `IRAM_ATTR`. This matters more than it looks, because with the serial assertion skipped
-  at L1 it is the task's only substantive check there. Adding the `if not m: sys.exit(1)` guard fixes it.
+  as the handler lacks `IRAM_ATTR`. This matters more than it looks, because in an L1 pre-check the serial
+  assertion is skipped and this is the only check looking at the handler at all. Adding the `if not m: sys.exit(1)` guard fixes it.
 
-The manifest declares `simulator: none` and explains that no public simulator models the Core2's PMIC. With
-L1 unreachable by design, the package's path to a badge is L0 now and L2 attestations later.
+The manifest declares `simulator: none` and explains that no public simulator models the Core2's PMIC. That
+costs it nothing: its path to passing is the same as every other package's — someone with a Core2 runs the three
+tasks on the board. Until then it is at L0 and has not passed.
 
 ## Extending the method
 

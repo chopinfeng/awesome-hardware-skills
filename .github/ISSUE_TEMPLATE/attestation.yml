@@ -1,5 +1,5 @@
 name: L2 hardware attestation
-description: Report that you ran a listed skill's evals on real hardware.
+description: Report that you ran a listed skill's evals on a physical board. This is the only way a skill passes.
 title: "[attest] <skill-name> on <board>"
 labels: ["attestation"]
 body:
@@ -37,17 +37,32 @@ body:
     id: results
     attributes:
       label: Task results
-      description: One line per task, `id: pass|fail`, with a note for fails.
+      description: >-
+        One line per task, `id: pass|fail`, with a note for fails. A task passes only if every assertion held
+        on the board, including ones marked `l1_skippable`.
       placeholder: |
         01-blink: pass
         02-gatt-notify: pass (bus_capture verified with nRF52840 sniffer)
+    validations:
+      required: true
+  - type: textarea
+    id: hardware_evidence
+    attributes:
+      label: Hardware evidence
+      description: >-
+        The flash tool's output showing it detected the chip and wrote the image — for example esptool's
+        `Chip is ESP32-C3` line, the `arduino-cli upload` port, or probe-rs's target — and the serial log read
+        back from the board during the run. Output from a simulator or a hosted virtual board is not accepted.
+      render: text
     validations:
       required: true
   - type: input
     id: transcript
     attributes:
       label: Transcript link
-      description: Gist or repo containing the full agent session. Required — attestations without a transcript are not merged.
+      description: >-
+        Gist or repo containing the full agent session. Required — attestations without a transcript are not
+        accepted.
     validations:
       required: true
   - type: checkboxes
@@ -55,6 +70,8 @@ body:
     attributes:
       label: Confirmation
       options:
+        - label: The tasks ran on a physical board — not a simulator and not a hosted virtual board.
+          required: true
         - label: I ran the tasks exactly as written in the skill's `evals/tasks/`, with no extra hints beyond the prompt.
           required: true
         - label: The transcript is unedited.

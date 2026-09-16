@@ -47,7 +47,9 @@ where the ground truth lives. That is an unusually clean case for building.
 
 The fourth thing is why this repo has a [verification ladder](README.md#how-entries-are-verified) at all.
 Veecle put it best in [LLMs write good firmware. They can't prove it.](https://veecle.ai/blog/llms-write-good-firmware-cant-prove-it):
-the bottleneck is not generation, it is proof. A skill nobody can verify is a claim, not a tool.
+the bottleneck is not generation, it is proof. A skill nobody can verify is a claim, not a tool. And the proof
+has to come from the part itself: this list counts a skill as passing only when its tasks have run on a
+physical board.
 
 ## A2A on the hardware side
 
@@ -148,7 +150,7 @@ skill in this list is a reconstruction of knowledge the vendor already has in a 
 
 ## Renode has no agent-facing interface
 
-**Status: EMPTY.** Top of the wanted list — but read the next paragraph before assuming it blocks anything.
+**Status: EMPTY.** Worth building — but read on before assuming it unblocks verification. It does not.
 
 **Checked.** The `renode` org has 8 repos and `antmicro` has 884; neither contains an MCP server. Renode's
 host-integration documentation covers Arduino, CAN, file sharing and UART, with no agent or LLM integration,
@@ -173,7 +175,11 @@ precisely the flakiness an emulator was supposed to remove. And the monitor prin
 asynchronous log lines interleaved, while eval assertions need typed observations.
 
 The payoff is that one artifact serves both audiences: a developer debugging firmware conversationally, and
-the L1 runner in this repo's CI. Today each would build its own.
+the L1 pre-check runner in this repo's CI. Today each would build its own.
+
+What it cannot do is make a skill pass. This list counts a skill as passing only when its tasks have run on a
+physical board, so a Renode server makes iteration faster and catches failures earlier, but the real
+verification bottleneck is access to boards. That is why the hardware-in-the-loop section below matters more.
 
 **Closest thing that exists.** [eust-w/agentic-embedded-lab](https://github.com/eust-w/agentic-embedded-lab) —
 an agent-native embedded lab with pluggable simulation and evidence-driven validation — and
@@ -194,8 +200,8 @@ Only a handful of projects close it today: tinyusb's `hil` skill, SensorsIot's E
 deploy skills, Adafruit's CircuitPython runner, and the M5Stack onboarding skills in Anthropic's own
 `cwc-makers` plugin. Everything else in this list stops at "here is the code".
 
-**Why it matters.** It is the only pattern with published evidence behind it, and it is the only one that
-produces the observable side effects the L2 ladder needs.
+**Why it matters.** It is the only pattern with published evidence behind it, and it is the only route to a
+passing skill: this list counts nothing but a run on a physical board as a pass.
 
 ## Device categories with nothing in them
 
@@ -315,6 +321,9 @@ of virtual time; load a Zephyr `hello_world` ELF and assert the UART analyser em
 within five seconds; load a deliberate HardFault and assert the server returns fault status and the faulting
 PC rather than hanging. The sharp edges are deterministic virtual-time waits and reaping stuck processes.
 
+Be clear about what it buys: faster iteration and cheaper pre-checks. A skill verified only against Renode has
+not passed.
+
 ### 2. A Raspberry Pi 5 skill — *low*
 
 No MCP needed; this is a documentation skill and a cheap board. Cover `gpiozero` and `libgpiod` v2,
@@ -345,7 +354,8 @@ Nothing exists in any form and the surface is small and stable. Cover `esp_prov`
 First three evals: asked to provision over BLE, the agent uses `--transport ble --sec_ver 2` with SRP6a salt
 and verifier rather than the deprecated `--sec_ver 1` proof-of-possession flow; given provisioning firmware,
 it names the correct `CONFIG_ESP_WIFI_*` and `wifi_prov_scheme_softap` symbols; given an Improv serial
-capture, it decodes the packet type and checksum and reports device state. Two of the three need no hardware.
+capture, it decodes the packet type and checksum and reports device state. Two of the three can be developed
+without hardware, but like every skill here it passes only once all three have run on a board.
 
 ### 5. A device-tree overlay skill — *low-medium*
 
@@ -355,8 +365,8 @@ The widest-reach embedded-Linux gap with no competition. Wrap `dtc -@`, `fdtover
 First three evals: given a datasheet snippet for an I2C sensor, emit an overlay with correct `target-path`,
 `__overlay__`, `reg` and `compatible` that `dtc -@` accepts with no warnings; given a "Label or path not
 found" error, identify the missing `__symbols__` — that is, a base DTB not built with `-@`; read back
-`/proc/device-tree/soc/i2c@.../status` and assert the node came up `okay`. The first two are fully
-CI-testable; only the third needs a board.
+`/proc/device-tree/soc/i2c@.../status` and assert the node came up `okay`. The first two can be exercised in
+CI while developing; passing needs all three on a board.
 
 ## Falsifying any of this
 

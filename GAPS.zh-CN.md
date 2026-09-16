@@ -27,7 +27,7 @@
 
 所以：能力差距已被量化，修复方法已经明确，需求已经得到证明，而供给恰恰缺在真正掌握一手资料的地方。这是一个难得清晰的动手理由。
 
-第四件事，则是本仓库之所以要有一套[验证阶梯](README.zh-CN.md#条目如何验证)的原因。Veecle 在 [LLMs write good firmware. They can't prove it.](https://veecle.ai/blog/llms-write-good-firmware-cant-prove-it) 一文里说得最好：瓶颈不在生成，而在证明。一个没人能验证的 Skill 只是一个声称，而不是一个工具。
+第四件事，则是本仓库之所以要有一套[验证阶梯](README.zh-CN.md#条目如何验证)的原因。Veecle 在 [LLMs write good firmware. They can't prove it.](https://veecle.ai/blog/llms-write-good-firmware-cant-prove-it) 一文里说得最好：瓶颈不在生成，而在证明。一个没人能验证的 Skill 只是一个声称，而不是一个工具。而且证明必须来自芯片本身：本列表只有在一个 Skill 的任务于真实板子上运行过之后，才认为它通过。
 
 ## A2A 在硬件侧
 
@@ -63,7 +63,7 @@
 
 ## Renode 缺少面向 Agent 的接口
 
-**状态：EMPTY。** 位列需求清单首位——但在断定它阻塞了什么之前，请先读下一段。
+**状态：EMPTY。** 值得去做——但在断定它能打通验证之前，请继续往下读。它不能。
 
 **核查方式。** `renode` 组织有 8 个仓库，`antmicro` 有 884 个；两者都不包含 MCP server。Renode 的宿主集成文档覆盖 Arduino、CAN、文件共享与 UART，没有任何 Agent 或 LLM 集成；在其文档仓库中代码搜索"Model Context Protocol"也一无所获。
 
@@ -73,7 +73,9 @@
 
 缺的是一个能让 Agent 维持**会话**的封装。有三点使它不只是锦上添花。Renode 是一个有状态的进程——加载平台、载入 ELF、启动、读串口、设断点、查看内存——这一切都必须发生在同一个活着的仿真里，而一次性的 shell 调用表达不了这一点。Renode 运行在确定性的虚拟时间上，所以"推进 500 毫秒"和 `sleep 0.5` 是两回事；一个只能靠 shell 的 Agent 会退化成挂钟时间的 sleep 加 `grep`，而这恰恰是模拟器本该消除的不稳定性。此外，monitor 输出的是给人看的文本，还夹杂着异步日志行，而 eval 断言需要的是带类型的观测结果。
 
-回报在于，一个产物能同时服务两类用户：以对话方式调试固件的开发者，以及本仓库 CI 中的 L1 runner。如今这两者都得各自造一套。
+回报在于，一个产物能同时服务两类用户：以对话方式调试固件的开发者，以及本仓库 CI 中的 L1 预检 runner。如今这两者都得各自造一套。
+
+它做不到的，是让一个 Skill 通过。本列表只有在一个 Skill 的任务于真实板子上运行过之后才认为它通过，所以 Renode server 能让迭代更快、让问题更早暴露，但验证真正的瓶颈是能否接触到板子。这也是为什么下面"硬件在环"一节更重要。
 
 **现存最接近的东西。** [eust-w/agentic-embedded-lab](https://github.com/eust-w/agentic-embedded-lab)——一个 Agent 原生的嵌入式实验室，带可插拔的仿真后端与基于证据的验证——以及 [cezman/ironharness](https://github.com/cezman/ironharness)，它能在沙箱化的 MCP I/O 框架后面以 Renode 为目标，但还非常早期。
 
@@ -85,7 +87,7 @@
 
 如今只有少数项目闭合了它：tinyusb 的 `hil` Skill、SensorsIot 的 ESP-IDF 测试框架、[Gundry-Consultancy/sbc-mcu-dut-controller](https://github.com/Gundry-Consultancy/sbc-mcu-dut-controller)（继电器电源、I2C 复用器，以及在 ESP32 / RP2040 / SAMD 上用摄像头取证）、hispark 的 `hil-smoke`、Hailo-15 的部署 Skill、Adafruit 的 CircuitPython 运行器，以及 Anthropic 自家 `cwc-makers` 插件中的 M5Stack 上手 Skill。本列表中其余的一切都止步于"代码在这里"。
 
-**为什么重要。** 它是唯一有公开证据支撑的模式，也是唯一能产生 L2 阶梯所需可观测副作用的模式。
+**为什么重要。** 它是唯一有公开证据支撑的模式，也是通往"通过"的唯一途径：本列表只把在真实板子上的运行算作通过。
 
 ## 空空如也的设备类别
 
@@ -151,6 +153,8 @@
 
 前三条 eval：加载 `stm32f4_discovery`，烧入一个闪灯 ELF，断言 GPIO 端口 A 在一秒虚拟时间内发生翻转；加载一个 Zephyr `hello_world` ELF，断言 UART 分析器在五秒内输出 `Hello World! <board>`；加载一个故意触发 HardFault 的固件，断言 server 返回故障状态和出错的 PC，而不是卡住。难点在于确定性的虚拟时间等待，以及回收卡死的进程。
 
+要清楚它换来的是什么：更快的迭代和更便宜的预检。一个只在 Renode 上验证过的 Skill 并不算通过。
+
 ### 2. 树莓派 5 Skill —— *低难度*
 
 不需要 MCP；这是一个文档型 Skill，配一块便宜的板子就够了。覆盖 `gpiozero` 与 `libgpiod` v2、`rpicam-still` / `rpicam-vid` 与 `libcamera`、配合 `/boot/firmware/config.txt` 使用的 `dtoverlay` / `dtparam`，以及用于 HAT ID EEPROM 的 `rpi-eeprom`。
@@ -167,13 +171,13 @@
 
 这个方向无论以何种形式都还不存在，而且涉及面小且稳定。覆盖用于 SoftAP 与 BLE 的 `esp_prov`、`wifi_provisioning` 组件配置，以及 Improv Wi-Fi 的串口与 BLE 规范。
 
-前三条 eval：要求通过 BLE 配网时，Agent 使用 `--transport ble --sec_ver 2` 并配合 SRP6a 的 salt 与 verifier，而不是已被弃用的 `--sec_ver 1` 持有证明流程；给出一份配网固件时，它能说出正确的 `CONFIG_ESP_WIFI_*` 与 `wifi_prov_scheme_softap` 符号；给出一段 Improv 串口抓包时，它能解析出包类型与校验和，并报告设备状态。三条里有两条不需要硬件。
+前三条 eval：要求通过 BLE 配网时，Agent 使用 `--transport ble --sec_ver 2` 并配合 SRP6a 的 salt 与 verifier，而不是已被弃用的 `--sec_ver 1` 持有证明流程；给出一份配网固件时，它能说出正确的 `CONFIG_ESP_WIFI_*` 与 `wifi_prov_scheme_softap` 符号；给出一段 Improv 串口抓包时，它能解析出包类型与校验和，并报告设备状态。三条里有两条可以在没有硬件的情况下开发，但和这里的每个 Skill 一样，只有三条都在板子上跑过才算通过。
 
 ### 5. 设备树 overlay Skill —— *低到中等难度*
 
 覆盖面最广、且毫无竞争的嵌入式 Linux 空白。封装 `dtc -@`、`fdtoverlay`、`fdtdump`、`/proc/device-tree` 内省，以及通过 configfs 加载 overlay。
 
-前三条 eval：给出一个 I2C 传感器的数据手册片段，生成一个 `target-path`、`__overlay__`、`reg` 与 `compatible` 都正确、且 `dtc -@` 无警告通过的 overlay；给出一个"Label or path not found"报错，识别出缺失的 `__symbols__`——也就是基础 DTB 构建时没有加 `-@`；读回 `/proc/device-tree/soc/i2c@.../status`，断言该节点已变为 `okay`。前两条可以完全在 CI 中测试；只有第三条需要板子。
+前三条 eval：给出一个 I2C 传感器的数据手册片段，生成一个 `target-path`、`__overlay__`、`reg` 与 `compatible` 都正确、且 `dtc -@` 无警告通过的 overlay；给出一个"Label or path not found"报错，识别出缺失的 `__symbols__`——也就是基础 DTB 构建时没有加 `-@`；读回 `/proc/device-tree/soc/i2c@.../status`，断言该节点已变为 `okay`。前两条可以在开发时于 CI 中验证；要算通过，三条都必须在板子上跑过。
 
 ## 如何证伪这里的内容
 

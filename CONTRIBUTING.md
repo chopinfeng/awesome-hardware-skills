@@ -39,7 +39,8 @@ Quality bar for listing at all:
 ## Adding an evals package
 
 Entries in the **Skills** sections can carry verification badges — `L0`, `L1`, `L2 ×N`, `ΔPass` — earned by
-shipping an `evals/` package inside the skill. The whole method is in **[EVALS.md](EVALS.md)**: the package
+shipping an `evals/` package inside the skill. Only `L2`, a run on a physical board, means the skill has
+passed; `L0` and `L1` are pre-checks. The whole method is in **[EVALS.md](EVALS.md)**: the package
 format, every assertion type and its fields, what each level checks, which levels exist today, and how to
 avoid assertions that pass without checking anything.
 
@@ -50,7 +51,9 @@ The short version:
    one stronger than `compile_only`.
 3. Check that each assertion fails against an empty project.
 4. Run `python scripts/l0_check.py skill path/to/skill` until it passes.
-5. If you own the board, run the tasks and file an **L2 hardware attestation** issue with an unedited transcript.
+5. Run the tasks on a physical board — or ask someone who owns one — and file an **L2 hardware attestation**
+   issue with an unedited transcript, the flash tool's chip-detection output and the serial log. Until then
+   the skill has not passed.
 
 A skill without an `evals/` package can still be listed; it simply shows no badge.
 

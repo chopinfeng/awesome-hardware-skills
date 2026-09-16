@@ -46,3 +46,4 @@ jobs:
         with: { python-version: "3.12" }
       - run: pip install pyyaml
       - run: python scripts/l0_check.py skill template
+      - run: python scripts/l0_check.py forms .github/ISSUE_TEMPLATE

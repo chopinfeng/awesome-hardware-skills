@@ -11,7 +11,8 @@ target:
   framework_version: "5.2"
   toolchain: idf.py              # what the agent is expected to invoke
 
-# Which simulator L1 uses. `none` means this skill can only be verified at L2 (real hardware).
+# Simulator for L1 pre-checks only. Passing always requires a physical board (L2);
+# `none` just means no pre-check is possible, and costs nothing.
 simulator: wokwi                 # wokwi | renode | qemu | native_sim | gazebo | isaac | mujoco | webots | ha-demo | modbus-sim | opcua-sim | none
 
 # Assertion types every task in this manifest may rely on. L1 runner refuses tasks using anything else.
@@ -25,7 +26,7 @@ assertions_supported:
 verified:
   L0: null                       # {date: 2026-09-15, run: <ci-url>}  — fill in after l0_check.py passes
   L1: null                       # (reserved) {date, simulator, tasks_passed, model}
-  L2: []                         # attestations, appended by a maintainer from accepted issues
+  L2: []                         # the only level that counts as passing; appended by a maintainer from accepted issues
 
 # With-skill vs without-skill delta on the same tasks (reserved, for the A/B runner).
 ab:

@@ -4,7 +4,7 @@
 
 > 让 AI 编程 Agent（Claude Code、Codex、Cursor、OpenClaw 等）构建、烧录、调试和控制物理硬件的 Skill、MCP server、端侧 Agent 运行时、模拟器、评测基准与 CI 基础设施——并配一套验证阶梯，让你能分辨哪些是真的能在板子上跑起来的。
 
-大多数"awesome MCP"列表只告诉你某个硬件 server **存在**。这份列表还追踪有没有人证明过它能用：每个 Skill 条目都可以带上三级阶梯的徽章（静态检查 → 模拟器运行 → 真机实测背书），外加一项"装了 Skill 与不装"的差值。阶梯的含义见下面第一节。
+大多数"awesome MCP"列表只告诉你某个硬件 server **存在**。这份列表还追踪有没有人证明过它能用：每个 Skill 条目都可以带上三级阶梯的徽章——静态检查、模拟器预检、在真实板子上运行——而且**只有在真实板子上运行才算通过**。阶梯的含义见下面第一节。
 
 配套文件 [GAPS.zh-CN.md](GAPS.zh-CN.md) 追踪的是**尚不存在**的东西——每条空白都附上核查证据、现存最接近的东西（好让这条声明可被证伪），以及带有 eval 断言的、范围明确的首次贡献建议。
 
@@ -47,21 +47,21 @@
 
 ## 条目如何验证
 
-硬件 Skill 很难在 CI 里验证，因为跑 CI 的机器手上没有板子。所以这份列表用的是一套阶梯，而不是单一的绿色对勾。
+一个 Skill 只有在它的任务于真实板子上运行、且每一条断言都成立时，才算通过。静态检查和模拟器有助于尽早发现问题，但两者都永远不算通过：一个没有建模电源管理芯片、射频或闪存时序的模拟器，会放行那些在真实芯片上出错的固件。所以这份列表是一套由若干预检通往唯一一项真正算数的测试的阶梯。
 
-**`L0`** —— 静态检查通过：SKILL.md frontmatter 合法、description 具体到足以稳定触发、不含密钥、链接可达、`evals/` 包结构正确。目前由 CI 中的 `scripts/l0_check.py` 强制执行。
+**`L0`** —— 结构正确。SKILL.md frontmatter 合法、description 具体到足以稳定触发、不含密钥、链接可达、`evals/` 包结构正确。目前由 CI 中的 `scripts/l0_check.py` 强制执行。这是预检，不是通过。
 
-**`L1 (wokwi)`** —— Skill 的 `evals/` 中每个任务都在指定模拟器（Wokwi、Renode、`native_sim` 等）中通过，由本仓库的 CI 运行。即将推出。
+**`L1 (wokwi)`** —— 模拟器预检。模拟器能评估的那些断言在指定模拟器（Wokwi、Renode、`native_sim` 等）中通过，由本仓库的 CI 运行。它能在有人动用板子之前拦下问题，但永远不算通过。即将推出。
 
-**`L2 ×3`** —— 三位互不相关的人在真实硬件上跑完这些任务，并提交了附带未经编辑的完整会话记录的背书 issue。
+**`L2 ×N`** —— **通过。** 有人在真实板子上跑完了每个任务，每一条断言都成立——包括模拟器会跳过的那些——并提交了背书，附上未经编辑的会话记录、烧录工具识别芯片的输出，以及从板子上读回的串口日志。`×N` 表示有多少位互不相关的人在各自的板子上复现了这个结果。Wokwi、Chiplab 这类托管的虚拟板不算；远程烧录真实板子的设备农场算。
 
-**`ΔPass +42%`** —— 同一模型下，装了 Skill 与不装 Skill 的任务通过率之差，用来证明这个 Skill 确实携带了模型原本不具备的知识。即将推出。
+**`ΔPass +42%`** —— 同一模型下、在真实板子上测得的，装了 Skill 与不装 Skill 的任务通过率之差，用来证明这个 Skill 确实携带了模型原本不具备的知识。即将推出。
 
-**`stale`** —— 90 天内没有重跑 L1，或上游 12 个月没有推送。
+**`stale`** —— 最近一次通过的背书已超过 12 个月，或该 Skill 的任务在背书之后发生了变化，或上游 12 个月没有推送。
 
 任务的断言针对的是脚本可观测的物理副作用（串口输出、GPIO 跳变、总线抓包、ROS topic、HTTP 探测），绝不是"代码看起来对"。完整方法——包格式、断言类型、每一级检查什么、今天已经实现了哪些——见 [EVALS.zh-CN.md](EVALS.zh-CN.md)。
 
-这是首次发布的快照：还没有任何条目带 `evals/` 包，因此暂不显示徽章。L1 的首批目标是下面的 ESP32、Zephyr 和 Arduino 类 Skill，因为 Wokwi、Renode 和 `native_sim` 无需板子即可运行它们。
+截至本次快照，列表中有一个 Skill 提供了 `evals/` 包，处于 `L0`。**列表中还没有任何 Skill 通过**，因为通过需要有人在板子上把任务跑一遍。如果你手上有下面某块板子，这就是你能做的最有价值的贡献。
 
 ## Skills
 
@@ -757,12 +757,12 @@ A2A（Agent2Agent）发布十七个月后仍没有任何真正的硬件实现：
 
 ## 验证基础设施
 
-在没有板子的情况下运行一个硬件 Skill 的 `evals/` 需要什么——以及每种方案能走多远。
+用来运行硬件 Skill `evals/` 的工具。模拟器与托管虚拟板用于迭代和预检——它们都无法让一个 Skill 通过，因为通过需要真实的板子。驱动真实板子的设备农场是例外：在上面跑的结果算数。
 
 ### 模拟器与仿真器
 
-- [wokwi/wokwi-cli](https://github.com/wokwi/wokwi-cli) - ESP32 全系列、AVR、RP2040、nRF52、部分 STM32，外加传感器与显示屏。YAML 场景可断言串口文本并设置引脚；提供 GitHub Action；开源项目可免费获得 CI 令牌。仿真核心是托管且闭源的。本仓库 `L1 (wokwi)` 的后端。(★66 · 2026-06)
-- [renode/renode](https://github.com/renode/renode) - Cortex-M / A / R、RISC-V、Xtensa，整板与多节点网络；`.resc` 脚本、Robot Framework 测试框架、Zephyr twister 集成，确定性执行。MIT 许可。断言层已经存在——`renode-test` 以 `Wait For Line On Uart` 这类关键字驱动 Robot Framework——但还没有东西替 Agent 封装一个活的会话。本仓库 `L1 (renode)` 的后端。(★2.9k · 2026-09)
+- [wokwi/wokwi-cli](https://github.com/wokwi/wokwi-cli) - ESP32 全系列、AVR、RP2040、nRF52、部分 STM32，外加传感器与显示屏。YAML 场景可断言串口文本并设置引脚；提供 GitHub Action；开源项目可免费获得 CI 令牌。仿真核心是托管且闭源的。本仓库 `L1 (wokwi)` 预检的后端。(★66 · 2026-06)
+- [renode/renode](https://github.com/renode/renode) - Cortex-M / A / R、RISC-V、Xtensa，整板与多节点网络；`.resc` 脚本、Robot Framework 测试框架、Zephyr twister 集成，确定性执行。MIT 许可。断言层已经存在——`renode-test` 以 `Wait For Line On Uart` 这类关键字驱动 Robot Framework——但还没有东西替 Agent 封装一个活的会话。本仓库 `L1 (renode)` 预检的后端。(★2.9k · 2026-09)
 - [qemu/qemu](https://github.com/qemu/qemu) - ARM `mps2` 等机型、RISC-V、x86；[乐鑫的分支](https://github.com/espressif/qemu)增加了 Xtensa / ESP32。提供 QMP JSON API 与 GDB 桩。文献中被用于 FreeRTOS 的模糊测试与修补循环。(★13.7k · 2026-09)
 - [Zephyr native_sim](https://docs.zephyrproject.org/latest/boards/native/native_sim/doc/index.html) - 把任意 Zephyr 应用构建成宿主机上的 Linux 可执行文件，带仿真的 I2C / SPI / GPIO 与 BabbleSim BLE；`twister -p native_sim`。Zephyr 类 Skill 最便宜的 L1 方案。(official)
 - [gazebosim/gz-sim](https://github.com/gazebosim/gz-sim) - 带 ROS 2 桥与传感器的机器人世界；`gz sim -s -r world.sdf` 可无头运行。(★1.5k · 2026-09)
@@ -770,9 +770,9 @@ A2A（Agent2Agent）发布十七个月后仍没有任何真正的硬件实现：
 - [isaac-sim/IsaacSim](https://github.com/isaac-sim/IsaacSim) - 照片级真实感的机器人仿真；支持 `--headless` 与 Python 独立脚本；5.0 起开源，需要 RTX 显卡。适合每晚跑，而不适合每个 PR 都跑。(★4.1k · 2026-09)
 - [cyberbotics/webots](https://github.com/cyberbotics/webots) - 带 ROS 2 桥的机器人仿真；`webots --batch --no-rendering`。(★4.6k · 2026-09)
 - [mani-skill/ManiSkill](https://github.com/mani-skill/ManiSkill) - 基于 SAPIEN、离屏 Vulkan 渲染的 GPU 并行操作任务仿真；本身也是一个评测基准。(★3.3k · 2026-08)
-- [pymodbus-dev/pymodbus](https://github.com/pymodbus-dev/pymodbus) - `pymodbus.simulator` 根据 JSON 寄存器定义提供一个 Modbus TCP / RTU 设备，并带 HTTP 控制 API。本仓库 `L1 (modbus-sim)` 的后端。(★2.8k · 2026-09)
+- [pymodbus-dev/pymodbus](https://github.com/pymodbus-dev/pymodbus) - `pymodbus.simulator` 根据 JSON 寄存器定义提供一个 Modbus TCP / RTU 设备，并带 HTTP 控制 API。本仓库 `L1 (modbus-sim)` 预检的后端。(★2.8k · 2026-09)
 - [open62541/open62541](https://github.com/open62541/open62541) - OPC UA 服务端 / 客户端；其示例服务器可以充当可用的 PLC 替身。(★3.2k · 2026-09)
-- [Home Assistant 演示模式](https://www.home-assistant.io/integrations/demo/) - `hass --demo-mode` 在真实的 REST / WebSocket API 背后创建虚拟的灯、空调与传感器。本仓库 `L1 (ha-demo)` 的后端。(official)
+- [Home Assistant 演示模式](https://www.home-assistant.io/integrations/demo/) - `hass --demo-mode` 在真实的 REST / WebSocket API 背后创建虚拟的灯、空调与传感器。本仓库 `L1 (ha-demo)` 预检的后端。(official)
 - [micropython/micropython unix 移植](https://github.com/micropython/micropython/tree/master/ports/unix) - 宿主机上的 MicroPython 虚拟机；只能做逻辑层检查，没有外设。(★22k · 2026-09)
 - [ARM-software/AVH](https://github.com/ARM-software/AVH) - Arm 虚拟硬件：Cortex-M FVP（Corstone-300 / 310 / 315），附 GitHub Actions 示例；对开源与评估用途免费。(official · ★54 · 2026-09)
 
@@ -863,9 +863,9 @@ A2A（Agent2Agent）发布十七个月后仍没有任何真正的硬件实现：
 
 **厂商几乎没有入场。** 只有三家芯片厂商发布过宿主侧 Skill：Arm、瑞萨与德州仪器。ST 有 786 个公开仓库却一个都没有；英飞凌有 2301 个；NXP 有 221 个；树莓派有 115 个，Pico SDK 空空如也。`espressif/skills` 是一个官方仓库，README 教你去安装它，而整棵文件树只有 `README.md` 加一个 `skills/.gitkeep`——2026-04-24 当天创建后三小时内就被弃置。七家厂商发布了 MCP server，没有一家能在仿真中执行任何东西。
 
-**Renode 缺少面向 Agent 的接口。** 模拟器本身不是瓶颈：它确定性执行、可以无头运行，而且已经在 `renode-test` 与 Robot Framework 中自带断言框架。缺的是一个能为 Agent 维持活会话的东西，好让交互式固件调试与 L1 runner 共用同一套集成，而不是各自重新拼凑一段脆弱的 shell 配方。这仍是本列表中杠杆最高的缺口。
+**Renode 缺少面向 Agent 的接口。** 模拟器本身不是瓶颈：它确定性执行、可以无头运行，而且已经在 `renode-test` 与 Robot Framework 中自带断言框架。缺的是一个能为 Agent 维持活会话的东西，好让交互式固件调试与 L1 runner 共用同一套集成，而不是各自重新拼凑一段脆弱的 shell 配方。它值得为了更快的迭代而去做——但它无法让任何 Skill 通过，所以验证真正的瓶颈是能否接触到板子，而不是模拟器。
 
-**硬件在环仍是覆盖最少的模式**——烧录、运行、读串口、迭代——尽管它恰恰是唯一有公开证据支撑的模式：前沿模型在没有硬件反馈时部署成功率为 0%，有了反馈则在七轮内超越人类专家。
+**硬件在环仍是覆盖最少的模式**——烧录、运行、读串口、迭代——尽管它恰恰是唯一有公开证据支撑的模式：前沿模型在没有硬件反馈时部署成功率为 0%，有了反馈则在七轮内超越人类专家。它也是通往"通过"的唯一途径。
 
 同样空白、且每一项都经过核实而非假设：Wi-Fi 配网、树莓派 5 Linux、设备树与 U-Boot、Thread 与设备侧 Matter、非攻击用途的 NFC、Lattice FPGA 工具链、作为 Agent 工具的 VLA 策略、波士顿动力 Spot，以及通用 USB 控制（USB *分析* 已有覆盖）。
 

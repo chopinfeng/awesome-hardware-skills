@@ -5,6 +5,7 @@
   l0_check.py links GAPS.md             verify every link in a markdown file resolves
   l0_check.py sync README.md README.zh-CN.md   translations list the same entries in the same order
   l0_check.py skill path/to/skill       lint a skill's SKILL.md frontmatter + evals/ package
+  l0_check.py forms .github/ISSUE_TEMPLATE   issue forms parse and have the fields GitHub requires
 """
 from __future__ import annotations
 
@@ -134,6 +135,26 @@ def check_sync(source: Path, translation: Path) -> None:
     print(f"checked {len(src)} entries and {len(src_h)} sections in {source} against {translation}")
 
 
+def check_forms(directory: Path) -> None:
+    """GitHub silently drops an issue form it cannot parse, so a broken one looks fine until someone needs it."""
+    forms = sorted(directory.glob("*.yml")) + sorted(directory.glob("*.yaml"))
+    for f in forms:
+        if f.name == "config.yml":
+            continue
+        try:
+            form = yaml.safe_load(f.read_text()) or {}
+        except yaml.YAMLError as e:
+            fail(f"{f}: not valid YAML — GitHub will not show this form: {str(e).splitlines()[0]}")
+            continue
+        for k in ("name", "description", "body"):
+            if not form.get(k):
+                fail(f"{f}: issue form missing `{k}`")
+        ids = [el.get("id") for el in form.get("body") or [] if isinstance(el, dict) and el.get("id")]
+        if len(ids) != len(set(ids)):
+            fail(f"{f}: duplicate element ids")
+    print(f"checked {len(forms)} issue forms in {directory}")
+
+
 def check_skill(root: Path) -> None:
     skill_md = root / "SKILL.md"
     if not skill_md.exists():
@@ -197,5 +218,5 @@ def check_skill(root: Path) -> None:
 
 if __name__ == "__main__":
     mode, targets = sys.argv[1], [Path(a) for a in sys.argv[2:]]
-    {"readme": check_readme, "links": check_links, "sync": check_sync, "skill": check_skill}[mode](*targets)
+    {"readme": check_readme, "links": check_links, "sync": check_sync, "forms": check_forms, "skill": check_skill}[mode](*targets)
     sys.exit(1 if fail.count else 0)
