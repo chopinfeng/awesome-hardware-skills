@@ -95,6 +95,7 @@ Vendor-official skills are tagged `official` in place. As of the snapshot they c
 - [grumat/glossy-msp430 `.claude/skills/`](https://github.com/grumat/glossy-msp430/tree/master/.claude/skills) - Decode MSP430 JTAG logic-analyzer captures and run unit tests; the only TI MSP430 skill found. (coll · ★15 · 2026-07)
 - [varo6/reTerminal-sticky-skill](https://github.com/varo6/reTerminal-sticky-skill/tree/main/skills/sticky-device) - Seeed reTerminal Sticky (ESP32-S3 e-ink): pin map, ESP-IDF patterns, ePaper refresh rules. (★7 · 2026-08)
 - [BlueAndi/Pixelix `.github/skills/`](https://github.com/BlueAndi/Pixelix/tree/master/.github/skills) - MISRA-oriented embedded C++14 rules for ESP32 firmware, in GitHub Copilot skill form. (copilot · ★442 · 2026-09)
+- [fxp/m5stack-embedded-dev-skill](https://github.com/fxp/m5stack-embedded-dev-skill) - Arduino + M5Unified first M5Stack/ESP32 skill: board-to-FQBN catalog, GPIO safety split by chip generation, I2C/PMIC gotchas, FreeRTOS/ISR rules, crash triage; ships a `serial_match`/`exit_code` evals package, L0-verified locally. New and unstarred — listed here for the evals package shape, not track record. (★0 · 2026-09)
 - [PatrickJS/awesome-cursorrules `embedded-stm32-hal`](https://github.com/PatrickJS/awesome-cursorrules/blob/main/rules/embedded-stm32-hal.mdc) - Cursor rule, not a skill: embedded C/C++ on STM32 HAL, ISR, DMA and memory-constraint conventions. (cursor-rules · ★40.8k · 2026-05)
 
 ### RTOS
