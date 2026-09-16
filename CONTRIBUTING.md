@@ -1,5 +1,13 @@
 # Contributing
 
+## Where to start
+
+If you want to build rather than catalogue, [GAPS.md](GAPS.md) lists what is missing, with evidence and five
+scoped first contributions. Filling one of those and listing it here is the most useful PR you can open.
+
+If you find something that contradicts a gap, that is equally welcome: move it into the README and edit the
+gap in the same PR.
+
 ## Adding an entry to the list
 
 One line per entry, in the right category. Within a category, entries are ordered by how useful the maintainers judge them, not by stars — a 15k-star monorepo that happens to contain one small skill should not outrank a focused 50-star skill. Format:
@@ -10,7 +18,8 @@ One line per entry, in the right category. Within a category, entries are ordere
 
 Tags in the trailing parenthesis: `official` (repo lives under the vendor's own org), `coll` (a collection of several skills), `cursor-rules`, `placeholder`, `stale since YYYY-MM`. Use `k` for thousands of stars.
 
-Then run `python scripts/l0_check.py readme README.md` before opening the PR. CI runs the same check plus a weekly link-rot sweep.
+Then run `python scripts/l0_check.py readme README.md` before opening the PR — and
+`python scripts/l0_check.py links GAPS.md` if you touched that file. CI runs the same check plus a weekly link-rot sweep.
 
 Quality bar for listing at all:
 

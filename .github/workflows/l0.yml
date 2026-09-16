@@ -16,6 +16,8 @@ jobs:
         with: { python-version: "3.12" }
       - run: pip install pyyaml
       - run: python scripts/l0_check.py readme README.md
+      - run: python scripts/l0_check.py links GAPS.md
+      - run: python scripts/l0_check.py links CONTRIBUTING.md
 
   template:
     runs-on: ubuntu-latest

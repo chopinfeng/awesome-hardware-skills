@@ -2,6 +2,7 @@
 """L0 static checks.
 
   l0_check.py readme README.md          lint list entries + verify links resolve
+  l0_check.py links GAPS.md             verify every link in a markdown file resolves
   l0_check.py skill path/to/skill       lint a skill's SKILL.md frontmatter + evals/ package
 """
 from __future__ import annotations
@@ -15,6 +16,7 @@ from pathlib import Path
 import yaml
 
 ENTRY_RE = re.compile(r"^- \[([^\]]+)\]\((https?://[^)\s]+)\) - (.+)$")
+LINK_RE = re.compile(r"\[[^\]]*\]\(([^)\s]+)\)")
 ASSERTION_TYPES = {
     "compile_only", "serial_match", "gpio_state", "bus_capture",
     "network_probe", "ros_topic", "file_exists", "exit_code",
@@ -43,7 +45,12 @@ def head(url: str) -> tuple[str, int | str]:
     except urllib.error.HTTPError as e:
         if e.code in (403, 405, 429):
             return url, e.code  # GitHub and friends often reject HEAD; treated as ok below
-        return url, e.code
+        # some CDNs answer HEAD with 404 for a resource GET serves fine; confirm before failing
+        try:
+            with urllib.request.urlopen(urllib.request.Request(url, headers=req.headers), timeout=20) as r:
+                return url, r.status
+        except Exception:  # noqa: BLE001
+            return url, e.code
     except Exception:  # noqa: BLE001
         # some hosts reject HEAD at the TLS/HTTP2 layer; confirm with GET before failing
         try:
@@ -73,6 +80,32 @@ def check_readme(path: Path) -> None:
             if not (isinstance(status, int) and status < 400 or status in (403, 405, 429)):
                 fail(f"{path}:{urls[url]}: {url} -> {status}")
     print(f"checked {len(urls)} links")
+
+
+def check_links(path: Path) -> None:
+    """Every link in a markdown file: http(s) must resolve, relative must exist on disk."""
+    remote: dict[str, int] = {}
+    in_fence = False
+    for n, line in enumerate(path.read_text().splitlines(), 1):
+        if line.lstrip().startswith("```"):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+        for target in LINK_RE.findall(line):
+            if target.startswith("#"):
+                continue
+            if target.startswith(("http://", "https://")):
+                remote.setdefault(target, n)
+            else:
+                local = (path.parent / target.split("#", 1)[0]).resolve()
+                if not local.exists():
+                    fail(f"{path}:{n}: {target} does not exist")
+    with ThreadPoolExecutor(16) as ex:
+        for url, status in ex.map(head, remote):
+            if not (isinstance(status, int) and status < 400 or status in (403, 405, 429)):
+                fail(f"{path}:{remote[url]}: {url} -> {status}")
+    print(f"checked {len(remote)} links in {path}")
 
 
 def check_skill(root: Path) -> None:
@@ -138,5 +171,5 @@ def check_skill(root: Path) -> None:
 
 if __name__ == "__main__":
     mode, target = sys.argv[1], Path(sys.argv[2])
-    {"readme": check_readme, "skill": check_skill}[mode](target)
+    {"readme": check_readme, "links": check_links, "skill": check_skill}[mode](target)
     sys.exit(1 if fail.count else 0)
