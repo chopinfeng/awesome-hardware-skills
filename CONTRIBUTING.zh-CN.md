@@ -32,15 +32,15 @@
 
 ## 添加 evals 包
 
-**Skills** 各分类中的条目可以带验证徽章——`L0`、`L1`、`L2 ×N`、`ΔPass`——方法是在 Skill 内部提供一个 `evals/` 包。只有 `L2`——在真实板子上运行——才表示这个 Skill 已通过；`L0` 和 `L1` 都只是预检。完整方法见 **[EVALS.zh-CN.md](EVALS.zh-CN.md)**：包的格式、每种断言类型及其字段、每一级具体检查什么、哪些级别今天已经可用，以及如何避免写出不检查任何东西就能通过的断言。
+**Skills** 各分类中的条目可以带验证徽章——`L0`、`L1`、`L2 ×N`、`ΔPass`——方法是在 Skill 内部提供一个 `evals/` 包。只有 `L2`——在真实板子上运行——才表示这个 Skill 已通过；`L0` 和 `L1` 都只是预检。完整测试方案见 **[EVALS.zh-CN.md](EVALS.zh-CN.md)**：阶段 0 到 3 的步骤、每种断言在真实板子上怎么测、运行记录格式、审核标准，以及包格式参考。
 
 简短版本：
 
 1. 把 [`template/evals/`](template/evals/) 复制到你的 Skill 中，填写 `manifest.yaml`。
 2. 写大约三个任务——简单、中等、困难——其断言观测物理副作用，并且至少有一条强于 `compile_only`。
-3. 确认每条断言在空工程上都会失败。
-4. 运行 `python scripts/l0_check.py skill path/to/skill`，直到通过。
-5. 在真实板子上跑一遍这些任务——或者请有这块板子的人来跑——并附上未经编辑的会话记录、烧录工具识别芯片的输出与串口日志，提交一个 **L2 hardware attestation** issue。在此之前，这个 Skill 都不算通过。
+3. 运行 `python scripts/l0_check.py skill path/to/skill`，直到通过。
+4. **阶段 0——验证 eval。** 为每个任务在 `evals/fixtures/<task-id>/` 下添加 `reference/` 与 `broken/` 两份方案，并在板子上证明：参考方案通过、空工程上每条断言都失败、错误方案被抓住。把结果记为 manifest 中的 `eval_validated`。
+5. **阶段 1–2——通过判定运行。** 在两次通过的测试台自检之间，让每个任务在真实板子上运行三次——或者请有这块板子的人来跑——并附上全部运行记录，提交一个 **L2 hardware attestation** issue。一个任务在三次中至少两次通过即算通过；在每个任务都通过之前，这个 Skill 都不算通过。
 
 没有 `evals/` 包的 Skill 仍然可以被收录，只是不显示徽章。
 

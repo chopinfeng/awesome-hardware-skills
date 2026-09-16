@@ -1,207 +1,377 @@
-# 硬件 Skill 的评测方法
+# 硬件 Skill 评测：测试方案
 
 *[English](EVALS.md) · 简体中文*
 
 > 本文档译自 [EVALS.md](EVALS.md)。如两者有出入，以英文版为准。
 
-这份文档讲的是 [README](README.zh-CN.md) 中那些徽章背后的方法：一个硬件 Skill 如何证明自己能用、一个 eval 包里包含什么、每一级验证具体检查什么——以及同样重要的：哪些部分今天已经存在，哪些还在建设中。
+这份文档是 [README](README.zh-CN.md) 中那些徽章背后的测试方案。它讲清楚：一个硬件 Skill 在什么上测、由谁测、测几次、每条断言在真实板子上怎么测量、记录什么，以及结果什么时候算数。为什么值得投入，见 [GAPS.zh-CN.md](GAPS.zh-CN.md)。
 
-至于为什么要费这个劲，[GAPS.zh-CN.md](GAPS.zh-CN.md) 里有完整论证。简短版本是：前沿模型在没有硬件反馈时，在真实单片机上的部署成功率为 0%；专家编写的 Skill 能把成功率推到接近 100%；而光靠阅读，没人分得清一个好的硬件 Skill 和一个看起来像样的硬件 Skill。评测就是用来分清这一点的。
+其余一切都服务于这一条规则：**只有当一个 Skill 的任务在真实板子上运行、且断言成立时，它才算通过。** 静态检查和模拟器只是预检。本仓库中任何其他情况都不叫"通过"。
 
 ## 今天已经有什么
 
-请先读这张表。其余每一节描述的都是完整设计，很容易把计划中的部分误当成已经能用的部分。
+请先读这里——文档其余部分描述的是完整方案，很容易把计划中的部分误当成已经可用的部分。
 
-| 组成部分 | 状态 | 位置 |
+| 组成部分 | 状态 |
+|---|---|
+| Eval 包格式 | 本文档中定义；起步模板在 `template/evals/` |
+| `L0` 静态检查 | **可用**，已接入 CI——`python scripts/l0_check.py skill <path>` |
+| `L1` 模拟器预检 runner | 尚未构建，且永远不算通过 |
+| 真实硬件上的阶段 0–3 | **可用，人工执行**——下面每一步今天都能用一块板子和所列工具完成 |
+| `L2` 背书表单 | **可用**——`.github/ISSUE_TEMPLATE/attestation.yml`（2026-09-16 之前是非法 YAML；CI 现在会检查它） |
+| `ΔPass` 自动 A/B runner | 尚未构建；由阶段 3 的人工流程代替 |
+| `stale` 标记 | 尚未构建；由维护者根据背书日期标记 |
+
+截至 2026-09-16，列表中有一个 Skill 提供了 eval 包，**还没有任何 Skill 通过。**
+
+## 测试回答什么问题
+
+两个问题，分开回答：
+
+1. **这个 Skill 能不能用？** 装上 Skill 后，Agent 能否在真实板子上完成每个任务？由阶段 2 回答。回答"能"，即获得 `L2` 徽章。
+2. **这个 Skill 是否携带了知识？** 装与不装相比，结果是否不同？由阶段 3 回答。差值即 `ΔPass`。
+
+一个 Skill 可能通过了问题 1，却在问题 2 上毫无增益——模型可能本来就会。两个结果都会公开。
+
+在回答这两个问题之前，必须先回答第三个：**eval 本身可信吗？** 一条什么都没做也能通过的断言，对这个 Skill 说明不了任何问题。这就是阶段 0，它排在最前面。
+
+## 方案概览
+
+| 阶段 | 由谁 | 何时 | 目的 | 产出 |
+|---|---|---|---|---|
+| 0——验证 eval | 包作者 | 每个 eval 版本一次 | 证明任务可完成、断言会失败 | manifest 中的 `eval_validated` |
+| 1——测试台自检 | 测试者 | 每次测试会话的开始与结束 | 证明测试台正常，这样失败才能归咎于 Skill | 自检记录 |
+| 2——通过判定运行 | 测试者 | 每份背书 | 判定 Skill 是否通过 | 运行记录、`L2` 背书 |
+| 3——A/B 对照 | 测试者 | 可选，随背书一起 | 衡量 Skill 带来了什么 | 附样本量的 `ΔPass` |
+
+## 测试台
+
+以下所有内容都要写进每一条运行记录。在不同测试台上跑出的两次运行不可比较。
+
+**目标板。** 必须是 `target.board` 中指定的那块板，包括版本，例如 `esp32-c3-devkitm-1 rev 1.1`。不能用同系列的兄弟型号代替。
+
+**主机。** 操作系统及版本，以及版本恰好等于 `target.framework_version` 的工具链。请用带电源的 USB Hub 或台式电源给板子供电——USB 口供电不足会导致掉电复位，看起来就像固件 bug。
+
+**观测仪器**，根据包中用到的断言类型按需准备：
+
+| 断言类型 | 仪器 | 说明 |
 |---|---|---|
-| Eval 包格式 | 已定义 | `template/evals/` 与本文档 |
-| `L0` 静态检查 | **可用**，已接入 CI | `scripts/l0_check.py skill <path>` |
-| `L1` 模拟器预检 runner | 尚未构建——且永远不算通过 | 设计见下文 |
-| `L2` 真机实测背书 | **可用**，人工流程——**唯一算作通过的一级** | Issue 模板 `.github/ISSUE_TEMPLATE/attestation.yml`；由维护者记录被接受的背书 |
-| `ΔPass` A/B runner | 尚未构建 | 设计见下文 |
-| `stale` 标记 | 尚未构建 | 由维护者根据背书日期标记 |
+| `compile_only`、`exit_code` | 无 | 在主机上运行 |
+| `serial_match` | 板载 USB 转串口，或独立的 USB 转串口模块 | 抓取时带主机时间戳 |
+| `gpio_state` | 逻辑分析仪（兼容 sigrok 的即可） | 与板子共地 |
+| `bus_capture`（BLE） | BLE 嗅探器——例如装了 nRF Sniffer 的 nRF52840 dongle，或兼容 Sniffle 的板子 | 必须跟随连接才能看到 notify |
+| `bus_capture`（CAN、I2C、SPI） | CAN 适配器，或带协议解码的逻辑分析仪 | |
 
-第一个以此格式提供 eval 包的第三方 Skill 是 [fxp/m5stack-embedded-dev-skill](https://github.com/fxp/m5stack-embedded-dev-skill)，文末会以它作为实例。
+**Agent。** 模型 ID、运行环境（harness）及其版本，以及运行环境的工具权限。Agent 运行在连着板子的主机上，在尝试过程中可以自己构建、烧录和读串口——这个闭环正是 Skill 的实际使用方式，也是"通过"所声称的内容。记录 Agent 是否能联网。
 
-## 原则
+**被测 Skill。** Skill 所在的仓库与提交 SHA，以及 eval 包的 `version`。结果属于那一次提交，而不是泛指这个 Skill。
 
-**只有真实的板子能让一个 Skill 通过。** 静态检查和模拟器能低成本地尽早发现问题，两者都值得有，但都不算通过。模拟器只建模那些容易建模的部分；而硬件中真正要命的故障，恰恰藏在它们跳过的地方——电源管理芯片、射频、闪存时序、USB 供电不足时的掉电复位。只有当有人在真实芯片上跑完了任务、且每一条断言都成立时，一个 Skill 才算通过。本仓库中任何其他情况都不叫"通过"。
+## 阶段 0——验证 eval
 
-**对物理现象断言，而不是对文字断言。** 一个任务通过，是因为脚本观测到了现实世界中的副作用：UART 上的一行输出、GPIO 上的一次跳变、总线上的一个数据包、ROS topic 上的一条消息、HTTP 端点的一次响应。绝不是因为某个模型或某个人判断"代码看起来对"。硬件在这方面格外合适，因为固件做的几乎每件事都能从芯片外部观测到。
+**由谁：** 包作者，在请任何人背书之前。**何时：** 每个 eval 包版本一次；任何任务或断言变更后都要重做。
 
-**prompt 就是任务的全部。** Agent 只能看到 prompt，别的什么都看不到。如果一位称职的工程师需要额外提示才能完成，那么这条提示就应该写进 prompt，否则就是任务描述不充分。
+一个 eval 的价值，取决于它能否分辨正确方案与错误方案。对每个任务，作者准备两份方案，并在真实板子上做三项检查：
 
-**每一条断言都必须有可能失败。** 在被检查的对象根本不存在时仍然通过的断言，比没有断言更糟，因为它制造了不该有的信心。这是真实 eval 包中最常见的缺陷，下文专门有一节讲它。
+```
+evals/fixtures/<task-id>/reference/   一份已知正确的方案
+evals/fixtures/<task-id>/broken/      一份恰好包含该任务要抓的那个错误的方案
+```
 
-**说清楚哪些级别你还没达到。** 一个声明 `simulator: none` 并解释原因的包，比一个声称用了某个模拟器但实际上从未跑过的包更有用。坦诚的空缺没问题；名不副实的徽章不行。
+1. **参考方案通过。** 构建、烧录并观测参考方案。每一条断言都通过，包括标记了 `l1_skippable` 的。这证明该任务在这块板子上可以完成，且没有哪条断言过严。
+2. **空工程失败。** 在一个空的工作目录上运行每条断言。每一条都失败。这能抓出"什么都没构建也能通过"的检查。
+3. **错误方案被抓住。** 构建、烧录并观测错误方案。针对这个错误的断言失败；其余断言的表现与该错误所预期的一致。这能抓出"构建了错误的东西也能通过"的检查。
 
-**衡量的是 Skill，而不是模型。** 一个所有模型不装 Skill 就能通过的任务，对这个 Skill 说明不了任何问题。`ΔPass` 就是为了抓出这种情况。
+检查 2 和检查 3 抓的是不同的缺陷，一个包两者都需要。列表中第一个第三方包就说明了原因。它的一个任务禁止再次调用 `Wire.begin()`，用 `! grep -q "Wire.begin(" *.ino` 来检查。在空目录上，这条检查以 0 退出：`grep` 找不到 `*.ino`，而 `!` 把它的报错变成了通过。检查 2 能抓住它；检查 3 抓不住，因为错误方案里确实有 `.ino` 文件。另一个任务禁止在中断处理函数里使用阻塞调用，并通过匹配 `IRAM_ATTR` 来定位处理函数。在空目录上它正确地失败了——但面对一个没写 `IRAM_ATTR`、却调用了 `Serial.println` 和 `delay` 的处理函数，它以 0 退出。检查 2 抓不住它；只有检查 3 能抓住。
 
-## Eval 包
+### 编写有可能失败的断言
 
-eval 包是 Skill 内部一个名为 `evals/` 的目录，与 `SKILL.md` 并列：
+当一条断言因为它要检查的东西根本不存在而通过时，它就是**空转**的。在一次全绿的运行里完全看不出来，这正是阶段 0 存在的原因。修复方法永远一样：找不到要检查的对象时，判为失败。
+
+```python
+# 空转：不存在 IRAM_ATTR 处理函数时也会通过
+m = re.search(r'void\s+IRAM_ATTR\s+\w+\s*\([^)]*\)\s*\{(.*?)\n\}', src, re.S)
+sys.exit(1 if m and re.search(r'Serial\.|delay\(', m.group(1)) else 0)
+
+# 可靠：不存在即失败
+if not m:
+    sys.exit(1)
+sys.exit(1 if re.search(r'Serial\.|delay\(', m.group(1)) else 0)
+```
+
+```sh
+# 空转：在空目录里也会通过
+! grep -q "Wire.begin(" *.ino
+
+# 可靠：先要求文件存在，再检查其中不该出现的内容
+ls *.ino >/dev/null 2>&1 && ! grep -q "Wire.begin(" *.ino
+```
+
+### 记录阶段 0
+
+把结果记录在 manifest 中。只有当前版本已经验证过的包，才会接受背书。
+
+```yaml
+eval_validated:
+  date: 2026-09-20
+  board: esp32-c3-devkitm-1 rev 1.1
+  framework_version: "5.2.2"
+  reference_passed: true      # 检查 1，每个任务
+  empty_failed: true          # 检查 2，每条断言
+  broken_caught: true         # 检查 3，每个带 broken/ 方案的任务
+  evidence: https://...       # 三项检查的日志与抓包
+```
+
+## 阶段 1——测试台自检
+
+**由谁：** 测试者。**何时：** 每次测试会话的开始与结束。
+
+烧录每个任务的 `reference/` 方案并评估其断言，做法与阶段 2 的一次运行完全相同，只是没有 Agent。每一条断言都必须通过。这证明串口抓取、逻辑分析仪、嗅探器、供电和工具链都正常。
+
+只有**两次**自检都通过，这次会话的结果才算数。如果结束时的自检失败，本次会话中的每一次运行都**作废**——测试台可能在任何时刻出了问题——需要在新会话中重跑。这就是用证据、而不是凭主观判断，把"测试台坏了"和"Skill 失败了"区分开的方法。
+
+## 阶段 2——通过判定运行
+
+**由谁：** 测试者。**何时：** 每份背书。
+
+### 单次运行流程
+
+1. **记录运行元数据**（见上文"测试台"一节所列），并给本次运行分配下一个连续编号。
+2. **把板子复位到已知状态。** 用工具链的擦除命令擦除闪存，然后断电重启。
+3. **准备干净的工作目录**，只装好 Skill，不留任何上一次运行的东西。
+4. **启动 Agent 并开始录制会话。** 把任务的 `prompt` 原文交给 Agent，别的什么都不给——不给端口名、不给提示、不纠正——除非 prompt 本身包含这些内容。
+5. **让 Agent 工作**，直到它宣布完成，或挂钟时间达到 `timeout_s`。超时是一次失败的运行，而不是作废的运行。
+6. **冻结结果。** 打包归档工作目录并记录其 SHA-256。此后所有步骤都使用冻结的副本；Agent 在尝试过程中自己做的构建和烧录不算证据。
+7. **构建。** 在冻结副本中运行 `build.cmd` 并保留日志。如果失败，`compile_only` 判失败，其余断言都记为 `not-run`。
+8. **烧录。** 先擦除，再用任务定义的 `flash.cmd`（若未定义则用工具链的标准烧录命令）写入构建产物。保留烧录工具的完整输出，包括它报告所识别芯片的那一行。
+9. **观测。** 在释放复位之前启动所有抓取。**时间零点**是复位被释放、新固件开始运行的时刻；每个 `within_s` 窗口都从这里开始计算。按任务定义的时间执行其 `human_action`，并记录时间戳。
+10. **评估每条断言**，方法见下一节，并保留每条断言的原始证据文件。
+11. **记录结果。** 每条断言为 `pass`、`fail` 或 `not-run`。只有每条断言都通过，这次运行才通过。
+
+### 任务与包如何算通过
+
+- **运行：** 每条断言都通过（包括标记了 `l1_skippable` 的）即通过。
+- **任务：** 运行**三**次，每次都从第 2 步开始。三次中**至少两次**通过，任务即通过。Agent 的行为不是确定性的，单次运行可能侥幸通过，也可能运气不好而失败；三次里过两次，是"不止抽一次签"的最小样本。
+- **包：** 每个任务都通过，包即通过。这就是 `L2` 徽章。`L2 ×N` 统计的是各自达到通过的独立背书数量——不同的人、不同的板子。
+
+每一次运行都要按顺序报告：通过的、失败的、作废的一视同仁。不允许在多于三次的运行里挑出最好的三次；作废的运行要重跑，两者都要出现在记录中。
+
+### 失败的运行，还是作废的运行
+
+**失败**的运行是关于 Skill 的结论。**作废**的运行是关于测试台的结论，需要重跑。两者的区分取决于证据，而不是偏好：
+
+| 作废——重跑 | 失败——计入 |
+|---|---|
+| 本次会话结束时的自检失败 | Agent 超时 |
+| 模型 API 或运行环境因与任务无关的原因崩溃 | Agent 烧错了端口或目标 |
+| 板子被物理断开，并注明时间 | 冻结副本的构建或烧录失败 |
+| 测试者向 Agent 提供了 prompt 之外的信息 | Agent 的固件让板子无法启动 |
+| | 任何一条断言失败 |
+
+第四种作废情况很重要：测试者帮过忙的运行不算失败，但也不能作为通过的证据。它需要重跑。
+
+## 阶段 3——ΔPass 的 A/B 对照
+
+**由谁：** 测试者。**何时：** 可选，与阶段 2 一起进行。
+
+1. 按阶段 2 的流程，在同一块板子、同一模型、同一运行环境下，让每个任务在两组中各运行**五**次：
+   - **装 Skill：** 安装该 Skill。
+   - **不装 Skill：** 移除该 Skill，并把它的 `description` 替换为一句泛泛的占位描述，这样两组之间唯一的差别就是 Skill 携带的知识。
+2. **交替运行两组**——装、不装、装、不装——而不是先跑完一组再跑另一组，这样测试台、板子或模型 API 的漂移会对两组造成同等影响。
+3. 对每一组统计所有任务的所有运行的两个比率：**通过率**，以及**首次编译成功率**——即 Agent 在尝试过程中第一次构建就成功、无需修复任何东西的运行所占的比例。
+4. **`ΔPass`** 是装 Skill 的通过率减去不装 Skill 的通过率，发布时必须附上样本量，例如 `ΔPass +40% (15 v 15)`。
+5. 如果一个 Skill 在两个比率上都没能带来至少 **15 个百分点**的提升，就标记为 `low-gain`。这是一个问题而不是拒绝：它很可能只是在复述模型已经知道的东西。
+
+之所以单独跟踪首次编译成功率，是因为这正是硬件 Skill 体现价值的地方。寄存器名写错、漏了某个 `sdkconfig` 符号、FQBN 用错——模型往往在两三次构建失败后就能自己改过来，所以只看通过率，可能会埋没一个实实在在省下了迭代次数的 Skill。
+
+对一个三任务的包，每组每个任务五次，就是三十次运行。这个规模下数字是有噪声的，所以结果旁边始终要标注样本量。
+
+## 在真实板子上测量每种断言
+
+### `compile_only`
+
+在冻结副本中运行 `build.cmd`。以 0 退出即通过。保留完整的构建日志。
+
+### `serial_match`
+
+- **在释放复位之前打开串口**，否则会丢失早期输出。配置串口，使"打开串口"这个动作本身不会复位板子或让它停在 bootloader——在很多 ESP32 板子上，DTR 和 RTS 连着 EN 与 GPIO0——然后主动复位板子，并把这个时间戳记为时间零点。
+- **使用原生 USB 串口的板子**（例如使用 USB-Serial/JTAG 的 ESP32-S3 或 ESP32-C3）在复位时端口会重新枚举。从复位时刻开始计时，端口一出现就开始抓取，并记下这段空档。空档期间打印的内容会丢失，所以面向这类板子的任务应该反复打印，而不是只打印一次。
+- **抓取**时使用任务的 `baud`，写入日志文件，每行一条记录并带主机时间戳。
+- **匹配**时先统一换行符，再逐行用 `pattern` 做正则匹配。在时间零点后的 `within_s` 内至少有 `min_matches` 行匹配即通过。
+
+### `gpio_state`
+
+- 把逻辑分析仪的一个通道接到 `pin`，并与板子共地。
+- 采样率不低于任务所隐含的最快边沿速率的十倍；对于几千赫兹以下的信号，1 MHz 绰绰有余。
+- 从时间零点起至少抓取 `within_s`，并保存原始抓包，例如 sigrok 的 `.sr` 文件。
+- 对于 `expect: toggles`，统计窗口内的边沿数，不少于 `min_edges` 即通过。
+
+### `bus_capture`
+
+- **BLE。** 在时间零点之前启动嗅探器。嗅探器能自行看到广播包，但只有跟随连接后才能看到 GATT notify，所以要在设备开始广播后用一个中心设备（例如装了 nRF Connect 的手机）去连接它，并确认嗅探器已跟随该连接。保存为 `.pcapng`。用包过滤器评估：广播名、服务与特征 UUID，以及窗口内 Handle Value Notification 的数量。
+- **CAN、I2C、SPI。** 用适配器或开启了协议解码的逻辑分析仪抓取，保存原始抓包，并把解码后的帧与 `expect` 比对。
+- 这类断言通常标记为 `l1_skippable`，也正因为如此，它们恰恰是阶段 2 存在的意义。
+
+### `exit_code`
+
+用任务的 shell 在冻结副本中运行 `cmd`。退出码等于 `expect` 即通过。这条断言必须已经在阶段 0 检查 2 中被证明会在空工程上失败。
+
+### 保留类型
+
+`network_probe`、`ros_topic` 与 `file_exists` 会被检查器接受，但还没有字段格式。需要用到其中某一种的包，要先向本文档提交 PR，定义它的字段与测量方法，然后才能使用。
+
+## 记录与提交
+
+### 运行记录
+
+每一次运行——包括自检和作废的运行——都产生一条记录。把它们和所引用的证据文件放在同一个目录里，并在背书中链接这个目录。
+
+```yaml
+run: 7
+session: 2026-09-20-a
+phase: pass                       # self-test | pass | ab-with | ab-without
+task: 01-blink
+skill: {repo: https://github.com/owner/skill, commit: 3f2a9c1}
+eval_version: 0.1.0
+board: esp32-c3-devkitm-1 rev 1.1
+host: {os: Ubuntu 24.04, framework_version: "5.2.2"}
+agent: {model: claude-opus-5, harness: claude-code 2.1.3, network: true}
+started: 2026-09-20T10:14:03Z
+ended:   2026-09-20T10:21:47Z
+agent_outcome: declared-done      # declared-done | timeout
+workdir_sha256: 9b1e...
+build: {exit: 0, log: runs/07/build.log}
+flash: {exit: 0, log: runs/07/flash.log, detected_chip: "ESP32-C3 (QFN32) (revision v0.4)"}
+time_zero: 2026-09-20T10:22:15.402Z
+human_actions: []                 # 例如 [{at: "+5.0s", action: "按下 GPIO39 上的按键"}]
+assertions:
+  - {type: compile_only, result: pass}
+  - {type: serial_match, result: pass, matches: 6, evidence: runs/07/serial.log}
+  - {type: gpio_state,   result: pass, edges: 12, evidence: runs/07/gpio8.sr}
+result: pass                      # pass | fail | invalid
+invalid_reason: null
+transcript: runs/07/transcript.jsonl
+```
+
+### 背书
+
+用 **L2 hardware attestation** 表单开一个 issue。表单会要求填写：Skill 与提交、精确的板型与版本、框架版本、Agent 模型与运行环境、每个任务三次运行的结果、两次测试台自检的结果、硬件证据——烧录工具识别芯片的输出与一份串口日志——以及运行记录与会话记录的链接。表单还要求确认：运行是在真实板子上进行的、每一次运行都已报告、没有给过额外提示、会话记录未经编辑。
+
+## 审核
+
+维护者在把背书记入 manifest 的 `verified.L2` 之前，会核对：
+
+- 该包的 `eval_validated` 覆盖了被测的那个版本。
+- 所有计入运行的会话，两次自检都通过了。
+- 烧录工具报告的芯片与声称的板型一致。
+- 每个任务都有三次计入的运行，编号连续，作废的运行附有说明并已重跑。
+- 串口日志与抓包，和每条断言记录的通过或失败一致。
+- 会话记录显示 prompt 是原文给出的，且测试者没有提供帮助。
+
+缺少上述任何一项的背书，会被退回并指明具体缺什么，而不是被默默拒绝。这些措施无法让造假变得不可能；由 `×N` 统计的独立复现，才是防线。
+
+## 预检：L0 与 L1
+
+预检能在有人花一个下午坐到测试台前之前，先拦下问题。两者都不算通过。
+
+### L0——静态检查
+
+**可用。** 运行 `python scripts/l0_check.py skill path/to/my-skill`。它检查以下内容，并且只检查这些：
+
+- `SKILL.md` 存在，其 YAML frontmatter 包含非空的 `name` 与 `description`，且 description 至少 80 个字符。
+- `SKILL.md` 中没有形似 API 密钥或访问令牌的内容。
+- `evals/manifest.yaml` 存在；`skill` 等于 frontmatter 中的 `name`；`simulator` 是已知 id；`assertions_supported` 中每一项都是已知类型；`target.board`、`target.framework` 与 `target.framework_version` 均已设置。
+- `evals/tasks/` 中至少有一个任务；每个任务的 `id` 等于文件名主干，`level` 合法，`prompt` 非空。
+- 每条断言的 `type` 都是已知类型，且已在 `assertions_supported` 中声明。
+- 整个包中至少有一条断言强于 `compile_only`。
+
+它不检查断言字段、`build` 或 `flash` 块、fixtures、`eval_validated`，也不检查任何断言是否有可能失败。那些是阶段 0 的职责。
+
+### L1——模拟器预检
+
+**尚未构建。** runner 将在模拟器中遵循阶段 2 的流程：把 prompt 交给 Agent、冻结结果、构建、把产物加载进声明的模拟器，并评估所有未标记 `l1_skippable` 的断言，`within_s` 以仿真时间计。它会复用各模拟器自带的断言层——Renode 的 `renode-test` 关键字（如 `Wait For Line On Uart`）、Wokwi 场景文件中的期望——而不是抓取控制台输出，并会报告跳过了多少条断言。一个过不了 L1 的任务不值得拿到测试台上；一个过了 L1 的任务仍然不算通过。
+
+## 参考：eval 包
 
 ```
 my-skill/
 ├── SKILL.md
-├── references/
 └── evals/
     ├── manifest.yaml
     ├── tasks/
     │   ├── 01-easy-thing.yaml
     │   ├── 02-medium-thing.yaml
     │   └── 03-hard-thing.yaml
-    └── fixtures/            # 可选
+    └── fixtures/
+        └── <task-id>/
+            ├── reference/        # 阶段 0 检查 1，以及阶段 1 自检
+            └── broken/           # 阶段 0 检查 3
 ```
 
-从复制 [`template/evals/`](template/evals/) 开始。
+目标是三个任务——简单、中等、困难。一个任务说明不了 Skill 能否泛化；太多则让阶段 3 成本过高。
 
 ### manifest.yaml
 
 | 字段 | 必填 | 含义 |
 |---|---|---|
-| `skill` | 是 | 必须与该 Skill 的 SKILL.md frontmatter 中的 `name` 相同。 |
-| `version` | 否 | eval 包的版本，而不是 Skill 的版本。 |
-| `target.board` | 是 | 精确的板型标识——`esp32-c3-devkitm-1`，或 `esp32:esp32:m5stack_core2` 这样的 arduino-cli FQBN——绝不能是"ESP32"这种系列名。 |
+| `skill` | 是 | 等于 SKILL.md frontmatter 中的 `name`。 |
+| `version` | 否 | eval 包的版本。任何任务或断言变更时都要升版本，并重做阶段 0。 |
+| `target.board` | 是 | 精确的板型标识或 arduino-cli FQBN——绝不能是系列名。 |
 | `target.framework` | 是 | `esp-idf`、`arduino`、`zephyr`、`ros2` 等。 |
-| `target.framework_version` | 是 | 编写与测试这些任务时所用的版本。硬件 SDK 的小版本之间就可能不兼容，这个字段是结果可复现的前提。 |
+| `target.framework_version` | 是 | 验证这些任务时所用的版本。 |
 | `target.toolchain` | 否 | 预期 Agent 调用的工具：`idf.py`、`arduino-cli`、`west`。 |
-| `simulator` | 是 | L1 预检将在哪里运行；与这个 Skill 能否通过无关。取值为 `wokwi`、`renode`、`qemu`、`native_sim`、`gazebo`、`isaac`、`mujoco`、`webots`、`ha-demo`、`modbus-sim`、`opcua-sim` 或 `none` 之一。 |
-| `assertions_supported` | 是 | 本包中任一任务用到的所有断言类型。 |
+| `simulator` | 是 | L1 预检将在哪里运行：`wokwi`、`renode`、`qemu`、`native_sim`、`gazebo`、`isaac`、`mujoco`、`webots`、`ha-demo`、`modbus-sim`、`opcua-sim` 或 `none`。与能否通过无关，声明 `none` 没有任何代价。 |
+| `assertions_supported` | 是 | 任一任务用到的所有断言类型。 |
+| `eval_validated` | L2 必填 | 阶段 0 记录。没有它，背书不被接受。 |
 | `verified.L0` | 否 | `l0_check.py` 通过后填写 `{date, run}`。 |
-| `verified.L1` | 保留 | 由 L1 runner 写入。保持 `null`。 |
-| `verified.L2` | 否 | 被接受的背书列表，由维护者添加。 |
-| `ab.*` | 保留 | 由 A/B runner 写入。保持 `null`。 |
-
-当没有任何公开模拟器能建模任务所依赖的硬件时，请使用 `simulator: none`，并在注释中说明原因。M5Stack 的包是个好榜样：Core2 的电源管理芯片没有被任何公开的 Wokwi 或 Renode 板型建模，所以它声明了 `none`，而不是声称一个会悄悄跳过关键部分的模拟器。声明 `none` 没有任何代价：所有 Skill 都以同样的方式通过——在板子上。
+| `verified.L1` | 保留 | 由 L1 runner 写入。 |
+| `verified.L2` | 否 | 被接受的背书，由维护者添加。 |
+| `ab.*` | 否 | 阶段 3 结果，附样本量。 |
 
 ### 任务文件
 
-`tasks/` 中每个任务一个 YAML 文件。文件名去掉 `.yaml` 后必须等于任务的 `id`。
+`tasks/` 中每个任务一个文件；文件名主干必须等于 `id`。
 
 | 字段 | 必填 | 含义 |
 |---|---|---|
-| `id` | 是 | 等于文件名主干。加上数字前缀，让任务按难度排序。 |
+| `id` | 是 | 等于文件名主干；加数字前缀，让任务按难度排序。 |
 | `level` | 是 | `easy`、`medium` 或 `hard`。 |
-| `timeout_s` | 否 | Agent 整次尝试的挂钟时间预算。 |
-| `prompt` | 是 | 告诉 Agent 的全部内容。不能为空。 |
-| `build.cmd` | 否 | Agent 宣布完成后 runner 执行的命令，例如 `idf.py build`。 |
-| `build.cwd` | 否 | 相对于 Agent 的工作目录。 |
-| `assertions` | 是 | 断言列表。**全部**通过，任务才算通过。 |
-| `fixtures` | 否 | 已知正确的参考输出，例如预期的串口日志。 |
+| `timeout_s` | 否 | Agent 尝试的挂钟时间预算。 |
+| `prompt` | 是 | 告诉 Agent 的全部内容。如果一位称职的工程师需要提示才能完成，就把提示写在这里。 |
+| `build.cmd`、`build.cwd` | 否 | 在冻结副本上运行的构建命令。 |
+| `flash.cmd` | 否 | 烧录命令；`{port}` 会被替换为板子的端口。默认使用工具链的标准烧录命令。 |
+| `human_action` | 否 | 测试者需要执行的物理操作及时间，例如 `时间零点后 5 秒按一次 GPIO39 上的按键`。 |
+| `assertions` | 是 | 全部通过，本次运行才通过。 |
+| `fixtures` | 否 | 参考输出的路径，例如预期的串口日志。 |
 
-目标是三个任务——简单、中等、困难各一个。一个任务说明不了 Skill 能否泛化；十个任务在每次 A/B 对照都要跑两遍，成本太高。
+### 断言类型
 
-## 断言类型
-
-每条断言都有一个 `type`。任何断言都可以设置 `l1_skippable: true`，表示它需要模拟器提供不了的真实硬件——BLE 嗅探器、实体按键、读取真实环境的传感器。L1 预检会跳过它；但在真实板子上它仍然必须成立，任何一条断言没被检查的任务都不算通过。
-
-合法类型的集合枚举在 `scripts/l0_check.py` 中。其中五种已经由真实的 eval 包确立了字段格式。另外三种是保留的：类型名会被接受，但字段尚未定义，由第一个需要它的包通过向本文档提交 PR 来定义。
+当模拟器无法评估某条断言时，可以设置 `l1_skippable: true`。这只影响 L1：在真实板子上，每条断言都会被评估。
 
 | 类型 | 观测对象 | 字段 |
 |---|---|---|
 | `compile_only` | `build.cmd` 以 0 退出 | 无 |
-| `serial_match` | UART 输出 | `baud`、`pattern`（正则表达式，逐行匹配）、`min_matches`、`within_s` |
+| `serial_match` | UART 输出 | `baud`、`pattern`（正则表达式，逐行）、`min_matches`、`within_s` |
 | `gpio_state` | 引脚电平随时间的变化 | `pin`、`expect`（如 `toggles`）、`min_edges`、`within_s` |
-| `bus_capture` | 总线上的通信 | `bus`（如 `ble`）、`expect`（与总线相关的映射，如 `adv_name`、`service_uuid`、`char_uuid`、`notify_count_min`、`within_s`） |
-| `exit_code` | 任意脚本的结果 | `cmd`（shell 命令）、`expect`（退出码） |
-| `network_probe` | 设备的网络端点 | 保留 |
-| `ros_topic` | ROS topic 上的消息 | 保留 |
-| `file_exists` | 磁盘上的产物 | 保留 |
+| `bus_capture` | 总线上的通信 | `bus`（如 `ble`）、`expect`（与总线相关，如 `adv_name`、`service_uuid`、`char_uuid`、`notify_count_min`、`within_s`） |
+| `exit_code` | 脚本的结果 | `cmd`、`expect` |
+| `network_probe`、`ros_topic`、`file_exists` | —— | 保留；由第一个需要它的包来定义 |
 
-单独一个 `compile_only` 对硬件几乎证明不了什么，所以 L0 要求每个包至少包含一条比它更强的断言。
-
-`exit_code` 是一个逃生口，用于检查生成代码中那些任何运行时观测都抓不到的静态性质。M5Stack 的包用它来检查 Agent **没有**再次调用 `Wire.begin()`：在那块板子上，即使违反了这条规则，I2C 扫描照样能成功，所以只有检查源码才能发现这个错误。请谨慎使用——只要有可能，运行时断言几乎总是更强。
-
-## 空转断言
-
-当一条断言因为它要检查的东西根本不存在而通过时，它就是空转的。这是最值得排查的缺陷，因为在一次全绿的运行中你完全看不出来。
-
-这种模式最常出现在搜索源码的 `exit_code` 检查中。设想一条检查：它通过匹配 `void IRAM_ATTR <name>(...)` 找到中断处理函数，如果函数体里有 `Serial.` 或 `delay(` 就判失败。如果 Agent 写的处理函数没有 `IRAM_ATTR`，模式什么也匹配不到——而一个按"找到了且有问题才失败"来写的脚本会以 0 退出。即使这个处理函数确实调用了 `Serial.println` 和 `delay` 也一样，而这恰恰是这条检查存在的意义所要抓的违规：Agent 犯了这个错，只是少写了一个属性，断言就变绿了。修复方法是，在找不到要检查的对象时判为失败：
-
-```python
-m = re.search(r'void\s+IRAM_ATTR\s+\w+\s*\([^)]*\)\s*\{(.*?)\n\}', src, re.S)
-if not m:
-    sys.exit(1)                     # 没找到中断函数：任务没完成，不能判通过
-sys.exit(1 if re.search(r'Serial\.|delay\(', m.group(1)) else 0)
-```
-
-用三个小草图来跑——一个没有 `IRAM_ATTR` 的阻塞式处理函数、一个调用了 `Serial` 的 `IRAM_ATTR` 处理函数、一个只置标志位的正确处理函数——原来的检查分别以 0、1、0 退出：它放过了第一个错误的草图。加上防护后则分别以 1、1、0 退出。
-
-有两个快速测试，能在提交之前抓出几乎所有空转断言。先对一个空工程跑每条断言，此时每一条都应该失败。再对一个故意写错的方案跑，此时针对这个错误的那条断言应该失败，其余不应失败。由于同一任务内的断言是"与"的关系，空转的断言有时会被相邻的断言兜住——比如缺少 `.ino` 文件同样会让 `compile_only` 失败——但不要依赖这一点：每条断言都应该能独立成立。
-
-## 第 0 级——静态检查
-
-**可用。** 提交 PR 前请在本地运行：
-
-```
-python scripts/l0_check.py skill path/to/my-skill
-```
-
-它检查以下内容，并且只检查这些：
-
-- `SKILL.md` 存在，且带有 `name` 与 `description` 均非空的 YAML frontmatter。
-- `description` 至少 80 个字符——更短的描述很少能稳定触发。
-- `SKILL.md` 中没有形似 API 密钥或访问令牌的内容。
-- `evals/manifest.yaml` 存在，其 `skill` 等于 frontmatter 中的 `name`，`simulator` 是已知 id，`assertions_supported` 中每一项都是已知类型，并且 `target.board`、`target.framework` 与 `target.framework_version` 均已设置。
-- `evals/tasks/` 中至少有一个任务；每个任务的 `id` 等于文件名主干，`level` 合法，`prompt` 非空。
-- 每条断言的 `type` 都是已知类型，且已在 `assertions_supported` 中声明。
-- 整个包中至少有一条断言强于 `compile_only`。
-
-它**不**检查断言内部的字段、`build` 块、正则是否合法，也不检查一条断言是否有可能失败。L0 表示这个包结构正确，而不表示它是好的。
-
-## 第 1 级——模拟器预检
-
-**尚未构建。** 本节是 runner 将要遵循的设计。
-
-L1 是预检，不是通过。它的作用是在有人烧录板子之前，低成本地拦下问题——一个连在 Wokwi 里都过不了的任务，不值得背书者花一个下午。处于 L1 的包仍然不算通过。
-
-对每个任务，runner 在装有该 Skill 的干净工作目录中把 prompt 交给 Agent，等待 Agent 完成或达到 `timeout_s`，运行 `build.cmd`，把产物加载进声明的模拟器，然后评估所有未标记 `l1_skippable` 的断言。当所有任务的这些断言都在某个指定模型上通过时，这个包就达到 L1，记录为 `{date, simulator, tasks_passed, model}`。
-
-有三个决定已经确定：
-
-- **复用模拟器自带的断言层。** Renode 自带 `renode-test`，其 Robot Framework 关键字中有 `Wait For Line On Uart` 这类关键字；Wokwi 的场景文件原生支持对串口文本做断言。runner 应当把 `serial_match` 翻译成这些机制，而不是在抓取来的控制台输出上重新实现一遍匹配。
-- **在模拟器里计时，而不是用挂钟计时。** `within_s` 指的是仿真时间的秒数。模拟器的确定性虚拟时间，正是 CI 里选它而不选真板子的全部理由；一个靠 sleep 加 grep 的 runner 会把这点丢掉，变得不稳定。
-- **记录哪些断言被跳过了。** L1 徽章必须显示有多少断言被计入，这样一个关键检查全都标了 `l1_skippable` 的包，就不会看起来和一个检查全部实际运行过的包一样强。
-
-哪个模拟器能支持哪些断言，汇总在 README 的验证基础设施一节。Renode 缺少面向 Agent 的会话接口，这是 [GAPS.zh-CN.md](GAPS.zh-CN.md) 中排在第一位的问题。
-
-## 第 2 级——真实硬件（通过）
-
-**可用，人工流程。** 这是唯一算作通过的一级。任何拥有目标板子的人都可以提交背书。
-
-1. 安装该 Skill，严格按照 `evals/tasks/` 中写的内容运行每个任务，只给 Agent prompt，别的什么都不给，并且在真实板子上运行。模拟器不算，Wokwi、Chiplab 这类托管虚拟板也不算。远程烧录真实板子的设备农场——比如驱动物理目标的 Jumpstarter 或 labgrid——算。
-2. 评估每一条断言，包括标记了 `l1_skippable` 的。全部成立，任务才算通过。
-3. 把完整、未经编辑的 Agent 会话记录保存到公开位置，并附上硬件证据：烧录工具识别到芯片并写入镜像的输出——esptool 的 `Chip is …` 那一行、`arduino-cli upload` 的端口、probe-rs 的目标——以及从板子上读回的串口日志。
-4. 用 **L2 hardware attestation** 模板开一个 issue。模板会要求填写：Skill、精确的板型与版本、框架版本、Agent 模型与运行环境、每个任务一行 `pass` 或 `fail`、硬件证据与会话记录链接，并要求确认是在真实板子上运行的、没有给过额外提示、会话记录未经编辑。
-
-缺少会话记录或硬件证据的背书不会被接受。背书被接受后，由维护者将其追加到该包的 `verified.L2` 中。只要有一份被接受的背书显示所有任务都通过，这个包就算通过。README 会为 N 份独立背书显示 `L2 ×N`——"独立"指不同的人、不同的板子——用来衡量这个结果的可复现程度。
-
-## ΔPass——这个 Skill 是否真的携带了知识？
-
-**尚未构建。** 本节是 A/B runner 将要遵循的设计。
-
-每个任务在同一模型、同一运行环境、同一块真实板子上跑两次：一次装上 Skill；另一次移除 Skill，并把它的 `description` 替换为一句泛泛的占位描述，这样两组之间唯一的差别就是 Skill 所携带的知识。在模拟器上测得的比率不算数，理由与模拟器上的通过不算数相同。runner 为每一组记录两个比率——任务通过率，以及首次编译成功率，即第一次构建无需 Agent 修复任何东西就成功的尝试所占的比例。
-
-`ΔPass` 是装了 Skill 的通过率减去不装 Skill 的通过率。如果一个 Skill 在两个比率上都没能带来至少 15 个百分点的提升，就会被标记为 `low-gain`。这不是拒绝，而是一个问题：它很可能只是在复述模型已经知道的东西，维护者会追问它到底打算承载哪条非显而易见的事实。
-
-之所以单独跟踪首次编译成功率，是因为这正是硬件 Skill 体现价值的地方。寄存器名写错、漏了某个 `sdkconfig` 符号、FQBN 用错——模型通常在两三次构建失败后就能自己改过来，所以只看通过率，可能会埋没一个实实在在省下了迭代次数的 Skill。
+单独一个 `compile_only` 对硬件几乎证明不了什么，所以每个包至少需要一条比它更强的断言。只要存在可用的运行时观测，就优先使用它而不是 `exit_code`；`exit_code` 用于那些任何观测都抓不到的性质，比如"一个恰好没把板子搞坏的违禁调用确实没有出现"。
 
 ## 实例
 
-[fxp/m5stack-embedded-dev-skill](https://github.com/fxp/m5stack-embedded-dev-skill) 面向使用 Arduino 与 M5Unified 的 M5Stack Core2。它的 eval 包用三个任务展示了这套方法的大部分内容：
+[fxp/m5stack-embedded-dev-skill](https://github.com/fxp/m5stack-embedded-dev-skill) 面向使用 Arduino 与 M5Unified 的 M5Stack Core2，是列表中第一个带 eval 包的 Skill。对照本方案：
 
-- **`01-hello-serial-tick`**（简单）——每秒打印一次 `tick`。`compile_only` 加一条 `serial_match`，要求六秒内有四行匹配 `^tick$`。最简单的诚实任务。
-- **`02-i2c-scan-no-redundant-wire-begin`**（中等）——扫描内部 I2C 总线，但不能再次调用 `Wire.begin()`。一条针对地址 `0x34` 上电源管理芯片的 `serial_match`，加一条 `exit_code` 源码检查。它承载了这个 Skill 真正要教的东西，也是一个适合用 `exit_code` 的好例子：在这个板子版本上，即使违反了规则，扫描照样成功，所以任何运行时观测都抓不到这个错误。
-- **`03-isr-safe-button-notify`**（困难）——在不使用阻塞调用的前提下，从 GPIO 中断通知主循环。`serial_match` 需要真实地按下按键，所以正确地标记了 `l1_skippable`。其 `exit_code` 检查正是"空转断言"一节中的那个例子：按目前发布的写法，只要处理函数没有 `IRAM_ATTR`，一个带阻塞调用的处理函数也能通过。这件事比看上去更重要，因为在 L1 预检中串口断言会被跳过，这时它就是唯一在检查处理函数的断言。加上 `if not m: sys.exit(1)` 这道防护即可修复。
+- **包的形态——良好。** 三个任务分属三个难度；FQBN 精确；声明了 `simulator: none` 并说明原因；断言观测的是串口输出，而不是对代码做判断。
+- **阶段 0——尚未完成。** 没有 `reference/` 或 `broken/` 方案，也没有 `eval_validated` 记录。如果做了，它会抓出两个缺陷：任务 02 的 `exit_code` 在空工程上通过（检查 2），任务 03 的 `exit_code` 会放过一个没写 `IRAM_ATTR` 的阻塞式处理函数（检查 3）。两处修复各只需一行，写法见上面阶段 0 一节。
+- **阶段 2——需要补 `human_action`。** 任务 03 的串口断言要等待 GPIO39 上真实的按键操作，但任务没有说明什么时候按。加上 `human_action: 时间零点后 5 秒按一次 GPIO39 上的按键`，这次运行才可复现。
+- **状态：`L0`。未通过。** 通往通过的路径是：先由作者完成阶段 0，再由任何拥有 Core2 的人让每个任务在板子上跑三次。
 
-它的 manifest 声明了 `simulator: none`，并解释了没有公开模拟器能建模 Core2 的 PMIC。这对它没有任何代价：它通往"通过"的路径和其他所有包一样——由拥有 Core2 的人在板子上跑完这三个任务。在此之前，它处于 L0，尚未通过。
-
-## 扩展这套方法
+## 扩展本方案
 
 要新增一个模拟器 id 或一种断言类型，请提交一个 PR，并做到以下几点：
 
 1. 把它加进 `scripts/l0_check.py` 中的 `SIMULATORS` 或 `ASSERTION_TYPES`。
-2. 如果是断言类型，在上面的断言表中加一行定义它的字段，并说明是什么让它有可能失败。
-3. 如果是模拟器，把它加进 README 的验证基础设施一节，说明 runner 如何以无头方式驱动它，以及它能支持哪些断言类型。
-4. 同步更新 `EVALS.zh-CN.md` 中的译文，或者让 `translation-sync` job 保持失败，由维护者修复。
+2. 如果是断言类型，在断言表中加一行，在"在真实板子上测量每种断言"一节下补充测量方法，把所需仪器加进测试台表格——并说明它如何会失败。
+3. 如果是模拟器，把它加进 README 的验证基础设施一节。
+4. 同步更新 `EVALS.zh-CN.md`，或者让 `translation-sync` job 保持失败，由维护者修复。

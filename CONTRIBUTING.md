@@ -40,20 +40,22 @@ Quality bar for listing at all:
 
 Entries in the **Skills** sections can carry verification badges — `L0`, `L1`, `L2 ×N`, `ΔPass` — earned by
 shipping an `evals/` package inside the skill. Only `L2`, a run on a physical board, means the skill has
-passed; `L0` and `L1` are pre-checks. The whole method is in **[EVALS.md](EVALS.md)**: the package
-format, every assertion type and its fields, what each level checks, which levels exist today, and how to
-avoid assertions that pass without checking anything.
+passed; `L0` and `L1` are pre-checks. The whole test plan is in **[EVALS.md](EVALS.md)**: the steps
+of phases 0 to 3, how each assertion is measured on a real board, the run-record format, what reviewers check,
+and the package format reference.
 
 The short version:
 
 1. Copy [`template/evals/`](template/evals/) into your skill and fill in `manifest.yaml`.
 2. Write about three tasks — easy, medium, hard — whose assertions observe physical side effects, with at least
    one stronger than `compile_only`.
-3. Check that each assertion fails against an empty project.
-4. Run `python scripts/l0_check.py skill path/to/skill` until it passes.
-5. Run the tasks on a physical board — or ask someone who owns one — and file an **L2 hardware attestation**
-   issue with an unedited transcript, the flash tool's chip-detection output and the serial log. Until then
-   the skill has not passed.
+3. Run `python scripts/l0_check.py skill path/to/skill` until it passes.
+4. **Phase 0 — validate the eval.** For each task add a `reference/` and a `broken/` solution under
+   `evals/fixtures/<task-id>/`, and show on the board that the reference passes, an empty project fails every
+   assertion, and the broken solution is caught. Record it as `eval_validated` in the manifest.
+5. **Phases 1–2 — pass runs.** Run each task three times on a physical board — or ask someone who owns one —
+   between two passing bench self-tests, and file an **L2 hardware attestation** issue with every run record.
+   A task passes in at least two of its three runs; until every task has, the skill has not passed.
 
 A skill without an `evals/` package can still be listed; it simply shows no badge.
 

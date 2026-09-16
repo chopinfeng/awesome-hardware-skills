@@ -22,13 +22,18 @@ assertions_supported:
   - gpio_state
   - bus_capture                  # only checked at L2 here; see l1_skippable in tasks/02
 
+# Phase 0 of the test plan in EVALS.md: on the board, the reference solution in fixtures/<task-id>/reference
+# passes, an empty project fails every assertion, and fixtures/<task-id>/broken is caught.
+# Required before any attestation is accepted.
+eval_validated: null             # {date, board, framework_version, reference_passed, empty_failed, broken_caught, evidence}
+
 # Which levels have passed, and when.
 verified:
   L0: null                       # {date: 2026-09-15, run: <ci-url>}  — fill in after l0_check.py passes
   L1: null                       # (reserved) {date, simulator, tasks_passed, model}
   L2: []                         # the only level that counts as passing; appended by a maintainer from accepted issues
 
-# With-skill vs without-skill delta on the same tasks (reserved, for the A/B runner).
+# Phase 3 of the test plan: five alternating runs per task in each arm, on a physical board. Keep sample sizes.
 ab:
   baseline_model: null
   pass_rate_with: null

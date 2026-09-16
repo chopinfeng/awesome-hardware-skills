@@ -53,13 +53,13 @@ A skill passes only when its tasks have run on a physical board and every assert
 
 **`L1 (wokwi)`** — Simulator pre-check. The assertions a simulator can evaluate pass in the named one (Wokwi, Renode, `native_sim`, …), run by this repo's CI. It catches failures before anyone reaches for a board and never counts as passing. Coming soon.
 
-**`L2 ×N`** — **Passed.** Someone ran every task on a physical board, every assertion held — including those a simulator would skip — and they filed an attestation with an unedited transcript, the flash tool's chip-detection output and the serial log read back from the board. `×N` counts independent people who reproduced it on their own boards. Hosted virtual boards such as Wokwi or Chiplab do not count; a remote farm that flashes real boards does.
+**`L2 ×N`** — **Passed.** The eval was first validated on the board — a reference solution passes, an empty project fails every assertion, a deliberately broken solution is caught — and then each task was run three times on a physical board and passed in at least two, with every assertion holding, including those a simulator would skip. The tester files an attestation with every run record, two passing bench self-tests, the flash tool's chip-detection output and the serial log. `×N` counts independent people who reproduced it on their own boards. Hosted virtual boards such as Wokwi or Chiplab do not count; a remote farm that flashes real boards does.
 
-**`ΔPass +42%`** — With-skill minus without-skill task pass rate on the same model, measured on a physical board, proving the skill carries knowledge the model did not already have. Coming soon.
+**`ΔPass +42%`** — With-skill minus without-skill task pass rate on the same model, measured on a physical board over five alternating runs per task in each arm and always shown with its sample size, proving the skill carries knowledge the model did not already have. Coming soon.
 
 **`stale`** — The most recent passing attestation is more than 12 months old, the skill's tasks changed after it, or upstream has not pushed in 12 months.
 
-Tasks assert on physical side effects a script can observe (serial output, GPIO edges, bus captures, ROS topics, HTTP probes), never on "the code looks right". The full method — package format, assertion types, what each level checks and what is built today — is in [EVALS.md](EVALS.md).
+Tasks assert on physical side effects a script can observe (serial output, GPIO edges, bus captures, ROS topics, HTTP probes), never on "the code looks right". The complete test plan — each phase step by step, how every assertion is measured on a real board, the run-record format and what reviewers check — is in [EVALS.md](EVALS.md).
 
 As of the snapshot, one listed skill ships an `evals/` package and it is at `L0`. **No skill in this list has passed yet**, because passing needs someone to run the tasks on the board. If you own one of the boards below, that is the most valuable contribution you can make.
 

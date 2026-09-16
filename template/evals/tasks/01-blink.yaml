@@ -12,6 +12,10 @@ build:
   cmd: idf.py build
   cwd: .                         # relative to the agent's working directory
 
+# How the tester flashes the frozen build. {port} is replaced with the board's port.
+flash:
+  cmd: idf.py -p {port} flash
+
 # Observable assertions. Each must pass. Avoid LLM-judged assertions; prefer things a script can check.
 assertions:
   - type: compile_only

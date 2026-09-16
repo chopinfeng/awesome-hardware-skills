@@ -11,6 +11,12 @@ prompt: |
 build:
   cmd: idf.py build
 
+flash:
+  cmd: idf.py -p {port} flash
+
+# bus_capture needs a central to connect so the sniffer can follow the connection and see notifications.
+human_action: connect to "hwskill-demo" from nRF Connect on a phone, 3 s after time zero
+
 assertions:
   - type: compile_only
   - type: serial_match
@@ -26,5 +32,5 @@ assertions:
       service_uuid: "181A"
       char_uuid: "2A6E"
       notify_count_min: 3
-      within_s: 5
+      within_s: 10               # connection starts at 3 s; ~7 notifications at 1 Hz by 10 s
     l1_skippable: true

@@ -1,21 +1,25 @@
 name: L2 hardware attestation
-description: Report that you ran a listed skill's evals on a physical board. This is the only way a skill passes.
+description: >-
+  Report that you ran a listed skill's evals on a physical board, following the test plan in EVALS.md.
+  This is the only way a skill passes.
 title: "[attest] <skill-name> on <board>"
 labels: ["attestation"]
 body:
   - type: input
     id: skill
     attributes:
-      label: Skill
-      description: Repo URL (and path if it lives in a monorepo)
-      placeholder: https://github.com/owner/repo/tree/main/skills/esp32-ble-gatt
+      label: Skill and commit
+      description: >-
+        Repo URL (with path, if it lives in a monorepo) and the exact commit SHA you tested. The result belongs
+        to that commit.
+      placeholder: https://github.com/owner/repo/tree/main/skills/esp32-ble-gatt @ 3f2a9c1
     validations:
       required: true
   - type: input
     id: board
     attributes:
       label: Board
-      description: Exact board id and revision
+      description: Exact board id and revision, as named in the package's target.board.
       placeholder: esp32-c3-devkitm-1 rev 1.1
     validations:
       required: true
@@ -23,6 +27,7 @@ body:
     id: framework
     attributes:
       label: Framework / SDK version
+      description: Must equal the package's target.framework_version.
       placeholder: esp-idf 5.2.2
     validations:
       required: true
@@ -30,19 +35,31 @@ body:
     id: model
     attributes:
       label: Agent model and harness
-      placeholder: claude-opus-5 via Claude Code 2.x
+      placeholder: claude-opus-5 via Claude Code 2.1.3, network allowed
+    validations:
+      required: true
+  - type: textarea
+    id: self_test
+    attributes:
+      label: Bench self-tests
+      description: >-
+        Phase 1. Result of flashing every task's reference solution at the start and at the end of each session.
+        Runs from a session whose closing self-test failed are invalid and must be rerun.
+      placeholder: |
+        session 2026-09-20-a  start: pass  end: pass
     validations:
       required: true
   - type: textarea
     id: results
     attributes:
-      label: Task results
+      label: Run results
       description: >-
-        One line per task, `id: pass|fail`, with a note for fails. A task passes only if every assertion held
-        on the board, including ones marked `l1_skippable`.
+        Phase 2. Every run in order, including failed and invalid ones — three counted runs per task. A run passes
+        only if every assertion held on the board, including ones marked l1_skippable. A task passes in at least
+        two of three.
       placeholder: |
-        01-blink: pass
-        02-gatt-notify: pass (bus_capture verified with nRF52840 sniffer)
+        01-blink        run 1: pass   run 2: pass   run 3: fail (timeout)   -> task pass (2/3)
+        02-gatt-notify  run 4: pass   run 5: invalid (USB disconnect, rerun as 6)   run 6: pass   run 7: pass   -> task pass (3/3)
     validations:
       required: true
   - type: textarea
@@ -50,19 +67,19 @@ body:
     attributes:
       label: Hardware evidence
       description: >-
-        The flash tool's output showing it detected the chip and wrote the image — for example esptool's
-        `Chip is ESP32-C3` line, the `arduino-cli upload` port, or probe-rs's target — and the serial log read
-        back from the board during the run. Output from a simulator or a hosted virtual board is not accepted.
+        The flash tool's output showing it detected the chip and wrote the image — for example esptool's chip line,
+        the arduino-cli upload port, or probe-rs's target — and a serial log read back from the board. Output from
+        a simulator or a hosted virtual board is not accepted.
       render: text
     validations:
       required: true
   - type: input
-    id: transcript
+    id: records
     attributes:
-      label: Transcript link
+      label: Run records and transcripts
       description: >-
-        Gist or repo containing the full agent session. Required — attestations without a transcript are not
-        accepted.
+        Link to the directory holding every run record, its evidence files and the unedited agent transcripts.
+        Attestations without them are not accepted.
     validations:
       required: true
   - type: checkboxes
@@ -70,9 +87,13 @@ body:
     attributes:
       label: Confirmation
       options:
-        - label: The tasks ran on a physical board — not a simulator and not a hosted virtual board.
+        - label: The package's eval_validated record covers the version I tested.
           required: true
-        - label: I ran the tasks exactly as written in the skill's `evals/tasks/`, with no extra hints beyond the prompt.
+        - label: The runs were on a physical board — not a simulator and not a hosted virtual board.
           required: true
-        - label: The transcript is unedited.
+        - label: I reported every run, including failed and invalid ones, and did not choose which runs to count.
+          required: true
+        - label: I gave the agent each prompt verbatim, with no extra hints.
+          required: true
+        - label: The transcripts are unedited.
           required: true
