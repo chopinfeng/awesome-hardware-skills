@@ -882,6 +882,6 @@ A2A（Agent2Agent）发布十七个月后仍没有任何真正的硬件实现：
 
 ## 贡献
 
-请阅读 [CONTRIBUTING.zh-CN.md](CONTRIBUTING.zh-CN.md)。简而言之：每个条目一行、放进正确的分类，运行 `python scripts/l0_check.py readme README.md`；如果你添加的是自己维护的 Skill，请把 [`template/evals/`](template/evals/) 复制进去，并在真实板子上跑过之后提交一份 [L2 实测背书](.github/ISSUE_TEMPLATE/attestation.yml)。
+请阅读 [CONTRIBUTING.zh-CN.md](CONTRIBUTING.zh-CN.md)。简而言之：每个条目一行、放进正确的分类，运行 `python scripts/l0_check.py readme README.md`；如果你添加的是自己维护的 Skill，请把 [`template/evals/`](template/evals/) 复制进去（或者让 [hardware-skill-creator](skills/hardware-skill-creator/) 和你一起搭建这个包），并在真实板子上跑过之后提交一份 [L2 实测背书](.github/ISSUE_TEMPLATE/attestation.yml)。
 
 新增或修改条目时，请**同时修改** `README.md` 与本文件——CI 会检查两份文档的条目是否一一对应。

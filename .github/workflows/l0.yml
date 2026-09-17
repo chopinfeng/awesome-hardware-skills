@@ -47,3 +47,16 @@ jobs:
       - run: pip install pyyaml
       - run: python scripts/l0_check.py skill template
       - run: python scripts/l0_check.py forms .github/ISSUE_TEMPLATE
+
+  skill-creator:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pyyaml
+      - run: python scripts/l0_check.py skill skills/hardware-skill-creator
+      - run: python scripts/test_skill_creator.py
+      - run: python scripts/l0_check.py links skills/hardware-skill-creator/README.md
+      - run: python scripts/l0_check.py links skills/hardware-skill-creator/README.zh-CN.md
+      - run: python scripts/l0_check.py sync skills/hardware-skill-creator/README.md skills/hardware-skill-creator/README.zh-CN.md

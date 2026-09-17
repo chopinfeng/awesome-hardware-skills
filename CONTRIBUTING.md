@@ -46,7 +46,9 @@ and the package format reference.
 
 The short version:
 
-1. Copy [`template/evals/`](template/evals/) into your skill and fill in `manifest.yaml`.
+1. Copy [`template/evals/`](template/evals/) into your skill and fill in `manifest.yaml` — or install
+   [hardware-skill-creator](skills/hardware-skill-creator/), an Agent Skill that scaffolds the package, checks it,
+   and walks you and your agent through every step below.
 2. Write about three tasks — easy, medium, hard — whose assertions observe physical side effects, with at least
    one stronger than `compile_only`.
 3. Run `python scripts/l0_check.py skill path/to/skill` until it passes.

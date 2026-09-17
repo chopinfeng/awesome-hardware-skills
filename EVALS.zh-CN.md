@@ -16,6 +16,7 @@
 |---|---|
 | Eval 包格式 | 本文档中定义；起步模板在 `template/evals/` |
 | `L0` 静态检查 | **可用**，已接入 CI——`python scripts/l0_check.py skill <path>` |
+| 编写辅助 | **可用**——[`skills/hardware-skill-creator/`](skills/hardware-skill-creator/)，一个 Agent Skill：生成包的脚手架，执行 L0 不做的检查（空转命令、prompt 中的取值、fixtures、泄漏提示），并协助执行阶段 0–3 |
 | `L1` 模拟器预检 runner | 尚未构建，且永远不算通过 |
 | 真实硬件上的阶段 0–3 | **可用，人工执行**——下面每一步今天都能用一块板子和所列工具完成 |
 | `L2` 背书表单 | **可用**——`.github/ISSUE_TEMPLATE/attestation.yml`（2026-09-16 之前是非法 YAML；CI 现在会检查它） |
@@ -48,7 +49,7 @@
 
 以下所有内容都要写进每一条运行记录。在不同测试台上跑出的两次运行不可比较。
 
-**目标板。** 必须是 `target.board` 中指定的那块板，包括版本，例如 `esp32-c3-devkitm-1 rev 1.1`。不能用同系列的兄弟型号代替。
+**目标板。** 必须是 `target.board` 中指定的那块板；厂商有多个版本或模组型号时要写明，例如 `esp32-c3-devkitm-1 ESP32-C3-MINI-1`。不能用同系列的兄弟型号代替。
 
 **主机。** 操作系统及版本，以及版本恰好等于 `target.framework_version` 的工具链。请用带电源的 USB Hub 或台式电源给板子供电——USB 口供电不足会导致掉电复位，看起来就像固件 bug。
 
@@ -145,7 +146,7 @@ ls *.ino >/dev/null 2>&1 && ! grep -q "Wire.begin(" *.ino
 ```yaml
 eval_validated:
   date: 2026-09-20
-  board: esp32-c3-devkitm-1 rev 1.1
+  board: esp32-c3-devkitm-1 ESP32-C3-MINI-1
   framework_version: "5.2.2"
   reference_passed: true      # 检查 1，每个任务
   empty_failed: true          # 检查 2，每条断言
@@ -189,7 +190,7 @@ eval_validated:
 
 一个崩溃重启的固件每次都会重新打印启动输出，所以崩溃循环本身就可能满足 `min_matches`。因此，只要时间零点之后串口抓取中出现重启或致命错误，每次运行都判失败——除非任务设置了 `expect_reset: true`。
 
-匹配模式来自 manifest 的 `reboot_patterns`。对 ESP32 系列，默认值为：启动横幅（`^(rst:0x|ESP-ROM:|ets )`）、崩溃（`Guru Meditation|abort\(\) was called|Backtrace:`）以及掉电复位（`Brownout detector`）。其他芯片系列的包需要定义自己的模式。在原生 USB 串口的板子上，时间零点之后端口重新枚举也算作一次重启。
+时间零点触发的那一次启动是预期之内的，所以保护机制使用 manifest 的两个字段。`boot_banner` 匹配每次启动恰好打印一次的那一行；时间零点之后第二次匹配就是一次重启。`reboot_patterns` 匹配致命错误输出；时间零点之后任何一次匹配都判运行失败。对 ESP32 系列，默认的横幅是 `^rst:0x`（ROM 每次启动打印一行），致命模式是崩溃（`Guru Meditation|abort\(\) was called|assert failed:|Backtrace:`）和掉电复位（`Brownout detector`）。其他芯片系列的包需要定义自己的模式；平台本身不打印横幅时，由 reference 和 prompt 在程序开头打印一行固定文字。在原生 USB 串口的板子上，时间零点之后端口重新枚举也算作一次重启。
 
 ### 任务与包如何算通过
 
@@ -278,15 +279,15 @@ def delta_pass(k_with, n_with, k_without, n_without):
 - **在释放复位之前打开串口**，否则会丢失早期输出。配置串口，使"打开串口"这个动作本身不会复位板子或让它停在 bootloader——在很多 ESP32 板子上，DTR 和 RTS 连着 EN 与 GPIO0——然后主动复位板子，并把这个时间戳记为时间零点。
 - **使用原生 USB 串口的板子**（例如使用 USB-Serial/JTAG 的 ESP32-S3 或 ESP32-C3）在复位时端口会重新枚举。从复位时刻开始计时，端口一出现就开始抓取，并记下这段空档。空档期间打印的内容会丢失，所以面向这类板子的任务应该反复打印，而不是只打印一次。
 - **抓取**时使用任务的 `baud`，写入日志文件，每行一条记录并带主机时间戳，并记录串口的 USB 序列号。在观测窗口结束后 10 秒内、不拔线的情况下，在同一个串口上运行芯片身份命令，把日志与芯片关联起来。
-- **匹配**时先统一换行符，再逐行用 `pattern` 做正则匹配。在时间零点后的 `within_s` 内至少有 `min_matches` 行匹配即通过。
-- **带 `human_action` 的任务：** 该操作本应触发的那些行，在操作之前不得匹配。这个对照窗口能抓出"没有输入刺激也照样打印预期输出"的固件。
+- **匹配**时先统一换行符，再逐行用 `pattern` 做正则匹配。在时间零点后的 `within_s` 内至少有 `min_matches` 行匹配、并且设置了 `max_matches` 时不超过该数，即通过。
+- **带 `human_action` 的任务：** 该操作本应触发的那些行，在操作之前不得匹配。给这些断言加上 `after_human_action: true`。这个对照窗口能抓出"没有输入刺激也照样打印预期输出"的固件。
 
 ### `gpio_state`
 
 - 把逻辑分析仪的一个通道接到 `pin`，并与板子共地。
 - 采样率不低于任务所隐含的最快边沿速率的十倍；对于几千赫兹以下的信号，1 MHz 绰绰有余。
 - 从时间零点起至少抓取 `within_s`，并保存原始抓包，例如 sigrok 的 `.sr` 文件。
-- 对于 `expect: toggles`，统计窗口内的边沿数，不少于 `min_edges` 即通过。
+- 对于 `expect: toggles`，统计窗口内的边沿数，不少于 `min_edges`、并且设置了 `max_edges` 时不超过该数，即通过。上限能抓出翻转速度远超要求的引脚。
 
 ### `bus_capture`
 
@@ -315,7 +316,7 @@ phase: pass                       # self-test | pass | ab-with | ab-without
 task: 01-blink
 skill: {repo: https://github.com/owner/skill, commit: 3f2a9c1}
 eval_version: 0.1.0
-board: esp32-c3-devkitm-1 rev 1.1
+board: esp32-c3-devkitm-1 ESP32-C3-MINI-1
 chip_id: "30:ed:a0:88:88:a0"
 serial_port: {device: /dev/ttyACM0, usb_serial: "30:ED:A0:88:88:A0"}
 host: {os: Ubuntu 24.04, framework_version: "5.2.2", baseline: vm-snapshot-2026-09-20}
@@ -335,7 +336,7 @@ reboot_guard: pass
 assertions:
   - {type: compile_only, result: pass}
   - {type: serial_match, result: pass, matches: 6, evidence: runs/07/serial.log}
-  - {type: gpio_state,   result: pass, edges: 12, evidence: runs/07/gpio8.sr}
+  - {type: gpio_state,   result: pass, edges: 12, evidence: runs/07/gpio5.sr}
 result: pass                      # pass | fail | invalid
 failure_class: null               # build | flash | crash | behaviour | timeout | tampered
 invalid_reason: null
@@ -413,7 +414,8 @@ my-skill/
 | `target.toolchain` | 否 | 预期 Agent 调用的工具：`idf.py`、`arduino-cli`、`west`。 |
 | `simulator` | 是 | L1 预检将在哪里运行：`wokwi`、`renode`、`qemu`、`native_sim`、`gazebo`、`isaac`、`mujoco`、`webots`、`ha-demo`、`modbus-sim`、`opcua-sim` 或 `none`。与能否通过无关，声明 `none` 没有任何代价。 |
 | `assertions_supported` | 是 | 任一任务用到的所有断言类型。 |
-| `reboot_patterns` | 否 | 重启保护据以判失败的正则表达式。ESP32 系列有默认值；其他系列自行定义。 |
+| `boot_banner` | L2 需要 | 匹配每次启动恰好打印一次的那一行的正则表达式。时间零点之后第二次匹配即为重启。 |
+| `reboot_patterns` | L2 需要 | 致命错误输出的正则表达式；时间零点之后任何一次匹配都判运行失败。ESP32 系列有默认值；其他系列自行定义。 |
 | `eval_validated` | L2 必填 | 阶段 0 记录。没有它，背书不被接受。 |
 | `sequential_plan` | 否 | 若阶段 3 会提前停止，事先登记的错误率与每组最大运行次数。 |
 | `verified.L0` | 否 | `l0_check.py` 通过后填写 `{date, run}`。 |
@@ -445,8 +447,8 @@ my-skill/
 | 类型 | 观测对象 | 字段 |
 |---|---|---|
 | `compile_only` | `build.cmd` 以 0 退出 | 无 |
-| `serial_match` | UART 输出 | `baud`、`pattern`（正则表达式，逐行）、`min_matches`、`within_s` |
-| `gpio_state` | 引脚电平随时间的变化 | `pin`、`expect`（如 `toggles`）、`min_edges`、`within_s` |
+| `serial_match` | UART 输出 | `baud`、`pattern`（正则表达式，逐行）、`min_matches`、`within_s`，可选 `max_matches` 与 `after_human_action` |
+| `gpio_state` | 引脚电平随时间的变化 | `pin`、`expect`（如 `toggles`）、`min_edges`、`within_s`，可选 `max_edges` |
 | `bus_capture` | 总线上的通信 | `bus`（如 `ble`）、`expect`（与总线相关，如 `adv_name`、`service_uuid`、`char_uuid`、`notify_count_min`、`within_s`） |
 | `exit_code` | 脚本的结果 | `cmd`、`expect` |
 | `network_probe`、`ros_topic`、`file_exists` | —— | 保留；由第一个需要它的包来定义 |

@@ -36,7 +36,7 @@
 
 简短版本：
 
-1. 把 [`template/evals/`](template/evals/) 复制到你的 Skill 中，填写 `manifest.yaml`。
+1. 把 [`template/evals/`](template/evals/) 复制到你的 Skill 中，填写 `manifest.yaml`——或者安装 [hardware-skill-creator](skills/hardware-skill-creator/)：这是一个 Agent Skill，会生成包的脚手架、检查它，并带着你和你的 agent 走完下面每一步。
 2. 写大约三个任务——简单、中等、困难——其断言观测物理副作用，并且至少有一条强于 `compile_only`。
 3. 运行 `python scripts/l0_check.py skill path/to/skill`，直到通过。
 4. **阶段 0——验证 eval。** 为每个任务在 `evals/fixtures/<task-id>/` 下添加 `reference/`、`broken/` 与 `spoof/` 三份方案，并在板子上证明：参考方案通过、空工程上每条断言都失败、错误方案与伪造固件都被抓住。确认 Skill 中不含任何任务的答案。把结果记为 manifest 中的 `eval_validated`。

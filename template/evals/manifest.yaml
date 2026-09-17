@@ -27,10 +27,11 @@ assertions_supported:
 # Required before any attestation is accepted.
 eval_validated: null             # {date, board, framework_version, reference_passed, empty_failed, broken_caught, spoof_caught, leakage_reviewed, evidence}
 
-# Patterns the reboot guard fails on after time zero. These are the ESP32-series defaults; other families define their own.
+# Reboot guard. The boot that time zero starts prints boot_banner once; a second match is a reboot.
+# Any reboot_patterns match after time zero fails the run. ESP32-series defaults; other families define their own.
+boot_banner: '^rst:0x'
 reboot_patterns:
-  - '^(rst:0x|ESP-ROM:|ets )'
-  - 'Guru Meditation|abort\(\) was called|Backtrace:'
+  - 'Guru Meditation|abort\(\) was called|assert failed:|Backtrace:'
   - 'Brownout detector'
 
 # Only if Phase 3 will stop early: error rate and maximum runs per arm, recorded before the first A/B run.

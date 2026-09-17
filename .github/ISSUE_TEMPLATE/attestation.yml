@@ -20,7 +20,7 @@ body:
     attributes:
       label: Board
       description: Exact board id and revision, as named in the package's target.board.
-      placeholder: esp32-c3-devkitm-1 rev 1.1
+      placeholder: esp32-c3-devkitm-1 ESP32-C3-MINI-1
     validations:
       required: true
   - type: input

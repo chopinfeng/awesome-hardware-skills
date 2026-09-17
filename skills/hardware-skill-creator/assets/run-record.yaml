@@ -1,0 +1,32 @@
+# One record per run: self-tests, pass runs, A/B runs and invalid runs alike.
+# Commit it next to its evidence files; a SHA256SUMS file must cover every file in the directory.
+run: 1
+session: YYYY-MM-DD-a
+phase: pass                       # self-test | pass | ab-with | ab-without
+task: 01-task-id
+skill: {repo: https://github.com/owner/skill, commit: 0000000}
+eval_version: 0.1.0
+board: exact-board-id rev X
+chip_id: ""                       # from the flash tool / chip-ID command, same across the session
+serial_port: {device: /dev/ttyACM0, usb_serial: ""}
+host: {os: "", framework_version: "", baseline: ""}   # baseline = VM snapshot, container image or clean user
+agent: {model: "", harness: "", network: true, session_id: ""}
+started: YYYY-MM-DDTHH:MM:SSZ
+ended: YYYY-MM-DDTHH:MM:SSZ
+agent_outcome: declared-done      # declared-done | timeout
+skill_dir_sha256: {before: "", after: ""}             # bench.py install / bench.py hash
+skill_invoked: null               # true | false, from the transcript (with-skill runs)
+effort: {builds: 0, flashes: 0, first_build_ok: null, tokens_in: 0, tokens_out: 0, cost_usd: 0, wall_s: 0}
+workdir_sha256: ""                # bench.py freeze
+build: {exit: null, log: runs/01/build.log}
+flash: {exit: null, log: runs/01/flash.log, detected_chip: ""}
+time_zero: YYYY-MM-DDTHH:MM:SS.sssZ
+human_actions: []                 # e.g. [{at: "+5.0s", action: "pressed button on GPIO39"}]
+reboot_guard: null                # pass | fail
+assertions:
+  - {type: compile_only, result: null}
+  - {type: serial_match, result: null, matches: 0, evidence: runs/01/serial.log}
+result: null                      # pass | fail | invalid  (decide invalid from bench evidence first)
+failure_class: null               # build | flash | crash | behaviour | timeout | tampered
+invalid_reason: null
+transcript: {path: runs/01/transcript.jsonl, sha256: ""}

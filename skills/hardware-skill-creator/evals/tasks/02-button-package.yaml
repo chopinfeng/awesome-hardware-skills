@@ -1,0 +1,54 @@
+id: 02-button-package
+level: medium
+timeout_s: 1800
+
+prompt: |
+  I have an ESP32-C3-DevKitM-1 and ESP-IDF 5.2. Create an Agent Skill named esp32c3-button-events,
+  in the directory esp32c3-button-events/, with an eval package that passes the awesome-hardware-skills L0
+  check and its package check with no errors.
+
+  One of its tasks must have the id 01-boot-button and must ask for firmware that prints "button down" at
+  115200 baud each time the BOOT button (GPIO9) is pressed, using a GPIO interrupt whose handler only signals a
+  task and never prints. The task must define the tester's physical button press, and the "button down"
+  assertion must only accept output that appears after that press. Fill in all three fixtures for it —
+  reference, broken (a handler that prints directly) and spoof (prints "button down" without any press) — under
+  esp32c3-button-events/evals/fixtures/01-boot-button/. Like every reference solution, the reference must print
+  "chip_id=" followed by the chip's MAC address in lowercase, colon-separated, once at boot.
+
+build:
+  cmd: idf.py -C esp32c3-button-events/evals/fixtures/01-boot-button/reference build
+
+flash:
+  cmd: idf.py -C esp32c3-button-events/evals/fixtures/01-boot-button/reference -p {port} flash
+
+human_action: press and release the BOOT button (GPIO9) once, 5 s after time zero
+
+# Mistakes this catches: no control window (after_human_action), missing or placeholder broken/spoof fixtures,
+# and a reference that prints before or without the press.
+assertions:
+  - type: exit_code
+    cmd: python3 "$HWSC_TOOLS/l0_check.py" skill esp32c3-button-events
+    expect: 0
+  - type: exit_code
+    cmd: python3 "$HWSC_TOOLS/check_package.py" esp32c3-button-events
+    expect: 0
+  - type: exit_code
+    cmd: >-
+      python3 -c "import yaml,sys,pathlib; b=pathlib.Path('esp32c3-button-events/evals');
+      t=yaml.safe_load(open(b/'tasks/01-boot-button.yaml'));
+      ok=bool(t.get('human_action')) and any(x.get('after_human_action') for x in t['assertions']);
+      ok=ok and all(any(f.suffix in ('.c','.h') for f in (b/'fixtures/01-boot-button'/k).rglob('*')) for k in ('reference','broken','spoof'));
+      sys.exit(0 if ok else 1)"
+    expect: 0
+  - type: compile_only
+  - type: serial_match
+    baud: 115200
+    pattern: '^chip_id=[0-9a-f]{2}(:[0-9a-f]{2}){5}$'
+    min_matches: 1
+    within_s: 5
+  - type: serial_match
+    baud: 115200
+    pattern: '^button down$'
+    min_matches: 1
+    within_s: 10
+    after_human_action: true

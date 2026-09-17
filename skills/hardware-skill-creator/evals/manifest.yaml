@@ -1,0 +1,47 @@
+# Eval package for hardware-skill-creator itself. Same rule as every package: it passes only on a physical board.
+# Each task asks the agent to create a hardware skill with an eval package; the run passes only if that package
+# is well-formed AND its reference fixture, built and flashed by the tester, does the task on the board.
+#
+# The exit_code assertions call the tester's own copies of l0_check.py and check_package.py from $HWSC_TOOLS,
+# a directory the agent cannot read. Set it before evaluating: export HWSC_TOOLS=/path/outside/agent/reach
+# The tester's Python needs pyyaml.
+
+skill: hardware-skill-creator
+version: 0.1.0
+
+target:
+  board: esp32-c3-devkitm-1 ESP32-C3-MINI-1
+  framework: esp-idf
+  framework_version: "5.2"
+  toolchain: idf.py
+
+simulator: none                  # the agent's output is a package; nothing to simulate before the board
+
+assertions_supported:
+  - compile_only
+  - serial_match
+  - gpio_state
+  - bus_capture
+  - exit_code
+
+# Phase 0 not done: fixtures/<task-id>/{reference,broken,spoof} do not exist yet.
+eval_validated: null
+
+boot_banner: '^rst:0x'
+reboot_patterns:
+  - 'Guru Meditation|abort\(\) was called|assert failed:|Backtrace:'
+  - 'Brownout detector'
+
+sequential_plan: null
+
+verified:
+  L0: null
+  L1: null
+  L2: []
+
+ab:
+  baseline_model: null
+  pass_rate_with: null
+  pass_rate_without: null
+  first_compile_ok_with: null
+  first_compile_ok_without: null

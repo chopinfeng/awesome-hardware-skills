@@ -19,6 +19,7 @@ for a working one.
 |---|---|
 | Eval package format | Defined in this document; starter in `template/evals/` |
 | `L0` static checks | **Working**, in CI — `python scripts/l0_check.py skill <path>` |
+| Authoring help | **Working** — [`skills/hardware-skill-creator/`](skills/hardware-skill-creator/), an Agent Skill that scaffolds a package, runs checks L0 does not (vacuous commands, prompt values, fixtures, leakage hints), and helps run Phases 0–3 |
 | `L1` simulator pre-check runner | Not built, and never a pass |
 | Phases 0–3 on real hardware | **Working, by hand** — every step below can be done today with a board and the tools listed |
 | `L2` attestation form | **Working** — `.github/ISSUE_TEMPLATE/attestation.yml` (it was invalid YAML until 2026-09-16; CI now checks it) |
@@ -56,7 +57,7 @@ nothing about the skill. That is what Phase 0 and the isolation rules exist for,
 
 Everything below is recorded in each run record. Two runs on different benches are not comparable.
 
-**Target board.** The exact board named in `target.board`, including revision, e.g. `esp32-c3-devkitm-1 rev 1.1`.
+**Target board.** The exact board named in `target.board`, including its revision or module variant where the vendor sells more than one, e.g. `esp32-c3-devkitm-1 ESP32-C3-MINI-1`.
 Not a sibling from the same family.
 
 **Host.** Operating system and version, and the toolchain at exactly `target.framework_version`. Power the board
@@ -199,7 +200,7 @@ validated.
 ```yaml
 eval_validated:
   date: 2026-09-20
-  board: esp32-c3-devkitm-1 rev 1.1
+  board: esp32-c3-devkitm-1 ESP32-C3-MINI-1
   framework_version: "5.2.2"
   reference_passed: true      # check 1, every task
   empty_failed: true          # check 2, every assertion
@@ -270,10 +271,13 @@ A firmware that crashes and reboots prints its boot output again every time, so 
 `min_matches` on its own. Every run therefore fails if, after time zero, the serial capture shows a reboot or a
 fatal error — unless the task sets `expect_reset: true`.
 
-The patterns come from the manifest's `reboot_patterns`. For the ESP32 series the defaults are a boot banner
-(`^(rst:0x|ESP-ROM:|ets )`), a panic (`Guru Meditation|abort\(\) was called|Backtrace:`) and a brown-out
-(`Brownout detector`). Packages for other families define their own. On a board with native USB serial, the port
-re-enumerating after time zero also counts as a reboot.
+The boot that time zero starts is expected, so the guard uses two manifest fields. `boot_banner` matches a line
+printed exactly once per boot; a second match after time zero is a reboot. `reboot_patterns` match fatal output;
+any match after time zero fails the run. For the ESP32 series the defaults are `^rst:0x` as the banner — the ROM
+prints one such line per boot — and a panic (`Guru Meditation|abort\(\) was called|assert failed:|Backtrace:`) and a brown-out
+(`Brownout detector`) as fatal patterns. Packages for other families define their own; where the platform prints
+no banner, the reference and the prompt print a fixed line first thing. On a board with native USB serial, the
+port re-enumerating after time zero also counts as a reboot.
 
 ### How a task and a package pass
 
@@ -397,9 +401,10 @@ Run `build.cmd` in the frozen copy. Passes if it exits 0. Keep the full build lo
   port's USB serial number. Within 10 seconds of the observation window closing, run the chip-identity command on
   the same port without unplugging, so the log is tied to the chip.
 - **Match** per line after normalising line endings, using `pattern` as a regular expression. Pass if at least
-  `min_matches` lines match within `within_s` of time zero.
-- **Tasks with a `human_action`:** the lines the action is meant to trigger must not match before the action. That
-  control window catches firmware that prints the expected output without the stimulus.
+  `min_matches` lines match within `within_s` of time zero, and, when `max_matches` is set, no more than that many.
+- **Tasks with a `human_action`:** the lines the action is meant to trigger must not match before the action. Mark
+  those assertions `after_human_action: true`. That control window catches firmware that prints the expected
+  output without the stimulus.
 
 ### `gpio_state`
 
@@ -407,7 +412,8 @@ Run `build.cmd` in the frozen copy. Passes if it exits 0. Keep the full build lo
 - Sample at no less than ten times the fastest edge rate the task implies; 1 MHz is ample for anything slower
   than a few kilohertz.
 - Capture for at least `within_s` from time zero and save the raw capture, e.g. a sigrok `.sr` file.
-- For `expect: toggles`, count edges in the window and pass if the count is at least `min_edges`.
+- For `expect: toggles`, count edges in the window and pass if the count is at least `min_edges` and, when
+  `max_edges` is set, at most that. An upper bound catches a pin toggled far faster than asked.
 
 ### `bus_capture`
 
@@ -444,7 +450,7 @@ phase: pass                       # self-test | pass | ab-with | ab-without
 task: 01-blink
 skill: {repo: https://github.com/owner/skill, commit: 3f2a9c1}
 eval_version: 0.1.0
-board: esp32-c3-devkitm-1 rev 1.1
+board: esp32-c3-devkitm-1 ESP32-C3-MINI-1
 chip_id: "30:ed:a0:88:88:a0"
 serial_port: {device: /dev/ttyACM0, usb_serial: "30:ED:A0:88:88:A0"}
 host: {os: Ubuntu 24.04, framework_version: "5.2.2", baseline: vm-snapshot-2026-09-20}
@@ -464,7 +470,7 @@ reboot_guard: pass
 assertions:
   - {type: compile_only, result: pass}
   - {type: serial_match, result: pass, matches: 6, evidence: runs/07/serial.log}
-  - {type: gpio_state,   result: pass, edges: 12, evidence: runs/07/gpio8.sr}
+  - {type: gpio_state,   result: pass, edges: 12, evidence: runs/07/gpio5.sr}
 result: pass                      # pass | fail | invalid
 failure_class: null               # build | flash | crash | behaviour | timeout | tampered
 invalid_reason: null
@@ -568,7 +574,8 @@ make Phase 3 expensive.
 | `target.toolchain` | no | What the agent is expected to invoke: `idf.py`, `arduino-cli`, `west`. |
 | `simulator` | yes | Where L1 pre-checks will run: `wokwi`, `renode`, `qemu`, `native_sim`, `gazebo`, `isaac`, `mujoco`, `webots`, `ha-demo`, `modbus-sim`, `opcua-sim`, or `none`. It has no bearing on passing, and `none` costs nothing. |
 | `assertions_supported` | yes | Every assertion type any task uses. |
-| `reboot_patterns` | no | Regular expressions the reboot guard fails on. Defaults exist for the ESP32 series; other families define their own. |
+| `boot_banner` | for L2 | Regular expression matching a line printed exactly once per boot. A second match after time zero is a reboot. |
+| `reboot_patterns` | for L2 | Regular expressions for fatal output; any match after time zero fails the run. Defaults exist for the ESP32 series; other families define their own. |
 | `eval_validated` | for L2 | Phase 0 record. Attestations are not accepted without it. |
 | `sequential_plan` | no | Pre-registered error rate and maximum runs per arm, if Phase 3 will stop early. |
 | `verified.L0` | no | `{date, run}` once `l0_check.py` passes. |
@@ -601,8 +608,8 @@ board every assertion is evaluated.
 | Type | Observes | Fields |
 |---|---|---|
 | `compile_only` | `build.cmd` exits 0 | none |
-| `serial_match` | UART output | `baud`, `pattern` (regular expression, per line), `min_matches`, `within_s` |
-| `gpio_state` | Pin levels over time | `pin`, `expect` (e.g. `toggles`), `min_edges`, `within_s` |
+| `serial_match` | UART output | `baud`, `pattern` (regular expression, per line), `min_matches`, `within_s`, optional `max_matches` and `after_human_action` |
+| `gpio_state` | Pin levels over time | `pin`, `expect` (e.g. `toggles`), `min_edges`, `within_s`, optional `max_edges` |
 | `bus_capture` | Traffic on a bus | `bus` (e.g. `ble`), `expect` (bus-specific, e.g. `adv_name`, `service_uuid`, `char_uuid`, `notify_count_min`, `within_s`) |
 | `exit_code` | A script's result | `cmd`, `expect` |
 | `network_probe`, `ros_topic`, `file_exists` | — | Reserved; defined by the first package that needs one |

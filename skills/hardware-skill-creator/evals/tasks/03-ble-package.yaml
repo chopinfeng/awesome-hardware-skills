@@ -1,0 +1,52 @@
+id: 03-ble-package
+level: hard
+timeout_s: 2400
+
+prompt: |
+  I have an ESP32-C3-DevKitM-1 and ESP-IDF 5.2. Create an Agent Skill named esp32c3-ble-beacon, in
+  the directory esp32c3-ble-beacon/, with an eval package that passes the awesome-hardware-skills L0 check and
+  its package check with no errors.
+
+  One of its tasks must have the id 01-advertise and must ask for NimBLE firmware that advertises with the
+  complete local name "hwsc-beacon" and prints "adv started" at 115200 baud once advertising begins. Its
+  assertions must include a BLE bus capture of the advertised name. Put a buildable ESP-IDF reference solution
+  for it in esp32c3-ble-beacon/evals/fixtures/01-advertise/reference/. Like every reference solution, it must
+  print "chip_id=" followed by the chip's MAC address in lowercase, colon-separated, once at boot.
+
+build:
+  cmd: idf.py -C esp32c3-ble-beacon/evals/fixtures/01-advertise/reference build
+
+flash:
+  cmd: idf.py -C esp32c3-ble-beacon/evals/fixtures/01-advertise/reference -p {port} flash
+
+# Mistakes this catches: a radio task evaluated only by serial text (spoofable), NimBLE not enabled in
+# sdkconfig.defaults so the reference does not build, and a name that is not actually on air.
+assertions:
+  - type: exit_code
+    cmd: python3 "$HWSC_TOOLS/l0_check.py" skill esp32c3-ble-beacon
+    expect: 0
+  - type: exit_code
+    cmd: python3 "$HWSC_TOOLS/check_package.py" esp32c3-ble-beacon
+    expect: 0
+  - type: exit_code
+    cmd: >-
+      python3 -c "import yaml,sys; t=yaml.safe_load(open('esp32c3-ble-beacon/evals/tasks/01-advertise.yaml'));
+      sys.exit(0 if any(x.get('type')=='bus_capture' and x.get('bus')=='ble'
+      and (x.get('expect') or {}).get('adv_name')=='hwsc-beacon' for x in t['assertions']) else 1)"
+    expect: 0
+  - type: compile_only
+  - type: serial_match
+    baud: 115200
+    pattern: '^chip_id=[0-9a-f]{2}(:[0-9a-f]{2}){5}$'
+    min_matches: 1
+    within_s: 5
+  - type: serial_match
+    baud: 115200
+    pattern: '^adv started$'
+    min_matches: 1
+    within_s: 5
+  - type: bus_capture
+    bus: ble
+    expect:
+      adv_name: hwsc-beacon
+      within_s: 10

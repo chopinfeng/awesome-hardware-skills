@@ -1,0 +1,52 @@
+id: 01-toggle-package
+level: easy
+timeout_s: 1800
+
+prompt: |
+  I have an ESP32-C3-DevKitM-1 and ESP-IDF 5.2. Create an Agent Skill for this board named
+  esp32c3-devkitm1-basics, in the directory esp32c3-devkitm1-basics/, with an eval package that passes the
+  awesome-hardware-skills L0 check and its package check with no errors.
+
+  One of its tasks must have the id 01-toggle and must ask for firmware that toggles GPIO5 every 500 ms and prints
+  "tick" at 115200 baud on every toggle; its assertions must check the "tick" lines on serial and the edges on
+  GPIO5. Put a buildable ESP-IDF reference solution for it in
+  esp32c3-devkitm1-basics/evals/fixtures/01-toggle/reference/. Like every reference solution, it must print
+  "chip_id=" followed by the chip's MAC address in lowercase, colon-separated, once at boot.
+
+build:
+  cmd: idf.py -C esp32c3-devkitm1-basics/evals/fixtures/01-toggle/reference build
+
+flash:
+  cmd: idf.py -C esp32c3-devkitm1-basics/evals/fixtures/01-toggle/reference -p {port} flash
+
+# Mistakes this catches: a package that looks right but fails L0 or the package check; a task whose assertions
+# do not observe the board; a reference that does not build, does not run, or omits the chip ID line.
+assertions:
+  - type: exit_code
+    cmd: python3 "$HWSC_TOOLS/l0_check.py" skill esp32c3-devkitm1-basics
+    expect: 0
+  - type: exit_code
+    cmd: python3 "$HWSC_TOOLS/check_package.py" esp32c3-devkitm1-basics
+    expect: 0
+  - type: exit_code
+    cmd: >-
+      python3 -c "import yaml,sys; t=yaml.safe_load(open('esp32c3-devkitm1-basics/evals/tasks/01-toggle.yaml'));
+      a=t['assertions']; sys.exit(0 if any(x.get('type')=='gpio_state' and x.get('pin')==5 for x in a)
+      and any(x.get('type')=='serial_match' and 'tick' in str(x.get('pattern')) for x in a) else 1)"
+    expect: 0
+  - type: compile_only
+  - type: serial_match
+    baud: 115200
+    pattern: '^chip_id=[0-9a-f]{2}(:[0-9a-f]{2}){5}$'
+    min_matches: 1
+    within_s: 5
+  - type: serial_match
+    baud: 115200
+    pattern: '^tick$'
+    min_matches: 4
+    within_s: 5
+  - type: gpio_state
+    pin: 5
+    expect: toggles
+    min_edges: 4
+    within_s: 5

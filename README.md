@@ -902,4 +902,4 @@ Boston Dynamics Spot, and generic USB control (USB *analysis* is now covered).
 
 ## Contributing
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md). Short version: one line per entry in the right category, run `python scripts/l0_check.py readme README.md`, and if you are adding a skill you maintain, copy [`template/evals/`](template/evals/) into it and file an [L2 attestation](.github/ISSUE_TEMPLATE/attestation.yml) once you have run it on a board.
+Read [CONTRIBUTING.md](CONTRIBUTING.md). Short version: one line per entry in the right category, run `python scripts/l0_check.py readme README.md`, and if you are adding a skill you maintain, copy [`template/evals/`](template/evals/) into it (or let [hardware-skill-creator](skills/hardware-skill-creator/) build the package with you) and file an [L2 attestation](.github/ISSUE_TEMPLATE/attestation.yml) once you have run it on a board.
