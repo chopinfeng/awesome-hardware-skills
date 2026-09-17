@@ -45,8 +45,8 @@ def head(url: str) -> tuple[str, int | str]:
         with urllib.request.urlopen(req, timeout=15) as r:
             return url, r.status
     except urllib.error.HTTPError as e:
-        if e.code in (403, 405, 429):
-            return url, e.code  # GitHub and friends often reject HEAD; treated as ok below
+        if e.code in (403, 405, 429) or (e.code == 406 and "arxiv.org" in url):
+            return url, e.code  # GitHub rejects HEAD; arXiv answers 406 when throttling bursts; treated as ok below
         # some CDNs answer HEAD with 404 for a resource GET serves fine; confirm before failing
         try:
             with urllib.request.urlopen(urllib.request.Request(url, headers=req.headers), timeout=20) as r:
@@ -79,7 +79,7 @@ def check_readme(path: Path) -> None:
             fail(f"{path}:{n}: description should start with a capital, digit or code span and end with a period")
     with ThreadPoolExecutor(16) as ex:
         for url, status in ex.map(head, urls):
-            if not (isinstance(status, int) and status < 400 or status in (403, 405, 429)):
+            if not (isinstance(status, int) and status < 400 or status in (403, 405, 429) or status == 406 and "arxiv.org" in url):
                 fail(f"{path}:{urls[url]}: {url} -> {status}")
     print(f"checked {len(urls)} links")
 
@@ -105,7 +105,7 @@ def check_links(path: Path) -> None:
                     fail(f"{path}:{n}: {target} does not exist")
     with ThreadPoolExecutor(16) as ex:
         for url, status in ex.map(head, remote):
-            if not (isinstance(status, int) and status < 400 or status in (403, 405, 429)):
+            if not (isinstance(status, int) and status < 400 or status in (403, 405, 429) or status == 406 and "arxiv.org" in url):
                 fail(f"{path}:{remote[url]}: {url} -> {status}")
     print(f"checked {len(remote)} links in {path}")
 

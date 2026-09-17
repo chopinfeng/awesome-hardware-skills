@@ -8,7 +8,7 @@
 
 配套文件 [GAPS.zh-CN.md](GAPS.zh-CN.md) 追踪的是**尚不存在**的东西——每条空白都附上核查证据、现存最接近的东西（好让这条声明可被证伪），以及带有 eval 断言的、范围明确的首次贡献建议。
 
-快照时间：2026-09-16。星数、最近推送时间以及 skills.sh / ClawHub 的安装量均取自当天。`stale` 表示 12 个月以上没有推送；`official` 表示仓库位于硬件或 SDK 厂商自己的 GitHub 组织下。
+快照时间：2026-09-18。星数、最近推送时间以及 skills.sh / ClawHub 的安装量均取自当天。`stale` 表示 12 个月以上没有推送；`official` 表示仓库位于硬件或 SDK 厂商自己的 GitHub 组织下。
 
 > 本文档译自 [README.md](README.md)。如两者有出入，以英文版为准。
 
@@ -76,7 +76,7 @@
 
 采用 [Agent Skills](https://agentskills.io) 格式的条目：一个包含 `SKILL.md`（frontmatter 含 `name` 与 `description`）的目录，可选 `references/` 和 `scripts/`。可安装进 Claude Code、Codex、Cursor 等。`coll` 表示这是多个 Skill 的合集；仓库名后面的路径指向 monorepo 中的某一个 Skill。同一分类内按有用程度排序，而非星数——一个恰好包含一个小 Skill 的 1.5 万星 monorepo，不应该排在一个专注的 50 星仓库前面。
 
-厂商官方 Skill 就地标注 `official`。截至本次快照，它们来自 NVIDIA、乐鑫（仅端侧）、Adafruit、矽递、M5Stack、Arm、瑞萨、德州仪器、博流、安信可、思澈、合宙、LilyGO、RT-Thread、小米 Vela、涂鸦、嘉立创 EDA、Hailo、地平线、D-Robotics、Luxonis、Intel、Google、Meta、Pollen、智元、Wandelbots、Viam、PX4、Matter SDK、Home Assistant、SmartThings、Z-Wave JS、Meshtastic、SimpleBLE、Reolink、Elgato、CSS Electronics、EcuBus、Nominal、Joulescope、DAQiFi、高通、Ångström、openEuler、Anthropic 与 Nebius——而 MCU 芯片厂商中，除瑞萨、Arm 和德州仪器外别无他家。
+厂商官方 Skill 就地标注 `official`。截至本次快照，它们来自 NVIDIA、乐鑫、Adafruit、矽递、M5Stack、Arm、瑞萨、德州仪器、博流、安信可、思澈、合宙、LilyGO、RT-Thread、小米 Vela、涂鸦、嘉立创 EDA、Hailo、地平线、D-Robotics、Luxonis、Intel、Google、Meta、Pollen、智元、Wandelbots、Viam、PX4、Matter SDK、Home Assistant、SmartThings、Z-Wave JS、Meshtastic、SimpleBLE、Reolink、Elgato、CSS Electronics、EcuBus、Nominal、Joulescope、DAQiFi、高通、Ångström、openEuler、Anthropic、Nebius、华为昇腾、算能、进迭时空、瑞莎、ADI、NI、MathWorks、Ultralytics、wolfSSL、TOPPERS、华秋、SunFounder、Wendy Labs、Yoe、FaBo、I2RT、Dorna、Cyberwave、PickNik、Tidybot、高德、XLeRobot、Ranch Hand Robotics、GaP、ARK Electronics、Elodin、RAKwireless、Opentrons、Fracktal Works、FLUX、SCADAvis 与 CRCibernetica。MCU 芯片厂商中，只有瑞萨、Arm、德州仪器、乐鑫、博流和思澈在列。
 
 ### MCU / 嵌入式
 
@@ -108,6 +108,28 @@
 - [BlueAndi/Pixelix `.github/skills/`](https://github.com/BlueAndi/Pixelix/tree/master/.github/skills) - 面向 ESP32 固件的 MISRA 风格嵌入式 C++14 规约，以 GitHub Copilot skill 形式提供。(copilot · ★442 · 2026-09)
 - [fxp/m5stack-embedded-dev-skill](https://github.com/fxp/m5stack-embedded-dev-skill) - 以 Arduino + M5Unified 为先的 M5Stack/ESP32 Skill：板型到 FQBN 的对照表、按芯片代际区分的 GPIO 安全规则、I2C 与 PMIC 的坑、FreeRTOS 与中断规则、崩溃分诊；自带 `serial_match` / `exit_code` 断言的 evals 包，已在本地通过 L0。新项目、尚无星标——收录它是因为 evals 包的形态，而非过往记录。(★0 · 2026-09)
 - [PatrickJS/awesome-cursorrules `embedded-stm32-hal`](https://github.com/PatrickJS/awesome-cursorrules/blob/main/rules/embedded-stm32-hal.mdc) - 是 Cursor rule 而非 Skill：STM32 HAL 上的嵌入式 C/C++、中断、DMA 与内存约束规范。(cursor-rules · ★40.8k · 2026-05)
+- [rovinax/embedded-skills](https://github.com/rovinax/embedded-skills) - 六个固件工程 skill，强制分层 APP→MODULE→INTERFACE→BSP→PLATFORM 架构，涵盖 C 代码规范、驱动/RTOS/ISR 设计与文档，面向 STM32、GD32、ESP32、RP2040、NXP 与 Nordic。(coll · ★8 · 2026-05)
+- [full-stack-skills/firmware-skills](https://github.com/full-stack-skills/firmware-skills) - 二十个可验证的固件 Agent Skill，分为 OpenWrt 网关和 ESP32（esp32-idf、freertos、ota、secureboot、wifi-provision）两大族，外加 toolchain/emulation/HIL 与发布门禁，可用 npx skills 安装。(coll · ★1 · 2026-09)
+- [Sonder4/STM32-BFD-Kit](https://github.com/Sonder4/STM32-BFD-Kit) - 以 CLI 为主的 STM32F4/H7 调试工具包，含约 16 个 Claude 与 Codex skill，覆盖 IOC 解析、CubeMX 代码生成、ST-Link/J-Link 烧录、RTT 日志、寄存器/故障采集与调试编排。(coll · ★27 · 2026-05)
+- [laurigates/mcu-tinkering-lab](https://github.com/laurigates/mcu-tinkering-lab) - 二十多个 .claude skill，涵盖 ESP-IDF 环境搭建、build/flash/monitor、esp32 调试、sdkconfig 审计、wifi-sta 配置与固件评审，面向 ESP32、Arduino 与 STM32 工程。(coll · ★7 · 2026-09)
+- [su5176/Mklink-AI-Probe](https://github.com/su5176/Mklink-AI-Probe) - 面向 Cortex-M 的一体化调试 CLI，把 MKLink/MicroLink 探针桥接给 agent，提供可安装的 SKILL.md 完成固件烧录、RTT/SystemView、内存/寄存器访问、HardFault 与 Modbus，支持 MCP。(★37 · 2026-09)
+- [HermeticOrmus/LibreEmbed-Claude-Code](https://github.com/HermeticOrmus/LibreEmbed-Claude-Code) - 十五个面向嵌入式的 Claude Code 插件，包含 ARM Cortex-M、裸机、bootloader 设计、通信总线、调试/跟踪、固件升级与嵌入式测试等模式 skill。(coll · ★47 · 2026-05)
+- [AmethystLuna/embedded-workbench](https://github.com/AmethystLuna/embedded-workbench) - 嵌入式 C/C++ 插件，含固件开发、FreeRTOS、Keil MDK 构建、HardFault 定位、状态机设计与调试方法论等 skill。(coll · ★11 · 2026-09)
+- [captainluzik/oh-my-embedded](https://github.com/captainluzik/oh-my-embedded) - 面向嵌入式工程的 OpenCode 插件，含 embedded-engineer、firmware-debugger、circuit-simulator、component-sourcer 与 pcb-designer 等 skill，覆盖 ESP32、STM32 与 FreeRTOS。(coll · ★26 · 2026-03)
+- [shangliny10-lab/embedded-skills](https://github.com/shangliny10-lab/embedded-skills) - 八个面向学习的嵌入式 skill，涵盖 STM32、Arduino/ESP32、FreeRTOS、RT-Thread、Zephyr、通信协议、嵌入式 Linux 与调试，附可运行示例。(coll · ★17 · 2026-09)
+- [0xchaihu/mcu-debug-probe](https://github.com/0xchaihu/mcu-debug-probe) - 基于 pyOCD 的 SWD/JTAG 探针控制 skill，让终端 agent 在不打开完整 IDE 的情况下检查 Cortex-M、烧录镜像、复位 MCU 并读取寄存器/内存。(★12 · 2026-08)
+- [BakeSheep/EmberProbe-MCU-Flash-Debug](https://github.com/BakeSheep/EmberProbe-MCU-Flash-Debug) - 基于 OpenOCD 的 Cortex-M VS Code 扩展，附带九个 agent skill，涵盖芯片信息、CubeMX 代码生成、烧录、调试控制、ELF 分析、故障分析与外设调试。(coll · ★5 · 2026-09)
+- [ripred/arduino-cli-skills](https://github.com/ripred/arduino-cli-skills) - 模块化的 Arduino CLI skill 集合，含路由式 suite skill，覆盖板卡操作、core/库管理、sketch/profile 工作流、编译上传与调试/监控，附真实命令记录。(coll · ★4 · 2026-06)
+- [bahaabdelwahed/embedded-claude-plugin](https://github.com/bahaabdelwahed/embedded-claude-plugin) - STM32 固件插件，含 5 个 agent 与 9 个 skill，覆盖外设配置、内存布局、RTOS 模式、启动/调试配置、安全分析、ST 数据手册提取与 STM32 代码评审。(coll · ★5 · 2026-03)
+- [xentron-bit/stm32-embedded-skill](https://github.com/xentron-bit/stm32-embedded-skill) - STM32 开发 skill，覆盖裸机、Keil RTX5/CMSIS-RTOS2 与 FreeRTOS，含 I2C/SPI/UART/FDCAN、QSPI/OCTOSPI、UDS ISO14229、J1939 与 Modbus RTU 参考文档。(★4 · 2026-07)
+- [clolckliang/embedded-agent-skillpac](https://github.com/clolckliang/embedded-agent-skillpac) - 通用嵌入式框架知识 SkillPack，为 Claude Code、Codex、opencode 等提供适配器，避免 agent 混淆 FreeRTOS/POSIX 或裸机/Linux GPIO 约定。(coll · ★2 · 2026-04)
+- [zc110747/MCU-Agent](https://github.com/zc110747/MCU-Agent) - 研究 AI agent 做真实 MCU 工程的项目，含 .workbuddy skill：ESP-IDF Windows 构建、ESP32 cortex 调试、STM32 Keil 移植、CMSIS-DAP 探针、外设驱动与 Zephyr-STM32 移植。(coll · ★2 · 2026-09)
+- [shark0304/personal-embeded-debug-skill](https://github.com/shark0304/personal-embeded-debug-skill) - 以证据为先的嵌入式调试工作台，把固件故障转化为项目记忆、调试数据包、排序假设与可验证修复，含 10 种项目适配器。(★3 · 2026-07)
+- [CRCibernetica/espressif-ideaboard](https://github.com/CRCibernetica/espressif-ideaboard) - CRCibernetica IdeaBoard 的原生 ESP-IDF C 固件，附一个 agent skill，讲解该板、ESP-IDF 工作流、引脚图、已验证外设代码与跨平台安装。(official · ★0 · 2026-09)
+- [Open-CMSIS-Pack/cmsis-skills](https://github.com/Open-CMSIS-Pack/cmsis-skills) - Open-CMSIS-Pack 组织下社区维护的 CMSIS skill，覆盖 MCU 工程创建（CMSIS 与 Zephyr）、板卡 bring-up、pyOCD 调试/跟踪拓扑、软件包调试序列、Ethos-U 评估与 csolution CI。(coll · ★2 · 2026-09)
+- [yukina0079/ai-mcu-auto-debug](https://github.com/yukina0079/ai-mcu-auto-debug) - 面向 AI agent 的 MCU 自动调试工具链，用适配器把 CMake、Keil、ESP-IDF、OpenOCD、J-Link、pyOCD 与 probe-rs 统一暴露为 CLI、Python API、MCP 工具与可安装 skill。(★2 · 2026-07)
+- [pedrominatel/esp-workshops](https://github.com/pedrominatel/esp-workshops) - 工作坊仓库，含 esp-idf agent skill，覆盖 ESP-IDF 构建、组件管理、esp-sr 语音识别与 ESP-IDF v6 迁移。(★3 · 2026-06)
+- [H1D/agent-skills-esp32](https://github.com/H1D/agent-skills-esp32) - 两个通过 USB 串口调试 ESP32 与嵌入式设备的 agent skill：实时串口日志监控，以及发送串口命令模拟按键。(★9 · 2026-01)
 
 ### RTOS
 
@@ -121,6 +143,11 @@
 - [eduardojvieira/ZPLC `stm32-freertos-developer`](https://github.com/eduardojvieira/ZPLC) - 软 PLC 项目中的 STM32 + FreeRTOS 开发 Skill；唯一一个有实质深度的 FreeRTOS 专项 Skill。(★6 · 2026-09)
 - [goliothlabs/golioth-firmware-skill](https://github.com/goliothlabs/golioth-firmware-skill/tree/main/skills/golioth-firmware) - Zephyr、ESP-IDF、NCS 与 ModusToolbox 上的 Golioth SDK：全新接入与存量改造、OTA、六项云服务。(★1 · 2026-03)
 - [toppers/asp3_pico_sdk `.claude/skills/`](https://github.com/toppers/asp3_pico_sdk) - RP2350（Cortex-M33 与 Hazard3 RISC-V）上的 TOPPERS/ASP3 RTOS，配 OpenOCD 与 GDB；同系列另有 NXP MCUXpresso 与瑞萨 FSP 移植。日文。(official · ★0 · 2026-09)
+- [mssaleh/zephyr-ai](https://github.com/mssaleh/zephyr-ai) - 面向 Zephyr RTOS 的 grounded Claude Code 插件，含 14 个 skill，覆盖 west 构建/烧录、devicetree、Kconfig、驱动/传感器、RTOS 模式、功耗与测试，配合工程级 SQLite 索引与 MCP 工具。(coll · ★0 · 2026-08)
+- [solitasroh/rkit](https://github.com/solitasroh/rkit) - 以 PDCA 驱动的 Claude Code 插件，自动识别 MCU/MPU/WPF 领域并激活 FreeRTOS、NXP MCUXpresso、CMake-embedded、MISRA-C、i.MX BSP 与 Yocto/Buildroot 等 skill。(coll · ★2 · 2026-05)
+- [toppers/asp3_stm32cube](https://github.com/toppers/asp3_stm32cube) - TOPPERS ASP3 RTOS 针对 STM32Cube 的移植，附一个把 ASP3 移植到 STM32 目标的 skill。(official · ★2 · 2026-09)
+- [2939387245/agent-skill_stm32-freertos](https://github.com/2939387245/agent-skill_stm32-freertos) - 用于在 FreeRTOS 上开发 STM32 固件的 agent skill。(★15 · 2026-01)
+- [toppers/asp3_mcuxsdk](https://github.com/toppers/asp3_mcuxsdk) - TOPPERS ASP3 RTOS 针对 NXP MCUXpresso SDK 的移植，含 ASP3-MCUXSDK 操作与把 ASP3 移植到 NXP 目标的 skill。(official · ★0 · 2026-09)
 
 ### MicroPython / CircuitPython
 
@@ -132,6 +159,10 @@
 - [rockets-cn/unihiker-k10-skills](https://github.com/rockets-cn/unihiker-k10-skills) - DFRobot 行空板 K10 的烧录与 API，覆盖 MicroPython、Arduino 与 PlatformIO，另含 OTA 与编译服务；各约 2000 次 ClawHub 安装。(coll · ★6 · 2026-08)
 - [MakerClassCZ/picogame `skills/`](https://github.com/MakerClassCZ/picogame/tree/main/skills) - CircuitPython Pico 板级 bring-up：settings.toml、GPIO、显示。(★25 · 2026-09)
 - [Cerwor/jlc-k230-lushan-pi](https://github.com/Cerwor/jlc-k230-lushan-pi) - 嘉立创庐山派 K230 CanMV MicroPython：摄像头、LCD、YOLO、mpremote 部署。(★4 · 2026-09)
+- [PyDevices/mpftp](https://github.com/PyDevices/mpftp) - MicroPython/CircuitPython 工具，其基于 MCP 的 board-tools skill 通过真实串口会话完成文件传输、REPL/exec、不打断运行的输出捕获与固件构建/烧录，支持 ESP32、RP2040、SAMD。(★1 · 2026-09)
+- [FreakStudioCN/browser-micropython-skills](https://github.com/FreakStudioCN/browser-micropython-skills) - 面向 Blockless Web Builder 的 27 个浏览器原生 MicroPython skill，覆盖设备串口部署、分析、自动修复、绘图与文档抓取，无需本地 shell。(coll · ★1 · 2026-07)
+- [zhoushoujianwork/lvgl-preview-skill](https://github.com/zhoushoujianwork/lvgl-preview-skill) - 用于设计嵌入式 LVGL（MicroPython）UI 的 Claude Code skill，采用无头渲染成 PNG 的反馈回路，自动适配 LVGL 8.x/9.x，让 agent 无需硬件即可看到并自我修正 UI。(★3 · 2026-05)
+- [johnlindquist/badger-2350-plugin](https://github.com/johnlindquist/badger-2350-plugin) - 面向 Universe 2025（Tufty）徽章的 Claude Code 插件，含八个 skill，包括 micropython-repl 以及徽章硬件、部署、诊断与 MonaOS 应用创建。(coll · ★8 · 2025-10)
 
 ### 嵌入式 Rust
 
@@ -141,6 +172,11 @@
 - [hispark-rs/hisi-riscv-rs `.agents/skills/`](https://github.com/hispark-rs/hisi-riscv-rs) - `hil-smoke` 与 `hil-regression`：烧录真实海思 ws63 板、读串口、断言特征字符串。(coll · ★3 · 2026-09)
 - [bitscrafts/EFR32MG2X-RS](https://github.com/bitscrafts/EFR32MG2X-RS) - Silicon Labs EFR32MG24 的 Rust HAL 专家 Skill。(★6 · 2026-06)
 - [Microbiosis/esp-rust-skills](https://github.com/Microbiosis/esp-rust-skills) - esp-hal 外设、Wi-Fi / BLE / ESP-NOW、工具链。中文。(coll · ★1 · 2026-06)
+- [full-stack-skills/rust-skills](https://github.com/full-stack-skills/rust-skills) - Rust 语言 skill 集合，其中 rust-embedded skill 提供 golden no_std 示例、HAL/并发参考与裸机固件的硬件验证指南。(coll · ★5 · 2026-09)
+- [psytraxx/esp32-homecontrol-no-std-rs](https://github.com/psytraxx/esp32-homecontrol-no-std-rs) - no_std Rust 的 ESP32 自动浇水固件，附带 esp32-rust-embedded skill，讲解在真实硬件上使用 esp-hal 的 async no_std 工作流。(★3 · 2026-09)
+- [njfdev/ncssm_hpr_2025_payload](https://github.com/njfdev/ncssm_hpr_2025_payload) - 火箭载荷固件，含基于 Embassy 的 skill（embassy、embassy-rp、pico-tooling、pico-logger），用于在 RP2040/RP2350 飞控上做 async no_std 开发。(coll · ★2 · 2026-04)
+- [chrisprice/embassy-rp2040-harness](https://github.com/chrisprice/embassy-rp2040-harness) - 面向 Embassy RP2040 固件的 agent harness，含 embassy 最佳实践、项目结构、新项目脚手架、pico-firmware 与项目评审等 skill。(coll · ★0 · 2026-04)
+- [hkjolhede/embassy_copilot](https://github.com/hkjolhede/embassy_copilot) - Embassy 的全系统设计撰写 skill，指导使用 embassy-executor、embassy-time 与 embassy-sync 的 async no_std 架构。(★0 · 2026-03)
 
 ### 厂商 SDK
 
@@ -163,6 +199,12 @@
 - [JasonYANG170/ch57x-dev-skill](https://github.com/JasonYANG170/ch57x-dev-skill) - 沁恒 CH57x 蓝牙固件。(★12 · 2026-06)
 - [ClarkJ-Infineon/mtb-workspace-template `.github/skills/`](https://github.com/ClarkJ-Infineon/mtb-workspace-template/tree/main/.github/skills) - 英飞凌工程师个人仓库里的 19 个 ModusToolbox Copilot Skill：BLE 配置、Wi-Fi MQTT、OpenOCD 调试、双核、PSoC 6 到 Edge 的迁移、雷达 DSP。(copilot · coll · ★0 · 2026-05)
 - [ailyProject/aily-blockly `public/skills/`](https://github.com/ailyProject/aily-blockly) - aily Arduino AI IDE 的 Blockly 最佳实践与库迁移 Skill。(coll · ★3.8k · 2026-09)
+- [espressif/esp-dl](https://github.com/espressif/esp-dl) - Espressif 的深度学习库自带 agent skill，覆盖 espdl operator 与量化闭环，以及 ESP32-P4/S3 PIE-SIMD 内核开发。(official · coll · ★1.1k · 2026-09)
+- [wolfSSL/wolfHAL](https://github.com/wolfSSL/wolfHAL) - wolfSSL 的轻量级嵌入式硬件抽象层（C 语言），含生成驱动模板与把 HAL 移植到 STM32 平台的 skill。(official · ★21 · 2026-09)
+- [bouffalolab/vela-vendor-bouffalolab](https://github.com/bouffalolab/vela-vendor-bouffalolab) - Bouffalo Lab 的 Vela SDK 驱动公开仓库，含 agent skill：模块复位与设计 Bouffalo SDK 到 OpenVela 的移植任务。(official · ★0 · 2026-09)
+- [TigerSillion/RenesasMcuMaster](https://github.com/TigerSillion/RenesasMcuMaster) - Renesas RX MCU skill 包，含 rx-uart-mvp skill 与上位机示波器（Qt/WPF）skill，用于 RX 固件 bring-up。(coll · ★0 · 2026-02)
+- [water-freemind/rasc-configure-ra](https://github.com/water-freemind/rasc-configure-ra) - 用于安全配置与验证 Renesas RA/FSP configuration.xml 文件的 Codex skill。(★0 · 2026-09)
+- [XIAOMANSDK/B6x](https://github.com/XIAOMANSDK/B6x) - 面向 B61/B62/B63/B66（ARM M0+）芯片的蓝牙 LE SDK，含 15 个 skill，覆盖构建、CMake 初始化、工程创建、SRAM/功耗分析、硬件校验与代码评审。(coll · ★10 · 2026-06)
 
 ### SBC / Linux
 
@@ -184,6 +226,23 @@
 - [realsenseai/realsense_mipi_platform_driver `.claude/skills/`](https://github.com/realsenseai/realsense_mipi_platform_driver) - 在 Jetson 上构建、部署并验证 RealSense MIPI 内核驱动。(official · coll · ★51 · 2026-09)
 - [openharmonyinsight/openharmony-skills](https://github.com/openharmonyinsight/openharmony-skills) - OpenHarmony 源码构建、CI、C++、下载、单元测试、安全审查。(coll · ★34 · 2026-09)
 - [anthropics/claude-plugins-official `cwc-makers`](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/cwc-makers) - `m5-onboard` 通过 USB 识别 M5Stack Cardputer / Core / CoreS3，烧录 UIFlow 2.0 与一套 MicroPython 包；`cardputer-buddy` 通过串口迭代应用并提供一次性 REPL。(official · coll · ★36k · 2026-09)
+- [BenGardiner/bitbake-yocto-agent-skills](https://github.com/BenGardiner/bitbake-yocto-agent-skills) - 七个面向 Yocto/BitBake 的 skill：recipe 定位与覆盖、依赖调试、dry-run 诊断、Python 打包以及 qemu 用户态运行。(coll · ★1 · 2026-03)
+- [themactep/thingino-skills](https://github.com/themactep/thingino-skills) - 面向 Thingino 开源 IP 摄像头固件的 skill 集：构建与 OTA 部署、NFS 开发部署、U-Boot 补丁流程、设备冒烟循环、诊断采集和 RTSP 压测。(coll · ★5 · 2026-09)
+- [sunfounder/pironman5 `skill/`](https://github.com/sunfounder/pironman5/tree/v1/skill) - SunFounder 官方为 Pironman 5 系列树莓派 5 机箱（含 Mini、Max、Pro Max）提供的 skill：调用 pironman5 CLI、修改配置，控制 OLED、RGB 灯、风扇和红外接收器。(official · coll · ★133 · 2026-09)
+- [dshanpi/T153MX-Tina5SDK_OmniGate `overlay/skills/`](https://github.com/dshanpi/T153MX-Tina5SDK_OmniGate/tree/main/overlay/skills) - 面向 Tina5 SDK 上 Allwinner T153 OmniGate 板的 skill：串口连接与 FEL/FES 烧录及恢复、C906 AMP/RPMsg 调通、LVGL UI 示例和串口 agent 守护进程。(coll · ★2 · 2026-09)
+- [bitshelf/tina_agents](https://github.com/bitshelf/tina_agents) - 两个 Allwinner Tina Linux skill：构建 T527 SDK（内核、U-Boot、Buildroot、RTOS、固件打包），以及用 sunxi-fel 通过 USB FEL 烧录镜像。(coll · ★0 · 2026-07)
+- [analogdevicesinc/analog-attach `packages/attach-cli/`](https://github.com/analogdevicesinc/analog-attach/tree/main/packages/attach-cli) - Analog Devices 官方为 attach CLI 编写的 skill，引导 agent 为 ADI 器件配置 Linux 设备树 overlay，包括器件查找、父总线建议和按 schema 校验属性。(official · ★2 · 2026-09)
+- [yoebuild/yoe `.claude/skills/`](https://github.com/yoebuild/yoe/tree/main/.claude/skills) - Yoe 嵌入式 Linux 构建系统官方自带的 skill：创建、更新和审计 Starlark unit，拉取 Alpine 软件包以及诊断构建问题。(coll · official · ★61 · 2026-09)
+- [D-Robotics/rdk-skills](https://github.com/D-Robotics/rdk-skills) - 地瓜机器人（D-Robotics）官方为 RDK 开发板提供的 skill：BSP 环境搭建，RDK X3/X5 的内核、bootloader、rootfs 与整机镜像构建；面向 RDK X5 与 S 系列的模型量化、编译和板端部署工具链 skill；另含文档检索和具身 LeRobot 应用。(official · coll · ★2 · 2026-09)
+- [wendylabsinc/claude-skills](https://github.com/wendylabsinc/claude-skills) - Wendy Labs 官方为 WendyOS 边缘设备提供的 skill：用 wendy CLI 把应用部署到 NVIDIA Jetson 和树莓派、为 ARM64 交叉编译 Swift，以及设备注册与证书管理。(official · coll · ★62 · 2026-09)
+- [luckyegg168/openwrt-skill](https://github.com/luckyegg168/openwrt-skill) - 结构化的 OpenWrt 路由器开发 skill，涵盖构建系统、软件包和设备端调试。(★3 · 2026-03)
+- [majay123/my-embedded-skills](https://github.com/majay123/my-embedded-skills) - 嵌入式 Linux skill 集：内核驱动与设备树开发、应用开发、内核模块、交叉 GCC 构建以及 strace/ltrace 调试。(coll · ★4 · 2026-06)
+- [the78mole/skills `skills/yocto-build-and-flash/`](https://github.com/the78mole/skills/tree/main/skills/yocto-build-and-flash) - 为 MYiR MYD-YF13X（STM32MP135）开发板构建 Yocto myir-image-core 镜像并用 STM32CubeProgrammer 烧录的 skill。(★0 · 2026-07)
+- [radxa-docs/skills](https://github.com/radxa-docs/skills) - Radxa 官方 skill：识别 agent 所在的 Radxa 开发板型号，并在做板级操作前对应到正确的产品文档。(official · coll · ★1 · 2026-03)
+- [HBConline/orangepi4pro-skill](https://github.com/HBConline/orangepi4pro-skill) - 面向 Orange Pi 4 Pro（Allwinner A733）的 agent skill：嵌入式 Linux、wiringOP GPIO、3 TOPS NPU 和 Android 13 AOSP。(★3 · 2026-06)
+- [1nuoiscute/Taishan-RK3566-Skill](https://github.com/1nuoiscute/Taishan-RK3566-Skill) - 面向电赛视觉的泰山派 RK3566 Codex/Claude Code skill，从板端探测到 OpenCV/V4L2、UART/GPIO 和 RKNN 验证。(★5 · 2026-08)
+- [FaBoAI/JetsonSkills](https://github.com/FaBoAI/JetsonSkills) - 面向 JetPack 7.2 上 Jetson Orin 的官方安装类 skill：部署 FaBo JetRacer 和 LeRobot 0.6.0（含 SO-101 SDK）、支持 CUDA 的 OpenCV、PyTorch 以及 GPIO/舵机库。(coll · official · ★0 · 2026-08)
+- [xzl01/agent-debugboard `skills/radxa-linkr-debugger/`](https://github.com/xzl01/agent-debugboard/tree/main/skills/radxa-linkr-debugger) - Radxa Linkr Debugger 的 skill，通过 USB NCM HTTP 控制目标板供电、ADC 电流监测、GPIO、TF/SD 切换、看门狗恢复和 RP2350 BOOTSEL。(★4 · 2026-09)
 
 ### 机器人
 
@@ -215,6 +274,33 @@
 - [wimblerobotics/ros2-copilot-skills](https://github.com/wimblerobotics/ros2-copilot-skills) - 面向 Copilot 的 158 个 Nav2 / 行为树 / SLAM / Teensy-PlatformIO Skill；质量参差。(coll · ★18 · 2026-04)
 - [robium-ai/robium](https://github.com/robium-ai/robium) - ROS 2 / Nav2 / Gazebo / MuJoCo / Isaac / LeRobot 插件，带版本化的 SKILL.md 归档。(coll · ★13 · 2026-09)
 - [PatrickJS/awesome-cursorrules `ros-ros2`](https://github.com/PatrickJS/awesome-cursorrules/blob/main/rules/ros-ros2.mdc) - 面向 ROS / ROS 2 包、节点、launch 文件、消息与 URDF/xacro 的 Cursor rule。(cursor-rules · ★40.8k · 2026-05)
+- [nvidia-isaac/cuVSLAM `cuvslam-skills/`](https://github.com/nvidia-isaac/cuVSLAM/tree/main/cuvslam-skills) - NVIDIA 官方 skill：构建、安装并运行 cuVSLAM/PyCuVSLAM，覆盖双目、单目、惯性和多相机跟踪模式，另含故障排查与 CI。(official · coll · ★1.8k · 2026-09)
+- [NVlabs/GraspGenX](https://github.com/NVlabs/GraspGenX) - 用于操作 GraspGenX（跨本体 6-DOF 抓取生成模型）的 skill：安装、推理示例、夹爪与规划器选择、ZMQ 客户端/服务端、MCP server 以及接入新夹爪。(official · ★219 · 2026-07)
+- [NVlabs/COMPASS `.claude/skills/`](https://github.com/NVlabs/COMPASS/tree/main/.claude/skills) - 面向 COMPASS 跨本体移动策略的 skill：训练、评估、SAGE 场景流程、OSMO 提交、诊断 skill 以及接入新机器人本体。(official · coll · ★142 · 2026-09)
+- [HorizonRobotics/HoloMotion `.agents/skills/`](https://github.com/HorizonRobotics/HoloMotion/tree/master/.agents/skills) - 面向 HoloMotion 人形机器人全身控制模型的 skill：在真机上部署和排查策略、测延迟、准备动作数据以及诊断训练。(official · coll · ★708 · 2026-09)
+- [PlaiPin/rosclaw `extensions/openclaw-plugin/skills/`](https://github.com/PlaiPin/rosclaw/tree/main/extensions/openclaw-plugin/skills) - OpenClaw 插件自带的 skill，从聊天应用控制 ROS 2 机器人：导航到指定位置、抓取物体、拍照和查看机器人状态。(coll · ★631 · 2026-03)
+- [spacemit-robotics/robot-skills](https://github.com/spacemit-robotics/robot-skills) - SpacemiT Robot SDK 官方 skill：SDK 初始化与构建、机械臂控制、抓取、LeRobot 应用与 ONNX 推理、外设（IMU、激光雷达、LED、GPIO、5G、NFC）以及远程访问。(official · coll · ★0 · 2026-07)
+- [i2rt-robotics/i2rt `.agents/skills/`](https://github.com/i2rt-robotics/i2rt/tree/main/.agents/skills) - I2RT 机器人 SDK 自带的 skill：转换 Onshape 导出的 URDF，并让 MuJoCo MJCF 模型与 URDF 的运动学、质量和惯量保持一致。(official · coll · ★158 · 2026-09)
+- [sunfounder/picrawler `picrawler-control/`](https://github.com/sunfounder/picrawler/tree/main/picrawler-control) - SunFounder 官方 skill，用于控制 PiCrawler 四足机器人：行走、转向、摆姿态、读取传感器、播放声音和摄像头视觉。(official · ★39 · 2026-09)
+- [dorna-robotics/workspace `.claude/skills/`](https://github.com/dorna-robotics/workspace/tree/main/.claude/skills) - Dorna 机器人工作区自带的 skill：添加由本进程或另一台 Pi 上的守护进程驱动的设备、自定义组件以及行为树动作。(official · coll · ★1 · 2026-09)
+- [cyberwave-os/driver-skill](https://github.com/cyberwave-os/driver-skill) - Cyberwave 官方 skill，为硬件设备生成新驱动脚手架，使其接入 Cyberwave 平台。(official · ★1 · 2026-09)
+- [matlab/matlab-agentic-toolkit](https://github.com/matlab/matlab-agentic-toolkit) - MathWorks 官方的 MATLAB skill 目录，包括机器人与自主系统相关 skill：通过 MAVLink 连接、构建 UAV 场景、惯性传感器融合、GNSS 定位解算、机器人运动学建模以及发现测试硬件。(official · coll · ★1.1k · 2026-09)
+- [open-edge-platform/physical-ai-studio `skills/`](https://github.com/open-edge-platform/physical-ai-studio/tree/main/skills) - Intel Physical AI Studio 自带的模仿学习机器人 skill：编写机器人插件和驱动、添加策略、基准测试，以及导出和验证训练好的模型。(official · coll · ★87 · 2026-09)
+- [amap-cvlab/ABot-Claw `openclaw_layer/skills/`](https://github.com/amap-cvlab/ABot-Claw/tree/main/openclaw_layer/skills) - ABot-Claw 具身智能框架官方 OpenClaw 层 skill：机器人连接、Piper/Unitree G1/Go2 的硬件分工、SDK 发现、任务执行与进度评判。(coll · official · ★212 · 2026-04)
+- [TidyBot-Services/Tidybot-Universe `skill-agent-setup/`](https://github.com/TidyBot-Services/Tidybot-Universe/tree/master/skill-agent-setup) - 面向 Tidybot 移动操作机器人的官方 Claude Code 与 OpenClaw skill：机器人连接、硬件与 SDK 参考、仿真管理，以及把 skill 打包成脚本提交给机器人的执行 API。(coll · official · ★56 · 2026-06)
+- [graph-robots/open-robot-skills](https://github.com/graph-robots/open-robot-skills) - 为 GaP（graph as policy）准备的官方 Agent Skills 格式操作库，含多个操作 skill 和 8 个工具包，例如轮廓抓取、特征配合和持物运动。(coll · official · ★44 · 2026-09)
+- [fan-ziqi/unitree-docs](https://github.com/fan-ziqi/unitree-docs) - 从 support.unitree.com 检索、浏览和获取所有 Unitree 机器人、组件与 SDK 官方文档的 skill。(★2 · 2026-07)
+- [dongsheng123132/go2-openclaw-skill](https://github.com/dongsheng123132/go2-openclaw-skill) - OpenClaw skill，通过 CycloneDDS 网关（无需 ROS 2）用自然语言控制 Unitree Go2 机器狗：移动、停止、执行动作和查看电量。(★7 · 2026-03)
+- [LooperRobotics/OpenClaw-Robotics](https://github.com/LooperRobotics/OpenClaw-Robotics) - OpenClaw skill，控制四足、双足、轮式和空中机器人，支持 Unitree 机器人和 Insight9 双目相机。(★48 · 2026-02)
+- [EverNightCN/ur5-rtde-skill](https://github.com/EverNightCN/ur5-rtde-skill) - 通过 ur-rtde 以 RTDE 协议控制 Universal Robots UR5 的独立 skill（moveL、moveJ），带可配置的软围栏检查。(★1 · 2026-03)
+- [Sazabi06/Openarm_Skills](https://github.com/Sazabi06/Openarm_Skills) - 面向 OpenArm V10 双臂机器人的 skill：达妙电机与 CAN-FD 硬件配置、标定与安全限位、阻抗控制、IK 运动规划、相机视觉和 VLA 集成。(coll · ★0 · 2026-06)
+- [ambient-robots/xlerobot_pinc `.codex/skills/`](https://github.com/ambient-robots/xlerobot_pinc/tree/main/.codex/skills) - 基于 XLeRobot 平台的官方 Codex skill：硬件上电调试（udev 串口链接、电机板、摄像头）、标定流程以及与 LeRobot 同步。(coll · official · ★12 · 2026-06)
+- [PickNikRoboticsServices/robot_configuration_setup](https://github.com/PickNikRoboticsServices/robot_configuration_setup) - 用于创建 MoveIt Pro 机器人配置包的官方 skill：config.yaml、URDF/xacro、mock/仿真/实机配置、objective 以及移动底盘导航设置。(official · ★0 · 2026-09)
+- [wzyn20051216/ros-robotics-skill](https://github.com/wzyn20051216/ros-robotics-skill) - ROS 1 / ROS 2 工程 skill，涵盖 catkin/colcon、launch、URDF/Xacro、TF、Nav2、ros2_control、串口与 CAN、MCU 和 micro-ROS。(★59 · 2026-03)
+- [Leehyunbin0131/claude-ros2-skills](https://github.com/Leehyunbin0131/claude-ros2-skills) - 面向 ROS 2 Jazzy、强调对照已安装系统验证的 Claude Code skill：micro-ROS agent、rclc 与自定义传输，以及 ROS 2 故障排查。(coll · ★19 · 2026-08)
+- [enesbirlik/claude-code-robotics](https://github.com/enesbirlik/claude-code-robotics) - Claude Code skill：ROS 2 工作空间、URDF/Xacro 构建、Nav2 与 MoveIt 2 配置，以及 STM32 通过 UART 或 CAN 接入的 micro-ROS 桥接。(coll · ★2 · 2026-09)
+- [Ranch-Hand-Robotics/rde-urdf `assets/skills/`](https://github.com/Ranch-Hand-Robotics/rde-urdf/tree/main/assets/skills) - RDE URDF 编辑器（VS Code 扩展）官方附带的 skill，涵盖 URDF/Xacro 基础、几何、Xacro 转换和 OpenSCAD 零件建模。(coll · official · ★16 · 2026-09)
+- [coolbeevip/mujoco-skills](https://github.com/coolbeevip/mujoco-skills) - 用于构建、校验和控制 MuJoCo MJCF 机器人场景的 skill，支持可复现的无头仿真、执行器实验和强化学习环境准备。(★18 · 2026-09)
 
 ### 无人机
 
@@ -226,11 +312,26 @@
 - [sensei-hacker/inav-claude](https://github.com/sensei-hacker/inav-claude) - iNAV 飞控开发流程，含一个硬件在环链路测试 Skill。(coll · ★4 · 2026-09)
 - [MIUAV/vibe-coding-ros2](https://github.com/MIUAV/vibe-coding-ros2) - PX4 + ROS 2 Humble 无人机开发：MAVLink、offboard 模式、固件构建、模块开发、机架、传感器配置、多旋翼调参、视觉导航、RKNN。中文。(coll · ★26 · 2026-05)
 - [castacks/AirStack](https://github.com/castacks/AirStack) - CMU AirLab 的"Agent 原生" ROS 2 空中自主栈，带 `.agents/skills`。(★91 · 2026-09)
+- [LuweiLiao/ardupilot-skill](https://github.com/LuweiLiao/ardupilot-skill) - 27 个面向 ArduPilot 固件开发的 skill：ChibiOS hwdef 板级移植、HAL、waf 构建、EKF 导航、DroneCAN、MAVLink 地面站、bootloader、SITL 自动测试和移植手册。(coll · ★1 · 2026-05)
+- [LeaderOnePro/mavctl](https://github.com/LeaderOnePro/mavctl) - 以 ArduPilot 为主的无界面 MAVLink 地面站 CLI，附带 skill，让 agent 执行连接、解锁、切换模式、起飞、降落、返航和读取遥测；已在 ArduPilot SITL 上验证，尚未在真实飞行器上证实。(★0 · 2026-09)
+- [ARK-Electronics/px4-log-analysis `.claude/skills/`](https://github.com/ARK-Electronics/px4-log-analysis/tree/main/.claude/skills) - ARK Electronics 官方的 PX4 ULog 分析 Claude Code skill：加速度计振动、气压计受压、GPS 信号质量以及按 topic 统计日志体积。(official · coll · ★3 · 2026-04)
+- [HansF/betaflight-skill](https://github.com/HansF/betaflight-skill) - 通过 USB 串口连接 Betaflight 飞控的 skill：执行 CLI 命令、带校验地读写参数、备份与恢复配置、读取 MSP 遥测并解码黑匣子日志。(★0 · 2026-09)
+- [archat-hash/FlyCLI](https://github.com/archat-hash/FlyCLI) - 控制 Betaflight 飞控的命令行工具，附带 skill，告诉 agent 如何获取上下文并通过串口执行 FlyCLI 命令。(★5 · 2026-07)
+- [paulnurkkala/ardufleetcheck](https://github.com/paulnurkkala/ardufleetcheck) - 用于 ArduPilot 装机后整机检查的 Claude Code skill：烧录 .apj 并恢复参数、推送 OSD 布局与字体、执行图传、遥控和解锁就绪检查，并上传 QGroundControl 航线。(coll · ★0 · 2026-05)
+- [aero-oli/ardupilot-binlog-analysis](https://github.com/aero-oli/ardupilot-binlog-analysis) - 分析 ArduPilot DataFlash .bin 日志的 skill：故障诊断、调参复查、振动/FFT、EKF/GPS、电源、电机/电调、AutoTune 以及前后对比。(★1 · 2026-05)
+- [BeastAyyG/ardupilot-log-diagnosis](https://github.com/BeastAyyG/ardupilot-log-diagnosis) - 结合规则引擎与 XGBoost 的 ArduPilot 飞行日志分析器（为 GSoC 2026 申请而写），附带 skill 诊断 .BIN 日志中坠机、GPS 与 IMU 故障的根因。(★6 · 2026-08)
+- [rwoneill/claude-ardupilot](https://github.com/rwoneill/claude-ardupilot) - 即用型 ArduPilot 助手模板：SKILL.md 涵盖固件、Lua 脚本、参数、dataflash 日志和飞控硬件，另附供 Claude Code 项目使用的 CLAUDE.md。(★0 · 2026-04)
+- [hfujikawa77/claw-sitl-ops](https://github.com/hfujikawa77/claw-sitl-ops) - OpenClaw skill，通过 MAVLink 操作 ArduPilot SITL：启动与停止、解锁、起飞、切换模式、读写参数并汇报飞行器状态。(★3 · 2026-03)
+- [learnsyslab/crazyflow](https://github.com/learnsyslab/crazyflow) - 基于 JAX 的可扩展 Crazyflie 无人机仿真器，其 SKILL.md 说明新增动力学模型或平台、把控制器复用于状态估计或 MPC 时的陷阱与约定。(★174 · 2026-09)
 
 ### 航空航天
 
 - [esa/nanosat-mo-framework](https://github.com/esa/nanosat-mo-framework) - 欧空局的 CCSDS 任务运行飞行软件框架，带一个用于编写服务定义的 `mo-xml` Skill。目前找到的唯一由航天机构官方发布的 Agent Skill。(official · ★123 · 2026-09)
 - [devideamax/aerospace-team](https://github.com/devideamax/aerospace-team) - 十二个卫星任务 Skill：制导导航控制、电源系统、卫星通信、地面系统与发射运行。(coll · ★21 · 2026-02)
+- [elodin-sys/elodin `.cursor/skills/`](https://github.com/elodin-sys/elodin/tree/main/.cursor/skills) - Elodin 官方仿真与飞行软件 monorepo 中的 skill：把 AlephOS 部署到 Jetson Orin 飞控计算机、编写支持 SITL/HITL 的 6DOF 仿真、蒙特卡洛运行和无头录制。(coll · official · ★544 · 2026-09)
+- [LunCoSim/space-engineering-skills](https://github.com/LunCoSim/space-engineering-skills) - 用于设计卫星与地表任务的航天工程 skill：星座设计、通信与载荷评估、AIT 管理、环控生保（ECLSS）和成本建模。(coll · ★10 · 2026-03)
+- [jclark/satpulse `.claude/skills/`](https://github.com/jclark/satpulse/tree/master/.claude/skills) - SatPulse（GPS 接收机授时工具）仓库中的 Claude Code skill：新增和测试 GPS 配置消息，并依据日志驱动 satpulsed 守护进程。(coll · ★63 · 2026-09)
+- [Official-MoonDao/LORS `skills/`](https://github.com/Official-MoonDao/LORS/tree/main/skills) - 月球开源巡视器标准（LORS）的 skill，引导 agent 查询月球车、着陆器、任务和相关公司的知识。(coll · ★10 · 2026-03)
 
 ### 边缘 AI / NPU
 
@@ -244,6 +345,21 @@
 - [google-ai-edge/litert-samples `skills/`](https://github.com/google-ai-edge/litert-samples/tree/main/skills) - 六个 LiteRT Skill：转换流程、保精度量化、GPU 干净转换、端侧验证。(official · coll · ★431 · 2026-09)
 - [Dengdxx/PaddleYOLO-RKNN `rknn-flow`](https://github.com/Dengdxx/PaddleYOLO-RKNN) - 瑞芯微 RKNN 模型转换流程。中文。(★8 · 2026-08)
 - [gregm123456/raspberry_pi_hailo_ai_services](https://github.com/gregm123456/raspberry_pi_hailo_ai_services) - 树莓派 5 + Hailo AI HAT 服务，带一个 Copilot Skill。(copilot · ★11 · 2026-09)
+- [hailo-ai/hailo-media-library `.claude/skills/`](https://github.com/hailo-ai/hailo-media-library/tree/1.12.1/.claude/skills) - Hailo 官方为 Hailo-15 视觉应用提供的 skill：连接 H15 板、交叉编译、部署、检查板卡状态、替换 HEF 模型，以及修改媒体管线、码流和叠加层。(official · coll · ★8 · 2026-08)
+- [nvidia-holoscan/holoscan-sdk `skills/`](https://github.com/nvidia-holoscan/holoscan-sdk/tree/main/skills) - NVIDIA Holoscan SDK 官方 skill：检查主机、评估平台兼容性，并通过 Debian 包、wheel、conda、容器或源码安装该传感器处理 SDK。(official · coll · ★222 · 2026-09)
+- [ultralytics/skills](https://github.com/ultralytics/skills) - Ultralytics 官方 YOLO skill：模型、数据集、训练、推理与导出，包括部署到 TensorRT、OpenVINO 以及 RKNN、QNN、Hailo、Ascend 等 NPU。(official · coll · ★23 · 2026-09)
+- [openvinotoolkit/openvino `.claude/skills/`](https://github.com/openvinotoolkit/openvino/tree/master/.claude/skills) - OpenVINO 仓库内置的 skill：调试精度、性能、编译与内存问题，导出张量和 IR，新增 GGUF 架构支持以及面向贡献者的 agent 工作流。(official · coll · ★10.9k · 2026-09)
+- [Seeed-Studio/recamera-pro-ext-api `skill/recamera-pysdk/`](https://github.com/Seeed-Studio/recamera-pro-ext-api/tree/main/skill/recamera-pysdk) - Seeed 官方 skill，为 reCamera Pro（RV1126B）构建并打包 Python SDK 应用，含离线验证和随包附带的设备兼容 wheel。(official · ★1 · 2026-09)
+- [mjq2020/reCamera_skill](https://github.com/mjq2020/reCamera_skill) - reCamera（RV1126B）Web API 参考 skill：认证、设备管理、音视频配置、录像、AI 模型推理、日志以及 SenseCraft 云端模型转换。(★4 · 2026-03)
+- [kornia/vision-rt `.claude/skills/`](https://github.com/kornia/vision-rt/tree/main/.claude/skills) - 面向 Jetson Orin 的 Rust + TensorRT 视觉库中的 skill：重建与调试 TensorRT 引擎、按功耗模式规范做基准测试、组合管线以及编写 CUDA kernel。(coll · ★18 · 2026-08)
+- [SharpAI/DeepCamera `skills/`](https://github.com/SharpAI/DeepCamera/tree/master/skills) - 开源 AI 摄像头 skill 平台，含 Coral TPU 与 OpenVINO 上的 YOLO 检测、Reolink/Tapo/Eufy 等摄像头接入、go2rtc 推流以及家庭安防基准测试等 skill。(coll · ★3.1k · 2026-09)
+- [LudovicoYIN/skills `deploy-skills/`](https://github.com/LudovicoYIN/skills/tree/master/deploy-skills) - 面向端侧 NPU 与推理框架的模型部署 skill：RKNN、高通 QNN 与 SNPE、联发科以及 llama.cpp，涵盖转换、算子问题和与 ONNX 的精度对比。(coll · ★0 · 2026-07)
+- [zhao123xiao/openvino-skills](https://github.com/zhao123xiao/openvino-skills) - OpenVINO 标准作业 skill：模型转换、量化、部署、冒烟测试、基准测试、设备选择和故障排查。(★1 · 2026-05)
+- [mayukh4/huskylens-agent](https://github.com/mayukh4/huskylens-agent) - 让 Hermes Agent 在树莓派 5 上拥有实体的 skill：通过 I2C 接入 HuskyLens V2 摄像头做人脸、情绪和手势识别，在 DSI 屏上显示动画人脸并提供语音管线。(★13 · 2026-04)
+- [Ascend/agent-skills](https://github.com/Ascend/agent-skills) - 华为昇腾官方 agent skill，面向 NPU 开发，例如安装 NPU 驱动与固件、配置昇腾 Docker 以及指导推理仓库使用。(official · coll · ★41 · 2026-05)
+- [ascend-ai-coding/awesome-ascend-skills](https://github.com/ascend-ai-coding/awesome-ascend-skills) - 以 200 多个 Agent Skill 组织的华为昇腾 NPU 开发知识库，覆盖 CANN、torch 自定义算子和昇腾工具链。(coll · ★170 · 2026-09)
+- [sophgo/sophon-demo `.claude/skills/`](https://github.com/sophgo/sophon-demo/tree/release/.claude/skills) - 算能（SOPHGO）sophon-demo 仓库的 skill：按步骤把模型从 ONNX 导出移植到 SOPHON 芯片 SoC 上部署，另含示例测试和自动化测试。(official · coll · ★526 · 2026-09)
+- [sophgo/sophon-tools `source/pbmssm/build/se-series-skill/`](https://github.com/sophgo/sophon-tools/tree/main/source/pbmssm/build/se-series-skill) - 算能（SOPHGO）为 SE 系列边缘 AI 盒子提供的知识库 skill，收录在 sophon-tools 仓库中。(official · ★26 · 2026-09)
 
 ### EDA / PCB
 
@@ -266,6 +382,29 @@
 - [akiselev/altium-cli `.agents/skills/`](https://github.com/akiselev/altium-cli) - 处理 SchDoc / PcbDoc / 元件库的 Rust CLI，带校验、规则审查、数据审查与 GUI 控制 Skill。(coll · ★14 · 2026-08)
 - [l3wi/claude-eda](https://github.com/l3wi/claude-eda) - 面向 KiCad 的 `eda-architect`、`eda-schematics`、`eda-pcb`、`eda-drc`、`eda-research`。(coll · ★15 · 2026-01)
 - [pjcau/esp32-emu-turbo `.claude/skills/`](https://github.com/pjcau/esp32-emu-turbo) - 唯一一套真正驱动 JLCPCB DFM 工具的 Skill：上传、校验、PCB 审查、PCBA 就绪度检查。(coll · ★4 · 2026-09)
+- [daishuge/pcb-skill](https://github.com/daishuge/pcb-skill) - 把硬件想法带到可制造 PCB 的 agent skill，通过 MCP 驱动 EasyEDA Pro：概念、原理图、选型、布局、布线与验证门禁，直至下单前的付款页。(★132 · 2026-09)
+- [biosshot/easyeda-copilot](https://github.com/biosshot/easyeda-copilot) - 面向 EasyEDA 的 AI 助手，从自然语言生成原理图并检索 LCSC 元件，含 docs、datasheets 与 spice 等 skill。(coll · ★145 · 2026-09)
+- [seanrobertwright/lril-kicad-skills](https://github.com/seanrobertwright/lril-kicad-skills) - 九个 KiCad 10 agent skill，先访谈用户并写下规格，再生成原理图、PCB、符号与封装，并用 KiCad 自带的 ERC/DRC/网表/渲染工具逐一验证。(coll · ★0 · 2026-09)
+- [nickkraakman/skidl-skills](https://github.com/nickkraakman/skidl-skills) - 基于 SKiDL Python 库的 KiCad PCB agentic 工作流，含 new-circuit、find-part、ERC 规则与设计评审等 skill 及九个协作 agent。(coll · ★18 · 2026-04)
+- [Milind220/Ki-Stack](https://github.com/Milind220/Ki-Stack) - 面向 agent 的深度 KiCad 自动化栈，结合 kicad-python IPC、kicad-cli 与 kiutils-rs，含 orient、PCB、footprints、render、file-surgery 与 live IPC 等 skill。(coll · ★22 · 2026-05)
+- [mattpainter701/kicad_automations](https://github.com/mattpainter701/kicad_automations) - Circuit Weaver：程序化生成 KiCad 原理图并做严格校验、ERC 与制造导出，含 kicad、sim、jlcpcb、digikey/mouser/lcsc 选型与 vivado 辅助等 skill。(coll · ★19 · 2026-08)
+- [HubertHQH/KiCad-skills](https://github.com/HubertHQH/KiCad-skills) - 通过 KiCad IPC API 与自带 kipy 解释器读取、修改并导出 PCB 设计的 KiCad 10+ agent skill：kicad-connect、kicad-pcb、kicad-project 与 kicad-export。(coll · ★13 · 2026-04)
+- [BeckhamLabsLLC/kicad-jlcpcb](https://github.com/BeckhamLabsLLC/kicad-jlcpcb) - Claude Code 插件加 MCP server，检索 JLCPCB/LCSC 元件、抓取 EasyEDA 引脚图、放置 KiCad 封装并按引脚名连线，产出可制造的 .kicad_pcb。(★24 · 2026-09)
+- [Prithvi-0g/claude-kicad-skills](https://github.com/Prithvi-0g/claude-kicad-skills) - KiCad PCB 设计、分析与制造 skill，含 autoroute、BOM、SPICE、EMC、JLCPCB/PCBWay 导出与 digikey/mouser/lcsc/element14 选型。(coll · ★1 · 2026-05)
+- [tipoLi5890/akcli](https://github.com/tipoLi5890/akcli) - 零依赖的 Python CLI，用于 AI 原生的 KiCad 原理图设计，从 JSON op-list 生成 .kicad_sch，含电路设计/调试、ERC/设计评审、JLCPCB 能力与选型等 skill。(coll · ★8 · 2026-08)
+- [oaslananka/easyeda-mcp-pro](https://github.com/oaslananka/easyeda-mcp-pro) - 面向 EasyEDA Pro 的 MCP server，含 easyeda-professional-layout skill，覆盖 PCB 检查、BOM 选型、制造导出与 AI 辅助布局。(★46 · 2026-09)
+- [Huaqiu-Electronics/skills](https://github.com/Huaqiu-Electronics/skills) - 华秋电子为华秋 EDA 提供的 agent skill，每个编辑器 API 操作对应一个小 skill，覆盖 BOM、画布编辑、对象放置、ERC、器件搜索以及设计导入/导出等领域，可用 npx skills 安装。(official · coll · ★4 · 2026-08)
+- [coffeenmusic/altium-scripts-skill](https://github.com/coffeenmusic/altium-scripts-skill) - 用于编写 Altium Designer DelphiScript 自动化脚本的 Claude Code skill，基于 230+ 可用示例脚本与 PCB、原理图、DXP 接口的 API 参考。(★14 · 2026-04)
+- [dnewcome/circuit-skills](https://github.com/dnewcome/circuit-skills) - 面向代码驱动电子设计的 Claude Code skill：ngspice/Falstad 电路仿真、tscircuit PCB 布局、3D 渲染与外壳适配。(coll · ★4 · 2026-07)
+- [zuoliangyu/multisim-spice](https://github.com/zuoliangyu/multisim-spice) - 把一句话电路描述变成 ngspice 自检通过、可直接在 NI Multisim 打开的 SPICE 网表的 Claude Code skill。(★11 · 2026-05)
+- [hyndex/Schematics-and-PCB-Skills](https://github.com/hyndex/Schematics-and-PCB-Skills) - 庞大的元件与 PCB skill 集合，涵盖数据手册提取、符号/封装、DFT、EMC，以及汽车、航空、BMS、EV 充电、柔性、HDI、大功率等专用板卡。(coll · ★1 · 2026-05)
+- [Arcadia-1/analog-agents](https://github.com/Arcadia-1/analog-agents) - 联邦式模拟 IC 设计框架，其 skill 覆盖架构探索、尺寸设计、行为建模、验证、ADC 分析、跨模型审计与自演化，可在有/无 EDA 下运行。(coll · ★69 · 2026-07)
+- [Arcadia-1/veriloga-skills](https://github.com/Arcadia-1/veriloga-skills) - 可复用的 Verilog-A 撰写 skill，含自包含语言指南，以及可选的 evas-sim 与 openvaf 编译/仿真配套 skill。(coll · ★34 · 2026-07)
+- [Arcadia-1/analog-circuit-skills](https://github.com/Arcadia-1/analog-circuit-skills) - 面向常见模拟单元（LDO、比较器、五管 OTA、两级运放、自举开关）的 agent skill，使用 ngspice 仿真。(coll · ★13 · 2026-06)
+- [hdl-tools/analog-chip-design-agents](https://github.com/hdl-tools/analog-chip-design-agents) - 面向模拟/混合信号与 RF 芯片流程的 16 插件 Claude Code marketplace：架构、电路设计、AMS 集成/验证、EM 建模、寄生参数提取与特性化。(coll · ★22 · 2026-06)
+- [deanyou/virtuoso-cli](https://github.com/deanyou/virtuoso-cli) - 用 Rust 编写的桥接与 CLI，让 agent 驱动 Cadence Virtuoso，含 schematic-gen、gm-over-id 尺寸、Maestro、sim-measure、电路优化与 OCEAN 网表重生等 skill。(coll · ★33 · 2026-09)
+- [simra-tech/OpenADA](https://github.com/simra-tech/OpenADA) - Open Agentic Design Automation，定义 agent–EDA 契约，含 bootstrap ASIC 工程、模拟单元特性化、评估时序/PVT/良率、跑综合与增量收敛版图等 skill。(coll · ★26 · 2026-08)
+- [SPREsxm/claude-pcb-designer](https://github.com/SPREsxm/claude-pcb-designer) - 覆盖 PCB 全流程的开放 agent skill：需求、选型、原理图评审、层叠、布局/布线、信号完整性/热设计、DFM/DFA 与制造放行，含确定性计算器。(★4 · 2026-09)
 
 ### FPGA / HDL
 
@@ -283,6 +422,19 @@
 - [wweiyi2004/minifpga-quartus-skill](https://github.com/wweiyi2004/minifpga-quartus-skill) - Quartus Cyclone IV 的 Codex Skill；唯一一个有实际使用量的 Quartus Skill。(★8 · 2026-06)
 - [Tomer-Harari/claude-fpga-skills](https://github.com/Tomer-Harari/claude-fpga-skills) - 无头的厂商流程：Vivado 批处理、ModelSim 无头运行、cocotb testbench、跨时钟域形式验证、时序收敛、AXI-Stream 验证。(coll · ★1 · 2026-08)
 - [londey/claude-skill-verilog](https://github.com/londey/claude-skill-verilog) - 一个可用的 Verilog Skill。(★18 · 2026-04)
+- [QingquanYao/xilinx-skill](https://github.com/QingquanYao/xilinx-skill) - Xilinx/AMD 全工具链 skill，从自然语言生成可运行的 Vivado、Vitis HLS、Vitis Unified 与 PetaLinux Tcl 脚本，覆盖 HLS 到启动镜像的 FPGA/MPSoC 流程。(★433 · 2026-04)
+- [babyworm/rtl-agent-team](https://github.com/babyworm/rtl-agent-team) - 面向自动化 RTL 设计与验证的 Claude Code 插件 harness，含 99 个 agent 与 97 个 skill，自动执行 Research→Architecture→uArch→RTL→Verify→Design-Note 的六阶段流水线。(coll · ★52 · 2026-08)
+- [ShenShan123/r2g-skills](https://github.com/ShenShan123/r2g-skills) - 驱动开源 RTL-to-GDS 流程的 Claude Code skill，从自然语言规格经综合、布局布线到完整签核（DRC/LVS/RCX），使用 Yosys、OpenROAD、KLayout 与 OpenRCX。(coll · ★43 · 2026-09)
+- [adeleempurpled290/FPGA-Agent-skills](https://github.com/adeleempurpled290/FPGA-Agent-skills) - 八个 AMD Vivado/Vitis skill，覆盖 HLS 综合、RTL 仿真、综合、实现、约束、时序、调试与 Tcl 脚本。(coll · ★37 · 2026-09)
+- [LNC0831/oh-my-fpga](https://github.com/LNC0831/oh-my-fpga) - 开放的 FPGA skill 包，在 SynthPilot MCP server 的原子工具之上叠加有主见的工作流（时序收敛、CDC 审计、ILA 硬件调试、比特流烧录、全流程 demo）。(coll · ★21 · 2026-06)
+- [oniondas/duck-rtl](https://github.com/oniondas/duck-rtl) - 面向 agent 的省 token RTL 构建-验证回路，校验模块接口、门控编译、跑 cocotb 协同仿真，并在确定性护栏下从 AST 提取并绘制控制 FSM。(★6 · 2026-07)
+- [rtl-buddy/rtl_buddy](https://github.com/rtl-buddy/rtl_buddy) - 面向 Verilog/SystemVerilog 回归测试的 Python CLI，支持 Verilator/VCS，附 dispatch、形式属性验证、图提取、实现与测试等 skill。(coll · ★3 · 2026-09)
+- [hjxxlogic/open-vivado](https://github.com/hjxxlogic/open-vivado) - 通过本地 JSON/TCP 桥接 Vivado Tcl 自动化 AMD Vivado FPGA 流程的 skill 包：工程搭建、RTL/XDC 编写、综合、实现、时序与比特流生成。(★12 · 2026-03)
+- [Fzhiyu1/chipforge-plugin](https://github.com/Fzhiyu1/chipforge-plugin) - 面向 Claude Code 的 AI FPGA 开发插件，含 chipforge skill，提供 Verilog 仿真与知识图谱。(★4 · 2026-01)
+- [baranidh/FpgaSkills](https://github.com/baranidh/FpgaSkills) - 覆盖 FPGA 开发生命周期的 skill 库：功能规格、cocotb 验证、功能覆盖率收敛、比特流与 bring-up。(coll · ★0 · 2026-07)
+- [edawise/edagent-skills](https://github.com/edawise/edagent-skills) - 开源的芯片设计验证 skill，覆盖 testbench 生成、波形调试、根因分析、RAL 寄存器模型生成与回归分诊，支持 Claude Code、Codex 与 Copilot。(coll · ★0 · 2026-08)
+- [11philip22/fpga-skills](https://github.com/11philip22/fpga-skills) - 面向 Xilinx Spartan-6 命令行工作流的 Codex skill：用 Docker 化的 ISE 14.7 构建 Verilog、通过 OpenFPGALoader 烧写 SPI flash，以及 LiteX/LiteScope JTAGBone 调试流。(coll · ★1 · 2026-09)
+- [hslee-cmyk/chip-design-skills](https://github.com/hslee-cmyk/chip-design-skills) - 芯片设计 skill，涵盖模拟 gm/Id 设计、芯片/形式化/UVM 验证与 Lattice FPGA 开发。(coll · ★0 · 2026-07)
 
 ### 无线
 
@@ -300,6 +452,12 @@
 - [rnd-southerniot/rak3112-rs485-node `.claude/skills/`](https://github.com/rnd-southerniot/rak3112-rs485-node) - 在 ChirpStack 中为 RAK3172 / RAK3112 做 LoRaWAN OTAA 入网、注销与入网校验。(coll · ★1 · 2026-07)
 - [JasonYANG170/esp-dev-skill `esp-zigbee-sdk`](https://github.com/JasonYANG170/esp-dev-skill/tree/main/repos/esp-zigbee-sdk) - ESP Zigbee SDK 子 Skill。(★27 · 2026-08)
 - [SnailSploit/Claude-Red `Skills/wireless`](https://github.com/SnailSploit/Claude-Red) - 攻击向的 BLE、LoRaWAN / sub-GHz、Zigbee / Thread / Matter 与 Z-Wave Skill；仅安全侧。(coll · ★5.1k · 2026-08)
+- [mateuszsury/uZigbee](https://github.com/mateuszsury/uZigbee) - 面向 ESP32-C6 的 MicroPython Zigbee 3.0 库，含七个 skill，覆盖原生 C 桥接、Zigbee 协议、固件构建、Python API、内存/性能与 CI。(coll · ★2 · 2026-02)
+- [kuohsianglu/wisblock-zephyr-skills](https://github.com/kuohsianglu/wisblock-zephyr-skills) - 面向基于 Zephyr 的 RAK WisBlock 工程的 agent skill：数据手册驱动的 devicetree overlay 生成器，以及 LoRaWAN Class A 传感器上行应用脚手架。(coll · ★0 · 2026-02)
+- [rnd-southerniot/rak4630-e-ink-claude](https://github.com/rnd-southerniot/rak4630-e-ink-claude) - 面向 RAK WisBlock LoRaWAN 节点的门控 ESP-IDF 固件 skill：RAK4630/RAK3312 引脚参考、PlatformIO 构建、串口抓取、ChirpStack 接入与 LoRaWAN provisioning。(coll · ★0 · 2026-07)
+- [p0fi/matter-cli](https://github.com/p0fi/matter-cli) - Matter CLI 项目，含 esp32-matter skill 与 matter-js 测试设备 skill，用于在 ESP32 上构建与测试 Matter 设备。(★2 · 2026-09)
+- [amscotti/hermes-meshtastic-adapter](https://github.com/amscotti/hermes-meshtastic-adapter) - Hermes Agent 插件，连接 Meshtastic LoRa mesh，接收明文 mesh 消息并转发给 agent。(★7 · 2026-09)
+- [urmzd/zigbee-skill](https://github.com/urmzd/zigbee-skill) - AI 原生的智能家居 skill，让 agent 无需云端、无需网关直接控制 Zigbee 设备。(★0 · 2026-06)
 
 ### 硬件安全
 
@@ -307,6 +465,12 @@
 - [dslsdzc/rev-skills](https://github.com/dslsdzc/rev-skills) - 122 个逆向工程 Skill，含面向 UART、SPI、JTAG 的 `re-hardware-io` 与 `re-javacard`。(coll · ★58 · 2026-09)
 - [keycard-tech/keycard-cli](https://github.com/keycard-tech/keycard-cli) - Keycard 智能卡 CLI，带 `keycard-admin` 与 `keycard-signing` Skill。(official · coll · ★57 · 2026-09)
 - [nemanjan00/claude-code-skills](https://github.com/nemanjan00/claude-code-skills) - 一套很小的个人合集，恰好收录了目前仅有的 Bus Pirate 与智能卡 Skill。(coll · ★0 · 2026-08)
+- [OrbitCurve/firmware-reverse-engineering](https://github.com/OrbitCurve/firmware-reverse-engineering) - 面向 Claude Code 与 Codex 的五个固件逆向 skill：unblob 提取、ELF 静态分析、带脚本的 Ghidra 逆向、QEMU/Firmadyne 仿真与安全报告。(coll · ★189 · 2026-09)
+- [darkmentorllc/bt-re-mad-skillz](https://github.com/darkmentorllc/bt-re-mad-skillz) - 用于在 HCI 层及以下逆向蓝牙控制器固件的 LLM skill，为 Claude Code 与 Codex 驱动 Ghidra。(coll · ★29 · 2026-08)
+- [ByteLandTechnology/headless-ghidra](https://github.com/ByteLandTechnology/headless-ghidra) - 无头 Ghidra 逆向 skill 家族，面向可复现、带证据的工作流：intake、发现、批量反编译、函数分析与 agent CLI。(coll · ★5 · 2026-05)
+- [jxw1102/flipper-claude-buddy](https://github.com/jxw1102/flipper-claude-buddy) - 面向 Flipper Zero 工作流的 Claude Code 插件，含 notify skill 与配套工具。(★49 · 2026-07)
+- [Nikolaibibo/flipper-blackhat-skill](https://github.com/Nikolaibibo/flipper-blackhat-skill) - 面向运行 BlackHat OS 的 Flipper Zero WiFi 开发板的 Claude WiFi 渗透测试 skill，涵盖侦察、攻击规划与 BlackHat OS 命令。(★4 · stale since 2025-10)
+- [vezril/claude-toolkit](https://github.com/vezril/claude-toolkit) - 个人 Claude 工具集，其 skill 含 flipper-zero 与 flipper-unleashed，用于操作 Flipper Zero 与 Unleashed 固件。(coll · ★1 · 2026-09)
 
 ### 汽车
 
@@ -315,6 +479,15 @@
 - [philipkocanda/canair](https://github.com/philipkocanda/canair) - WiCAN OBD-II Wi-Fi / 蓝牙 dongle 工具箱，带信号逆向与 WiCAN 协议 Skill。(coll · ★25 · 2026-08)
 - [spawahh/openpilot-claude-kit](https://github.com/spawahh/openpilot-claude-kit) - 四个面向 openpilot 的 Claude Code 插件，含只读的 comma 设备 API 与 SSH 设备操作。(coll · ★1 · 2026-08)
 - [JiaxI2/Codex-Skills `ethercat-cia402`](https://github.com/JiaxI2/Codex-Skills) - EtherCAT 从站 / CiA 402 / TwinCAT NC 诊断。中文。(★1 · 2026-09)
+- [danielrosehill/Claude-OBD-Diagnostics-Plugin](https://github.com/danielrosehill/Claude-OBD-Diagnostics-Plugin) - 开发中的 Claude Code 插件：从 ELM327 类适配器读取 OBD-II 数据并保存为 JSON 快照或 NDJSON 行车日志，解码故障码、诊断故障并规划保养；其采集脚本尚未在真实车辆上运行过。(coll · ★0 · 2026-08)
+- [wexcomm/hp-tuners-ai-agent](https://github.com/wexcomm/hp-tuners-ai-agent) - 面向 LFX 3.6L V6 的 HP Tuners ECU 调校与车辆诊断 agent，附带 HPT 文件转换和 SAE J2534 PassThru 访问的 skill。(coll · ★8 · 2026-04)
+- [thongdt89/asr_bsw](https://github.com/thongdt89/asr_bsw) - AUTOSAR Classic BSW 配置用的 Codex skill：ARXML 清点、BSW 评审、补丁建议，以及配置 Com、PduR、CanIf、CanTp 等模块。(coll · ★2 · 2026-07)
+- [ptsilivis/autonomousguy](https://github.com/ptsilivis/autonomousguy) - 面向汽车嵌入式工程师的 AI skill，涵盖 AUTOSAR BSW 与 SWC（COM 协议栈、ARXML、RTE、CAN/LIN/以太网/UDS）、MISRA、ISO 26262 和 ECU 代码评审。(coll · ★31 · 2026-07)
+- [Washabii14/agent-skills `skills/automotive-embedded-skills/`](https://github.com/Washabii14/agent-skills/tree/main/skills/automotive-embedded-skills) - 针对汽车 ECU 的 C/C++ 与 CAPL 实践 skill，遵循 MISRA、AUTOSAR、ISO 26262 和 ISO 21434，涵盖 CAN FD、LIN、以太网、DoIP 和 SOME/IP 通信。(★11 · 2026-02)
+- [sdv-playground/SOVDd `.skills/`](https://github.com/sdv-playground/SOVDd/tree/main/.skills) - 用 Rust 实现的 ASAM SOVD 服务器，把 REST 调用转换为经 CAN/ISO-TP 或 DoIP 发送的 UDS 命令，附带 ECU 配置、软件刷写与 OTA 以及问题排查的 skill。(coll · ★0 · 2026-09)
+- [TongLi0406/uds-diagnostic-test](https://github.com/TongLi0406/uds-diagnostic-test) - UDS 诊断测试 skill：解析诊断调查表，为 DID、DTC、IOControl 和 RoutineControl 生成测试脚本，经 CAN 执行并生成报告。(★3 · 2026-05)
+- [canforge/dbckit](https://github.com/canforge/dbckit) - 用于解析、编辑、校验、比对和编解码 DBC（CAN 数据库）文件的 Python 库与 CLI，附带指导 agent 正确使用的 skill。(★0 · 2026-07)
+- [matlab/simulink-agentic-toolkit](https://github.com/matlab/simulink-agentic-toolkit) - MathWorks 官方的 Simulink skill 目录，面向基于模型的设计，包括嵌入式代码生成与优化、A2L 定制、电机控制、Simscape 建模和模型测试。(official · coll · ★1.1k · 2026-09)
 
 ### 工业 / PLC
 
@@ -337,11 +510,32 @@
 - [studioxvii/modbus-skills](https://github.com/studioxvii/modbus-skills/tree/main/plugins/modbus-skills/skills) - 20 个只读的 Modbus 工程 Skill：从原厂 PDF 提取寄存器表、归一化、校验字节序、规划读取、生成 modpoll / ModScan / Node-RED 工具包、分析抓包。(coll · ★1 · 2026-09)
 - [wirenboard/wb-ai-skills](https://github.com/wirenboard/wb-ai-skills) - Wiren Board PLC 厂商 Skill：通过 MQTT 与 Modbus 与控制器通信、编写 wb-rules、管理 Zigbee 与串口设备、根因分析。(official · coll · ★3 · 2026-09)
 - [TuojianLYU/openplc-codex-skill](https://github.com/TuojianLYU/openplc-codex-skill) - 生成带梯形图 `.ld` 文件的 OpenPLC v4 工程。(★1 · 2026-06)
+- [arkbsz/siemens-tia-skill-suite](https://github.com/arkbsz/siemens-tia-skill-suite) - 面向 Codex 等 agent 的 Siemens TIA Portal V16-V21 skill 套件：Openness 就绪检查、项目备份、PLC-as-code 工作区、SCL/LAD/FBD 读写、WinCC HMI 自动化以及 Codex TIA 客户端工作流。(coll · ★2 · 2026-09)
+- [ac-rosu/skills](https://github.com/ac-rosu/skills) - 面向 TIA Portal 中 Siemens S7-1200/S7-1500 编程（SCL、LAD、FBD、STL、GRAPH、CEM）以及 WinCC Unified 脚本与自定义 Web 控件的 skill。(coll · ★0 · 2026-09)
+- [rraxge/Agent_skill_tia_openness_api](https://github.com/rraxge/Agent_skill_tia_openness_api) - TIA Portal V19 Openness API skill：创建与打开项目、导入导出 PLC 块、管理变量表、编写 LAD/SCL XML 以及调试 Openness 报错。(★2 · 2026-06)
+- [mianmianlingqi/tia-openness-reader](https://github.com/mianmianlingqi/tia-openness-reader) - 附带 C# CLI 的 Codex skill，通过 Openness 读取 TIA Portal V17 项目、导出 PLC 块和变量，并分析导出的 XML。(★0 · 2026-05)
+- [ActionUnity/tia-v18-lad-agent](https://github.com/ActionUnity/tia-v18-lad-agent) - 通过 Openness 导出、导入和编译以 LAD 编辑 Siemens TIA Portal V18 PLC 对象的 harness skill，为 FB/FC XML、全局 DB、UDT 和变量表设有安全关卡。(★0 · 2026-07)
+- [Lance0901/AI-TwinCAT-Skill](https://github.com/Lance0901/AI-TwinCAT-Skill) - 包含 34 个 cmdlet 的 PowerShell 模块及配套 skill，让 AI 工具自动化 TwinCAT 3 IDE、构建和部署 PLC 程序、通过 ADS 读写变量并运行测试。(★14 · 2026-04)
+- [idomp/twincat-skills](https://github.com/idomp/twincat-skills) - 驱动 TwinCAT MCP server 的 skill 与配置文档：自动化、代码搜索、驱动器参数、.tsproj 映射和 Scope 录制。(coll · ★0 · 2026-06)
+- [georgeturneruk/tckit `.claude/skills/`](https://github.com/georgeturneruk/tckit/tree/main/.claude/skills) - TwinCAT MCP server，附带构建、部署与 TcUnit 测试循环、Beckhoff 文档查询、配置和 ADR 的 skill。(coll · ★5 · 2026-08)
+- [SionVerhoef/twincat-scope](https://github.com/SionVerhoef/twincat-scope) - 录制并分析 Beckhoff TwinCAT 3 Scope 测量的 skill：包络图、事件检测和 .tcscopex 配置生成。(★0 · 2026-09)
+- [DiamondLightSource/fastcs-catio `.claude/skills/`](https://github.com/DiamondLightSource/fastcs-catio/tree/main/.claude/skills) - Diamond Light Source 基于 pyads 将 TwinCAT 下 EtherCAT I/O 接入 FastCS 的项目，附带 Beckhoff ESI XML、ADS 模拟器测试和控制器连接的 skill。(coll · ★1 · 2026-09)
+- [chency1024dy/Codesys-Skill](https://github.com/chency1024dy/Codesys-Skill) - 通过官方 CLI 和 ScriptEngine 操作 CODESYS 3.5 与 HCPWorks3 项目的 CLI 与 skill：查看和编辑 ST、POU、GVL、任务与 I/O，构建并诊断编译错误。(★3 · 2026-09)
+- [mokouliszt/iec61131-3-motioncontrol-skill](https://github.com/mokouliszt/iec61131-3-motioncontrol-skill) - 使用三菱 MELSEC iQ-R PLCopen Motion Control 功能块编写 IEC 61131-3 ST 的 skill，适用于 RD77 简易运动模块以及 CC-Link IE Field + MR-J4-GF 伺服。(★0 · 2026-05)
+- [johannesPettersson80/trust-platform `.codex/skills/`](https://github.com/johannesPettersson80/trust-platform/tree/main/.codex/skills) - truST（IEC 61131-3 结构化文本工具链）仓库中的 Codex skill：IEC 合规判定、LSP 开发、HMI 契约、测试编写和发布关卡。(coll · ★220 · 2026-09)
+- [php-opcua/opcua-cli `.ai/skills/opcua-cli/`](https://github.com/php-opcua/opcua-cli/tree/master/.ai/skills/opcua-cli) - OPC UA 命令行工具，附带 skill 讲解其命令：浏览、读取、写入和监视数值，探索地址空间，发现端点以及管理证书信任。(★0 · 2026-08)
+- [TheThoughtagen/ignition-ide-plugins `claude-code-plugin/skills/`](https://github.com/TheThoughtagen/ignition-ide-plugins/tree/main/claude-code-plugin/skills) - 面向 Inductive Automation Ignition 的 Claude Code 插件，含 system.* 脚本 API、表达式、lint、测试和端到端测试的 skill。(coll · ★14 · 2026-09)
+- [vogler75/monster-mq `.agents/skills/`](https://github.com/vogler75/monster-mq/tree/main/.agents/skills) - MQTT broker，附带 skill 用于接入 Modbus、OPC UA 等新设备连接器，以及 broker 配置、GraphQL 配置与数据和仪表板开发。(coll · ★142 · 2026-09)
+- [dscsystems/scadavis-synoptic3 `skills/`](https://github.com/dscsystems/scadavis-synoptic3/tree/main/skills) - SCADAvis Synoptic Toolkit Web 组件，附带其 API 和 SVG 画面的 skill，用于实时工业看板。(official · coll · ★4 · 2026-04)
 
 ### 专业 AV 与楼宇系统
 
 - [shorty456132/av-module-maker](https://github.com/shorty456132/av-module-maker) - 生成 Q-SYS、Extron 与 Crestron 控制模块，带 SIMPL+、SIMPL# 与 SIMPL# Pro Skill。(coll · ★9 · 2026-09)
 - [Crestron/CrestronAISkills](https://github.com/Crestron/CrestronAISkills) - Crestron 官方面向 AV 控制编程的 Skill 插件与 Copilot 版本；唯一发布 Skill 的专业 AV 厂商。(official · coll · ★4 · 2026-09)
+- [mvanhorn/printing-press-library `cli-skills/pp-qsys/`](https://github.com/mvanhorn/printing-press-library/tree/main/cli-skills/pp-qsys) - 驱动 qsys-pp-cli 离线索引的 Q-SYS skill，涵盖规格、配置、接线、兼容性和故障文章，可用来核对设备清单；同目录的 pp-crestron 索引 Crestron 产品、规格书和固件，pp-extron 索引 Extron 规格书与手册。(★2k · 2026-09)
+- [RAKWireless/RAK-BACnet-Profiles `.agents/skills/generate-bacnet-profile/`](https://github.com/RAKWireless/RAK-BACnet-Profiles/tree/main/.agents/skills/generate-bacnet-profile) - RAKwireless 官方 skill，依据协议文档、解码器和样例报文生成或修复 RAK BACnet 设备 Profile，含上行、下行和测试夹具。(official · ★0 · 2026-09)
+- [songzh96/aptishome-knx-edge-agent](https://github.com/songzh96/aptishome-knx-edge-agent) - AptisHome KNX Edge（ESP32 网关）的 MCP 与 OpenAPI 桥接，附带 Codex skill 管理 KNX 房间、设备、场景和本地自动化并控制设备。(★0 · 2026-08)
+- [bbartling/diy-bacnet-router `.cursor/skills/`](https://github.com/bbartling/diy-bacnet-router/tree/master/.cursor/skills) - 嵌入式 Linux BACnet 路由器项目，附带 skill：为教学用路由器提供产品与仪表板上下文，并在本地虚拟机中调试 Buildroot 系统构建。(coll · ★0 · 2026-09)
 
 ### 实验室仪器
 
@@ -355,6 +549,26 @@
 - [KRATSZ/labscriptai-ot](https://github.com/KRATSZ/labscriptai-ot) - Opentrons 插件：MCP server、七个 Skill、安全策略、协议库。(coll · ★2 · 2026-07)
 - [DCC-Lab/PyHardwareLibrary](https://github.com/DCC-Lab/PyHardwareLibrary) - USB / 串口实验设备库（光谱仪、位移台、激光器、数采），带一个编写驱动的 Skill。(★12 · 2026-08)
 - [deepmodeling/Uni-Lab-OS](https://github.com/deepmodeling/Uni-Lab-OS) - 自动化实验室平台，带 AGENTS.md 与一个 `add-device` Cursor Skill。(cursor-rules · ★177 · 2026-09)
+- [BCDA-APS/opencode-skills](https://github.com/BCDA-APS/opencode-skills) - 面向 Argonne APS 光束线 EPICS 开发的 OpenCode skill，包括 Aerotech AeroScript 运动程序、areaDetector 驱动与 IOC 以及 synApps IOC。(coll · ★2 · 2026-06)
+- [curtisgalloway/public-skills `plugins/hardware-lab/`](https://github.com/curtisgalloway/public-skills/tree/main/plugins/hardware-lab) - hardware-lab 插件中的 skill：通过 SCPI 控制 Siglent SDS1000X-E 示波器、Bus Pirate、Cynthion USB 抓包与解码，以及 MCCI 3411 USB 开关。(coll · ★2 · 2026-09)
+- [determlab/shal `integrations/claude-code/skills/`](https://github.com/determlab/shal/tree/main/integrations/claude-code/skills) - SHAL 把实验室软硬件变成有类型、受权限管控的 agent 工具，附带 Claude Code skill 用于编写新设备驱动、总线传输和 YAML 配置。(coll · ★2 · 2026-09)
+- [pragmatest-dev/testerkit `src/testerkit/skills/`](https://github.com/pragmatest-dev/testerkit/tree/main/src/testerkit/skills) - 基于 pytest 的电子产品验证与量产硬件测试平台，附带测试工位、采集波形与传感器证据、数据和规格书相关 skill。(coll · ★1 · 2026-09)
+- [pragmatest-dev/lvkit `src/lvkit/skill_templates/`](https://github.com/pragmatest-dev/lvkit/tree/main/src/lvkit/skill_templates) - 无需安装 LabVIEW 即可描述、渲染、比对和转换 VI 的 CLI，附带由 lvkit setup 安装的 agent skill，用于描述、文档化、查询、评审、解析和转换 VI。(coll · ★38 · 2026-09)
+- [sendu2wfdx/rigol-dho-scpi](https://github.com/sendu2wfdx/rigol-dho-scpi) - 通过 LAN 或 USBTMC/VISA 查询和控制 RIGOL DHO800/DHO900 示波器的 Codex skill。(★0 · 2026-08)
+- [fooping-tech/rigol_ds1104 `.codex/skills/rigol-ds1104z-lan/`](https://github.com/fooping-tech/rigol_ds1104/tree/main/.codex/skills/rigol-ds1104z-lan) - 通过 LAN/LXI 控制 RIGOL DS1104Z 示波器的 skill：SCPI、截图、单次捕获、波形 CSV 导出和测量记录。(★1 · 2026-05)
+- [chouswei/MXO4-SigCapture `.cursor/skills/rs-scpi-scopes/`](https://github.com/chouswei/MXO4-SigCapture/tree/main/.cursor/skills/rs-scpi-scopes) - 在 MXO4 远程采集项目中编写、评审和调试 Rohde & Schwarz 示波器（MXO4/5、RTO/RTO6、RTP、RTM/RTA）SCPI 的 skill。(★0 · 2026-07)
+- [zhaojiseng/debug-lab-instruments](https://github.com/zhaojiseng/debug-lab-instruments) - 附带 LAN-SCPI Python 控制脚本的 skill，用于 SIGLENT SDG 信号发生器和 RIGOL DHO/MHO 示波器：设备发现、连接测试、波形输出和测量。(★0 · 2026-07)
+- [LHX369963/sdg2122-cli](https://github.com/LHX369963/sdg2122-cli) - 面向 SIGLENT SDG2122X 波形发生器的类型化 Linux USBTMC CLI 与 Codex skill，覆盖双通道输出、调制、扫频、脉冲串和任意波。(★0 · 2026-08)
+- [Erlla/DM3058E-skills](https://github.com/Erlla/DM3058E-skills) - RIGOL DM3058E 数字万用表的 skill：通过 USBTMC 读取、记录和 SCPI 控制，支持 Windows 原生 USB 通信。(★1 · 2026-07)
+- [zxf1023818103/cmw-wlan-test](https://github.com/zxf1023818103/cmw-wlan-test) - 基于纯 SCPI 在 Rohde & Schwarz CMW500 上自动化 WLAN 信令测试的 Claude Code skill 与 Python 脚本。(★0 · 2026-08)
+- [pasrom/kiprim-psu](https://github.com/pasrom/kiprim-psu) - KIPRIM DC310S/DC605S（OWON SPE3103/SPE6053）台式电源的 USB 串口驱动、CLI 与 skill。(★0 · 2026-07)
+- [metachow/instrument-software-skill](https://github.com/metachow/instrument-software-skill) - 中英双语 skill，用于开发 SMU、锁相放大器、温控器等科学仪器的 Python 控制软件。(★0 · 2026-06)
+- [DavidBlackCN/econtest-bench-mcp](https://github.com/DavidBlackCN/econtest-bench-mcp) - 面向电赛低压信号题的 USB/VISA MCP server 与 skill，安全控制 SIGLENT SDS2000X Plus 示波器和 SDG6000X 信号发生器。(★1 · 2026-08)
+- [HuMoran/tt-skills](https://github.com/HuMoran/tt-skills) - 个人 Claude Code skill 集，含 Keysight DSO5000 与 RIGOL DS1000Z 示波器驱动、RS-485 Modbus RTU、PTC Creo J-Link 自动化以及 EasyEDA Pro 转 KiCad。(coll · ★0 · 2026-08)
+- [analogdevicesinc/scopy `tools/scopy_dev_plugin/skills/`](https://github.com/analogdevicesinc/scopy/tree/main/tools/scopy_dev_plugin/skills) - Analog Devices 为其示波器与信号分析软件 Scopy 提供的开发 skill，涵盖 IIO 控件模式、API 质量检查和插件开发。(official · coll · ★499 · 2026-09)
+- [Opentrons/opentrons `.cursor/skills/`](https://github.com/Opentrons/opentrons/tree/edge/.cursor/skills) - Opentrons monorepo 中面向 Flex 与 OT-2 移液机器人软件的 Cursor skill，包括机器人 Python 项目、analyses 快照测试以及 AI 客户端/服务端开发。(official · coll · ★520 · 2026-09)
+- [jsgoecke/photron-fastcam-skill](https://github.com/jsgoecke/photron-fastcam-skill) - 用 PDCLIB SDK 编程和集成 Photron FASTCAM 高速相机（Mini R5-4K、Nova、SA-Z）的 skill。(★0 · 2026-02)
+- [ni/labview-fpga-hdl-tools `.github/skills/labview-fpga-hdl-tools/`](https://github.com/ni/labview-fpga-hdl-tools/tree/main/.github/skills/labview-fpga-hdl-tools) - NI 官方 skill，讲解 nihdl Python CLI，为 NI FPGA 硬件目标自动化 Vivado 工程创建、编译、目标插件生成和 LabVIEW 集成。(official · ★3 · 2026-09)
 
 ### 数字制造
 
@@ -365,6 +579,24 @@
 - [jl-codes/laser-skills](https://github.com/jl-codes/laser-skills) - LightBurn 设计、预检与任务 Skill；只做设计，绝不真正出光。(coll · ★0 · 2026-08)
 - [Lordgrimz/escpos-skill](https://github.com/Lordgrimz/escpos-skill) - 依据官方规范逐字节生成热敏小票打印机的 ESC/POS 指令流。(★0 · 2026-04)
 - [johncattrall/keymap-ai](https://github.com/johncattrall/keymap-ai) - 审查并生成 ZMK / QMK 键位映射（home-row mods、层）。(★22 · 2026-08)
+- [FracktalWorks/agent-3dprinter-expert](https://github.com/FracktalWorks/agent-3dprinter-expert) - Fracktal Works 官方 agent，用于调试其基于 Klipper 的 3D 打印机（Dragon、TwinDragon、Volterra），覆盖 Klipper 日志、OctoPrint 与 Moonraker API、printer.cfg、MCU 和热敏电阻故障。(official · coll · ★0 · 2026-08)
+- [moggieuk/Happy-Hare `.claude/skills/`](https://github.com/moggieuk/Happy-Hare/tree/main/.claude/skills) - 面向 ERCF、Tradrack、Box Turtle 等多色换料器的 Klipper MMU 驱动，附带关于料道限位不变量、NFC/RFID 子系统和 Kconfig 菜单的 Claude Code skill。(coll · ★1.1k · 2026-09)
+- [makermate/claw3d-skill](https://github.com/makermate/claw3d-skill) - 模块化的 3D 工作流 skill：用 AI 生成模型、搜索 Thingiverse、切片并发送打印。(★64 · 2026-03)
+- [bbolinger/snapmaker-u1-toolkit](https://github.com/bbolinger/snapmaker-u1-toolkit) - 通过 Telegram 在手机上向 Snapmaker U1 发起打印的工具包，含无头 OrcaSlicer、Moonraker 上传、摄像头确认和人工批准开打，另附切片自动化 skill。(★20 · 2026-09)
+- [estampo/estampo](https://github.com/estampo/estampo) - 可复现 3D 打印的构建系统，附带 skill：配置 estampo.toml、选择切片引擎与配置，并为 STL、STEP、3MF 或代码 CAD 输出运行打印流水线。(★16 · 2026-08)
+- [CarlosZiegler/bambu-h2c-skills](https://github.com/CarlosZiegler/bambu-h2c-skills) - 面向 Bambu Lab H2C 的 skill：在 Bambu Studio 中切片并校验项目（含 AMS 与喷嘴映射）、执行已授权的打印、FDM 打印前检查、打印故障排查以及准备 Blender 模型。(coll · ★2 · 2026-09)
+- [Ethan2298/bambu-printer-agent-plugin](https://github.com/Ethan2298/bambu-printer-agent-plugin) - 在 Mac 本地运行的 agent 插件，封装 bambu-printer-mcp，并附带检查和控制 Bambu Lab A1 打印机的 skill。(★0 · 2026-09)
+- [phoenixjyb/openclaw-3dprint](https://github.com/phoenixjyb/openclaw-3dprint) - OpenClaw skill，实现文字到 3D 打印的流水线，把聊天消息变成 Bambu Lab 打印机上的实物。(★3 · 2026-03)
+- [Flatsher/elegoo-centauri-skill](https://github.com/Flatsher/elegoo-centauri-skill) - 通过 SDCP WebSocket 协议控制和监控 Elegoo Centauri Carbon 3D 打印机的 skill：状态、温度、文件、打印控制、风扇、灯光、移轴和上传。(★0 · 2026-04)
+- [AlchemyDevelopment/3d-printing-jarvis](https://github.com/AlchemyDevelopment/3d-printing-jarvis) - 面向 Creality Ender 5 Plus 的 skill，涵盖切片优化、首层附着、Klipper 与 Moonraker 打印机控制、G-code 修改和故障诊断。(★0 · 2026-09)
+- [danthi123/Q1Libre `.claude/skills/`](https://github.com/danthi123/Q1Libre/tree/main/.claude/skills) - Qidi Q1 Pro 的开源固件补丁，附带 Claude Code skill：通过 USB 部署、给 Klipper 打补丁、诊断打印机和发布版本。(coll · ★7 · 2026-07)
+- [ttracx/qidi-q2-hermes](https://github.com/ttracx/qidi-q2-hermes) - Qidi Q2 3D 打印机的 Hermes Agent 集成，借助 Moonraker API 实现自然语言控制、监控和延时摄影。(★1 · 2026-08)
+- [toprak1919/flashforge-3d-print-skill](https://github.com/toprak1919/flashforge-3d-print-skill) - FlashForge 网络打印的 Claude Code skill：打印机发现、切片、G-code 转换（M82 转 M83）、上传与流式传输。(★0 · 2026-03)
+- [therynamo/3d-print-skill](https://github.com/therynamo/3d-print-skill) - Claude skill：导入模型、按固化的调整规则切片、预览，并把实际打印任务发送到打印机。(★1 · 2026-07)
+- [jchadwick/autofab-skills](https://github.com/jchadwick/autofab-skills) - 从模型到打印的闭环 skill：3D 建模、打印机配置、切片，以及通过 Moonraker 上传、排队和启动 G-code。(coll · ★0 · 2026-07)
+- [flux3dp/beam-studio `.agents/skills/`](https://github.com/flux3dp/beam-studio/tree/main/.agents/skills) - FLUX 官方 Beam Studio 激光软件仓库，附带 FCode 任务格式、相机标定与预览、路径预览和打印后切割的 skill。(official · coll · ★25 · 2026-09)
+- [peytoncasper/modeling `skills/`](https://github.com/peytoncasper/modeling/tree/main/skills) - Fusion 360 skill：草图、实体、装配和 CAM，包括 CAM 设置以及自适应清角、轮廓、等高残留等 2D/3D 加工操作。(coll · ★1 · 2026-03)
+- [KlaKalma/Ma_CNC `.claude/skills/`](https://github.com/KlaKalma/Ma_CNC/tree/main/.claude/skills) - 基于 EtherCAT 伺服和 RS-485 变频器的 LinuxCNC 机床项目，附带 LinuxCNC 配置、EtherCAT、手轮 HMI、切削参数和安全联锁的 Claude Code skill。(coll · ★2 · 2026-08)
 
 ### 智能家居
 
@@ -375,6 +607,26 @@
 - [jtenniswood/espcontrol `.agents/skills/`](https://github.com/jtenniswood/espcontrol) - `flash-displays` 负责通过 ESPHome OTA 与 USB 烧录 ESP32 屏幕板。(★1k · 2026-09)
 - [bradsjm/hassio-addons](https://github.com/bradsjm/hassio-addons) - 通过加载项发布的七个 HA Skill：自动化脚本、仪表盘卡片、实体与服务、ESPHome、集成、自定义集成、AWTRIX。(coll · ★45 · 2026-07)
 - [nodnarbnitram/claude-code-extensions `esphome-config-helper`](https://github.com/nodnarbnitram/claude-code-extensions) - ESPHome YAML 的生成、校验与排障。(★16 · 2026-04)
+- [tonylofgren/aurora-smart-home](https://github.com/tonylofgren/aurora-smart-home) - 覆盖整个智能家居的独立 Claude skill：Home Assistant、ESPHome、Node-RED、自定义集成、仪表板以及可直接生产的硬件设计。(coll · ★104 · 2026-09)
+- [SmartThingsCommunity/wwst-skills](https://github.com/SmartThingsCommunity/wwst-skills) - 面向 Works With SmartThings 开发者的 SmartThings skill：Hub 接入、云接入和直连（st-device-sdk-c）设备、应用间账号关联以及 Matter 与 Zigbee 的二维码入网。(official · coll · ★21 · 2026-07)
+- [401Unauthorized/smartthings-skills](https://github.com/401Unauthorized/smartthings-skills) - 面向 SmartThings 生态的 agent skill，涵盖公开 API、CLI、Edge 驱动和 SmartApp。(coll · ★0 · 2026-02)
+- [DanielWinks/Hubitat-Public `skills/`](https://github.com/DanielWinks/Hubitat-Public/tree/main/skills) - Hubitat 应用、驱动与库的合集，附带 Hubitat Groovy 开发、代码评审和包发布的 skill。(coll · ★2 · 2026-09)
+- [jbaruch/hubitat-dev](https://github.com/jbaruch/hubitat-dev) - Hubitat Elevation 的 Tessl 上下文插件，附带部署与调试应用和驱动、通过 HTTP 发送并确认设备命令的 skill。(coll · ★0 · 2026-09)
+- [timvdhoorn/homey-cli-skill](https://github.com/timvdhoorn/homey-cli-skill) - 通过官方 homey CLI 操作 Homey Pro 的 agent skill，完整支持高级 Flow JSON。(★2 · 2026-09)
+- [KrauseFx/homey-cli](https://github.com/KrauseFx/homey-cli) - 附带 skill 的 CLI，让 agent 安全地控制 Athom Homey 设备和 Flow。(★1 · 2026-03)
+- [markusleben/ha-nova](https://github.com/markusleben/ha-nova) - 通过轻量中继加 31 个 LLM skill 控制 Home Assistant，适用于 Claude Code、Codex 和 OpenCode，涵盖管理、Assist、备份等。(coll · ★21 · 2026-09)
+- [nolte/claude-home-assistant](https://github.com/nolte/claude-home-assistant) - 用于 Home Assistant 开发的 Claude Code skill 与 agent：自定义集成、Lovelace 卡片、蓝图与自动化以及 ESPHome。(coll · ★1 · 2026-09)
+- [beclab/hass-cli `skills/`](https://github.com/beclab/hass-cli/tree/main/skills) - Home Assistant 命令行工具，附带自动化、脚本与场景、Assist、备份等管理任务的 skill。(coll · ★1 · 2026-06)
+- [ESJavadex/claude-homeassistant-plugins](https://github.com/ESJavadex/claude-homeassistant-plugins) - Home Assistant 的 Claude 插件市场，附带创建和管理 YAML 配置的 skill：自动化、脚本、模板、蓝图和 Lovelace 仪表板。(★26 · 2025-11)
+- [PineappleEmperor/ha-skills](https://github.com/PineappleEmperor/ha-skills) - 用于开发 Home Assistant 自定义集成的 Claude Code 插件，含集成开发、面板设计和问题分诊 skill，并附带 skill 评测结果。(coll · ★0 · 2026-09)
+- [mobilewhatelse/home-assistant-skill](https://github.com/mobilewhatelse/home-assistant-skill) - 用于 Home Assistant 自动化开发的 Claude Code skill，包含光伏控制、仪表板和 YAML 模式。(★1 · 2026-09)
+- [sam2kb/openclaw-home-assistant](https://github.com/sam2kb/openclaw-home-assistant) - 安全优先的 OpenClaw skill，通过 REST 与 WebSocket API 运维、诊断和修复 Home Assistant 实例：日志、历史、注册表、自动化 trace 和服务调用。(★0 · 2026-08)
+- [sofiaferro/rpi-voice-satellite-skill](https://github.com/sofiaferro/rpi-voice-satellite-skill) - 在 Raspberry Pi Zero 2 W 上搭配 ReSpeaker 2-Mic HAT、Wyoming 和 Home Assistant 搭建语音卫星的 skill。(★0 · 2026-04)
+- [yaniv-golan/smalltv-ultra-skill](https://github.com/yaniv-golan/smalltv-ultra-skill) - GeekMagic SmallTV Ultra 桌面小屏的 Claude skill：控制主题、亮度和图片，并刷入 ESPHome 等替代固件。(coll · ★10 · 2026-03)
+- [omarshahine/lutron-cli](https://github.com/omarshahine/lutron-cli) - 在终端控制 Lutron Caseta 照明，附带用于场景、Smart Away 和设备的 OpenClaw 与 Claude Code skill。(★0 · 2026-08)
+- [McCavity/iobroker-plugin](https://github.com/McCavity/iobroker-plugin) - 与后端无关的 ioBroker skill 包，适用于 Claude Code 和 Codex：诊断设备、按模式查找状态和检查电池。(coll · ★0 · 2026-06)
+- [alackmann/openhab-config-manager-skill](https://github.com/alackmann/openhab-config-manager-skill) - 管理私有仓库中 openHAB 配置的 OpenClaw skill：编辑 item、rule 和 thing，通过 SSH 部署到远程服务器并查询实时状态。(★3 · 2026-04)
+- [deworn/claude-market `plugins/loxone-config/`](https://github.com/deworn/claude-market/tree/main/plugins/loxone-config) - Loxone 的 Claude 插件：解析模块与连线图以读取并安全编辑 Miniserver 的 .Loxone 配置文件，另含 Loxone 文档 skill。(coll · ★0 · 2026-07)
 
 ## MCP server 与桥接
 
@@ -395,6 +647,15 @@ Agent 在运行时调用的工具服务器。目前对这个领域最好的综�
 - [neusse/Codex-Circuitpython-MCP](https://github.com/neusse/Codex-Circuitpython-MCP) - CircuitPython 板卡发现、文件部署、串口读取、中断与复位。(★7 · 2026-05)
 - [ctrlpi/pico-bay](https://github.com/ctrlpi/pico-bay) - 通过 USB 管理运行 MicroPython 或 CircuitPython 的树莓派 Pico 与 ESP32 板。(★5 · 2026-09)
 - [Wokwi MCP 模式](https://docs.wokwi.com/wokwi-ci/mcp-support) - `wokwi-cli mcp` 把托管的 Wokwi 仿真暴露给 Agent：无需板子即可运行 Arduino / ESP32 / RP2040 固件并读取串口。(official)
+- [jinw06k/esp-idf-monitor-mcp](https://github.com/jinw06k/esp-idf-monitor-mcp) - ESP-IDF idf.py mcp-server 的替换扩展，新增基于 PTY 的 monitor 工具，用于读取启动日志与交互式串口收发。(★13 · 2026-03)
+- [cmd0s/esp32-ai-loop-mcp-server](https://github.com/cmd0s/esp32-ai-loop-mcp-server) - MCP server，11 个工具在真实 ESP32 板上打通 ESP-IDF 构建、烧录与串口观测闭环。(★8 · 2026-04)
+- [cunjun/McuBuddy](https://github.com/cunjun/McuBuddy) - MCU 调试 MCP server，暴露调试探针、Keil MDK 工程、ELF/DWARF 符号、SVD 寄存器、UART/RTT 日志、FreeRTOS 状态与 Flash 操作。(★6 · 2026-08)
+- [powerdragonfire/platformio.mcp](https://github.com/powerdragonfire/platformio.mcp) - PlatformIO MCP server（uvx platformio.mcp），用于构建、烧录、查看串口、运行测试、解码崩溃与压缩固件体积。(★3 · 2026-09)
+- [Umer-Mahmood/embedded-mcp](https://github.com/Umer-Mahmood/embedded-mcp) - 面向 TI CC26xx（XDS110/dslite）与 Nordic nRF52/nRF91（nrfjprog）的 MCP server，可检测、擦除、烧录、复位并采集 UART 或 RTT 日志。(★3 · 2026-08)
+- [Helistana/mcp-e2studio-server](https://github.com/Helistana/mcp-e2studio-server) - 面向 Renesas e2studio RA/RX 工程的 MCP server，覆盖编译、烧录、调试与故障诊断，返回结构化 JSON。(★0 · 2026-08)
+- [ByteAsk/ByteAsk-Embedded-MCP](https://github.com/ByteAsk/ByteAsk-Embedded-MCP) - ByteAsk Embedded Docs 背后的开源 MCP server，从嵌入式参考文档返回带页码引用的原文片段（寄存器、Modbus 功能码、SCPI 命令）；检索引擎与文档语料仅在托管端点提供，不在仓库中。(★24 · 2026-06)
+- [Aarav-J/zephyr-mcp-server](https://github.com/Aarav-J/zephyr-mcp-server) - MCP server（npx @aarav-j/zephyr-mcp-server），提供准确的 Zephyr RTOS Kconfig 符号、Devicetree 绑定与 API 签名。(★3 · 2026-07)
+- [jaklys/Lvgl-mcp-esp32](https://github.com/jaklys/Lvgl-mcp-esp32) - MCP server，在无头模拟器中编译面向 ESP32 的 LVGL UI 片段并返回 PNG 截图作为视觉反馈。(★12 · 2026-07)
 
 ### 端侧 MCP server
 
@@ -412,6 +673,10 @@ Agent 在运行时调用的工具服务器。目前对这个领域最好的综�
 - [PedroFnseca/esp32-mcp](https://github.com/PedroFnseca/esp32-mcp) - Arduino 库管理器中的 `ESP32-MCP`：无状态 MCP 2026-07-28，带主机端单元测试与 CI。(★1 · 2026-08)
 - [matta-pie/micro-mcp](https://github.com/matta-pie/micro-mcp) - 已在 Pico W / Pico 2 W 上验证的 MicroPython MCP server；支持 HTTP 与 USB 上的 stdio 传输。(★1 · 2026-02)
 - [solnera/esp32-ble-mcp-server](https://github.com/solnera/esp32-ble-mcp-server) - 唯一真正可用的 MCP-over-BLE GATT 传输：ESP32 服务端，外加 FastMCP / TS / Swift 的 BLE 客户端传输。(★1 · 2026-02)
+- [Kongnitive/Kongnitive-ESP32-Harness](https://github.com/Kongnitive/Kongnitive-ESP32-Harness) - Kongnitive EdgeMCP：运行在 ESP32 上的 MCP server，内置 Lua 5.4 运行时，Agent 无需重新烧录即可推送脚本并读取日志。(★10 · 2026-05)
+- [Ai-Thinker-Open/emMCP](https://github.com/Ai-Thinker-Open/emMCP) - 极小的 MCU C 库（RAM 62 字节），实现 Ai-Thinker UART-MCP 协议，让单片机向 AI 语音模组注册 MCP 工具。(official · ★5 · 2026-07)
+- [jurgen178/esp32-mcp](https://github.com/jurgen178/esp32-mcp) - 运行在 Arduino Nano ESP32 上的 JSON-RPC 2.0 MCP server，自带小型嵌入式 C++ MCP SDK，把硬件控制暴露为工具。(★7 · 2025-12)
+- [ertgtct/mcpesp](https://github.com/ertgtct/mcpesp) - 在 ESP32 上通过内置 WebServer 运行 MCP server 的 Arduino 库，支持工具注册与 schema 校验。(★4 · 2025-11)
 
 ### 串口 / 总线 / 调试（MCP）
 
@@ -424,6 +689,22 @@ Agent 在运行时调用的工具服务器。目前对这个领域最好的综�
 - [magnusmalm/smolmux](https://github.com/magnusmalm/smolmux) - C11 编写的串口与 GDB-SWD 复用器，带 MCP server，让一个探针同时服务多个使用方。(★2 · 2026-08)
 - [Pan-Robotics/bus-mcp](https://github.com/Pan-Robotics/bus-mcp) - 把树莓派上的 CAN / CAN-FD、RS-485 / UART、I2C、SPI 与 GPIO 暴露为 MCP 工具，默认只读。(★2 · 2026-06)
 - [mcp2everything/mcp2mqtt](https://github.com/mcp2everything/mcp2mqtt) - 用于硬件控制的 MCP → MQTT 桥；被引用最多的早期作品，但已无人维护。姊妹项目 `mcp2serial` 与 `mcp2tcp` 同样停更。(★371 · stale since 2024-12)
+- [signal-slot/mcp-gdb](https://github.com/signal-slot/mcp-gdb) - GDB MCP server（npx mcp-gdb），支持会话、断点、单步、内存、寄存器与 core dump。(★159 · 2026-07)
+- [Klievan/jlink-mcp](https://github.com/Klievan/jlink-mcp) - 面向 SEGGER J-Link、OpenOCD、Black Magic 探针的 MCP server，可烧录、暂停、读取故障寄存器并诊断崩溃，已在 nRF52840-DK 上演示。(★30 · 2026-09)
+- [cyj0920/jlink_mcp](https://github.com/cyj0920/jlink_mcp) - J-Link MCP server，支持 SWD/JTAG 连接、内存读写、Flash 编程、断点与 RTT。(★34 · 2026-04)
+- [es617/serial-mcp-server](https://github.com/es617/serial-mcp-server) - 有状态的 pyserial MCP server，可列出端口、打开连接、切换 DTR/RTS，并支持协议规范与设备插件。(★20 · 2026-03)
+- [KenosInc/sigrok-mcp-server](https://github.com/KenosInc/sigrok-mcp-server) - sigrok-cli 的 MCP server，扫描逻辑分析仪、采集数据并用 sigrok 解码器解码协议。(★11 · 2026-08)
+- [luiox/openocd-mcp](https://github.com/luiox/openocd-mcp) - OpenOCD MCP server，复用 VS Code launch.json 完成烧录、异步 GDB/MI 调试与 SEGGER RTT 日志读取。(★10 · 2026-06)
+- [konbakuyomu/pyocd-debug-mcp](https://github.com/konbakuyomu/pyocd-debug-mcp) - 基于 pyOCD 的 MCP server，为 CMSIS-DAP 探针提供 58 个工具：烧录校验、硬件断点、观察点、寄存器与 HardFault 分析。(★1 · 2026-04)
+- [wegitor/logic-analyzer-ai-mcp](https://github.com/wegitor/logic-analyzer-ai-mcp) - 实验性（alpha）Saleae 逻辑分析仪 MCP server，可配置并执行采集、解析采集文件并导出数据，目前仅在旧版 Logic 1.2.40 软件上测试。(★10 · 2026-07)
+- [qarnet/serial-mcp](https://github.com/qarnet/serial-mcp) - Rust 编写的串口 MCP server，持续接收捕获，支持 SLIP/COBS 分帧、AT/NMEA/Modbus ASCII 解析、DTR/RTS 与 BREAK 控制。(★9 · 2026-09)
+- [okhsunrog/flashprobe-mcp](https://github.com/okhsunrog/flashprobe-mcp) - MCP server，通过 probe-rs（JTAG/SWD，含 RTT 或 semihosting）或 espflash 烧录并监控固件，支持 defmt 解码与提前退出的日志捕获。(★5 · 2026-09)
+- [Rance-OwO/Serial-Agent](https://github.com/Rance-OwO/Serial-Agent) - Serial Agent：VS Code 插件加 MCP server 与 skill，让 Agent 访问串口、日志与固件工具进行嵌入式调试。(★40 · 2026-08)
+- [woooooooooolf/ser2mcp](https://github.com/woooooooooolf/ser2mcp) - Rust 编写的 UART MCP server，14 个 uart_* 工具支持多串口读写、输出匹配、hex/文本模式与文件流式发送。(★7 · 2026-09)
+- [felixfinal/agent-dsviewer-logic-analyzer](https://github.com/felixfinal/agent-dsviewer-logic-analyzer) - MCP server、原生 dslogic-cli 后端与 Agent skills，用于 DreamSourceLab DSLogic USB 逻辑分析仪的采集与解码。(★4 · 2026-06)
+- [BeaCox/gdb-mcp](https://github.com/BeaCox/gdb-mcp) - 多会话 GDB/MI MCP server，支持本地程序、core 文件与 gdbserver 目标，返回精简的帧与回溯信息。(★9 · 2026-09)
+- [paulopalaoro/cortex-mcp-bridge](https://github.com/paulopalaoro/cortex-mcp-bridge) - VS Code 插件，经 MCP 暴露 Cortex-Debug 与 PlatformIO 的实时调试状态，并可通过 OpenOCD 在无固件情况下驱动 STM32 外设。(★5 · 2026-04)
+- [harrisonfaulkner/canbus-mcp](https://github.com/harrisonfaulkner/canbus-mcp) - 面向 PEAK PCAN-USB 的 CAN 总线逆向 MCP server，读取、分析并映射 ECU 报文，支持 DBC 导入导出。(★2 · 2026-05)
 
 ### 机器人（MCP）
 
@@ -452,6 +733,14 @@ Agent 在运行时调用的工具服务器。目前对这个领域最好的综�
 - [gtoff/moveit-mcp-server](https://github.com/gtoff/moveit-mcp-server) - 把 MoveIt 2 规划暴露为 MCP 工具。(★4 · 2026-03)
 - [ros-claw/inspire-rh56-mcp](https://github.com/ros-claw/inspire-rh56-mcp) - 通过 CAN 控制因时 RH56 灵巧手，已在实物上复验。(★1 · 2026-07)
 - [erh/viam-mcp-server](https://github.com/erh/viam-mcp-server) - 以 Viam 模块形式提供的 MCP：根据每个组件的 Go 接口逐方法生成工具，作者是 Viam 的 CEO。(★0 · 2026-04)
+- [ajtudela/nav2_mcp_server](https://github.com/ajtudela/nav2_mcp_server) - 面向 ROS 2 Nav2 机器人的 MCP server：导航到位姿、跟随航点、清除代价地图并管理生命周期。(★84 · 2026-05)
+- [proxi666/amazing-ros2-mcp](https://github.com/proxi666/amazing-ros2-mcp) - 原生 rclpy 的 ROS 2 MCP server，覆盖话题、服务、动作、参数、图像与 Nav2，并有速度限幅和话题黑名单。(★14 · 2026-05)
+- [LCAS/ros2_mcp](https://github.com/LCAS/ros2_mcp) - LCAS 的 ROS 2 MCP server，支持话题回显、为 VLM 获取图像与接口内省。(★9 · 2025-12)
+- [selfpatch/ros2_medkit_mcp](https://github.com/selfpatch/ros2_medkit_mcp) - ros2_medkit SOVD 网关的 MCP 适配器，暴露 ROS 2 诊断、操作、参数与生命周期状态。(official · ★6 · 2026-09)
+- [zhou-zhichao/robotstudio-mcp](https://github.com/zhou-zhichao/robotstudio-mcp) - ABB RobotStudio 桥接（C# 插件，含 CLI、skills 与 MCP），检查工作站、上传 RAPID 代码并运行仿真。(★86 · 2026-09)
+- [PixelML/reachy-mini-mcp](https://github.com/PixelML/reachy-mini-mcp) - Reachy Mini 机器人的 MCP server，支持舞蹈、情绪、头部运动、相机拍照、人脸追踪与本地 TTS。(★21 · 2026-01)
+- [danmartinez78/VectorClaw](https://github.com/danmartinez78/VectorClaw) - MCP server，经 Wire-Pod 通过本地 gRPC 暴露 Anki Vector 机器人能力。(★19 · 2026-06)
+- [Jizai-inc/palmimo-devkit](https://github.com/Jizai-inc/palmimo-devkit) - Palmimo 六足桌面机器人（18 个腿部舵机、舵机颈部、脸部屏幕）的 Python SDK、MCP server 与 Agent 示例。(official · ★9 · 2026-09)
 
 ### 无人机（MCP）
 
@@ -463,6 +752,11 @@ Agent 在运行时调用的工具服务器。目前对这个领域最好的综�
 - [rmeadomavic/ardupilot-mcp](https://github.com/rmeadomavic/ardupilot-mcp) - SITL 优先、带安全门禁的 ArduPilot MAVLink MCP。(★2 · 2026-08)
 - [starlordz12/inav-mcp](https://github.com/starlordz12/inav-mcp) - 通过 USB 配置、诊断与调校 iNAV 固定翼飞控。(★2 · 2026-08)
 - [bvandevliet/betaflight-mcp](https://github.com/bvandevliet/betaflight-mcp) - 实时的 Betaflight CLI 配置与 PID 助手，内置调参 Skill。(★1 · 2026-08)
+- [deepak61296/mavlink-mcp](https://github.com/deepak61296/mavlink-mcp) - MAVLink MCP server，可驾驶 ArduPilot 飞行器并获取相机画面，已在 ArduPilot SITL 中测试（尚未在实机上飞行），飞行工具默认关闭。(★4 · 2026-09)
+- [robotto-xyz/ai-drone-toolkit](https://github.com/robotto-xyz/ai-drone-toolkit) - uv monorepo，含用于 PX4 ULog 飞行日志分析和仅限仿真的 PX4 SITL 指令（带安全检查）的 MCP server。(coll · ★3 · 2026-06)
+- [Project-GrADyS/uav_mcp](https://github.com/Project-GrADyS/uav_mcp) - 基于 uav-api 的 MCP 到 HTTP 适配层，用于 ArduPilot 四旋翼或 SITL 的解锁、GPS/NED 移动与遥测。(★3 · 2026-05)
+- [furkanisikay/ardupilot-mcp](https://github.com/furkanisikay/ardupilot-mcp) - MCP server，诊断 ArduPilot .bin 飞行日志（振动、参数、校准、功率裕度）并附 ArduPilot 文档链接。(★4 · 2026-07)
+- [alireza787b/dronesphere](https://github.com/alireza787b/dronesphere) - DroneSphere：带 MCP 接口的 PX4 无人机群控制，支持 GPS 与 NED 坐标系下的自然语言导航与遥测。(★14 · 2025-09)
 
 ### 仿真器（MCP）
 
@@ -475,6 +769,10 @@ Agent 在运行时调用的工具服务器。目前对这个领域最好的综�
 - [SchiopuAndreiViorel/coppelia-mcp](https://github.com/SchiopuAndreiViorel/coppelia-mcp) - Claude ↔ CoppeliaSim。(★4 · 2026-03)
 - [lyuai/genesis-mcp](https://github.com/lyuai/genesis-mcp) - 带可视化的 Genesis World 仿真器 MCP。(★5 · 2025-03)
 - [punithkrishnakeepudi/webots-mcp-server](https://github.com/punithkrishnakeepudi/webots-mcp-server) - Webots 启动、监视、强化学习训练与场景操作；找到的唯一 Webots MCP。(★0 · 2026-04)
+- [omnilink-tech/omnisim](https://github.com/omnilink-tech/omnisim) - OmniSim：面向编码 Agent 的 Newton 物理机器人仿真器，提供 HTTP/JSON 控制、官方 MCP server 与 ROS 2 sidecar。(★180 · 2026-09)
+- [sherndon79/agent-world](https://github.com/sherndon79/agent-world) - Isaac Sim 扩展集，提供 HTTP API 与 MCP 工具，用于搭建场景、相机控制、导航与录制。(coll · ★4 · 2025-10)
+- [SofianeAlla/carla-mcp](https://github.com/SofianeAlla/carla-mcp) - CARLA MCP server，55 个工具支持启动仿真器、世界控制、完整传感器配置、激光雷达点云分析与 KITTI 格式数据集导出。(★2 · 2026-05)
+- [Croquembouche/CARLA_MCP](https://github.com/Croquembouche/CARLA_MCP) - 定制 CARLA UE5 仿真器的 WebUI 与 MCP server（49 个工具），支持场景控制、泊车、传感器、录制与 ROS 2 bag。(★2 · 2026-09)
 
 ### 工业 IoT（MCP）
 
@@ -490,6 +788,21 @@ Agent 在运行时调用的工具服务器。目前对这个领域最好的综�
 - [efranceschetti/festo-codesys-mcp](https://github.com/efranceschetti/festo-codesys-mcp) - Festo / CODESYS MCP，带结构化文本编写、PLCopen XML、运动控制与故障诊断 Skill。(★1 · 2026-09)
 - [lwsinclair/IoT-Edge-MCP-Server](https://github.com/lwsinclair/IoT-Edge-MCP-Server) - 统一 MQTT、Modbus 与 InfluxDB，用于 SCADA / PLC 场景。(★3 · 2025-11)
 - [daedalus/mcp-snap7](https://github.com/daedalus/mcp-snap7) - 通过 python-snap7 访问西门子 S7 PLC。(★0 · 2026-04)
+- [ezhuk/modbus-mcp](https://github.com/ezhuk/modbus-mcp) - Python 编写的 Modbus MCP server（`uv add modbus-mcp`），通过 Streamable HTTP 端点让智能体读取楼宇自动化与工业控制系统中 Modbus 设备的寄存器并执行控制。(★4 · 2026-09)
+- [ezhuk/mqtt-mcp](https://github.com/ezhuk/mqtt-mcp) - Python 编写的 MQTT MCP server（`uv add mqtt-mcp`），让智能体订阅传感器主题并向工业、楼宇与智能家居系统中的 MQTT 设备发布控制指令。(★22 · 2026-09)
+- [shriramkv/opcua-mcp](https://github.com/shriramkv/opcua-mcp) - OPC UA MCP server，把 PLC、SCADA 网关和历史库中白名单内的点位发布为智能体工具，默认只读，写入设定值需显式放行。(★20 · 2026-07)
+- [mwieczorkiewicz/opcua-mcp](https://github.com/mwieczorkiewicz/opcua-mcp) - Go 编写的 OPC UA MCP server，可通过 stdio 或 HTTP 浏览、搜索、读写并订阅 PLC 与机器人实时数据，内置地址空间索引，并提供对接测试 OPC UA 服务器的 Docker Compose 演示。(★5 · 2026-08)
+- [luke-harriman/Codesys-MCP](https://github.com/luke-harriman/Codesys-MCP) - MCP server，把 CODESYS V3.5 IDE 脚本 API 暴露为 41 个工具和 3 个资源，并保持 CODESYS 界面常开，智能体对 PLC 工程的修改会实时显示在 IDE 中。(★80 · 2026-05)
+- [KerberosClaw/kc_modbus_mcp](https://github.com/KerberosClaw/kc_modbus_mcp) - Modbus TCP MCP server，通过 YAML 设备配置让智能体按名称读写 PLC 寄存器并自动做数据类型转换，内置模拟器可在无硬件时测试。(★2 · 2026-03)
+- [alejoseb/ModbusMCP](https://github.com/alejoseb/ModbusMCP) - 提供 Modbus RTU/TCP 主站与模拟从站功能的 MCP server，支持串口发现，并可在多个并发连接上读写线圈、离散输入和寄存器。(★3 · 2026-02)
+- [MountainClimberJiwen/plc-mcp](https://github.com/MountainClimberJiwen/plc-mcp) - PLC MCP server，把 Siemens TIA Portal（经 TIA Openness）与汇川 AM600/InoProShop 工程映射为虚拟文件系统，让智能体用 ls、cat、写入与 diff 查看和修改程序块。(★4 · 2026-07)
+- [WagoAlex/wago-plc-mcp-server](https://github.com/WagoAlex/wago-plc-mcp-server) - MCP server，通过 WAGO WDA REST API 把助手连接到一组 WAGO PLC，提供 29 个工具、Bearer 认证、哈希链审计日志以及智能体无法绕过的写入闸门。(★3 · 2026-09)
+- [fieldworks-build/fieldworks-adapters](https://github.com/fieldworks-build/fieldworks-adapters) - Rust 工作区形式的一组 MCP 协议适配器，以统一的九工具接口访问工业数据，MQTT、OPC UA 与 Modbus TCP 适配器可用，DNP3、EtherNet/IP 与 AVEVA PI 仍为桩实现。(coll · ★0 · 2026-08)
+- [zhiningsun/industrial-mcp](https://github.com/zhiningsun/industrial-mcp) - MCP server，把 Modbus TCP 与 MQTT 工业设备变成智能体工具（列出、读取、调速、启停），OPC UA 仅为仿真，内置设备仿真引擎，并提供巡检与紧急停机提示词。(★3 · 2026-08)
+- [rjboer/OMRON-MCP](https://github.com/rjboer/OMRON-MCP) - 面向 OMRON Sysmac Studio 工程的 Go MCP server 与 Windows 工作台，让智能体查看程序与变量、排查故障、生成结构化文本并应用经审核的修改。(★2 · 2026-08)
+- [dad-io/kepware_mcp_server](https://github.com/dad-io/kepware_mcp_server) - 面向 Kepware KEPServerEX 的 MCP server，通过 Configuration API 管理通道、设备、标签、IoT Gateway、数据记录器和用户，支持 stdio、SSE 与 HTTPS。(★2 · 2026-03)
+- [arhunn/s7-plc-mcp](https://github.com/arhunn/s7-plc-mcp) - MCP server，使用纯 Python 的 python-snap7 经 TCP 102 端口直连 Siemens S7-1200/1500 PLC，无需外部 DLL。(★0 · 2026-04)
+- [OAKHEN1412/wecon-plc-mcp](https://github.com/OAKHEN1412/wecon-plc-mcp) - 面向 WECON LX3V PLC 与 PIStudio HMI 的 MCP server，以文本方式编写梯形图并生成工程文件，另有尚未在硬件上测试的 Modbus 实时读取工具，并附带无需硬件的离线测试。(★0 · 2026-07)
 
 ### 汽车（MCP）
 
@@ -502,6 +815,12 @@ Agent 在运行时调用的工具服务器。目前对这个领域最好的综�
 - [mikehaller/kuksa-mcp-server](https://github.com/mikehaller/kuksa-mcp-server) - 通过 Eclipse Kuksa Databroker 读写 COVESA VSS 信号；找到的唯一 VSS MCP。(★0 · 2026-06)
 - [cyrusdavirusss/j2534-mcp-server](https://github.com/cyrusdavirusss/j2534-mcp-server) - J2534 PassThru 的 UDS / OBD-II；找到的唯一 J2534 MCP。仅 Windows。(★0 · 2026-09)
 - [daedalus/mcp-canbus](https://github.com/daedalus/mcp-canbus) - 极简 CAN 总线 MCP。(★0 · 2026-03)
+- [cobanov/teslamate-mcp](https://github.com/cobanov/teslamate-mcp) - MCP server，把 TeslaMate 的 PostgreSQL 数据库交给 AI 客户端，无需写 SQL 即可回答 Tesla 电池衰减、行程和充电费用等问题。(★140 · 2026-08)
+- [ysrdevs/tesla-mcp](https://github.com/ysrdevs/tesla-mcp) - 面向 Tesla Fleet API 的 MCP server，提供 96 个工具，覆盖车辆控制、空调、充电、导航、媒体、哨兵与代客模式以及实时车辆数据。(★1 · 2026-04)
+- [Zenotech-bv/teslafi-mcp](https://github.com/Zenotech-bv/teslafi-mcp) - 面向 TeslaFi API 的 MCP server，可查询 Tesla 实时状态、行程与充电历史和通勤规律，仅在显式开启时才发送车辆指令。(★2 · 2026-09)
+- [keithah/tessie-mcp](https://github.com/keithah/tessie-mcp) - 自托管的 Tessie Streamable HTTP MCP server，可列出车辆、读取状态、分析行驶历史与轨迹并发送车辆指令，通过 Bearer token 保护。(★9 · 2026-08)
+- [ayhammouda/obd-mcp-server](https://github.com/ayhammouda/obd-mcp-server) - 安全优先、只读的 OBD MCP server，从确定性模拟器或 ELM327 适配器为 AI 客户端提供结构化车辆诊断数据，支持扩展驱动与诊断配置。(★0 · 2026-09)
+- [mbohaychuk/OBD-II-MCP-Server](https://github.com/mbohaychuk/OBD-II-MCP-Server) - FastMCP 服务器，经 ELM327 适配器把 MCP 主机连接到实车 OBD-II 接口，提供实时 PID、故障码、冻结帧、会话录制、OBDb Ford 信号集与 NHTSA 召回查询。(★0 · 2026-06)
 
 ### 楼宇自动化与能源（MCP）
 
@@ -518,6 +837,15 @@ Agent 在运行时调用的工具服务器。目前对这个领域最好的综�
 - [javierojan/askacharge-mcp](https://github.com/javierojan/askacharge-mcp) - 运营一整个 OCPP 充电桩集群。(★0 · 2026-09)
 - [cr2007/mcp-helvarnet](https://github.com/cr2007/mcp-helvarnet) - 通过 HelvarNet 控制 Helvar DALI 照明；找到的唯一 DALI MCP。(★0 · 2026-01)
 - [SAP/e-mobility-charging-stations-simulator `skills/`](https://github.com/SAP/e-mobility-charging-stations-simulator) - SAP OCPP-J 充电桩模拟器的 EVSE 模拟 Skill；是模拟而非硬件。(official · ★225 · 2026-09)
+- [Smarteon/lox-mcp](https://github.com/Smarteon/lox-mcp) - Java 编写的 MCP server，连接 Loxone Miniserver Gen 1/Gen 2，控制灯光、遮阳与场景并通过 WebSocket 读取实时状态，附带桌面配置工具。(★9 · 2026-07)
+- [New-Forest-Technology-Services/Loxone-MCP](https://github.com/New-Forest-Technology-Services/Loxone-MCP) - 基于 Loxone Miniserver 本地 API 的 MCP server，80 多个工具，覆盖灯光、灯光情景、遮阳、温控等控制项。(★1 · 2026-07)
+- [Yveshby27/brick-bacnet-mcp](https://github.com/Yveshby27/brick-bacnet-mcp) - 只读 BACnet/IP 网关，通过 MCP 向 LLM 智能体开放楼宇自动化点位库，并在导入时打上 Brick 与 Project Haystack 语义标签。(★1 · 2026-06)
+- [marcinn2/goodwe-inverter-mcp](https://github.com/marcinn2/goodwe-inverter-mcp) - MCP server，在局域网内监控和控制 GoodWe 光伏逆变器，读取光伏、电池与电网数据，并可切换运行模式、设置馈网上限和电池放电深度。(★0 · 2026-09)
+- [huber/fronius-mcp-server](https://github.com/huber/fronius-mcp-server) - TypeScript 编写的 MCP server，覆盖 Fronius Solar API v1，可读取逆变器实时数据、数据记录器与 LED 状态、智能电表和能量流。(★4 · 2025-11)
+- [beldur/fronius-mcp](https://github.com/beldur/fronius-mcp) - 面向 Fronius 逆变器与智能电表的 MCP server 和 CLI，提供逆变器、能量流与电表实时数据，并可回答历史发电量与电池状态问题。(★0 · 2026-07)
+- [xianman/enphase-mcp](https://github.com/xianman/enphase-mcp) - 面向 Enphase Developer API v4 的 MCP server，提供 30 个读取光伏发电、用电、电池与电网遥测的工具，电池和 EV 充电桩写操作需显式开启。(★1 · 2026-05)
+- [holger1411/unofficial-solaredge-mcp](https://github.com/holger1411/unofficial-solaredge-mcp) - 非官方 MCP server，通过 SolarEdge Monitoring API 让助手以结构化方式访问 SolarEdge 光伏系统数据。(★0 · 2026-06)
+- [karlattard237/V2C-Cloud-MCP](https://github.com/karlattard237/V2C-Cloud-MCP) - 面向 V2C Trydan EV 充电桩的 FastMCP 服务器，可监控充电会话并控制电流、功率模式、光伏联动、定时与锁定状态。(★0 · 2026-04)
 
 ### 智能家居（MCP）
 
@@ -557,6 +885,28 @@ Agent 在运行时调用的工具服务器。目前对这个领域最好的综�
 - [sandraschi/dreame-mcp](https://github.com/sandraschi/dreame-mcp) - 通过追觅云端（可选本地 miIO）控制追觅扫地机。(★4 · 2026-09)
 - [cacack/mcp-server-zwave-js-ui](https://github.com/cacack/mcp-server-zwave-js-ui) - Z-Wave JS UI 的 WebSocket MCP：取值、配置、入网与退网。(★0 · 2026-08)
 - [Buggy1111/shelly-mcp](https://github.com/Buggy1111/shelly-mcp) - Shelly Gen1–4 与 BLU 设备，本地优先；官方 MCP 注册表中极少数的智能家居 server 之一。(★0 · 2026-08)
+- [Coolver/home-assistant-vibecode-agent](https://github.com/Coolver/home-assistant-vibecode-agent) - Home Assistant 加载项（或独立 Docker）Agent，提供 REST API 供配套 MCP server 调用，让 Claude Code、Cursor 与 VS Code 检查正在运行的 Home Assistant，并在设备上构建、部署、测试和调试自动化、脚本与仪表盘。(★629 · 2026-09)
+- [robbrad/homeassistant-mcp](https://github.com/robbrad/homeassistant-mcp) - 基于 FastMCP 的 Home Assistant MCP server，提供 40 个工具控制灯光、温控、窗帘、门锁、媒体、扫地机和摄像头，支持 BM25 按需工具搜索、资源和引导提示词。(★106 · 2026-05)
+- [tdeckers/openhab-mcp](https://github.com/tdeckers/openhab-mcp) - 面向真实 openHAB 实例的 MCP server，通过 REST API 列出、创建和更新 Item、Thing 与规则，并可查看 Thing 状态和固件更新。(★25 · 2026-06)
+- [deswong/Openhab-MCP](https://github.com/deswong/Openhab-MCP) - Node.js 编写的 MCP server，把 openHAB v5+ REST API 暴露为 Item、Thing、规则、持久化和语义标签相关工具。(★7 · 2026-07)
+- [saihgupr/esphome-mcp](https://github.com/saihgupr/esphome-mcp) - 面向 ESPHome Device Builder 的 MCP server，让智能体列出设备、编辑并校验 YAML 配置、编译固件并通过 OTA 刷写。(★16 · 2026-08)
+- [loryanstrant/Zigbee2MQTT-MCP](https://github.com/loryanstrant/Zigbee2MQTT-MCP) - MCP server，通过 Zigbee2MQTT 前端 websocket API 列出、查看和控制 Zigbee 设备并管理网桥，无需直连 MQTT broker。(★4 · 2026-08)
+- [solaegis/hubitat-mcp](https://github.com/solaegis/hubitat-mcp) - 面向 Hubitat Elevation 网关的 MCP server，通过 Maker API 控制设备，并可选开启受控的固件、Z-Wave 网络与备份管理工具。(★0 · 2026-08)
+- [tim661811/homey-mcp](https://github.com/tim661811/homey-mcp) - 面向 Homey Pro 的 MCP server，可读取全屋状态、查询传感器与能耗历史，并根据自然语言描述创建可运行的 Flow。(★0 · 2026-09)
+- [langowarny/smartthings-mcp](https://github.com/langowarny/smartthings-mcp) - 封装 Samsung SmartThings Public API 的 MCP server，覆盖设备、能力、指令、房间、场景、规则、网关与事件订阅。(★4 · 2025-12)
+- [mp-consulting/homebridge-mcp-server](https://github.com/mp-consulting/homebridge-mcp-server) - 面向 Homebridge（经 homebridge-config-ui-x）的 MCP server，可控制配件、重启服务、读取并替换 config.json、查询插件及其配置 schema，并读取日志。(★5 · 2026-09)
+- [adrighem/domoticz-mcp](https://github.com/adrighem/domoticz-mcp) - 面向 Domoticz 家庭自动化系统的 MCP server，可搜索和控制设备、场景、用户变量与事件脚本，并提供资源和提示词模板。(★0 · 2026-09)
+- [joeynyc/Govee-MCP](https://github.com/joeynyc/Govee-MCP) - TypeScript 编写的 MCP server，通过 Govee 云端 API 用自然语言控制 Govee 智能灯，具备设备白名单、限流、指令合并和演练模式；局域网适配器只是占位实现，会回退到云端。(★9 · 2026-04)
+- [Roach/airglow](https://github.com/Roach/airglow) - Philips Hue MCP server 加 Claude Code hooks，实时用 Hue 灯光颜色显示智能体状态，如思考中、工作中、成功或等待权限确认。(★10 · 2026-06)
+- [tsali/lifx-mcp](https://github.com/tsali/lifx-mcp) - Python 编写的 MCP server，通过 UDP 在局域网内直接控制 LIFX 灯，支持发现、分组、颜色预设、场景与呼吸/脉冲效果，无需云端。(★0 · 2026-04)
+- [Tommertom/sonos-ts-mcp](https://github.com/Tommertom/sonos-ts-mcp) - TypeScript 编写的 MCP server，通过 UPnP/SOAP 控制局域网内的 Sonos 音箱，覆盖播放、分区编组、队列、曲库浏览和闹钟。(★15 · 2025-11)
+- [emrikol/ecobee-mcp](https://github.com/emrikol/ecobee-mcp) - TypeScript 编写的 MCP server，用于控制 Ecobee 温控器，基于官方 MCP TypeScript SDK 的性能优化分支构建。(★1 · 2026-08)
+- [holger1411/roborock-mcp](https://github.com/holger1411/roborock-mcp) - 非官方 Roborock 扫地机 MCP server（V1 协议），可读取状态、按房间下发清扫任务并查看清扫历史和耗材损耗。(★2 · 2026-07)
+- [caffeinum/irobot-mcp](https://github.com/caffeinum/irobot-mcp) - CLI 与 MCP server，经局域网直连 iRobot Roomba 自带的 MQTT broker，读取状态、启动/暂停/回充任务，并解码机器人停止原因。(★0 · 2026-09)
+- [andresgarcia0313/samsung-tv-mcp](https://github.com/andresgarcia0313/samsung-tv-mcp) - 提供 18 个工具的 MCP server，在局域网内控制 Samsung Tizen 智能电视，支持 SSDP 自动发现，无需云端或 SmartThings 账号。(★0 · 2026-03)
+- [tanny-pm/switchbot-mcp](https://github.com/tanny-pm/switchbot-mcp) - Rust 编写的 MCP server，通过带 HMAC-SHA256 签名的 SwitchBot API v1.1 把 SwitchBot 设备暴露为工具，可列出、查询和操作设备。(★1 · 2026-07)
+- [Jacou/lg-thinq-mcp](https://github.com/Jacou/lg-thinq-mcp) - 基于 ThinQ Connect API 的 LG ThinQ 家电 MCP server，可列出设备、读取状态并向洗衣机、烘干机、洗碗机等发送控制指令，另附独立的 MQTT 监听程序，将程序完成通知推送到 webhook。(★0 · 2026-01)
+- [danecodes/roku-mcp](https://github.com/danecodes/roku-mcp) - MCP server 与 CLI，让智能体在 Roku 设备上查看 SceneGraph 界面、截图、发送遥控输入、侧载开发包并运行冒烟测试。(★4 · 2026-04)
 
 ### 实验室仪器（MCP）
 
@@ -580,6 +930,16 @@ Agent 在运行时调用的工具服务器。目前对这个领域最好的综�
 - [nygmeta/OpenLabAI](https://github.com/nygmeta/OpenLabAI) - 面向 Opentrons OT-2、Hamilton STAR、Biomek FXP 与 Cellario 的 MCP server，带人工审批门禁。(★0 · 2026-09)
 - [ghollyer/AMADEUS](https://github.com/ghollyer/AMADEUS) - Gatan / DigitalMicrograph 电子显微镜：通过 ZMQ 控制样品台、电子束、STEM 与 EDS。(★4 · 2026-07)
 - [sandraschi/sdr-mcp](https://github.com/sandraschi/sdr-mcp) - RTL-SDR：频谱、瀑布图、FM 解调、GNU Radio。(★7 · 2026-09)
+- [masahiro-999/oscilloscope-mcp](https://github.com/masahiro-999/oscilloscope-mcp) - MCP server，让智能体经 LAN/SCPI 操作 RIGOL DS1000Z 台式示波器，设置触发与通道、读取测量并采集真实波形，为 FPGA 开发提供反馈。(★3 · 2026-06)
+- [DVSProductions/rigol-mcp](https://github.com/DVSProductions/rigol-mcp) - MCP server，经 TCP 5555 端口裸 SCPI 驱动 Rigol DS1000Z/MSO1000Z 示波器，无需 VISA，可返回屏幕截图、测量值和波形采集。(★0 · 2026-07)
+- [gloveboxes/rigol-mcp](https://github.com/gloveboxes/rigol-mcp) - 基于标准的 stdio MCP server，经 LAN 控制 Rigol 示波器，以 DHO814 为主要测试机型，提供按型号过滤的指令目录和流式存储下载。(★0 · 2026-09)
+- [mp911de/siglent-scpi-mcp](https://github.com/mp911de/siglent-scpi-mcp) - MCP server，经 SCPI/TCP 连接 Siglent 示波器和电源，提供带类型校验的工具并回报每次写操作所用 SCPI，内置 OpenTelemetry 可观测性。(★0 · 2026-09)
+- [abhinav937/pyvisa-mcp](https://github.com/abhinav937/pyvisa-mcp) - MCP server，借助 PyVISA 让 AI 工具经 USB、GPIB、串口与以太网发现和驱动示波器等 SCPI 仪器，并跨会话记忆每台仪器的指令方言。(★0 · 2026-09)
+- [colingimenez/SCPI_MCP](https://github.com/colingimenez/SCPI_MCP) - MCP server，把联网的波形发生器、万用表、示波器和电源暴露为 76 个工具（含一个裸 SCPI 透传工具），让编码智能体在台架上调查电路。(★1 · 2026-08)
+- [rbxxswap/labview-mcp](https://github.com/rbxxswap/labview-mcp) - LabVIEW MCP 插件，让 Claude 运行 VI、读写前面板控件、执行测试、生成 VI 代码、构建可执行文件并读取 TDMS 数据，支持 Community Edition。(★2 · 2026-06)
+- [AnterCreeper/keyscope-mcp](https://github.com/AnterCreeper/keyscope-mcp) - 纯 Python MCP 服务，经 USBTMC 通过单个紧凑 DSL 工具控制 Keysight EDUX1052G 示波器，返回波形、数据和截图。(★0 · 2026-05)
+- [clarholm/NanoVNA-MCP](https://github.com/clarholm/NanoVNA-MCP) - 面向 NanoVNA-H4 矢量网络分析仪的串口 MCP server，可扫描天线并测量带宽与阻抗，附带生成 SWR 与史密斯圆图 PDF 报告的 skill。(★0 · 2026-03)
+- [createskyblue/Yingjia_EMK850_low-power_analyzer_MCP](https://github.com/createskyblue/Yingjia_EMK850_low-power_analyzer_MCP) - 逆向 Yingjia EMK850+ 低功耗分析仪串口协议的驱动、CLI 与 MCP server，可自动化 µA/µW 级功耗采集和可编程电源控制。(★2 · 2026-08)
 
 ### 摄像头（MCP）
 
@@ -589,6 +949,11 @@ Agent 在运行时调用的工具服务器。目前对这个领域最好的综�
 - [sandraschi/tapo-mcp](https://github.com/sandraschi/tapo-mcp) - TP-Link Tapo 摄像头：云台、抓图、推流。(★2 · 2026-09)
 - [ros-claw/librealsense-mcp](https://github.com/ros-claw/librealsense-mcp) - 封装 pyrealsense2 的 26 个工具：深度、点云、标定、多相机。(★1 · 2026-07)
 - [oneshot2001/onvif-pp-cli](https://github.com/oneshot2001/onvif-pp-cli) - ONVIF Profile S / T / G / M 的 CLI 与 MCP，64 条命令，已在 Axis 摄像头上冒烟测试。(★0 · 2026-05)
+- [brianegge/dahua-mcp](https://github.com/brianegge/dahua-mcp) - MCP server，通过 CGI HTTP API 管理多台 Dahua 与 Amcrest 网络摄像头，支持 stdio 与 HTTP 传输。(★5 · 2026-09)
+- [ed-dryha/reolink-mcp](https://github.com/ed-dryha/reolink-mcp) - 局域网 Reolink 摄像头 MCP server，可获取快照、设备与 AI 检测状态、PTZ 预置位，并控制聚光灯、警笛和红外/白光 LED，无需云端或 NVR。(★2 · 2026-07)
+- [oneshot2001/onvif-mcp](https://github.com/oneshot2001/onvif-mcp) - 实验性的受管控网络摄像头 MCP server（AXIS VAPIX 与 ONVIF SOAP），提供快照与 PTZ 工具以及仅支持 VAPIX 的配置漂移工具，每次调用都经过按智能体划分、失败即拒绝的策略闸门并生成签名的哈希链回执。(★1 · 2026-09)
+- [DataKnifeAI/unifi-protect-mcp](https://github.com/DataKnifeAI/unifi-protect-mcp) - Go 编写的 Ubiquiti UniFi Protect MCP server，可查询摄像头、传感器、智能灯、门铃提示器、实时画面、显示终端、NVR 与安防事件，并执行 PTZ 巡航与预置位、RTSPS 流和对讲会话；项目标注为早期开发阶段。(★0 · 2026-08)
+- [vijayg10/iot-onvif-mcp](https://github.com/vijayg10/iot-onvif-mcp) - 容器化的 ONVIF MCP server（HTTP/SSE），可列出摄像头配置与流地址，通过快照或 ffmpeg RTSP 回退抓图，并执行 PTZ 移动与预置位。(★1 · 2026-03)
 
 ### 无线与软件无线电（MCP）
 
@@ -605,6 +970,10 @@ Agent 在运行时调用的工具服务器。目前对这个领域最好的综�
 - [oliveres/chirpstack-mcp-server](https://github.com/oliveres/chirpstack-mcp-server) - 通过 gRPC 访问 ChirpStack v4 LoRaWAN，支持实时上行调试。(★0 · 2026-08)
 - [swannman/openthread-mcp](https://github.com/swannman/openthread-mcp) - Arduino Nano Matter 上的 OpenThread CLI MCP 与 Prometheus 导出器；找到的唯一 Thread MCP。(★1 · 2026-03)
 - [koolsb/zwavejs-mcp](https://github.com/koolsb/zwavejs-mcp) - Z-Wave JS UI 维护：修复网络、重新问询、诊断，并对门锁相关信息做脱敏。(★0 · 2026-06)
+- [yoelbassin/gr-mcp](https://github.com/yoelbassin/gr-mcp) - Marconi（原 GR-MCP）：GNU Radio Agent 工具，扫描频谱并构建接收机，产出 SigMF 采集、YAML 流水线与 .grc 流图；v1.0 仅支持仿真。(★49 · 2026-08)
+- [patrickrb/smartsdr-mcp](https://github.com/patrickrb/smartsdr-mcp) - FlexRadio SmartSDR 电台的 MCP server，支持频率/模式控制、CW 解码、SSB 转写与需审批的发射。(★3 · 2026-03)
+- [ConsentirDev/meshtastic.mcp](https://github.com/ConsentirDev/meshtastic.mcp) - Meshtastic MCP server，经 USB 串口、TCP 或蓝牙连接，发送消息、traceroute 并读取节点遥测。(★6 · 2025-11)
+- [millsymills-com/flipperzero-mcp](https://github.com/millsymills-com/flipperzero-mcp) - Flipper Zero MCP server，经 USB 或 WiFi Dev Board 使用 protobuf RPC，提供存储、应用、GPIO 与 CLI 工具，发射/写入工具默认关闭。(★5 · 2026-09)
 
 ### USB、HID 与 KVM（MCP）
 
@@ -616,6 +985,13 @@ Agent 在运行时调用的工具服务器。目前对这个领域最好的综�
 - [sunasaji/mcp-serial-hid-kvm](https://github.com/sunasaji/mcp-serial-hid-kvm) - CH9329 USB-HID 加 HDMI 采集：Agent 像 KVM 一样操作一台真实电脑，并带 OCR。(★3 · 2026-04)
 - [yindia/qmkmcp](https://github.com/yindia/qmkmcp) - 通过 raw HID 操作任意 QMK / VIA 键盘：灯光、键位、宏。(★0 · 2026-08)
 - [Kevin-HYX/kvmctl](https://github.com/Kevin-HYX/kvmctl) - 运行在香橙派上、基于 V4L2 与 USB gadget HID 的 KVM 控制服务，提供 CLI 与 MCP。(★0 · 2026-09)
+- [mantis5x5/kvm-automation](https://github.com/mantis5x5/kvm-automation) - MCP server、CLI 与 skills，通过 HDMI 采集与 USB HID 对 GLKVM、PiKVM、TinyPilot IP-KVM 进行带外自动化。(★18 · 2026-08)
+- [shvartzj1/jetkvm-mcp](https://github.com/shvartzj1/jetkvm-mcp) - 面向原厂 JetKVM 设备的 MCP server：在操作系统之下截图、键入、点击、挂载启动介质与控制电源。(★6 · 2026-09)
+- [kennypeh85/glkvm-mcp](https://github.com/kennypeh85/glkvm-mcp) - GL.iNet GLKVM MCP server，提供键盘、鼠标、截图与 Tesseract OCR，让 Agent 按文字点击界面元素。(★8 · 2026-06)
+- [DVSProductions/comet-kvm-mcp](https://github.com/DVSProductions/comet-kvm-mcp) - GL.iNet Comet（GL-RM1）KVM 的 MCP server，封装 kvmd HTTP API 实现截图、键盘、鼠标与 ATX 电源控制。(★6 · 2026-07)
+- [DustinTrap/kvm-pilot](https://github.com/DustinTrap/kvm-pilot) - 带权限门控与审计的 MCP server，通过 IP-KVM（PiKVM、GLKVM、BliKVM）、BMC（Redfish/IPMI）、Intel AMT 与 SSH 控制裸机。(★5 · 2026-08)
+- [KultivatorConsulting/pikvm_mcp_server](https://github.com/KultivatorConsulting/pikvm_mcp_server) - PiKVM MCP server，提供键盘、鼠标与屏幕访问，并支持基于视觉的鼠标自动校准。(★3 · 2026-03)
+- [JacobBeningo/devusb](https://github.com/JacobBeningo/devusb) - CLI 与 MCP server，通过 Yepkit YKUSH 集线器或兼容 uhubctl 的通用集线器，对工作台设备做 USB 电源开关与重启。(★5 · 2026-07)
 
 ### EDA / PCB / CAD（MCP）
 
@@ -633,6 +1009,29 @@ Agent 在运行时调用的工具服务器。目前对这个领域最好的综�
 - [Netlist-Studio/kicad-mcp](https://github.com/Netlist-Studio/kicad-mcp) - 通过 IPC API 控制 KiCad 9。(★18 · 2026-02)
 - [octoco-ltd/sheetsdata-mcp](https://github.com/octoco-ltd/sheetsdata-mcp) - 元器件数据手册：从 PDF 提取规格、引脚图与绝对最大额定值。(★11 · 2026-04)
 - [WangErShao/SynthAid_quartus_mcp](https://github.com/WangErShao/SynthAid_quartus_mcp) - 22 个工具的 Intel Quartus MCP。(★3 · 2026-06)
+- [neka-nat/freecad-mcp](https://github.com/neka-nat/freecad-mcp) - FreeCAD 插件加 MCP server，让 Agent 创建和编辑模型、运行 Python 脚本、检查文档并运行 FEM 分析。(★2.4k · 2026-09)
+- [eyfel/mcp-server-solidworks](https://github.com/eyfel/mcp-server-solidworks) - SolidPilot：SolidWorks MCP server，在底层 CAD 工具之外提供与 CAD 无关的 Feature Graph IR 编译器（目前用于从 IR 重建零件）以及仍在完善的 DXF/DWG 图纸读取器。(★317 · 2026-09)
+- [spkane/freecad-addon-robust-mcp-server](https://github.com/spkane/freecad-addon-robust-mcp-server) - FreeCAD Robust MCP server，附带 MCP Bridge 工作台插件，可通过 pip 或 Docker 安装。(★232 · 2026-09)
+- [hyl64/jlcmcp](https://github.com/hyl64/jlcmcp) - 嘉立创 EDA 专业版 MCP server，把工具调用编译成官方 eda.* API 代码，经 Run API Gateway 扩展执行原理图与 PCB 自动化。(★223 · 2026-08)
+- [ReshefElisha/jarvis-onshape-mcp](https://github.com/ReshefElisha/jarvis-onshape-mcp) - Claude Code 插件，驱动 Onshape（草图、拉伸、配合、FeatureScript），返回结构化重建反馈与多视图 PNG 渲染，并附视觉拆解 skill。(★170 · 2026-04)
+- [hedless/onshape-mcp](https://github.com/hedless/onshape-mcp) - Onshape MCP server，48 个工具覆盖草图、特征、装配与配合、变量表、FeatureScript 以及 STEP/STL 导出。(★141 · 2026-09)
+- [RobertCoop/openscad-mcp](https://github.com/RobertCoop/openscad-mcp) - OpenSCAD MCP server（uvx openscad-mcp），可渲染、测量几何、检查装配干涉与间隙、评估可打印性并导出零件。(★137 · 2026-09)
+- [AuraFriday/Fusion-360-MCP-Server](https://github.com/AuraFriday/Fusion-360-MCP-Server) - Autodesk Fusion 插件，经 MCP-Link server 把 Fusion 暴露给 AI Agent，提供通用 API 桥与 Fusion 内 Python 执行。(★126 · 2026-01)
+- [jdilla1277/agentcad](https://github.com/jdilla1277/agentcad) - CAD CLI 与 MCP server：Agent 编写 build123d 脚本，获得 STEP/STL 导出、PNG 渲染、几何度量、校验与差异比对。(★125 · 2026-09)
+- [Averyy/pcbparts-mcp](https://github.com/Averyy/pcbparts-mcp) - 跨 JLCPCB、Mouser、DigiKey 做参数化元件搜索的 MCP server，提供 KiCad 封装、引脚、替代料与参考板设计规则。(★114 · 2026-09)
+- [pzfreo/build123d-mcp](https://github.com/pzfreo/build123d-mcp) - build123d MCP server，让 Agent 逐步构建 CAD 模型、渲染预览、测量几何并导出 STEP、STL、SVG、DXF。(★87 · 2026-09)
+- [embedded-society/altium-designer-mcp](https://github.com/embedded-society/altium-designer-mcp) - MCP server，读写 Altium Designer 的 .PcbLib 封装与 .SchLib 符号库，让 Agent 创建符合 IPC-7351B 的元件。(★60 · 2026-09)
+- [andrewbartels1/SolidworksMCP-python](https://github.com/andrewbartels1/SolidworksMCP-python) - SolidWorks 的 Python MCP server，132 个工具覆盖建模、草图、工程图、分析、导出与宏（经 COM/VBA）。(★74 · 2026-09)
+- [faust-machines/fusion360-mcp-server](https://github.com/faust-machines/fusion360-mcp-server) - MCP server 加 Fusion 360 插件，经 TCP 转发 Agent 命令并在主线程执行 Fusion API 调用。(★97 · 2026-09)
+- [clanker-lover/spicebridge](https://github.com/clanker-lover/spicebridge) - SPICEBridge：ngspice MCP server，28 个工具支持 AC/瞬态/DC 仿真、Monte Carlo、电路模板与 KiCad 原理图导出。(★35 · 2026-04)
+- [xuio/ltspice-mcp](https://github.com/xuio/ltspice-mcp) - macOS 上的 LTspice MCP server，运行仿真、生成原理图、渲染波形并查询 RAW 数据做验证。(★19 · 2026-05)
+- [ariklapid/pyslang-mcp](https://github.com/ariklapid/pyslang-mcp) - 只读 MCP server，基于 pyslang 编译器为 Agent 提供 Verilog/SystemVerilog 上下文：诊断、实例层级与符号引用。(★21 · 2026-06)
+- [najaeda/naja-scope](https://github.com/najaeda/naja-scope) - 基于 najaeda 网表引擎的 MCP server，让 Agent 追踪连接关系并遍历已展开 SystemVerilog 设计的层级。(official · ★16 · 2026-09)
+- [blwfish/kicad-mcp](https://github.com/blwfish/kicad-mcp) - KiCad MCP server，17 个工具支持原理图绘制、布局、FreeRouting 自动布线、DRC 与拼板生产输出。(★16 · 2026-09)
+- [cheewee2000/flamingo-pcb](https://github.com/cheewee2000/flamingo-pcb) - 以提示词为先的 PCB CAD，经 MCP（34 个工具）选取真实 LCSC 元件、用 Freerouting 自动布线、运行 DRC 并导出 JLCPCB 生产包。(★6 · 2026-09)
+- [abbbe/fpga-mcp-servers](https://github.com/abbbe/fpga-mcp-servers) - 两个用于 DE10-Nano 开发的 MCP server：异步 Intel Quartus 构建与板卡管理。(coll · ★10 · 2026-01)
+- [lcapossio/fpgaZeroMCP](https://github.com/lcapossio/fpgaZeroMCP) - 集成开源 FPGA 工具链的 MCP server：lint、仿真、综合、布局布线，并为 iCEBreaker、ULX3S 等 11 种板卡预设烧录比特流。(★5 · 2026-08)
+- [Cai-aa/CAD-Agent-Hub](https://github.com/Cai-aa/CAD-Agent-Hub) - 面向 Windows 的 CATIA V5、SolidWorks、Siemens NX MCP server 与桥接，另含 Fusion Electronics 写入桥和 ANSYS Workbench skill。(coll · ★59 · 2026-09)
 
 ### 边缘 AI 与 SBC（MCP）
 
@@ -642,6 +1041,8 @@ Agent 在运行时调用的工具服务器。目前对这个领域最好的综�
 - [marc-shade/coral-tpu-mcp](https://github.com/marc-shade/coral-tpu-mcp) - Google Coral Edge TPU 推理；唯一的 Coral 条目。(★1 · 2026-02)
 - [dmmdea/Hailo-8L-Analysis-Pipelines](https://github.com/dmmdea/Hailo-8L-Analysis-Pipelines) - 14 个工具的 MCP，在 Hailo-8L 上跑人脸检测、OCR 与 CLIP。(★0 · 2026-08)
 - [grammy-jiang/RaspberryPiOS-MCP](https://github.com/grammy-jiang/RaspberryPiOS-MCP) - 树莓派 OS：GPIO、I2C、摄像头。(★0 · 2026-03)
+- [zja0011/edgesentinel-visionops](https://github.com/zja0011/edgesentinel-visionops) - EdgeSentinel：运行在 Jetson Nano 上的视觉 Agent harness，含实时检测、MCP 工具、RBAC 确认门与离线降级。(★22 · 2026-08)
+- [nbhansen/retroMCP](https://github.com/nbhansen/retroMCP) - 通过 SSH 管理 Raspberry Pi 系统的 MCP server，涵盖硬件信息、手柄、温度与 RetroPie 配置。(★3 · 2025-10)
 
 ### 数字制造（MCP）
 
@@ -657,6 +1058,14 @@ Agent 在运行时调用的工具服务器。目前对这个领域最好的综�
 - [zackpeters93/ugs-mcp](https://github.com/zackpeters93/ugs-mcp) - 通过 Universal GCode Sender Pendant REST API 控制 GRBL 数控机床，运动指令需令牌授权。(★5 · 2026-06)
 - [damione1/maslow-desktop](https://github.com/damione1/maslow-desktop) - Maslow CNC（FluidNC）控制面板，带 MCP。(★3 · 2026-07)
 - [bleugreen/openpnp-mcp](https://github.com/bleugreen/openpnp-mcp) - OpenPnP；找到的唯一贴片机 MCP。(★0 · 2026-03)
+- [mikehatch/KlipperMCP](https://github.com/mikehatch/KlipperMCP) - MCP server，经 Moonraker 读取并编辑 Klipper printer.cfg（自动备份），评估宏与 Jinja2 模板，执行 G-code 并控制多台打印机的打印任务。(★7 · 2026-08)
+- [synman/bambu-mcp](https://github.com/synman/bambu-mcp) - 自包含的 Bambu Lab 3D 打印机局域网模式 MCP server，经 MQTT 与 FTPS 提供发现、打印控制、温控、耗材/AMS、摄像头与文件管理等工具。(★4 · 2026-09)
+- [Eyalm321/bambu-mcp](https://github.com/Eyalm321/bambu-mcp) - npm 发布的 MCP server（`npx bambu-mcp`），在局域网模式下经 MQTT 与 FTPS 为 Bambu Lab P2S、P1S、X1 打印机切片、上传、打印并监控。(★1 · 2026-07)
+- [MrMebelMan/bambuddy-mcp](https://github.com/MrMebelMan/bambuddy-mcp) - MCP server，启动时根据 Bambuddy 打印管理实例的 OpenAPI 规范生成工具，并通过三个元工具（分类浏览、搜索、执行）开放整个 REST API，摄像头快照以图片形式返回。(★5 · 2026-02)
+- [gioelemo/prusa-mcp](https://github.com/gioelemo/prusa-mcp) - 面向 Prusa Connect 的 MCP server，一次性 OAuth2 PKCE 登录后即可列出打印机、跟踪任务、浏览文件，并发送暂停、恢复和温度指令。(★2 · 2026-09)
+- [nixkor/moonraker-mcp](https://github.com/nixkor/moonraker-mcp) - 设计为运行在 Moonraker 旁边树莓派上的 HTTP MCP 守护进程，提供 Klipper 打印机状态、温度、文件、打印任务控制与 G-code/宏执行。(★1 · 2026-06)
+- [skribascode/elegoo-mcp-server](https://github.com/skribascode/elegoo-mcp-server) - 本地 MCP server，经 SDCP 协议控制 Elegoo 3D 打印机，支持多机管理、状态读取与打印暂停、恢复、停止和启动，已在 Centauri Carbon 上测试。(★2 · 2026-01)
+- [WhitneyDesignLabs/cnc-fluidnc-mcp](https://github.com/WhitneyDesignLabs/cnc-fluidnc-mcp) - 提供 27 个工具的 MCP server，让 Claude 经 WebSocket 与 HTTP 控制 FluidNC CNC 雕刻机，查看状态、点动轴、运行 G-code、管理 SD 文件、备份配置并创建宏。(★0 · 2026-03)
 
 ### 音频、灯光与生物信号（MCP）
 
@@ -667,6 +1076,14 @@ Agent 在运行时调用的工具服务器。目前对这个领域最好的综�
 - [tamengual/neptune-apex-mcp](https://github.com/tamengual/neptune-apex-mcp) - Neptune Apex 水族箱控制器：探头、插座、喂食、程序编辑。(★2 · 2026-03)
 - [prmichaelsen/dmx-mcp](https://github.com/prmichaelsen/dmx-mcp) - 通过 OLA 与 Enttec USB 适配器控制 DMX 灯光。(★0 · 2026-03)
 - [jamiew/digitakt-digitone-mcp](https://github.com/jamiew/digitakt-digitone-mcp) - 通过 MIDI 控制 Elektron Digitakt / Digitone，各 43 个工具。(★0 · 2026-07)
+- [anteriovieira/osc-mcp-server](https://github.com/anteriovieira/osc-mcp-server) - MCP server，经 OSC 控制 Behringer X32 与 Midas M32 数字调音台，覆盖推子、静音、声像、四段 EQ、门限、压缩器与辅助发送。(★12 · 2025-12)
+- [elisha-rudenkov/x32-mcp-server](https://github.com/elisha-rudenkov/x32-mcp-server) - X32 OSC MCP server 的扩展重写版，让 LLM 在 Behringer X32 上审查场景、追踪信号流、修复路由、调整 EQ、切换效果器并抓取电平表，已在 X32 固件 4.13 实机测试，M32 等型号预计兼容但未测试。(★3 · 2026-07)
+- [wramsdell/ETC_Eos_OSC_MCP](https://github.com/wramsdell/ETC_Eos_OSC_MCP) - Python 编写的 MCP server，经 OSC 控制 ETC Eos 系列灯光控制台，用于配接、创建 Cue、效果、调色板与盲编。(★1 · 2025-12)
+- [film42/wled-mcp](https://github.com/film42/wled-mcp) - Rust 编写的 MCP server，通过 mDNS 发现 WLED LED 控制器并管理其状态、预设、效果与定时，可选 OAuth。(★4 · 2026-04)
+- [feamster/digitakt-midi-mcp](https://github.com/feamster/digitakt-midi-mcp) - MCP server，经 MIDI 控制 Elektron Digitakt II，可触发音轨、通过 CC/NRPN 调节参数并控制走带和 Pattern。(★8 · 2026-07)
+- [Turik1/morningstar-midi-mcp](https://github.com/Turik1/morningstar-midi-mcp) - MCP server，根据自然语言经 USB 为 Morningstar MIDI 脚踏控制器编程，借助 545+ 个 OpenMIDI 设备配置并进行冲突检测。(★1 · 2026-03)
+- [daredoole/evoburrow-mcp](https://github.com/daredoole/evoburrow-mcp) - 非官方 MCP server，面向 A1 Evo AcoustiX、REW 与 Audyssey 校准，可执行受保护的测量，并对 Denon/Marantz AV 功放做白名单内的局域网修改（含备份与校验）。(★4 · 2026-09)
+- [amineutron/denon-mcp](https://github.com/amineutron/denon-mcp) - 面向 Denon AVR 家庭影院功放的 MCP server，经局域网 telnet 控制协议管理电源、音量、静音、输入源切换与状态，已在 AVR-X1700H 上测试。(★0 · 2026-09)
 
 ### 航天与地面站（MCP）
 
@@ -674,6 +1091,7 @@ Agent 在运行时调用的工具服务器。目前对这个领域最好的综�
 - [dsi012/mcp-server-cFS](https://github.com/dsi012/mcp-server-cFS) - 用自然语言控制 NASA core Flight System 软件总线。(★1 · 2025-10)
 - [Pranav-d33/gnuradio-mcp-server](https://github.com/Pranav-d33/gnuradio-mcp-server) - 构建并运行 GNU Radio 流图。(★1 · 2026-06)
 - [harris-mohamed/satnogs-mcp](https://github.com/harris-mohamed/satnogs-mcp) - SatNOGS 卫星地面站网络。(★0 · 2026-04)
+- [mgrandau/telescope-mcp](https://github.com/mgrandau/telescope-mcp) - 面向 AI 操作望远镜的 MCP server 与 Web 仪表盘，可发现相机、采集图像、指向目标并管理观测会话，每个硬件组件都有仿真数字孪生。(★1 · 2026-04)
 
 ### 船舶、航空与铁路（MCP）
 
@@ -682,6 +1100,8 @@ Agent 在运行时调用的工具服务器。目前对这个领域最好的综�
 - [HO44-PROJECT/MrJ-JMRI-MCP](https://github.com/HO44-PROJECT/MrJ-JMRI-MCP) - 面向 DCC 模型铁路的 JMRI：道岔、调速器、进路。(★1 · 2026-08)
 - [pipeworx-io/mcp-opensky](https://github.com/pipeworx-io/mcp-opensky) - 通过 OpenSky Network 追踪 ADS-B 航空器。(★0 · 2026-09)
 - [deanjbrown/geotab-mcp](https://github.com/deanjbrown/geotab-mcp) - MyGeotab 车队远程信息：设备状态、故障、行驶记录仪文件、油耗。(★0 · 2026-09)
+- [dirkhh/adsb-mcp-server](https://github.com/dirkhh/adsb-mcp-server) - MCP server，开放 ADS-B 接收站的实时飞机位置、呼号与高度、接收机统计和覆盖范围数据，并支持按呼号或 hex 码搜索飞机。(★9 · 2025-11)
+- [sailingnaturali/signalk-mcp](https://github.com/sailingnaturali/signalk-mcp) - MCP server，封装 SignalK 船载数据服务器，把传感器路径、当前航线、电池组以及含龙骨下余量的水深暴露为智能体工具。(★1 · 2026-08)
 
 ### 半导体与科学仪器（MCP）
 
@@ -697,6 +1117,9 @@ Agent 在运行时调用的工具服务器。目前对这个领域最好的综�
 - [reowens/qsys-tools](https://github.com/reowens/qsys-tools) - 通过 QRC 控制 QSC Q-SYS，提供 CLI、TypeScript 客户端与 MCP server，已在真实 Core 上测试。(★3 · 2026-07)
 - [DaScheife/Sklera-Digital-Signage-MCP-Server](https://github.com/DaScheife/Sklera-Digital-Signage-MCP-Server) - Sklera 数字标牌屏幕。(★2 · 2026-06)
 - [tkrisztian95/eink-mcp-server](https://github.com/tkrisztian95/eink-mcp-server) - 在微雪墨水屏上绘制仪表盘或原始像素。(★0 · 2026-04)
+- [guycochran/atem-mcp-server](https://github.com/guycochran/atem-mcp-server) - MCP server，用自然语言控制 Blackmagic ATEM 视频切换台，切换与转场信号源、运行宏并启动推流和录制，支持 stdio 或 OAuth 保护的 HTTP。(★7 · 2026-09)
+- [Desluca/crestron-mcp](https://github.com/Desluca/crestron-mcp) - 基于 Crestron Home REST API 的 Python MCP server，可发现房间与设备，控制遮阳、场景和温控器，读取传感器，并通过模糊匹配解析设备名；灯光可列出但没有专门的控制工具。(★4 · 2025-10)
+- [SolutionAVAutomation/mcp-for-crestron-client](https://github.com/SolutionAVAutomation/mcp-for-crestron-client) - MCP for Crestron 的免费客户端部分，经 TLS 文本协议把运行 MCP for Crestron 模块的 Crestron 4-Series 处理器暴露为 MCP 工具，以 Claude Desktop .mcpb 和 npm 包发布。(★0 · 2026-08)
 
 ### 医疗与零售设备（MCP）
 
@@ -725,6 +1148,7 @@ A2A（Agent2Agent）发布十七个月后仍没有任何真正的硬件实现：
 - [agntcy/slim](https://github.com/agntcy/slim) - AGNTCY 的安全低延迟交互消息（SLIM）；配合 `slim-a2a-*` 与 A2A 自己的 SLIM-RPC 扩展，是 A2A 唯一的低延迟传输绑定。(★218 · 2026-09)
 - [QUSD-ai/m5stick-nanda](https://github.com/QUSD-ai/m5stick-nanda) - M5StickC Plus 2 的 ESP32 固件，直接在设备上提供 agent card 与 JSON-RPC；但它是按关键词匹配而非按协议方法分发，而且发布当天就被弃置。收录它，是因为这是现存最接近"A2A 跑在硬件上"的东西。(★0 · 2026-01)
 - [r1marcus/TinyA2A](https://github.com/r1marcus/TinyA2A) - 面向 STM32 与 ESP-IDF 的 C11 Agent 意图库，带 MQTT JSON 与 64 字节 CAN-FD 帧两种 profile。与 Linux 基金会的 A2A 同名，但线格式并不相同。(★2 · 2026-05)
+- [kushalsinha/openmhp](https://github.com/kushalsinha/openmhp) - Open Model Hardware Protocol，一套类 MCP 的协议规范与 Python 参考实现，让 Agent 发现实验室仪器、机器人和工业设备，并通过租约、遥测事件流和设备侧安全检查执行长时任务。(★0 · 2026-09)
 
 ### 端侧 Agent 运行时
 
@@ -744,6 +1168,15 @@ A2A（Agent2Agent）发布十七个月后仍没有任何真正的硬件实现：
 - [XiaoMi/xiaomi-miloco](https://github.com/XiaoMi/xiaomi-miloco) - 基于 MiMo 的 OpenClaw 插件：家庭摄像头感知驱动米家设备控制；需要 4 GB 以上内存的主机，而非单片机。(official · ★3.3k · 2026-09)
 - [NVIDIA-AI-IOT/jetson-ai-lab](https://github.com/NVIDIA-AI-IOT/jetson-ai-lab) - 在 Jetson 上运行 OpenClaw 的官方路径：Orin Nano 用 Ollama，AGX / Thor 用 vLLM。(official · ★207 · 2026-09)
 - [HeyWillow/willow](https://github.com/HeyWillow/willow) - ESP32-S3 语音设备固件，把音频流式发送到服务器由服务器执行工具；与 esp-ai、ElatoAI 一样，端侧没有 Agent 循环。(★3.1k · 2026-09)
+- [tnm/zclaw](https://github.com/tnm/zclaw) - 运行在 ESP32 上的 C 语言 AI 助手固件，整体固件预算不超过 888 KiB，支持 GPIO 控制、定时任务、持久记忆和用自然语言组合的自定义工具。(★2.2k · 2026-05)
+- [nullclaw/nullclaw](https://github.com/nullclaw/nullclaw) - 用 Zig 编写的自主助手运行时，678 KB 静态二进制、约 1 MB 内存，提供串口、Arduino、Raspberry Pi GPIO 和 STM32/Nucleo 外设接口并支持 MCP。(★8.1k · 2026-07)
+- [atiti/espclaw](https://github.com/atiti/espclaw) - ESP32 原生 Agent 运行时，带 LLM 工具循环、本地 GPIO/I2C/PWM/摄像头工具、可热替换的 Lua 应用、OTA，以及 Web、UART 或 Telegram 控制入口。(★8 · 2026-03)
+- [xinnan-tech/xiaozhi-esp32-server](https://github.com/xinnan-tech/xiaozhi-esp32-server) - 为 xiaozhi-esp32 语音设备提供的自托管 Python/Java 后端，支持 MQTT+UDP 与 WebSocket 协议、MCP 接入点、声纹识别和知识库。(★10.6k · 2026-09)
+- [huangjunsen0406/py-xiaozhi](https://github.com/huangjunsen0406/py-xiaozhi) - 面向桌面和 Raspberry Pi、RDK、Jetson Nano 等 ARM 板的 Python 版 xiaozhi 客户端，支持实时语音、视觉、MCP 工具服务、离线唤醒词和 GPIO 控制。(★3.5k · 2026-09)
+- [akdeb/ElatoAI](https://github.com/akdeb/ElatoAI) - 通过安全 WebSocket 和 Deno 边缘函数为 Arduino ESP32 设备提供实时语音 AI，支持 OpenAI Realtime、Gemini Live、xAI Grok、ElevenLabs、Hume 和 Boson 管线；本地模型支持在独立的 local-ai-toys 仓库中。(★2k · 2026-09)
+- [livekit/client-sdk-esp32](https://github.com/livekit/client-sdk-esp32) - LiveKit 官方 ESP32-S3/ESP32-P4 SDK，传输音频、视频和数据，让设备与云端 LiveKit Agents 交互，并支持 RPC。(official · ★150 · 2026-09)
+- [second-state/echokit_server](https://github.com/second-state/echokit_server) - 为 EchoKit ESP32 设备提供的语音 Agent 服务端，可对接任意 OpenAI 兼容端点运行 ASR、LLM、TTS 管线并调用 MCP 服务器，固件在 echokit_box 仓库。(★593 · 2026-02)
+- [m5stack/StackChan](https://github.com/m5stack/StackChan) - M5Stack 基于 CoreS3 的 StackChan 桌面机器人（舵机、RGB LED、摄像头、传感器）的开源固件、遥控器固件、手机 App 与服务端，其出厂固件内置 AI Agent。(official · ★1.3k · 2026-08)
 
 ### 机器人与具身 Agent 框架
 
@@ -757,12 +1190,20 @@ A2A（Agent2Agent）发布十七个月后仍没有任何真正的硬件实现：
 - [nasa-jpl/rosa](https://github.com/nasa-jpl/rosa) - 用自然语言检视、诊断并操作 ROS 1 / 2 机器人的 LangChain Agent。(★1.6k · 2026-03)
 - [FlagOpen/RoboOS](https://github.com/FlagOpen/RoboOS) - 智源研究院的"大脑–小脑"具身操作系统：RoboBrain 多模态大模型、Skill 库与多机器人共享记忆。(official · ★622 · 2025-12)
 - [automatika-robotics/embodied-agents](https://github.com/automatika-robotics/embodied-agents) - ROS 2 原生框架，用于构建带 LLM / VLM 组件的交互式物理 Agent。(★67 · 2026-09)
+- [RobotecAI/rai](https://github.com/RobotecAI/rai) - 面向 ROS 2 机器人的厂商无关 Agent 框架，包含多 Agent 核心、基于 URDF 和文档的本体自描述、ASR/TTS、感知、仿真连接器以及 rai_bench 评测套件。(★588 · 2026-09)
+- [OpenMind/OM1](https://github.com/OpenMind/OM1) - 用于人形、四足、TurtleBot 4 及 Gazebo/Isaac Sim 的模块化 Go 多模态 Agent 运行时，通过 ROS 2、Zenoh 和 CycloneDDS 插件接入硬件。(★2.9k · 2026-09)
+- [fujitatomoya/ros2ai](https://github.com/fujitatomoya/ros2ai) - ROS 2 命令行扩展，借助 OpenAI 或 Ollama 模型回答问题并执行 ros2 命令，支持 Humble 到 Rolling，其中 Jazzy、Kilted、Rolling 可通过 apt 安装。(★330 · 2026-08)
+- [ROSClaw/rosclaw](https://github.com/ROSClaw/rosclaw) - ROSClaw 的工作区引导仓库，通过机器人侧 ROS 2 包、OpenClaw 插件和可选 WebRTC 信令，把 OpenClaw Agent 运行时接到 ROS 2 机器人。(★6 · 2026-03)
+- [bob-ros2/bob_llm](https://github.com/bob-ros2/bob_llm) - ROS 2 节点，把任意 OpenAI 兼容 LLM 变成机器人 Agent，管理会话状态并通过可动态加载的工具调用机器人功能。(★3 · 2026-06)
 
 ### 智能家居与设备平台
 
 - [Home Assistant LLM API](https://developers.home-assistant.io/docs/core/llm/) - 官方的 Assist LLM API：各集成注册的工具可被任意对话 Agent 调用。(official)
 - [acon96/home-llm](https://github.com/acon96/home-llm) - Home Assistant 集成，外加为设备控制微调的本地模型。(★1.4k · 2026-09)
 - [arm/mcp](https://github.com/arm/mcp) - Arm 官方 MCP：文档检索、迁移分析、汇编性能分析。Nordic、Microchip、Silicon Labs、TI 与 ADI 也发布过类似的纯文档型厂商 MCP。(official · ★91 · 2026-09)
+- [Google Home MCP](https://developers.home.google.com/mcp/home) - Google 官方抢先体验版 Home MCP 服务器为 MCP Agent 提供五个工具，可列出家庭和设备、读取状态与历史并对 Google Home 设备执行操作，面向 Google Home Premium Advanced 订阅用户。
+- [thingsboard/thingsboard-mcp](https://github.com/thingsboard/thingsboard-mcp) - ThingsBoard 官方 MCP 服务器，以 Docker 镜像发布，让 Agent 在 ThingsBoard Cloud、自托管或 Edge 实例上查询设备、管理实体和分析遥测数据。(official · ★98 · 2026-03)
+- [nRF Cloud MCP server](https://docs.nrfcloud.com/docs/platform/mcp-server) - Nordic 托管的只读 nRF Cloud MCP 服务器，通过 OAuth 提供设备群元数据、遥测、健康指标、重启历史和崩溃追踪。
 
 ## 验证基础设施
 
@@ -784,6 +1225,19 @@ A2A（Agent2Agent）发布十七个月后仍没有任何真正的硬件实现：
 - [Home Assistant 演示模式](https://www.home-assistant.io/integrations/demo/) - `hass --demo-mode` 在真实的 REST / WebSocket API 背后创建虚拟的灯、空调与传感器。本仓库 `L1 (ha-demo)` 预检的后端。(official)
 - [micropython/micropython unix 移植](https://github.com/micropython/micropython/tree/master/ports/unix) - 宿主机上的 MicroPython 虚拟机；只能做逻辑层检查，没有外设。(★22k · 2026-09)
 - [ARM-software/AVH](https://github.com/ARM-software/AVH) - Arm 虚拟硬件：Cortex-M FVP（Corstone-300 / 310 / 315），附 GitHub Actions 示例；对开源与评估用途免费。(official · ★54 · 2026-09)
+- [davidmonterocrespo24/velxio](https://github.com/davidmonterocrespo24/velxio) - 开源浏览器端开发板模拟器，覆盖 AVR、RP2040/RP2350、STM32、ESP32 Xtensa/RISC-V 和 Raspberry Pi Linux 开发板，含 150 多个元件和 MCP 服务器；Docker 自托管镜像只包含 Arduino、Pico 和 ESP32 系列，CI 命令行工具单独发布为 velxio/velxio-cli。(★2.9k · 2026-09)
+- [wokwi/rp2040js](https://github.com/wokwi/rp2040js) - 用 JavaScript 编写的 Raspberry Pi Pico RP2040 模拟器，可在 Node.js 或浏览器中运行 Arduino 代码和 MicroPython REPL。(★526 · 2026-09)
+- [wokwi/avr8js](https://github.com/wokwi/avr8js) - 用 JavaScript 实现 AVR 8 位架构的库，可运行于浏览器和 Node.js，是 Wokwi Arduino 模拟器的核心。(★845 · 2026-08)
+- [buserror/simavr](https://github.com/buserror/simavr) - 精简的 AVR 模拟器，支持 Linux 和 macOS、GDB 调试和 VCD 波形输出，可无界面运行以在 CI 中测试 Arduino 级固件。(★1.8k · 2026-09)
+- [lcgamboa/picsimlab](https://github.com/lcgamboa/picsimlab) - 实时模拟 PIC、AVR、STM32 和 ESP32 开发板的仿真器，带 LED、显示屏、W5500 以太网等外设件，并集成 MPLAB X 和 avr-gdb 调试。(★668 · 2026-09)
+- [verilator/verilator](https://github.com/verilator/verilator) - 高速开源 Verilog/SystemVerilog 仿真器与 lint 工具，把 RTL 编译为多线程 C++ 或 SystemC，被 AgentDV 等 Agent RTL 基准和 cocotb 测试用作仿真后端。(★3.9k · 2026-09)
+- [cocotb/cocotb](https://github.com/cocotb/cocotb) - 基于 Python 协程的 RTL 验证测试框架，可用 pytest 风格测试驱动 Verilator、Icarus、GHDL 及商业仿真器。(★2.5k · 2026-09)
+- [Genesis-Embodied-AI/genesis-world](https://github.com/Genesis-Embodied-AI/genesis-world) - Genesis World 机器人物理仿真平台，集成刚体、FEM、MPM、粒子求解器和机器人渲染器，通过 Python API 导入 URDF/MJCF/USD。(★30k · 2026-09)
+- [newton-physics/newton](https://github.com/newton-physics/newton) - Linux Foundation 旗下面向机器人的 GPU 物理引擎，基于 NVIDIA Warp、以 MuJoCo Warp 为主后端，支持 OpenUSD 和可微分。(★5.6k · 2026-09)
+- [carla-simulator/carla](https://github.com/carla-simulator/carla) - 开源自动驾驶仿真器，提供传感器套件、交通场景和 Python API，用于车辆软件闭环测试。(★14.4k · 2026-09)
+- [iamaisim/ProjectAirSim](https://github.com/iamaisim/ProjectAirSim) - Project AirSim：Microsoft AirSim 的继任项目，现由 IAMAI Simulations 维护，面向无人机等自主系统，提供用于控制器与 CI 快速测试的轻量运行时，以及用于摄像头、LiDAR、雷达的 Unreal Engine 5 模式。(★864 · 2026-09)
+- [ArduPilot/ardupilot](https://github.com/ArduPilot/ardupilot) - ArduPilot 多旋翼、固定翼、车辆和潜航器自驾仪源码，其 SITL 构建在 PC 上运行真实飞控代码，是无人机 MCP 服务器和 Agent 论文的常用测试对象。(★15.9k · 2026-09)
+- [qilingframework/qiling](https://github.com/qilingframework/qiling) - 可插桩的二进制仿真框架，支持 ARM、MIPS、RISC-V、x86 固件与系统二进制，提供多级 hook、快照和反向调试器。(★6.1k · 2026-09)
 
 不适合 CI，列出来免得有人再查一遍：Tinkercad Circuits（无 API）、SimulIDE（仅 GUI）、Proteus VSM（商业软件，以 GUI 为中心）、Simulavr（2023 年起停止维护）。
 
@@ -799,6 +1253,11 @@ A2A（Agent2Agent）发布十七个月后仍没有任何真正的硬件实现：
 - [Zephyr twister 设备测试](https://docs.zephyrproject.org/latest/develop/test/twister.html) - `twister --device-testing --hardware-map` 在连接的板子上运行测试套件；[golioth/zephyr_twister_hil_testing](https://github.com/golioth/zephyr_twister_hil_testing) 演示了如何在 GitHub 自托管 runner 上实现。(official)
 - [Wokwi CI](https://docs.wokwi.com/wokwi-ci/getting-started) - 在 GitHub Actions 中运行托管仿真；开源项目可免费获得令牌。(official)
 - [OpenHiL](https://openhil.github.io/) - 开源硬件在环工具的社区中心。
+- [agentic-hil/agentic-hil](https://github.com/agentic-hil/agentic-hil) - Python 包、MCP 服务器和 Agent Skill，让 Claude Code、Codex 或 OpenCode 通过 OpenOCD、pyOCD 或 STM32CubeProgrammer 在真实开发板上烧录并测试固件，支持 UART/CAN 校验、YAML 测试计划和审计日志。(★13 · 2026-09)
+- [espressif/pytest-embedded](https://github.com/espressif/pytest-embedded) - Espressif 官方嵌入式测试 pytest 插件，提供串口 DUT、ESP-IDF、Arduino、NuttX、JTAG、QEMU 与 Wokwi 目标等服务。(official · ★155 · 2026-09)
+- [Rahix/tbot](https://github.com/Rahix/tbot) - 面向嵌入式 Linux 的 Python 自动化与测试工具，编排串口控制台、SSH 主机和开发板电源，在 CI 中对真实硬件跑测试。(★101 · 2026-09)
+- [everypinio/hardpy](https://github.com/everypinio/hardpy) - 可用 pip 安装的 Python 库，基于 pytest 搭建设备测试台，提供浏览器操作界面，结果存入 CouchDB、JSON 或 StandCloud。(★76 · 2026-06)
+- [lgirdk/boardfarm](https://github.com/lgirdk/boardfarm) - 源自 Qualcomm 的 Python 测试自动化框架，用于在板卡农场中烧录并测试 OpenWrt/RDK-B 路由器和 IoT 设备。(★32 · 2026-09)
 
 ## 评测基准
 
@@ -819,6 +1278,15 @@ A2A（Agent2Agent）发布十七个月后仍没有任何真正的硬件实现：
 - [stepjam/RLBench](https://github.com/stepjam/RLBench) - CoppeliaSim 中的 100 个操作任务。(★1.8k · 2025-01)
 - [holi-lab/SimuHome](https://github.com/holi-lab/SimuHome) - 基于 Matter、可加速时间的智能家居仿真器，含 600 个 episode，涵盖定时与隐含意图。ICLR 2026 口头报告。(★34 · 2026-04)
 - [SMH-Bench](https://arxiv.org/abs/2606.01912) - 在最多 135 台设备的家庭中设置的 1100 个智能家居任务；代码尚未发布。
+- [NVlabs/cvdp_benchmark](https://github.com/NVlabs/cvdp_benchmark) - NVIDIA 的 CVDP 评测框架，涵盖专家编写的 RTL 设计、验证与调试题，支持 Agent 与非 Agent 模式，基于 Docker 运行并配套 Hugging Face 数据集（论文报告 783 题，公开版本少 20 题）。(official · ★221 · 2026-06)
+- [LGAI-Research/PCBWorld](https://github.com/LGAI-Research/PCBWorld) - 基于 KiCad 推挤布线器的 Gymnasium 环境，Agent 在真实 .kicad_pcb 板上布线并由 KiCad DRC 打分，附带 RL、LLM 工具调用和 FreeRouting 等基线。(★13 · 2026-09)
+- [pengjas/posteda-bench](https://github.com/pengjas/posteda-bench) - PostEDA-Bench：145 个任务，评测 LLM Agent 在 KLayout 中修复版图 DRC 违例、在真实 OpenROAD 流程上优化 PPA，附 ReAct、ToT、Reflexion 等 Agent 基线。(★2 · 2026-07)
+- [Luoji-zju/Agents4PLC_release](https://github.com/Luoji-zju/Agents4PLC_release) - 可验证的基准数据集，含 96 个从自然语言生成 IEC 61131-3 Structured Text 的任务，附 nuXmv/PLCverif 形式化规约和参考代码，来自 Agents4PLC 多 Agent PLC 研究。(★78 · 2026-08)
+- [HPAI-BSC/TuRTLe](https://github.com/HPAI-BSC/TuRTLe) - 统一的评测框架和排行榜，在 VerilogEval、RTLLM 等基准上从语法、功能、综合和 PPA 维度给 LLM 的 RTL 生成打分。(★49 · 2026-07)
+- [Phoenix-bench](https://arxiv.org/abs/2605.15226) - Phoenix-bench（arXiv 2026-05）：来自 114 个硬件仓库的 511 个经 Verilator 验证的修复实例，EDA 环境用 Docker 固定，显示编码 Agent 成绩比 SWE-bench Verified 低 37-58%。
+- [PDAgent-Bench](https://arxiv.org/abs/2606.17253) - PDAgent-Bench（arXiv 2026-06）：353 道 VLSI 物理设计题目和面向 EDA 工具的闭环 Agent 工作流，评测 11 个模型，发现其在工具执行类任务上仍较弱（如 Innovus 脚本生成 42.2%）；代码尚待发布。
+- [HSCO-Bench](https://arxiv.org/abs/2605.19399) - HSCO-Bench（arXiv 2026-05）：端到端软硬件协同设计基准，LLM Agent 生成含加速器的 SoC 并部署到 AMD VC707 FPGA，代码见 B07901087/hsco_bench。
+- [CaP-X](https://arxiv.org/abs/2603.22435) - CaP-X（arXiv 2026-03）：CaP-Gym 环境与 CaP-Bench，评测编码 Agent 通过编写组合感知与控制原语的程序来操控机械臂，覆盖 12 个模型。
 
 ## 论文与文章
 
@@ -837,6 +1305,25 @@ A2A（Agent2Agent）发布十七个月后仍没有任何真正的硬件实现：
 - [Toward a Modular Architecture for Embedded AI Agent Systems at the Edge](https://arxiv.org/abs/2606.02862) - 端侧 Agent 运行时的设计；可与 esp-claw 及 claw 家族对照阅读。
 - [Coscientist](https://github.com/gomesgroup/coscientist) - 驱动 Opentrons 移液工作站与 Emerald Cloud Lab 的 GPT-4 Agent。Nature 2023。(★211 · 2025-08)
 - [Autonomous Chemistry and Materials Innovation Driven by Scientific Agents](https://pubs.acs.org/doi/10.1021/jacsau.6c00213) - 关于由 LLM 驱动的自动化实验室的综述。JACS Au 2026。
+- [IoT-MCP: Bridging LLMs and IoT Systems Through Model Context Protocol](https://arxiv.org/abs/2510.01260) - IoT-MCP（arXiv 2025-09）：在 6 种 MCU、22 类传感器上部署边缘 MCP 服务器，并提出含 1,254 个任务的 IoT-MCP Bench，代码见 Duke-CEI-Center/IoT-MCP-Servers。
+- [An LLM-Agnostic, MAVLink-Based Drone Command and Control Interface and Agentic Harness Using the Model Context Protocol](https://arxiv.org/abs/2601.15486) - DroneServer（arXiv 2026-01）：连接 MCP 与 MAVLink 的 98 工具 Agent 框架，支持 ArduPilot 和 PX4，服务端强制地理围栏和确认，经 1,000 多次 SITL 飞行和三架真实四旋翼测试。
+- [Demonstration-Free Robotic Control via LLM Agents](https://arxiv.org/abs/2601.20334) - FAEA（arXiv 2026-01）：将未修改的 Claude Agent SDK 直接用作操作控制器，在可获取特权环境状态的条件下，于 LIBERO、ManiSkill3、MetaWorld 上无需示教达到 84.9-96% 成功率，代码见 robiemusketeer/faea-sim。
+- [AgentRob: From Virtual Forum Agents to Hijacked Physical Robots](https://arxiv.org/abs/2602.13591) - AgentRob（arXiv 2026-02）：读取论坛帖子的 LLM Agent 通过 MCP 向 Unitree Go2/G1 机器人上的 VLM 控制器下发指令，揭示实体 Agent 被劫持的风险。
+- [ROSClaw: An OpenClaw ROS 2 Framework for Agentic Robot Control and Interaction](https://arxiv.org/abs/2603.26997) - ROSClaw（arXiv 2026-03）：连接 OpenClaw 与 ROS 2 的执行层，提供能力发现、执行前安全校验和审计日志，已部署在轮式、四足和人形机器人上。
+- [Say the Mission, Execute the Swarm: Agent-Enhanced LLM Reasoning in the Web-of-Drones](https://arxiv.org/abs/2605.03788) - Web-of-Drones（arXiv 2026-05）：LLM Agent 核心通过 MCP 网关操作基于 W3C WoT 的无人机 Thing 执行集群任务，在 ArduPilot 仿真中评测六个 LLM。
+- [Octopus Protocol: One-Shot Hardware Discovery and Control for AI Agents via Infrastructure-as-Prompts](https://arxiv.org/abs/2605.09055) - Octopus Protocol（arXiv 2026-05）：编码 Agent 通过一条引导命令枚举主机硬件、推断能力、生成带类型的 MCP 工具与驱动代码并部署为在线端点。
+- [AutoMCU: Feasibility-First MCU Neural Network Customization via LLM-based Multi-Agent Systems](https://arxiv.org/abs/2605.21560) - AutoMCU（arXiv 2026-05）：多 Agent 系统为 MCU 设计神经网络，在环利用厂商工具链反馈剔除超出 RAM 和 Flash 限制的候选架构。
+- [When Agents Control Robots: A Zero Trust Policy Model for Agentic Cyber-Physical Systems](https://arxiv.org/abs/2605.25653) - ZTPM（arXiv 2026-05）：包含 25 个策略原语和物理影响分级的零信任策略模型，基于对四 Agent UR3e 机械臂控制系统的攻击分析。
+- [Can AI Agents Really Complete RTL-to-GDS? Lessons from Benchmarking Tool-Interactive EDA Workflows](https://arxiv.org/abs/2607.17528) - RTL-to-GDS Agent 研究（arXiv 2026-07）：让 Claude Code 等带 EDA Skill 的 Agent 在商业工具上跑 PicoRV32 全流程，发现 Skill 有助于子任务但不能保证长流程完成。
+- [AgentDV: Closed-Loop Agentic AI for Hardware Design Verification](https://arxiv.org/abs/2608.27148) - AgentDV（arXiv 2026-08）：闭环 Agent 生成 Verilator/cocotb/pyUVM 测试平台，结合可运行性过滤和覆盖率引导迭代，在 OpenTitan IP 上评测。
+- [LLM-based Hardware Development with Hierarchical IRs and End-to-End Multi-Agent Workflow](https://arxiv.org/abs/2608.30659) - 分层 IR 硬件 Agent（arXiv 2026-08）：多 Agent 流程使用架构草图和操作规格两级 IR，调试循环自主选择探测信号，在 VerilogEval 上 pass@5 达 95.5%。
+- [Spec2Control: Automating PLC/DCS Control-Logic Engineering from Natural Language Requirements with LLMs - A Multi-Plant Evaluation](https://arxiv.org/abs/2510.04519) - Spec2Control（arXiv 2025-10）：ABB 提出的 LLM 工作流，把控制说明转换为 IEC 61131-3 功能块图，开源于 hkoziolek/Spec2Control。
+- [Vendor-Aware Industrial Agents: RAG-Enhanced LLMs for Secure On-Premise PLC Code Generation](https://arxiv.org/abs/2511.09122) - 厂商感知 PLC Agent（arXiv 2025-11）：面向 Mitsubishi Electric PLC 方言的本地部署 RAG 编码助手，在环编译生成代码并使用小型本地模型。
+- [ROSBag MCP Server: Analyzing Robot Data with LLMs for Agentic Embodied AI Applications](https://arxiv.org/abs/2511.03497) - ROSBag MCP Server（arXiv 2025-11）：介绍一个 MCP 服务器，让 LLM 和 VLM 用自然语言分析、可视化和处理 ROS/ROS 2 bag 数据。
+- [The Dawn of Agentic EDA: A Survey of Autonomous Digital Chip Design](https://arxiv.org/abs/2512.23189) - Agentic EDA 综述（arXiv 2025-12）：梳理从单点 AI-for-EDA 工具向由 Agent 编排 RTL-to-GDSII 全流程的转变。
+- [Spec2RTL-Agent: Automated Hardware Code Generation from Complex Specifications Using LLM Agent Systems](https://arxiv.org/abs/2506.13905) - Spec2RTL-Agent（arXiv 2025-06）：多 Agent 系统直接读取完整规格文档，规划实现并通过错误溯源反思迭代可综合 C++ 代码，再经 HLS 生成 RTL，人工干预最多减少 75%。
+- [Embedded Firmware Development with Claude Code](https://reversetobuild.com/devlogs/claude-code-embedded-firmware-development/) - 使用 Claude Code 开发 nRF52840 Zephyr/NCS 固件的工程实践文章：编写 devicetree overlay、用 hook 拦截臆造的 Kconfig 符号、追踪编译错误并解析 HardFault。
+- [How Firmware Engineers Get the Most Out of Claude](https://hubble.com/community/guides/how-firmware-engineers-get-the-most-out-of-claude/) - Hubble Network 面向固件工程师的指南，介绍用 Claude 从寄存器表生成头文件、做嵌入式专项代码审查，以及结合 map 文件诊断链接错误。
 
 ## Agent 友好文档（llms.txt）
 
@@ -861,6 +1348,35 @@ A2A（Agent2Agent）发布十七个月后仍没有任何真正的硬件实现：
 - [Adafruit Learn](https://learn.adafruit.com/llms.txt) - Adafruit 开发板与模块的教程。
 - [涂鸦](https://developer.tuya.com/llms.txt) - IoT 平台。
 - [Flux.ai](https://docs.flux.ai/llms.txt) - 浏览器端 EDA。
+- [Espressif MCP servers](https://mcp.espressif.com/) - Espressif 托管 MCP 服务器汇总页，涵盖文档检索、ESP Component Registry、RainMaker、ESP-VISION、故障排查流程和 ESP Pilot 板级配置。
+- [Google Home Developer MCP](https://developers.home.google.com/mcp/developer) - Google 官方 Home Developer MCP 服务器（homedevelopers.googleapis.com/mcp），让编码 Agent 检索 Home API 文档、Matter 1.5.1 与 Thread 1.4.1 规范以及 OpenThread 文档。
+- [Silicon Labs MCP server](https://docs.silabs.com/mcp/1.0.0/mcp-start/) - Silicon Labs 托管的 AskAI MCP 服务器，需要 Silicon Labs 账号登录，为 Agent 提供一个检索 Silicon Labs 文档与资源的工具。
+- [OPC UA Online Reference MCP](https://opcconnect.opcfoundation.org/2026/06/updates-to-online-reference-for-humans-and-ai/) - OPC Foundation 在 reference.opcfoundation.org/mcp 提供的 MCP 端点，可按全文、NodeId、一致性单元和术语检索 OPC UA 规范，并提供 Markdown 与 JSONL 规范下载。
+- [docs.modalai.com llms.txt](https://docs.modalai.com/llms.txt) - 面向 PX4 与 ArduPilot 无人机的 ModalAI VOXL/VOXL 2 机载计算机的官方 llms.txt 索引。
+- [docs.auterion.com llms.txt](https://docs.auterion.com/llms.txt) - Auterion Suite 无人机机队管理与 Mission Control 的官方 llms.txt 索引。
+- [docs.hello-robot.com llms.txt](https://docs.hello-robot.com/llms.txt) - Hello Robot Stretch 移动操作机器人的官方 llms.txt 索引。
+- [docs.picknik.ai llms.txt](https://docs.picknik.ai/llms.txt) - MoveIt Pro 机械臂应用平台（含行为树）的官方 llms.txt 索引。
+- [docs.formant.io llms.txt](https://docs.formant.io/llms.txt) - Formant 机器人群监控、干预与遥操作的官方 llms.txt 索引。
+- [rerun.io llms.txt](https://rerun.io/llms.txt) - Rerun 多模态机器人与空间数据记录可视化平台的官方 llms.txt 索引。
+- [docs.saleae.com llms.txt](https://docs.saleae.com/llms.txt) - Saleae Logic 2 自动化、扩展与 MSO API 的官方 llms.txt 索引。
+- [docs.lagerdata.com llms.txt](https://docs.lagerdata.com/llms.txt) - Lager 嵌入式硬件测试自动化的官方 llms.txt 索引。
+- [docs.flipper.net llms.txt](https://docs.flipper.net/llms.txt) - Flipper Zero 与 Flipper One 用户与开发者文档的官方 llms.txt 索引。
+- [docs.tuyaopen.ai llms.txt](https://docs.tuyaopen.ai/llms.txt) - TuyaOpen（涂鸦开源 AI+IoT 设备操作系统与 SDK）的官方 llms.txt 索引。
+- [docs.emqx.com llms.txt](https://docs.emqx.com/llms.txt) - EMQX MQTT Broker、边缘与工业 IoT 产品的官方 llms.txt 索引。
+- [thingsboard.io llms.txt](https://thingsboard.io/llms.txt) - ThingsBoard IoT 设备管理平台的官方 llms.txt 索引。
+- [docs.hubble.com llms.txt](https://hubble.com/docs/llms.txt) - Hubble Network 蓝牙直连卫星 IoT 连接与设备 SDK 的官方 llms.txt 索引。
+- [docs.qualcomm.com llms.txt](https://docs.qualcomm.com/llms.txt) - Qualcomm SDK、API 与平台指南的官方 llms.txt 索引。
+- [developers.soracom.io llms.txt](https://developers.soracom.io/llms.txt) - Soracom 蜂窝 IoT 连接 API 与 SDK 的官方 llms.txt 索引。
+- [docs.hologram.io llms.txt](https://docs.hologram.io/llms.txt) - Hologram IoT 蜂窝 SIM 与连接服务的官方 llms.txt 索引。
+- [docs.helium.com llms.txt](https://docs.helium.com/llms.txt) - Helium LoRaWAN IoT 与移动网络的官方 llms.txt 索引。
+- [apps.developer.homey.app llms.txt](https://apps.developer.homey.app/llms.txt) - 在 Homey 网关上运行应用的 Homey Apps SDK 的官方 llms.txt 索引。
+- [docs.aqara.com llms.txt](https://docs.aqara.com/llms.txt) - Aqara 开发者文档中心的官方 llms.txt 索引。
+- [kb.shelly.cloud llms.txt](https://kb.shelly.cloud/llms.txt) - 按型号组织的 Shelly 设备知识库的官方 llms.txt 索引。
+- [developer.govee.com llms.txt](https://developer.govee.com/llms.txt) - Govee 开发者平台的官方 llms.txt 索引，涵盖列出、控制和订阅 Govee 智能家居设备事件的 API。
+- [apidocs.verkada.com llms.txt](https://apidocs.verkada.com/llms.txt) - Verkada 摄像头与门禁 API 的官方 llms.txt 索引。
+- [docs.jitx.com llms.txt](https://docs.jitx.com/llms.txt) - JITX 代码驱动 PCB 设计的官方 llms.txt，以整份文档全文形式提供。
+- [docs.quilter.ai llms.txt](https://docs.quilter.ai/llms.txt) - Quilter 自动化 PCB 布局的官方 llms.txt 索引。
+- [docs.allspice.io llms.txt](https://learn.allspice.io/llms.txt) - AllSpice 硬件设计评审与版本管理的官方 llms.txt 索引。
 
 已核查但缺失（404 或返回 HTML）：Zephyr、乐鑫、Nordic、ST、PlatformIO、KiCad、ROS 文档、Golioth、Home Assistant、ESPHome、MicroPython、CircuitPython、树莓派、矽递 Wiki、Isaac Sim / Lab、Embassy、BeagleBoard、ThingsBoard。Zephyr 改为提供 `AGENTS.md`、`CLAUDE.md` 与 `copilot-instructions.md`；nRF Connect SDK 在 HEAD 上三者皆无。
 
@@ -870,13 +1386,13 @@ A2A（Agent2Agent）发布十七个月后仍没有任何真正的硬件实现：
 
 **A2A 从未真正落到硬件上。** 发布十七个月后，没有任何仓库在真实物理设备上端到端实现 Linux 基金会的 A2A 规范。这份 3618 行的规范中，*robot*、*actuator*、*sensor*、*embedded* 出现次数均为零，1721 个 issue 中也没有一个在要求设备控制。这看起来是设计上的必然而非疏忽：设备是独占的、物理上不可逆的、有时限约束的，而 A2A 建模的是不透明对等方之间可重试的对话。此后所有设备侧的协议尝试——MCP-over-MQTT、Arm Device Connect、DCP——都选择依附于 MCP。
 
-**厂商几乎没有入场。** 只有三家芯片厂商发布过宿主侧 Skill：Arm、瑞萨与德州仪器。ST 有 786 个公开仓库却一个都没有；英飞凌有 2301 个；NXP 有 221 个；树莓派有 115 个，Pico SDK 空空如也。`espressif/skills` 是一个官方仓库，README 教你去安装它，而整棵文件树只有 `README.md` 加一个 `skills/.gitkeep`——2026-04-24 当天创建后三小时内就被弃置。七家厂商发布了 MCP server，没有一家能在仿真中执行任何东西。
+**厂商几乎没有入场。** 只有四家芯片厂商发布过宿主侧 Skill：Arm、瑞萨、德州仪器，以及在 ESP-DL 仓库中发布的乐鑫。ST 有 786 个公开仓库却一个都没有；英飞凌有 2301 个；NXP 有 221 个；树莓派有 115 个，Pico SDK 空空如也。`espressif/skills` 是一个官方仓库，README 教你去安装它，而整棵文件树只有 `README.md` 加一个 `skills/.gitkeep`——2026-04-24 当天创建后三小时内就被弃置。七家厂商发布了 MCP server，没有一家能在仿真中执行任何东西。
 
 **Renode 缺少面向 Agent 的接口。** 模拟器本身不是瓶颈：它确定性执行、可以无头运行，而且已经在 `renode-test` 与 Robot Framework 中自带断言框架。缺的是一个能为 Agent 维持活会话的东西，好让交互式固件调试与 L1 runner 共用同一套集成，而不是各自重新拼凑一段脆弱的 shell 配方。它值得为了更快的迭代而去做——但它无法让任何 Skill 通过，所以验证真正的瓶颈是能否接触到板子，而不是模拟器。
 
 **硬件在环仍是覆盖最少的模式**——烧录、运行、读串口、迭代——尽管它恰恰是唯一有公开证据支撑的模式：前沿模型在没有硬件反馈时部署成功率为 0%，有了反馈则在七轮内超越人类专家。它也是通往"通过"的唯一途径。
 
-同样空白、且每一项都经过核实而非假设：Wi-Fi 配网、树莓派 5 Linux、设备树与 U-Boot、Thread 与设备侧 Matter、非攻击用途的 NFC、Lattice FPGA 工具链、作为 Agent 工具的 VLA 策略、波士顿动力 Spot，以及通用 USB 控制（USB *分析* 已有覆盖）。
+同样空白、且每一项都经过核实而非假设：树莓派 5 Linux、设备树与 U-Boot、Thread 与设备侧 Matter、非攻击用途的 NFC、作为 Agent 工具的 VLA 策略、波士顿动力 Spot，以及通用 USB 控制（USB *分析* 已有覆盖）。Wi-Fi 配网与 Lattice FPGA 工具链现在各有一个 Skill，但都还没有 MCP server。
 
 ## 相关列表
 
@@ -888,6 +1404,12 @@ A2A（Agent2Agent）发布十七个月后仍没有任何真正的硬件实现：
 - [skillmatic-ai/awesome-agent-skills](https://github.com/skillmatic-ai/awesome-agent-skills) - 通用 Agent Skill 目录。
 - [skills.sh](https://skills.sh) - 带安装量统计的 Skill 注册表；上文引用的安装量即来自这里。
 - [ClawHub](https://www.clawhub.ai) - OpenClaw 的 Skill 注册表；收录了一些没有 GitHub 源码的硬件 Skill（esp32、arduino、raspberry、bambu-cli、meshtastic），上文引用的相应安装量即来自这里。
+- [s87343472/awesome-ai-hardware](https://github.com/s87343472/awesome-ai-hardware) - 经过审核的可复现开源项目清单，收录把 LLM 和 Agent 接入真实硬件的项目，涵盖智能家居、可穿戴、机器人、微控制器和硬件协议桥接。(★12 · 2026-09)
+- [GT-RIPL/Awesome-LLM-Robotics](https://github.com/GT-RIPL/Awesome-LLM-Robotics) - 规模很大的精选清单，收录将语言与多模态模型用于机器人推理、规划、操作和 Agent 的论文与代码。(★4.5k · 2026-07)
+- [zchoi/Awesome-Embodied-Robotics-and-Agent](https://github.com/zchoi/Awesome-Embodied-Robotics-and-Agent) - 基于 LLM 与 VLM 的具身机器人与 Agent 研究精选清单，含基准和规划相关工作。(★1.9k · 2026-09)
+- [ai4eda/awesome-AI4EDA](https://github.com/ai4eda/awesome-AI4EDA) - AI for EDA 论文精选清单（ai4eda.github.io），涵盖 LLM 与 Agent 在芯片设计上的研究。(★217 · 2026-05)
+- [labclaw/awesome-physical-ai-for-science](https://github.com/labclaw/awesome-physical-ai-for-science) - 关于自动驾驶实验室、实验室机器人以及操作科学仪器的 AI Agent 的精选清单。(★8 · 2026-03)
+- [natnew/awesome-physical-ai](https://github.com/natnew/awesome-physical-ai) - 面向工程实践的具身智能资源地图，收录 229 条机器人学习、VLA 模型、仿真、安全与机器人硬件资源。(★141 · 2026-09)
 
 ## 贡献
 

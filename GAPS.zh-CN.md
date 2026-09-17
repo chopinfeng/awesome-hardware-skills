@@ -49,13 +49,13 @@
 
 最典型的例子是 [espressif/skills](https://github.com/espressif/skills)。它是官方仓库，README 教你运行 `npx skills add espressif/skills`，而整棵文件树只有 `CONTRIBUTING.md`、`LICENSE`、`README.md` 和 `skills/.gitkeep`。它创建于 2026-04-24 UTC 04:03，最后一次推送是同一天上午 07:25。五个月过去了，它仍然没有一个 Skill。
 
-有意思的发现是，这种情况其实**很少见**。对约 95 个厂商组织、14000 个仓库的普查，只找到了一个真正的占位仓库。常见的是彻底没有：ST（786 个仓库）、NXP（221）、英飞凌（2301）、新唐（289）、树莓派（115，`pico-sdk` 与 `linux` 都空空如也）、SiFive（295）、SparkFun（1482）、Pimoroni（250）、PlatformIO（73）、FreeRTOS（44）、KiCad（136）、Digilent（309）、Saleae（72）、宇树（55）、Universal Robots（72）、大疆（50）、Parrot（134）与 Bitcraze（78）——它们合起来既没有 Skill，也没有能驱动设备的 MCP，更没有 `llms.txt`。
+有意思的发现是，这种情况其实**很少见**。对约 95 个厂商组织、14000 个仓库的普查，只找到了一个真正的占位仓库。常见的是彻底没有：ST（786 个仓库）、NXP（221）、英飞凌（2301）、新唐（289）、树莓派（115，`pico-sdk` 与 `linux` 都空空如也）、SiFive（295）、SparkFun（1482）、Pimoroni（250）、PlatformIO（73）、FreeRTOS（44）、KiCad（136）、Digilent（309）、宇树（55）、Universal Robots（72）、大疆（50）、Parrot（134）与 Bitcraze（78）——它们合起来既没有 Skill，也没有能驱动设备的 MCP，更没有 `llms.txt`。原本也在这份名单里的 Saleae（72 个仓库），此后已为其 Logic 2 自动化 API 发布了官方 [`llms.txt`](https://docs.saleae.com/llms.txt)。
 
 有四个仓库刚好在占位线之上，值得关注，因为它们展示了一家厂商刚起步时的样子：[arm/agent-resources](https://github.com/arm/agent-resources)（一个 Agent 资源注册表，SKILL.md 数量为零）、[bouffalolab/bouffalolab-skills](https://github.com/bouffalolab/bouffalolab-skills)（两个 Skill）、[renesas/renesas-skills](https://github.com/renesas/renesas-skills)（一个 Skill）以及 [OpenSiFli/SiFli-Skills](https://github.com/OpenSiFli/SiFli-Skills)。
 
 **到目前为止，厂商投入的形态是文档，而不是芯片。** 七家厂商发布了 MCP server——据 [Veecle 2026 年 8 月的评测](https://veecle.ai/blog/hardware-mcp-servers-2026)，分别是 Arm、Nordic、ADI、乐鑫、Microchip、Silicon Labs 与德州仪器。Microchip 的只是文档检索，别无其他；Nordic 的存在争议，Nordic 自己的描述是覆盖"SDK 文档、API 参考、设备配置，以及你在 nRF Cloud 上的现场数据"。Silicon Labs 托管了一个文档 server，但另外还提供了一个能从真实射频上抓包的 server。Veecle 更尖锐的那个判断至今完全成立：**没有任何厂商的 MCP 能在仿真中执行任何东西。** `mcp.st.com`、`mcp.infineon.com`、`mcp.renesas.com`、`mcp.nxp.com`、`mcp.ti.com` 与 `mcp.arm.com` 全都无法解析。
 
-**最接近反例的东西。** [TexasInstruments/C2000-IDEA](https://github.com/TexasInstruments/C2000-IDEA) 在 `docs/skills/c2000-idea/` 下提供了一个真正的 Skill，带完整的 `references/` 目录——分四份文档推进的 F28x 器件迁移、位域到 driverlib 的迁移、SysConfig ePWM 转换——并驱动一个真实的 `idea-mcp` 端点，外加 CCS Project、SysConfig 与 TI 汇编 MCP server。它让德州仪器成为继 Arm 与瑞萨之后第三家发布宿主侧 Skill 的芯片厂商，也是其余二十七家明天就能照搬的模板。
+**最接近反例的东西。** [TexasInstruments/C2000-IDEA](https://github.com/TexasInstruments/C2000-IDEA) 在 `docs/skills/c2000-idea/` 下提供了一个真正的 Skill，带完整的 `references/` 目录——分四份文档推进的 F28x 器件迁移、位域到 driverlib 的迁移、SysConfig ePWM 转换——并驱动一个真实的 `idea-mcp` 端点，外加 CCS Project、SysConfig 与 TI 汇编 MCP server。它让德州仪器成为继 Arm 与瑞萨之后第三家发布宿主侧 Skill 的芯片厂商；此后乐鑫成为第四家，在 [espressif/esp-dl](https://github.com/espressif/esp-dl) 中发布了模型量化与部署的 Skill。它也是其余二十七家明天就能照搬的模板。
 
 **MCU 芯片以外的厂商偶尔会入场**，这反而让芯片厂商的缺席更加扎眼。[Crestron](https://github.com/Crestron/CrestronAISkills) 发布了自家用于 AV 控制编程的 Skill 插件。[欧空局](https://github.com/esa/nanosat-mo-framework)把 Skill 提交进了一个 CCSDS 飞行软件框架。[SoloKeys](https://github.com/solokeys/solo2) 与 [Keycard](https://github.com/keycard-tech/keycard-cli) 为自家的安全硬件发布了量产配置 Skill。这些公司都不比 ST 家大业大、顾虑更多；它们只是决定去做了而已。
 
@@ -85,7 +85,7 @@
 
 真正关键的回路是：烧录 → 运行 → 读串口 → 迭代。能否闭合这个回路，决定了一个 Skill 是只能写出"看起来合理"的固件，还是能交付真正可用的固件——而这正是 Embedded Arena 证明能让前沿模型从 0% 跃升到超越专家的那个回路。
 
-如今只有少数项目闭合了它：tinyusb 的 `hil` Skill、SensorsIot 的 ESP-IDF 测试框架、[Gundry-Consultancy/sbc-mcu-dut-controller](https://github.com/Gundry-Consultancy/sbc-mcu-dut-controller)（继电器电源、I2C 复用器，以及在 ESP32 / RP2040 / SAMD 上用摄像头取证）、hispark 的 `hil-smoke`、Hailo-15 的部署 Skill、Adafruit 的 CircuitPython 运行器，以及 Anthropic 自家 `cwc-makers` 插件中的 M5Stack 上手 Skill。本列表中其余的一切都止步于"代码在这里"。
+如今只有少数项目闭合了它：tinyusb 的 `hil` Skill、SensorsIot 的 ESP-IDF 测试框架、[Gundry-Consultancy/sbc-mcu-dut-controller](https://github.com/Gundry-Consultancy/sbc-mcu-dut-controller)（继电器电源、I2C 复用器，以及在 ESP32 / RP2040 / SAMD 上用摄像头取证）、hispark 的 `hil-smoke`、Hailo-15 的部署 Skill、Adafruit 的 CircuitPython 运行器，Anthropic 自家 `cwc-makers` 插件中的 M5Stack 上手 Skill，以及 [agentic-hil](https://github.com/agentic-hil/agentic-hil)——一个 MCP server 加 Skill，通过 OpenOCD、pyOCD 或 STM32CubeProgrammer 烧录真实板子，并按 YAML 测试计划检查 UART 与 CAN 输出。本列表中其余的一切都止步于"代码在这里"。
 
 **为什么重要。** 它是唯一有公开证据支撑的模式，也是通往"通过"的唯一途径：本列表只把在真实板子上的运行算作通过。
 
@@ -93,19 +93,19 @@
 
 以下每一项都做过专门搜索。凡是存在但不达标的东西，都会点名。
 
-**Wi-Fi 配网** —— `EMPTY`。SoftAP、BLE 配网、SmartConfig、`esp-prov` 与 Improv Wi-Fi 都没有 Skill 或 MCP。搜索 `esp-prov` 会返回 372 个仓库，全是用 Flutter、React Native 或 Dart 写的手机客户端。没有人把配网流程本身封装给 Agent 用。
+**Wi-Fi 配网** —— `PARTIAL`。现在有了一个 ESP-IDF Skill：[full-stack-skills/firmware-skills](https://github.com/full-stack-skills/firmware-skills) 中的 `esp32-wifi-provision`，涵盖 Unified Provisioning、SmartConfig 与 DPP 之间的方式选型、配网状态机和安全规则。Improv Wi-Fi、非乐鑫芯片，以及针对设备驱动 `esp-prov` 的 MCP 仍然缺失。搜索 `esp-prov` 会返回 372 个仓库，全是用 Flutter、React Native 或 Dart 写的手机客户端。
 
-**树莓派 5 Linux** —— 实质上 `EMPTY`。仅有的树莓派覆盖是三个翻转引脚的 MCP server。没有任何东西涉及 `libcamera`、设备树 overlay 或 HAT ID EEPROM。这件事比听起来更重要：树莓派 5 换成了 RP1 并去掉了 sysfs GPIO 路径，`RPi.GPIO` 在上面已经不能用了——而这恰恰是用旧教程训练出来的模型会自信地答错的那类事实。
+**树莓派 5 Linux** —— 实质上 `EMPTY`。树莓派方面只有三个翻转引脚的 MCP server，以及 SunFounder 为 Pironman 5 机箱提供的厂商 Skill——它驱动的是机箱的风扇、OLED 与 RGB，而不是树莓派本身。没有任何东西涉及 `libcamera`、设备树 overlay 或 HAT ID EEPROM。这件事比听起来更重要：树莓派 5 换成了 RP1 并去掉了 sysfs GPIO 路径，`RPi.GPIO` 在上面已经不能用了——而这恰恰是用旧教程训练出来的模型会自信地答错的那类事实。
 
-**设备树、U-Boot 与 Armbian** —— 作为专门的 Skill 是 `EMPTY`；现有的都是项目内部的。这里的覆盖面格外广，因为树莓派、BeagleBone、瑞芯微、Armbian 与 Yocto 共用同一套 overlay 机制。
+**设备树、U-Boot 与 Armbian** —— 作为专门的 Skill 是 `EMPTY`；现有的要么是项目内部的，要么只是通用嵌入式 Linux 合集里的一节。这里的覆盖面格外广，因为树莓派、BeagleBone、瑞芯微、Armbian 与 Yocto 共用同一套 overlay 机制。
 
 **Thread、设备侧 Matter 与非攻击用途的 NFC** —— `EMPTY`。Thread 恰好只有一个 MCP。Matter 在控制器侧有覆盖，设备侧没有。所有 NFC 相关结果都是攻击向安全工具——Proxmark3、Chameleon、Flipper——没有任何东西关注"用 PN532 读一张标签"这件事。
 
-**Lattice FPGA 工具链** —— `EMPTY`。Radiant、Diamond 与 iCEcube 在四次搜索中都一无所获；相比之下，Vivado 与 Quartus 都已经有 Skill 和 MCP server。
+**Lattice FPGA 工具链** —— `PARTIAL`。现在有一个 Skill：[hslee-cmyk/chip-design-skills](https://github.com/hslee-cmyk/chip-design-skills) 中的 `lattice-fpga`，附有器件、约束、Synplify 已知问题与 Reveal 调试的参考资料。但还没有驱动 Radiant、Diamond 或 iCEcube 的 MCP server，这与 Vivado 和 Quartus 形成对比。
 
 **作为 Agent 工具的 VLA 策略** —— `EMPTY`。Octo、RDT、Helix 与 SmolVLA 在九次不同的搜索中，都没有自己的工具调用封装或 MCP。π0 与 GR00T 只能通过 IsaacLab-Arena 的服务 Skill 与 OpenRAL 调用。
 
-**常见技术栈以外的无人机** —— Skydio、Parrot、Crazyflie 与 MAVSDK 专项均为 `EMPTY`。ArduPilot、Betaflight、iNAV 与 PX4 已有覆盖，大疆现在也有了一个航线规划 server。
+**常见技术栈以外的无人机** —— Skydio、Parrot 与 MAVSDK 专项均为 `EMPTY`；Crazyflie 只以仿真器 Skill 的形式出现，没有飞行控制。ArduPilot、Betaflight、iNAV 与 PX4 已有覆盖，大疆现在也有了一个航线规划 server。
 
 **波士顿动力 Spot** —— `EMPTY`，也是单个机器人厂商中最大的空洞。`spot-sdk` 与 `spot-cpp-sdk` 没有 `.agents/`、没有 `.claude/`、也没有 `AGENTS.md`，社区也没有任何 MCP 或 Skill。需要注意的是，`bdaiinstitute` 现在已经没有公开仓库；Spot 的 ROS 2 驱动迁到了 [rai-opensource/spot_ros2](https://github.com/rai-opensource/spot_ros2)。
 
@@ -119,7 +119,7 @@
 
 **航空航天。** NASA 的飞行软件框架 [F Prime](https://github.com/nasa/fprime) 没有 MCP，也没有独立的 Skill，尽管欧空局的同类框架已经有了。高空气球则完全没有。
 
-**船舶与航空。** 船舶相关的一切都经由 SignalK；没有任何东西直接在线路层说 NMEA 0183 或 2000，也没有 OpenCPN 或自动舵控制工具。所有 ADS-B 结果都调用 OpenSky 云端 API——没有人封装本地接收机（dump1090、Stratux、PiAware）。
+**船舶与航空。** 船舶相关的一切都经由 SignalK；没有任何东西直接在线路层说 NMEA 0183 或 2000，也没有 OpenCPN 或自动舵控制工具。ADS-B 大多调用 OpenSky 云端 API；目前唯一被封装的本地接收机是 readsb / tar1090 feeder，Stratux 与 PiAware 仍然没有。
 
 **铁路与非道路车辆。** 真实的铁路信号——ERTMS、ETCS、CBTC——一片空白；只有通过 JMRI 的模型铁路。叉车与 FMS 远程信息，除 Geotab 外什么都没有。
 
@@ -169,7 +169,7 @@
 
 ### 4. Wi-Fi 配网 Skill —— *低难度*
 
-这个方向无论以何种形式都还不存在，而且涉及面小且稳定。覆盖用于 SoftAP 与 BLE 的 `esp_prov`、`wifi_provisioning` 组件配置，以及 Improv Wi-Fi 的串口与 BLE 规范。
+目前只有一个 ESP-IDF Skill，不涵盖 Improv Wi-Fi，也没有设备端工具，而且涉及面小且稳定。覆盖用于 SoftAP 与 BLE 的 `esp_prov`、`wifi_provisioning` 组件配置，以及 Improv Wi-Fi 的串口与 BLE 规范。
 
 前三条 eval：要求通过 BLE 配网时，Agent 使用 `--transport ble --sec_ver 2` 并配合 SRP6a 的 salt 与 verifier，而不是已被弃用的 `--sec_ver 1` 持有证明流程；给出一份配网固件时，它能说出正确的 `CONFIG_ESP_WIFI_*` 与 `wifi_prov_scheme_softap` 符号；给出一段 Improv 串口抓包时，它能解析出包类型与校验和，并报告设备状态。三条里有两条可以在没有硬件的情况下开发，但和这里的每个 Skill 一样，只有三条都在板子上跑过才算通过。
 

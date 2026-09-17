@@ -10,7 +10,7 @@ A companion file, [GAPS.md](GAPS.md), tracks what does **not** exist yet — eac
 behind it, the closest artifact that does exist so the claim can be falsified, and scoped first
 contributions with the eval assertions to aim at.
 
-Snapshot: 2026-09-16. Stars, last-push dates and skills.sh / ClawHub install counts are from that day. `stale` marks projects with no push in 12+ months. `official` marks repos under the hardware or SDK vendor's own GitHub org.
+Snapshot: 2026-09-18. Stars, last-push dates and skills.sh / ClawHub install counts are from that day. `stale` marks projects with no push in 12+ months. `official` marks repos under the hardware or SDK vendor's own GitHub org.
 
 ## Contents
 
@@ -79,7 +79,7 @@ skill's repository for Phase 0, and run records plus an attestation issue for a 
 
 Entries in the [Agent Skills](https://agentskills.io) format: a folder with a `SKILL.md` (frontmatter `name` + `description`) and optional `references/` and `scripts/`. Installable into Claude Code, Codex, Cursor and others. `coll` = a collection of several skills; a path after the repo name points at one skill inside a monorepo. Within a category, entries are ordered by usefulness, not stars — a 15k-star monorepo that happens to contain one small skill does not outrank a focused 50-star one.
 
-Vendor-official skills are tagged `official` in place. As of the snapshot they come from NVIDIA, Espressif (on-device only), Adafruit, Seeed, M5Stack, Arm, Renesas, Texas Instruments, Bouffalo, Ai-Thinker, SiFli, Luat, LilyGO, RT-Thread, Xiaomi Vela, Tuya, EasyEDA, Hailo, Horizon, D-Robotics, Luxonis, Intel, Google, Meta, Pollen, AgiBot, Wandelbots, Viam, PX4, the Matter SDK, Home Assistant, SmartThings, Z-Wave JS, Meshtastic, SimpleBLE, Reolink, Elgato, CSS Electronics, EcuBus, Nominal, Joulescope, DAQiFi, Qualcomm, Ångström, openEuler, Anthropic and Nebius — and from no MCU silicon vendor except Renesas and Arm.
+Vendor-official skills are tagged `official` in place. As of the snapshot they come from NVIDIA, Espressif, Adafruit, Seeed, M5Stack, Arm, Renesas, Texas Instruments, Bouffalo, Ai-Thinker, SiFli, Luat, LilyGO, RT-Thread, Xiaomi Vela, Tuya, EasyEDA, Hailo, Horizon, D-Robotics, Luxonis, Intel, Google, Meta, Pollen, AgiBot, Wandelbots, Viam, PX4, the Matter SDK, Home Assistant, SmartThings, Z-Wave JS, Meshtastic, SimpleBLE, Reolink, Elgato, CSS Electronics, EcuBus, Nominal, Joulescope, DAQiFi, Qualcomm, Ångström, openEuler, Anthropic, Nebius, Huawei Ascend, SOPHGO, SpacemiT, Radxa, Analog Devices, NI, MathWorks, Ultralytics, wolfSSL, TOPPERS, Huaqiu, SunFounder, Wendy Labs, Yoe, FaBo, I2RT, Dorna, Cyberwave, PickNik, Tidybot, AMAP, XLeRobot, Ranch Hand Robotics, GaP, ARK Electronics, Elodin, RAKwireless, Opentrons, Fracktal Works, FLUX, SCADAvis and CRCibernetica. Among MCU silicon vendors, only Renesas, Arm, Texas Instruments, Espressif, Bouffalo and SiFli appear.
 
 ### MCU / Embedded
 
@@ -111,6 +111,28 @@ Vendor-official skills are tagged `official` in place. As of the snapshot they c
 - [BlueAndi/Pixelix `.github/skills/`](https://github.com/BlueAndi/Pixelix/tree/master/.github/skills) - MISRA-oriented embedded C++14 rules for ESP32 firmware, in GitHub Copilot skill form. (copilot · ★442 · 2026-09)
 - [fxp/m5stack-embedded-dev-skill](https://github.com/fxp/m5stack-embedded-dev-skill) - Arduino + M5Unified first M5Stack/ESP32 skill: board-to-FQBN catalog, GPIO safety split by chip generation, I2C/PMIC gotchas, FreeRTOS/ISR rules, crash triage; ships a `serial_match`/`exit_code` evals package, L0-verified locally. New and unstarred — listed here for the evals package shape, not track record. (★0 · 2026-09)
 - [PatrickJS/awesome-cursorrules `embedded-stm32-hal`](https://github.com/PatrickJS/awesome-cursorrules/blob/main/rules/embedded-stm32-hal.mdc) - Cursor rule, not a skill: embedded C/C++ on STM32 HAL, ISR, DMA and memory-constraint conventions. (cursor-rules · ★40.8k · 2026-05)
+- [rovinax/embedded-skills](https://github.com/rovinax/embedded-skills) - Six firmware-engineering skills enforcing a layered APP→MODULE→INTERFACE→BSP→PLATFORM architecture, C style, driver/RTOS/ISR design and docs for STM32, GD32, ESP32, RP2040, NXP and Nordic. (coll · ★8 · 2026-05)
+- [full-stack-skills/firmware-skills](https://github.com/full-stack-skills/firmware-skills) - Twenty verifiable firmware Agent Skills split into OpenWrt (gateway) and ESP32 (esp32-idf, freertos, ota, secureboot, wifi-provision) families plus toolchain/emulation/HIL and a release gate, installable via npx skills. (coll · ★1 · 2026-09)
+- [Sonder4/STM32-BFD-Kit](https://github.com/Sonder4/STM32-BFD-Kit) - CLI-first STM32F4/H7 debug toolkit with ~16 Claude and Codex skills for IOC parsing, CubeMX codegen, ST-Link/J-Link flashing, RTT logging, register/fault capture and orchestrated debug. (coll · ★27 · 2026-05)
+- [laurigates/mcu-tinkering-lab](https://github.com/laurigates/mcu-tinkering-lab) - Twenty-plus .claude skills for ESP-IDF setup, build/flash/monitor, esp32 debugging, sdkconfig audit, wifi-sta setup and firmware review across ESP32, Arduino and STM32 projects. (coll · ★7 · 2026-09)
+- [su5176/Mklink-AI-Probe](https://github.com/su5176/Mklink-AI-Probe) - All-in-one Cortex-M debugging CLI bridging MKLink/MicroLink probes to agents, with an installable SKILL.md for firmware flash, RTT/SystemView, memory/register access, HardFault and Modbus over MCP. (★37 · 2026-09)
+- [HermeticOrmus/LibreEmbed-Claude-Code](https://github.com/HermeticOrmus/LibreEmbed-Claude-Code) - Fifteen Claude Code plugins for embedded work with pattern skills for ARM Cortex-M, bare metal, bootloader design, communication buses, debug/trace, firmware update and embedded testing. (coll · ★47 · 2026-05)
+- [AmethystLuna/embedded-workbench](https://github.com/AmethystLuna/embedded-workbench) - Embedded C/C++ plugin with skills for firmware dev, FreeRTOS, Keil MDK build, HardFault triage, state-machine design and a debug methodology. (coll · ★11 · 2026-09)
+- [captainluzik/oh-my-embedded](https://github.com/captainluzik/oh-my-embedded) - OpenCode plugin for embedded engineering with skills for the embedded engineer, firmware debugger, circuit simulator, component sourcer and PCB designer across ESP32, STM32 and FreeRTOS. (coll · ★26 · 2026-03)
+- [shangliny10-lab/embedded-skills](https://github.com/shangliny10-lab/embedded-skills) - Eight learning-oriented embedded skills covering STM32, Arduino/ESP32, FreeRTOS, RT-Thread, Zephyr, communication protocols, embedded Linux and debugging, with runnable examples. (coll · ★17 · 2026-09)
+- [0xchaihu/mcu-debug-probe](https://github.com/0xchaihu/mcu-debug-probe) - `pyOCD`-driven SWD/JTAG probe-control skill for terminal agents to inspect Cortex-M targets, flash images, reset MCUs and read registers/RAM without a full IDE. (★12 · 2026-08)
+- [BakeSheep/EmberProbe-MCU-Flash-Debug](https://github.com/BakeSheep/EmberProbe-MCU-Flash-Debug) - OpenOCD-based Cortex-M VS Code extension shipping nine agent skills for chip info, CubeMX codegen, flash, debug control, ELF analysis, fault analysis and peripheral debug. (coll · ★5 · 2026-09)
+- [ripred/arduino-cli-skills](https://github.com/ripred/arduino-cli-skills) - Modular Arduino CLI skill collection with a routing suite skill covering board ops, core/library management, sketch/profile workflows, compile-upload and debug/monitor, with real command transcripts. (coll · ★4 · 2026-06)
+- [bahaabdelwahed/embedded-claude-plugin](https://github.com/bahaabdelwahed/embedded-claude-plugin) - STM32 firmware plugin with 5 agents and 9 skills for peripheral config, memory layout, RTOS patterns, boot/debug config, security analysis, ST-datasheet extraction and STM32 code review. (coll · ★5 · 2026-03)
+- [xentron-bit/stm32-embedded-skill](https://github.com/xentron-bit/stm32-embedded-skill) - STM32 development skill covering bare-metal, Keil RTX5/CMSIS-RTOS2 and FreeRTOS, with reference docs for I2C/SPI/UART/FDCAN, QSPI/OCTOSPI, UDS ISO14229, J1939 and Modbus RTU. (★4 · 2026-07)
+- [clolckliang/embedded-agent-skillpac](https://github.com/clolckliang/embedded-agent-skillpac) - Universal embedded-framework knowledge SkillPack with adapters for Claude Code, Codex, opencode and others, so agents avoid mixing FreeRTOS/POSIX or bare-metal/Linux GPIO conventions. (coll · ★2 · 2026-04)
+- [zc110747/MCU-Agent](https://github.com/zc110747/MCU-Agent) - Research project on AI-agent MCU engineering with .workbuddy skills for ESP-IDF Windows build, ESP32 cortex debug, STM32 Keil port, CMSIS-DAP probe, peripheral drivers and Zephyr-STM32 porting. (coll · ★2 · 2026-09)
+- [shark0304/personal-embeded-debug-skill](https://github.com/shark0304/personal-embeded-debug-skill) - Evidence-first embedded debug workbench turning firmware failures into project memory, debug packets, ranked hypotheses and verification-ready fixes, with 10 project adapters. (★3 · 2026-07)
+- [CRCibernetica/espressif-ideaboard](https://github.com/CRCibernetica/espressif-ideaboard) - Native ESP-IDF C firmware for the CRCibernetica IdeaBoard plus an agent skill teaching the board, ESP-IDF workflow, pin map, tested peripheral code and cross-platform install. (official · ★0 · 2026-09)
+- [Open-CMSIS-Pack/cmsis-skills](https://github.com/Open-CMSIS-Pack/cmsis-skills) - Community-maintained CMSIS skills from the Open-CMSIS-Pack org for MCU project creation (CMSIS and Zephyr), board bring-up, pyOCD debug/trace topology, software pack debug sequences, Ethos-U evaluation and csolution CI. (coll · ★2 · 2026-09)
+- [yukina0079/ai-mcu-auto-debug](https://github.com/yukina0079/ai-mcu-auto-debug) - AI-agent MCU auto-debug toolchain wrapping CMake, Keil, ESP-IDF, OpenOCD, J-Link, pyOCD and probe-rs behind adapters exposed as CLI, Python API, MCP tools and an installable skill. (★2 · 2026-07)
+- [pedrominatel/esp-workshops](https://github.com/pedrominatel/esp-workshops) - Workshop repo with esp-idf agent skills for ESP-IDF builds, component management, esp-sr speech recognition and ESP-IDF v6 migration. (★3 · 2026-06)
+- [H1D/agent-skills-esp32](https://github.com/H1D/agent-skills-esp32) - Two agent skills for debugging ESP32 and embedded devices over USB serial: real-time serial log monitoring and sending serial commands to emulate button presses. (★9 · 2026-01)
 
 ### RTOS
 
@@ -124,6 +146,11 @@ Vendor-official skills are tagged `official` in place. As of the snapshot they c
 - [eduardojvieira/ZPLC `stm32-freertos-developer`](https://github.com/eduardojvieira/ZPLC) - STM32 + FreeRTOS development skill inside a soft-PLC project; the only FreeRTOS-specific skill with any depth. (★6 · 2026-09)
 - [goliothlabs/golioth-firmware-skill](https://github.com/goliothlabs/golioth-firmware-skill/tree/main/skills/golioth-firmware) - Golioth SDK on Zephyr, ESP-IDF, NCS and ModusToolbox: greenfield and brownfield integration, OTA, the six cloud services. (★1 · 2026-03)
 - [toppers/asp3_pico_sdk `.claude/skills/`](https://github.com/toppers/asp3_pico_sdk) - TOPPERS/ASP3 RTOS on RP2350 (Cortex-M33 and Hazard3 RISC-V) with OpenOCD and GDB; siblings cover NXP MCUXpresso and Renesas FSP ports. Japanese. (official · ★0 · 2026-09)
+- [mssaleh/zephyr-ai](https://github.com/mssaleh/zephyr-ai) - Grounded Zephyr RTOS Claude Code plugin with 14 skills for west build/flash, devicetree, Kconfig, drivers/sensors, RTOS patterns, power and testing, backed by a project-scoped SQLite index and MCP tools. (coll · ★0 · 2026-08)
+- [solitasroh/rkit](https://github.com/solitasroh/rkit) - PDCA-driven Claude Code plugin auto-detecting MCU/MPU/WPF domains and activating skills for FreeRTOS, NXP MCUXpresso, CMake-embedded, MISRA-C, i.MX BSP and Yocto/Buildroot workflows. (coll · ★2 · 2026-05)
+- [toppers/asp3_stm32cube](https://github.com/toppers/asp3_stm32cube) - TOPPERS ASP3 RTOS port for STM32Cube with a skill for porting ASP3 to STM32 targets. (official · ★2 · 2026-09)
+- [2939387245/agent-skill_stm32-freertos](https://github.com/2939387245/agent-skill_stm32-freertos) - Agent skill for developing STM32 firmware on FreeRTOS. (★15 · 2026-01)
+- [toppers/asp3_mcuxsdk](https://github.com/toppers/asp3_mcuxsdk) - TOPPERS ASP3 RTOS port for NXP MCUXpresso SDK with skills for ASP3-MCUXSDK operations and porting ASP3 to NXP targets. (official · ★0 · 2026-09)
 
 ### MicroPython / CircuitPython
 
@@ -135,6 +162,10 @@ Vendor-official skills are tagged `official` in place. As of the snapshot they c
 - [rockets-cn/unihiker-k10-skills](https://github.com/rockets-cn/unihiker-k10-skills) - DFRobot UNIHIKER K10 flashing and APIs for MicroPython, Arduino and PlatformIO, plus OTA and a compile server; ~2k ClawHub installs each. (coll · ★6 · 2026-08)
 - [MakerClassCZ/picogame `skills/`](https://github.com/MakerClassCZ/picogame/tree/main/skills) - CircuitPython Pico board bring-up: settings.toml, GPIO, display. (★25 · 2026-09)
 - [Cerwor/jlc-k230-lushan-pi](https://github.com/Cerwor/jlc-k230-lushan-pi) - JLC 嘉立创庐山派 K230 CanMV MicroPython: camera, LCD, YOLO, mpremote deploy. (★4 · 2026-09)
+- [PyDevices/mpftp](https://github.com/PyDevices/mpftp) - MicroPython/CircuitPython tooling whose MCP-backed board-tools skill drives a real serial session for filesystem transfer, REPL/exec, non-interrupting output capture and firmware build/flash on ESP32, RP2040 and SAMD. (★1 · 2026-09)
+- [FreakStudioCN/browser-micropython-skills](https://github.com/FreakStudioCN/browser-micropython-skills) - Twenty-seven browser-native MicroPython skills for the Blockless Web Builder covering device serial deploy, analyze, autofix, diagram and doc-fetch workflows without a local shell. (coll · ★1 · 2026-07)
+- [zhoushoujianwork/lvgl-preview-skill](https://github.com/zhoushoujianwork/lvgl-preview-skill) - Claude Code skill for designing embedded LVGL (MicroPython) UIs with a headless render-to-PNG feedback loop, auto-adapting LVGL 8.x/9.x so the agent can see and self-correct its UI without hardware. (★3 · 2026-05)
+- [johnlindquist/badger-2350-plugin](https://github.com/johnlindquist/badger-2350-plugin) - Claude Code plugin for the Universe 2025 (Tufty) Badge with eight skills including a micropython-repl skill plus badge hardware, deploy, diagnostics and MonaOS app creation. (coll · ★8 · 2025-10)
 
 ### Embedded Rust
 
@@ -144,6 +175,11 @@ Vendor-official skills are tagged `official` in place. As of the snapshot they c
 - [hispark-rs/hisi-riscv-rs `.agents/skills/`](https://github.com/hispark-rs/hisi-riscv-rs) - `hil-smoke` and `hil-regression`: flash a real HiSilicon ws63 board, read UART, assert a marker. (coll · ★3 · 2026-09)
 - [bitscrafts/EFR32MG2X-RS](https://github.com/bitscrafts/EFR32MG2X-RS) - Silicon Labs EFR32MG24 Rust HAL expert skill. (★6 · 2026-06)
 - [Microbiosis/esp-rust-skills](https://github.com/Microbiosis/esp-rust-skills) - The esp-hal peripherals, Wi-Fi / BLE / ESP-NOW, toolchain. Chinese. (coll · ★1 · 2026-06)
+- [full-stack-skills/rust-skills](https://github.com/full-stack-skills/rust-skills) - Rust language skill collection whose rust-embedded skill ships a golden no_std example, HAL/concurrency references and hardware-validation guidance for bare-metal firmware. (coll · ★5 · 2026-09)
+- [psytraxx/esp32-homecontrol-no-std-rs](https://github.com/psytraxx/esp32-homecontrol-no-std-rs) - `no_std` Rust ESP32 plant-watering firmware carrying an esp32-rust-embedded skill for the esp-hal async no_std workflow on real hardware. (★3 · 2026-09)
+- [njfdev/ncssm_hpr_2025_payload](https://github.com/njfdev/ncssm_hpr_2025_payload) - Rocket-payload firmware with Embassy-based skills (embassy, embassy-rp, pico-tooling, pico-logger) for async no_std development on RP2040/RP2350 flight computers. (coll · ★2 · 2026-04)
+- [chrisprice/embassy-rp2040-harness](https://github.com/chrisprice/embassy-rp2040-harness) - Agent harness for Embassy RP2040 firmware with skills for embassy best practices, project structure, new-project scaffolding, pico-firmware and project review. (coll · ★0 · 2026-04)
+- [hkjolhede/embassy_copilot](https://github.com/hkjolhede/embassy_copilot) - Embassy full-system-design writer skill guiding async no_std architecture with embassy-executor, embassy-time and embassy-sync. (★0 · 2026-03)
 
 ### Vendor SDKs
 
@@ -166,6 +202,12 @@ Vendor-official skills are tagged `official` in place. As of the snapshot they c
 - [JasonYANG170/ch57x-dev-skill](https://github.com/JasonYANG170/ch57x-dev-skill) - WCH CH57x BLE firmware. (★12 · 2026-06)
 - [ClarkJ-Infineon/mtb-workspace-template `.github/skills/`](https://github.com/ClarkJ-Infineon/mtb-workspace-template/tree/main/.github/skills) - 19 ModusToolbox Copilot skills by an Infineon engineer (personal repo): BLE setup, Wi-Fi MQTT, OpenOCD debug, dual-core, PSoC 6 → Edge migration, radar DSP. (copilot · coll · ★0 · 2026-05)
 - [ailyProject/aily-blockly `public/skills/`](https://github.com/ailyProject/aily-blockly) - Blockly best-practice and library-migration skills for the aily Arduino AI IDE. (coll · ★3.8k · 2026-09)
+- [espressif/esp-dl](https://github.com/espressif/esp-dl) - Espressif's deep-learning library ships agent skills for the espdl operator and quantization loops plus ESP32-P4/S3 PIE-SIMD kernel work. (official · coll · ★1.1k · 2026-09)
+- [wolfSSL/wolfHAL](https://github.com/wolfSSL/wolfHAL) - The wolfSSL lightweight embedded hardware abstraction layer in C with skills for generating driver templates and porting the HAL to STM32 platforms. (official · ★21 · 2026-09)
+- [bouffalolab/vela-vendor-bouffalolab](https://github.com/bouffalolab/vela-vendor-bouffalolab) - Bouffalo Lab's public Vela SDK driver repo with agent skills for module reset and designing Bouffalo SDK to OpenVela porting tasks. (official · ★0 · 2026-09)
+- [TigerSillion/RenesasMcuMaster](https://github.com/TigerSillion/RenesasMcuMaster) - Renesas RX MCU skill pack with an rx-uart-mvp skill and PC-side scope (Qt/WPF) skills for RX firmware bring-up. (coll · ★0 · 2026-02)
+- [water-freemind/rasc-configure-ra](https://github.com/water-freemind/rasc-configure-ra) - Codex skill for safely configuring and validating Renesas RA/FSP configuration.xml files. (★0 · 2026-09)
+- [XIAOMANSDK/B6x](https://github.com/XIAOMANSDK/B6x) - Bluetooth LE SDK for the B61/B62/B63/B66 ARM M0+ chips with 15 skills for building, CMake init, project creation, SRAM/power analysis, hardware validation and code review. (coll · ★10 · 2026-06)
 
 ### SBC / Linux
 
@@ -187,6 +229,23 @@ Vendor-official skills are tagged `official` in place. As of the snapshot they c
 - [realsenseai/realsense_mipi_platform_driver `.claude/skills/`](https://github.com/realsenseai/realsense_mipi_platform_driver) - Build, deploy and verify the RealSense MIPI kernel driver on Jetson. (official · coll · ★51 · 2026-09)
 - [openharmonyinsight/openharmony-skills](https://github.com/openharmonyinsight/openharmony-skills) - OpenHarmony source build, CI, C++, download, unit tests, security review. (coll · ★34 · 2026-09)
 - [anthropics/claude-plugins-official `cwc-makers`](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/cwc-makers) - `m5-onboard` detects an M5Stack Cardputer / Core / CoreS3 on USB, flashes UIFlow 2.0 and a MicroPython bundle; `cardputer-buddy` iterates on apps over serial with one-shot REPL. (official · coll · ★36k · 2026-09)
+- [BenGardiner/bitbake-yocto-agent-skills](https://github.com/BenGardiner/bitbake-yocto-agent-skills) - Seven skills for Yocto/BitBake work: recipe locator and overrider, dependency debugger, dry-run diagnostics, Python packaging and qemu user-mode runs. (coll · ★1 · 2026-03)
+- [themactep/thingino-skills](https://github.com/themactep/thingino-skills) - Skills for Thingino open IP-camera firmware: build and OTA deploy, NFS dev deploy, U-Boot patch workflow, device smoke cycles, diagnostics collection and RTSP stress tests. (coll · ★5 · 2026-09)
+- [sunfounder/pironman5 `skill/`](https://github.com/sunfounder/pironman5/tree/v1/skill) - SunFounder's skills for the Pironman 5 Raspberry Pi 5 case family (Mini, Max, Pro Max): drive the pironman5 CLI, edit its config, and control OLED, RGB LEDs, fans and IR receiver. (official · coll · ★133 · 2026-09)
+- [dshanpi/T153MX-Tina5SDK_OmniGate `overlay/skills/`](https://github.com/dshanpi/T153MX-Tina5SDK_OmniGate/tree/main/overlay/skills) - Board skills for the Allwinner T153 OmniGate on Tina5 SDK: serial connection and FEL/FES flashing with recovery, C906 AMP/RPMsg bring-up, LVGL UI demos and a serial agent daemon. (coll · ★2 · 2026-09)
+- [bitshelf/tina_agents](https://github.com/bitshelf/tina_agents) - Two skills for Allwinner Tina Linux: building the T527 SDK (kernel, U-Boot, Buildroot, RTOS, packaging) and flashing images over USB FEL with sunxi-fel. (coll · ★0 · 2026-07)
+- [analogdevicesinc/analog-attach `packages/attach-cli/`](https://github.com/analogdevicesinc/analog-attach/tree/main/packages/attach-cli) - Analog Devices' skill for the attach CLI that walks an agent through configuring Linux device-tree overlays for ADI parts, including device lookup, parent-bus suggestion and schema-checked properties. (official · ★2 · 2026-09)
+- [yoebuild/yoe `.claude/skills/`](https://github.com/yoebuild/yoe/tree/main/.claude/skills) - Skills bundled with the Yoe embedded Linux build system for creating, updating and auditing Starlark units, pulling Alpine packages and diagnosing builds. (coll · official · ★61 · 2026-09)
+- [D-Robotics/rdk-skills](https://github.com/D-Robotics/rdk-skills) - D-Robotics skills for RDK boards: BSP environment setup and kernel, bootloader, rootfs and full-image builds for RDK X3/X5, model quantization, compilation and on-board deployment toolchain skills for RDK X5 and S-series, plus docs lookup and an embodied LeRobot app. (official · coll · ★2 · 2026-09)
+- [wendylabsinc/claude-skills](https://github.com/wendylabsinc/claude-skills) - Wendy Labs' skills for WendyOS edge devices: deploying apps with the wendy CLI to NVIDIA Jetson and Raspberry Pi, cross-compiling Swift for ARM64, device enrollment and certificates. (official · coll · ★62 · 2026-09)
+- [luckyegg168/openwrt-skill](https://github.com/luckyegg168/openwrt-skill) - Structured OpenWrt router development skill covering the build system, packages and on-device debugging. (★3 · 2026-03)
+- [majay123/my-embedded-skills](https://github.com/majay123/my-embedded-skills) - Embedded Linux skills for kernel driver and device-tree work, application development, kernel modules, cross-GCC builds and strace/ltrace debugging. (coll · ★4 · 2026-06)
+- [the78mole/skills `skills/yocto-build-and-flash/`](https://github.com/the78mole/skills/tree/main/skills/yocto-build-and-flash) - Skill for building the Yocto myir-image-core for the MYiR MYD-YF13X (STM32MP135) board and flashing it with STM32CubeProgrammer. (★0 · 2026-07)
+- [radxa-docs/skills](https://github.com/radxa-docs/skills) - Radxa's skills that detect which Radxa board the agent is running on and map it to the right product docs before board-specific work. (official · coll · ★1 · 2026-03)
+- [HBConline/orangepi4pro-skill](https://github.com/HBConline/orangepi4pro-skill) - Agent skill for the Orange Pi 4 Pro (Allwinner A733): embedded Linux, GPIO via wiringOP, the 3 TOPS NPU and Android 13 AOSP. (★3 · 2026-06)
+- [1nuoiscute/Taishan-RK3566-Skill](https://github.com/1nuoiscute/Taishan-RK3566-Skill) - Codex/Claude Code skill for the Taishan Pi RK3566 in electronics-contest vision tasks, from board probing to OpenCV/V4L2, UART/GPIO and RKNN checks. (★5 · 2026-08)
+- [FaBoAI/JetsonSkills](https://github.com/FaBoAI/JetsonSkills) - Installer skills for Jetson Orin on JetPack 7.2 that set up FaBo JetRacer and LeRobot 0.6.0 with SO-101 SDK, CUDA-enabled OpenCV, PyTorch and GPIO/servo libraries. (coll · official · ★0 · 2026-08)
+- [xzl01/agent-debugboard `skills/radxa-linkr-debugger/`](https://github.com/xzl01/agent-debugboard/tree/main/skills/radxa-linkr-debugger) - Skill for the Radxa Linkr Debugger that controls target-board power, ADC current monitors, GPIOs, TF/SD routing, watchdog recovery and RP2350 BOOTSEL over USB NCM HTTP. (★4 · 2026-09)
 
 ### Robotics
 
@@ -218,6 +277,33 @@ Vendor-official skills are tagged `official` in place. As of the snapshot they c
 - [wimblerobotics/ros2-copilot-skills](https://github.com/wimblerobotics/ros2-copilot-skills) - 158 Nav2 / behavior-tree / SLAM / Teensy-PlatformIO skills for Copilot; quality is uneven. (coll · ★18 · 2026-04)
 - [robium-ai/robium](https://github.com/robium-ai/robium) - ROS 2 / Nav2 / Gazebo / MuJoCo / Isaac / LeRobot plugin with a versioned SKILL.md archive. (coll · ★13 · 2026-09)
 - [PatrickJS/awesome-cursorrules `ros-ros2`](https://github.com/PatrickJS/awesome-cursorrules/blob/main/rules/ros-ros2.mdc) - Cursor rule for ROS / ROS 2 packages, nodes, launch files, messages, URDF/xacro. (cursor-rules · ★40.8k · 2026-05)
+- [nvidia-isaac/cuVSLAM `cuvslam-skills/`](https://github.com/nvidia-isaac/cuVSLAM/tree/main/cuvslam-skills) - NVIDIA's skills for building, installing and running cuVSLAM/PyCuVSLAM across stereo, mono, inertial and multi-camera tracking modes, plus troubleshooting and CI. (official · coll · ★1.8k · 2026-09)
+- [NVlabs/GraspGenX](https://github.com/NVlabs/GraspGenX) - Skill for operating GraspGenX, a cross-embodiment 6-DOF grasp generation model: install, inference demos, gripper and planner choice, ZMQ client-server, MCP server and new-gripper integration. (official · ★219 · 2026-07)
+- [NVlabs/COMPASS `.claude/skills/`](https://github.com/NVlabs/COMPASS/tree/main/.claude/skills) - Skills for the COMPASS cross-embodiment mobility policy: training, evaluation, SAGE scene workflows, OSMO submission, a doctor skill and onboarding a new robot embodiment. (official · coll · ★142 · 2026-09)
+- [HorizonRobotics/HoloMotion `.agents/skills/`](https://github.com/HorizonRobotics/HoloMotion/tree/master/.agents/skills) - Skills for the HoloMotion humanoid whole-body control model: deploy and troubleshoot policies on a real robot, benchmark latency, prepare motion data and diagnose training. (official · coll · ★708 · 2026-09)
+- [PlaiPin/rosclaw `extensions/openclaw-plugin/skills/`](https://github.com/PlaiPin/rosclaw/tree/main/extensions/openclaw-plugin/skills) - OpenClaw plugin skills that drive ROS 2 robots from chat apps: navigate to a location, pick an object, take a photo and check robot status. (coll · ★631 · 2026-03)
+- [spacemit-robotics/robot-skills](https://github.com/spacemit-robotics/robot-skills) - SpacemiT Robot SDK skills: SDK bootstrap and builds, manipulator control, grasping, LeRobot apps and ONNX inference, peripherals (IMU, lidar, LEDs, GPIO, 5G, NFC) and remote access. (official · coll · ★0 · 2026-07)
+- [i2rt-robotics/i2rt `.agents/skills/`](https://github.com/i2rt-robotics/i2rt/tree/main/.agents/skills) - I2RT robot SDK skills for converting Onshape URDF exports and aligning MuJoCo MJCF models with URDF kinematics, masses and inertias. (official · coll · ★158 · 2026-09)
+- [sunfounder/picrawler `picrawler-control/`](https://github.com/sunfounder/picrawler/tree/main/picrawler-control) - SunFounder skill to control the PiCrawler quadruped robot: walk, turn, pose, read sensors, play sounds and use camera vision. (official · ★39 · 2026-09)
+- [dorna-robotics/workspace `.claude/skills/`](https://github.com/dorna-robotics/workspace/tree/main/.claude/skills) - Dorna robot workspace skills for adding devices driven directly or through a daemon on another Pi, custom components and behavior-tree actions. (official · coll · ★1 · 2026-09)
+- [cyberwave-os/driver-skill](https://github.com/cyberwave-os/driver-skill) - Cyberwave skill that scaffolds a new driver so a hardware device can be connected to the Cyberwave platform. (official · ★1 · 2026-09)
+- [matlab/matlab-agentic-toolkit](https://github.com/matlab/matlab-agentic-toolkit) - MathWorks' MATLAB skills catalog, including robotics and autonomy skills to connect over MAVLink, build UAV scenarios, fuse inertial sensors, compute GNSS positions, model robot kinematics and discover test hardware. (official · coll · ★1.1k · 2026-09)
+- [open-edge-platform/physical-ai-studio `skills/`](https://github.com/open-edge-platform/physical-ai-studio/tree/main/skills) - Intel Physical AI Studio skills for imitation-learning robots: write robot plugins and drivers, add policies, benchmark, export and validate trained models. (official · coll · ★87 · 2026-09)
+- [amap-cvlab/ABot-Claw `openclaw_layer/skills/`](https://github.com/amap-cvlab/ABot-Claw/tree/main/openclaw_layer/skills) - OpenClaw-layer skills for the ABot-Claw embodied agent framework: robot connection, hardware roles for Piper, Unitree G1 and Go2, SDK discovery, task execution and progress critique. (coll · official · ★212 · 2026-04)
+- [TidyBot-Services/Tidybot-Universe `skill-agent-setup/`](https://github.com/TidyBot-Services/Tidybot-Universe/tree/master/skill-agent-setup) - Claude Code and OpenClaw skills for Tidybot mobile manipulators: robot connection, hardware and SDK reference, sim manager and bundling skills into scripts for the robot's execute API. (coll · official · ★56 · 2026-06)
+- [graph-robots/open-robot-skills](https://github.com/graph-robots/open-robot-skills) - Library of manipulation skills and 8 tool bundles in Agent Skills format for GaP (graph as policy), such as contour grasping, feature mating and held-object motion. (coll · official · ★44 · 2026-09)
+- [fan-ziqi/unitree-docs](https://github.com/fan-ziqi/unitree-docs) - Skill that searches, browses and retrieves official Unitree documentation across all robots, components and SDKs from support.unitree.com. (★2 · 2026-07)
+- [dongsheng123132/go2-openclaw-skill](https://github.com/dongsheng123132/go2-openclaw-skill) - OpenClaw skill to control a Unitree Go2 robot dog in natural language through a CycloneDDS gateway without ROS 2: move, stop, run actions and check battery. (★7 · 2026-03)
+- [LooperRobotics/OpenClaw-Robotics](https://github.com/LooperRobotics/OpenClaw-Robotics) - OpenClaw skill for controlling quadruped, bipedal, wheeled and aerial robots, with support for Unitree robots and the Insight9 stereo camera. (★48 · 2026-02)
+- [EverNightCN/ur5-rtde-skill](https://github.com/EverNightCN/ur5-rtde-skill) - Standalone skill that controls a Universal Robots UR5 over RTDE with ur-rtde (moveL, moveJ) and configurable soft-fence checks. (★1 · 2026-03)
+- [Sazabi06/Openarm_Skills](https://github.com/Sazabi06/Openarm_Skills) - Skills for the OpenArm V10 bimanual robot: DaMiao motor and CAN-FD hardware setup, calibration and safety limits, impedance control, IK motion planning, camera vision and VLA integration. (coll · ★0 · 2026-06)
+- [ambient-robots/xlerobot_pinc `.codex/skills/`](https://github.com/ambient-robots/xlerobot_pinc/tree/main/.codex/skills) - Codex skills for an XLeRobot-based platform: hardware bring-up with udev serial links, motor boards and cameras, calibration flows and LeRobot sync. (coll · official · ★12 · 2026-06)
+- [PickNikRoboticsServices/robot_configuration_setup](https://github.com/PickNikRoboticsServices/robot_configuration_setup) - Skill for creating MoveIt Pro robot configuration packages: config.yaml, URDF/xacro, mock, sim and physical configs, objectives and mobile-base navigation setup. (official · ★0 · 2026-09)
+- [wzyn20051216/ros-robotics-skill](https://github.com/wzyn20051216/ros-robotics-skill) - ROS 1 and ROS 2 engineering skill covering catkin/colcon, launch, URDF/Xacro, TF, Nav2, ros2_control, serial and CAN links, MCUs and micro-ROS. (★59 · 2026-03)
+- [Leehyunbin0131/claude-ros2-skills](https://github.com/Leehyunbin0131/claude-ros2-skills) - Claude Code skills for ROS 2 Jazzy that verify against the installed system: micro-ROS agent, rclc and custom transports, plus ROS 2 troubleshooting. (coll · ★19 · 2026-08)
+- [enesbirlik/claude-code-robotics](https://github.com/enesbirlik/claude-code-robotics) - Claude Code skills for ROS 2 workspaces, URDF/Xacro building, Nav2 and MoveIt 2 configuration, and micro-ROS bridges from STM32 over UART or CAN. (coll · ★2 · 2026-09)
+- [Ranch-Hand-Robotics/rde-urdf `assets/skills/`](https://github.com/Ranch-Hand-Robotics/rde-urdf/tree/main/assets/skills) - Skills shipped with the RDE URDF editor for VS Code covering URDF/Xacro fundamentals, geometry, Xacro conversion and OpenSCAD part modeling. (coll · official · ★16 · 2026-09)
+- [coolbeevip/mujoco-skills](https://github.com/coolbeevip/mujoco-skills) - Skill to build, validate and control MuJoCo MJCF robot scenes for reproducible headless simulation, actuator experiments and RL environment prep. (★18 · 2026-09)
 
 ### Drones
 
@@ -229,11 +315,26 @@ Vendor-official skills are tagged `official` in place. As of the snapshot they c
 - [sensei-hacker/inav-claude](https://github.com/sensei-hacker/inav-claude) - Development workflow for the iNAV flight controller including a hardware-in-the-loop link-testing skill. (coll · ★4 · 2026-09)
 - [MIUAV/vibe-coding-ros2](https://github.com/MIUAV/vibe-coding-ros2) - PX4 + ROS 2 Humble drone development: MAVLink, offboard mode, firmware build, module dev, airframes, sensor config, multicopter tuning, vision nav, RKNN. Chinese. (coll · ★26 · 2026-05)
 - [castacks/AirStack](https://github.com/castacks/AirStack) - CMU AirLab's "agent-native" ROS 2 aerial autonomy stack with `.agents/skills`. (★91 · 2026-09)
+- [LuweiLiao/ardupilot-skill](https://github.com/LuweiLiao/ardupilot-skill) - 27 skills for ArduPilot firmware work: ChibiOS hwdef board bring-up, HAL, waf builds, EKF navigation, DroneCAN, MAVLink GCS, bootloaders, SITL autotest and porting playbooks. (coll · ★1 · 2026-05)
+- [LeaderOnePro/mavctl](https://github.com/LeaderOnePro/mavctl) - Headless ArduPilot-first MAVLink ground-control CLI with a skill that lets an agent connect, arm, change modes, take off, land, RTL and read telemetry; verified against ArduPilot SITL, not yet proven on real aircraft. (★0 · 2026-09)
+- [ARK-Electronics/px4-log-analysis `.claude/skills/`](https://github.com/ARK-Electronics/px4-log-analysis/tree/main/.claude/skills) - ARK Electronics' Claude Code skills for PX4 ULog analysis: accelerometer vibration, barometer pressurization, GPS signal quality and per-topic log size profiling. (official · coll · ★3 · 2026-04)
+- [HansF/betaflight-skill](https://github.com/HansF/betaflight-skill) - Skill that connects to a Betaflight flight controller over USB serial to run CLI commands, read and write settings with validation, back up and restore configs, read MSP telemetry and decode blackbox logs. (★0 · 2026-09)
+- [archat-hash/FlyCLI](https://github.com/archat-hash/FlyCLI) - Console tool for controlling Betaflight flight controllers, with a skill that tells agents how to fetch context and run FlyCLI commands over serial. (★5 · 2026-07)
+- [paulnurkkala/ardufleetcheck](https://github.com/paulnurkkala/ardufleetcheck) - Claude Code skills for an ArduPilot post-build fleet check: flash .apj with parameter restore, push OSD layout and font, run VTX, RC and arm-readiness checks, and upload QGroundControl missions. (coll · ★0 · 2026-05)
+- [aero-oli/ardupilot-binlog-analysis](https://github.com/aero-oli/ardupilot-binlog-analysis) - Skill for investigating ArduPilot DataFlash .bin logs: fault diagnosis, tuning review, vibration/FFT, EKF/GPS, power, motors/ESCs, AutoTune and before/after comparisons. (★1 · 2026-05)
+- [BeastAyyG/ardupilot-log-diagnosis](https://github.com/BeastAyyG/ardupilot-log-diagnosis) - Hybrid rule-engine and XGBoost ArduPilot flight-log analyzer, written for a GSoC 2026 application, with a skill that diagnoses .BIN logs for the root cause of crashes, GPS and IMU faults. (★6 · 2026-08)
+- [rwoneill/claude-ardupilot](https://github.com/rwoneill/claude-ardupilot) - Drop-in ArduPilot assistant templates: a SKILL.md reference for firmware, Lua scripting, parameters, dataflash logs and autopilot hardware, plus a CLAUDE.md for Claude Code projects. (★0 · 2026-04)
+- [hfujikawa77/claw-sitl-ops](https://github.com/hfujikawa77/claw-sitl-ops) - OpenClaw skill that operates ArduPilot SITL over MAVLink: start and stop, arm, take off, change mode, get and set params and report vehicle state. (★3 · 2026-03)
+- [learnsyslab/crazyflow](https://github.com/learnsyslab/crazyflow) - JAX-based scalable Crazyflie drone simulator with a SKILL.md on its traps and conventions for adding dynamics models or platforms and reusing controllers for estimation or MPC. (★174 · 2026-09)
 
 ### Space and aerospace
 
 - [esa/nanosat-mo-framework](https://github.com/esa/nanosat-mo-framework) - ESA's CCSDS Mission Operations flight-software framework, with a `mo-xml` skill for authoring its service definitions. The only space-agency-official agent skill found. (official · ★123 · 2026-09)
 - [devideamax/aerospace-team](https://github.com/devideamax/aerospace-team) - Twelve satellite-mission skills: GNC, power systems, satellite communications, ground systems and launch operations. (coll · ★21 · 2026-02)
+- [elodin-sys/elodin `.cursor/skills/`](https://github.com/elodin-sys/elodin/tree/main/.cursor/skills) - Official skills in the Elodin simulation and flight-software monorepo for deploying AlephOS to Jetson Orin flight computers, writing 6DOF simulations with SITL/HITL, Monte Carlo runs and headless capture. (coll · official · ★544 · 2026-09)
+- [LunCoSim/space-engineering-skills](https://github.com/LunCoSim/space-engineering-skills) - Space engineering skills for designing satellite and surface missions: constellation design, communications and payload assessment, AIT management, ECLSS and cost modeling. (coll · ★10 · 2026-03)
+- [jclark/satpulse `.claude/skills/`](https://github.com/jclark/satpulse/tree/master/.claude/skills) - Claude Code skills in the SatPulse GPS receiver timing tool for adding and testing GPS configuration messages and driving the satpulsed daemon from logs. (coll · ★63 · 2026-09)
+- [Official-MoonDao/LORS `skills/`](https://github.com/Official-MoonDao/LORS/tree/main/skills) - Skills for the Lunar Open-source Rover Standard (LORS) that route agents to knowledge about lunar rovers, landers, missions and companies. (coll · ★10 · 2026-03)
 
 ### Edge AI / NPU
 
@@ -247,6 +348,21 @@ Vendor-official skills are tagged `official` in place. As of the snapshot they c
 - [google-ai-edge/litert-samples `skills/`](https://github.com/google-ai-edge/litert-samples/tree/main/skills) - Six LiteRT skills: conversion workflow, accuracy-safe quantization, GPU-clean conversion, on-device verification. (official · coll · ★431 · 2026-09)
 - [Dengdxx/PaddleYOLO-RKNN `rknn-flow`](https://github.com/Dengdxx/PaddleYOLO-RKNN) - Rockchip RKNN model conversion flow. Chinese. (★8 · 2026-08)
 - [gregm123456/raspberry_pi_hailo_ai_services](https://github.com/gregm123456/raspberry_pi_hailo_ai_services) - Raspberry Pi 5 + Hailo AI HAT services with a Copilot skill. (copilot · ★11 · 2026-09)
+- [hailo-ai/hailo-media-library `.claude/skills/`](https://github.com/hailo-ai/hailo-media-library/tree/1.12.1/.claude/skills) - Hailo's skills for Hailo-15 vision apps: connect to the H15 board, cross-compile, deploy, check board health, swap HEF models and edit media pipelines, streams and overlays. (official · coll · ★8 · 2026-08)
+- [nvidia-holoscan/holoscan-sdk `skills/`](https://github.com/nvidia-holoscan/holoscan-sdk/tree/main/skills) - NVIDIA Holoscan SDK skills that inspect the host, check platform compatibility and install the sensor-processing SDK via Debian packages, wheels, conda, containers or source. (official · coll · ★222 · 2026-09)
+- [ultralytics/skills](https://github.com/ultralytics/skills) - Ultralytics YOLO skills for models, datasets, training, inference and export, including deployment to TensorRT, OpenVINO and NPUs such as RKNN, QNN, Hailo and Ascend. (official · coll · ★23 · 2026-09)
+- [openvinotoolkit/openvino `.claude/skills/`](https://github.com/openvinotoolkit/openvino/tree/master/.claude/skills) - Skills inside the OpenVINO repo for debugging accuracy, performance, compilation and memory issues, dumping tensors and IRs, adding GGUF architectures and agentic contributor workflows. (official · coll · ★10.9k · 2026-09)
+- [Seeed-Studio/recamera-pro-ext-api `skill/recamera-pysdk/`](https://github.com/Seeed-Studio/recamera-pro-ext-api/tree/main/skill/recamera-pysdk) - Seeed skill for building and packaging Python SDK apps for the reCamera Pro (RV1126B), with offline validation and bundled device-compatible wheels. (official · ★1 · 2026-09)
+- [mjq2020/reCamera_skill](https://github.com/mjq2020/reCamera_skill) - Reference skill for the reCamera (RV1126B) web API: authentication, device management, video and audio config, recording, AI model inference, logs and SenseCraft cloud model conversion. (★4 · 2026-03)
+- [kornia/vision-rt `.claude/skills/`](https://github.com/kornia/vision-rt/tree/main/.claude/skills) - Skills in a Rust and TensorRT vision library for Jetson Orin: rebuild and debug TensorRT engines, benchmark with power-mode discipline, compose pipelines and write CUDA kernels. (coll · ★18 · 2026-08)
+- [SharpAI/DeepCamera `skills/`](https://github.com/SharpAI/DeepCamera/tree/master/skills) - Open-source AI camera skills platform with skills for YOLO detection on Coral TPU and OpenVINO, camera providers such as Reolink, Tapo and Eufy, go2rtc streaming and home-security benchmarks. (coll · ★3.1k · 2026-09)
+- [LudovicoYIN/skills `deploy-skills/`](https://github.com/LudovicoYIN/skills/tree/master/deploy-skills) - Model deployment skills for on-device NPUs and runtimes: RKNN, Qualcomm QNN and SNPE, MediaTek and llama.cpp, covering conversion, operator issues and accuracy checks against ONNX. (coll · ★0 · 2026-07)
+- [zhao123xiao/openvino-skills](https://github.com/zhao123xiao/openvino-skills) - OpenVINO SOP skill for model conversion, quantization, deployment, smoke tests, benchmarking, device selection and troubleshooting. (★1 · 2026-05)
+- [mayukh4/huskylens-agent](https://github.com/mayukh4/huskylens-agent) - Skill that gives Hermes Agent a physical body on Raspberry Pi 5: a HuskyLens V2 camera over I2C for face, emotion and gesture recognition, an animated face on a DSI screen and a voice pipeline. (★13 · 2026-04)
+- [Ascend/agent-skills](https://github.com/Ascend/agent-skills) - Huawei Ascend's official agent skills for NPU work, such as installing NPU drivers and firmware, Ascend Docker setup and guiding inference repos. (official · coll · ★41 · 2026-05)
+- [ascend-ai-coding/awesome-ascend-skills](https://github.com/ascend-ai-coding/awesome-ascend-skills) - Knowledge base for Huawei Ascend NPU development organized as over 200 Agent Skills, covering CANN, custom torch ops and Ascend tooling. (coll · ★170 · 2026-09)
+- [sophgo/sophon-demo `.claude/skills/`](https://github.com/sophgo/sophon-demo/tree/release/.claude/skills) - SOPHGO's sophon-demo skills for porting models step by step from ONNX export to SoC deployment on SOPHON chips, plus sample and automated tests. (official · coll · ★526 · 2026-09)
+- [sophgo/sophon-tools `source/pbmssm/build/se-series-skill/`](https://github.com/sophgo/sophon-tools/tree/main/source/pbmssm/build/se-series-skill) - SOPHGO knowledge-base skill for its SE-series edge AI boxes, shipped in the sophon-tools repository. (official · ★26 · 2026-09)
 
 ### EDA / PCB
 
@@ -269,6 +385,29 @@ Vendor-official skills are tagged `official` in place. As of the snapshot they c
 - [akiselev/altium-cli `.agents/skills/`](https://github.com/akiselev/altium-cli) - Rust CLI for SchDoc / PcbDoc / libraries with validation, rules review, data review and GUI-control skills. (coll · ★14 · 2026-08)
 - [l3wi/claude-eda](https://github.com/l3wi/claude-eda) - `eda-architect`, `eda-schematics`, `eda-pcb`, `eda-drc`, `eda-research` for KiCad. (coll · ★15 · 2026-01)
 - [pjcau/esp32-emu-turbo `.claude/skills/`](https://github.com/pjcau/esp32-emu-turbo) - The only DFM skills that drive JLCPCB's DFM tool: upload, validate, PCB review, PCBA readiness. (coll · ★4 · 2026-09)
+- [daishuge/pcb-skill](https://github.com/daishuge/pcb-skill) - Agent skill taking a hardware idea to a manufacturable PCB via EasyEDA Pro over MCP: concept, schematic, sourcing, layout, routing and verification gates staged to a pre-payment order page. (★132 · 2026-09)
+- [biosshot/easyeda-copilot](https://github.com/biosshot/easyeda-copilot) - AI assistant for EasyEDA that generates schematics from natural language and browses LCSC components, with skills for docs, datasheets and SPICE. (coll · ★145 · 2026-09)
+- [seanrobertwright/lril-kicad-skills](https://github.com/seanrobertwright/lril-kicad-skills) - Nine KiCad 10 agent skills that interview the user, write the spec, then generate schematics, boards, symbols and footprints and prove each with KiCad's own ERC/DRC/netlist/render tools. (coll · ★0 · 2026-09)
+- [nickkraakman/skidl-skills](https://github.com/nickkraakman/skidl-skills) - Agentic KiCad PCB workflow built on the SKiDL Python library with skills for new-circuit, find-part, ERC rules and design review plus nine collaborating agents. (coll · ★18 · 2026-04)
+- [Milind220/Ki-Stack](https://github.com/Milind220/Ki-Stack) - Deep KiCad automation stack for agents combining kicad-python IPC, kicad-cli and kiutils-rs, with skills for orient, PCB, footprints, render, file-surgery and live IPC. (coll · ★22 · 2026-05)
+- [mattpainter701/kicad_automations](https://github.com/mattpainter701/kicad_automations) - Circuit Weaver: programmatic KiCad schematic generation with strict validation, ERC and manufacturing export, plus skills for kicad, sim, jlcpcb, digikey/mouser/lcsc sourcing and a vivado helper. (coll · ★19 · 2026-08)
+- [HubertHQH/KiCad-skills](https://github.com/HubertHQH/KiCad-skills) - KiCad 10+ agent skills that read, modify and export PCB designs through the KiCad IPC API using the bundled kipy interpreter: kicad-connect, kicad-pcb, kicad-project and kicad-export. (coll · ★13 · 2026-04)
+- [BeckhamLabsLLC/kicad-jlcpcb](https://github.com/BeckhamLabsLLC/kicad-jlcpcb) - Claude Code plugin plus MCP server that sources JLCPCB/LCSC parts, fetches EasyEDA pin maps, places KiCad footprints and wires nets by pin name into a fab-ready .kicad_pcb. (★24 · 2026-09)
+- [Prithvi-0g/claude-kicad-skills](https://github.com/Prithvi-0g/claude-kicad-skills) - KiCad PCB design, analysis and fabrication skills including autoroute, BOM, SPICE, EMC, JLCPCB/PCBWay export and digikey/mouser/lcsc/element14 part sourcing. (coll · ★1 · 2026-05)
+- [tipoLi5890/akcli](https://github.com/tipoLi5890/akcli) - Zero-dependency Python CLI for AI-native KiCad schematic design authoring .kicad_sch from JSON op-lists, with skills for circuit design/debug, ERC/design review, JLCPCB capabilities and parts sourcing. (coll · ★8 · 2026-08)
+- [oaslananka/easyeda-mcp-pro](https://github.com/oaslananka/easyeda-mcp-pro) - MCP server for EasyEDA Pro with an easyeda-professional-layout skill for PCB inspection, BOM sourcing, manufacturing export and AI-assisted layout. (★46 · 2026-09)
+- [Huaqiu-Electronics/skills](https://github.com/Huaqiu-Electronics/skills) - Huaqiu Electronics' agent skills for Huaqiu EDA, one small skill per editor API operation across domains such as BOM, canvas editing, object placement, ERC, part search and design import/export, installable via npx skills. (official · coll · ★4 · 2026-08)
+- [coffeenmusic/altium-scripts-skill](https://github.com/coffeenmusic/altium-scripts-skill) - Claude Code skill for writing Altium Designer DelphiScript automation using 230+ working example scripts and API references for PCB, schematic and DXP interfaces. (★14 · 2026-04)
+- [dnewcome/circuit-skills](https://github.com/dnewcome/circuit-skills) - Claude Code skills for code-driven electronics: ngspice/Falstad circuit simulation, tscircuit PCB layout, 3D render and enclosure fit. (coll · ★4 · 2026-07)
+- [zuoliangyu/multisim-spice](https://github.com/zuoliangyu/multisim-spice) - Claude Code skill turning a plain-language circuit description into an ngspice self-checked SPICE netlist that opens directly in NI Multisim. (★11 · 2026-05)
+- [hyndex/Schematics-and-PCB-Skills](https://github.com/hyndex/Schematics-and-PCB-Skills) - Large collection of component and PCB skills covering datasheet extraction, symbol/footprint, DFT, EMC, and specialized boards (automotive, aerospace, BMS, EV charger, flex, HDI, high-power). (coll · ★1 · 2026-05)
+- [Arcadia-1/analog-agents](https://github.com/Arcadia-1/analog-agents) - Federated analog IC design framework whose skills span architecture exploration, sizing, behavioral modeling, verification, ADC analysis, cross-model audit and self-evolution, with or without EDA. (coll · ★69 · 2026-07)
+- [Arcadia-1/veriloga-skills](https://github.com/Arcadia-1/veriloga-skills) - Reusable Verilog-A authoring skills with a self-contained language guide plus optional evas-sim and openvaf compile/simulation companion skills. (coll · ★34 · 2026-07)
+- [Arcadia-1/analog-circuit-skills](https://github.com/Arcadia-1/analog-circuit-skills) - Agent skills for common analog blocks (LDO, comparator, five-transistor OTA, two-stage opamp, bootstrap switch) simulated in ngspice. (coll · ★13 · 2026-06)
+- [hdl-tools/analog-chip-design-agents](https://github.com/hdl-tools/analog-chip-design-agents) - Claude Code marketplace of 16 plugins for the analog/mixed-signal and RF chip flow: architecture, circuit design, AMS integration/verification, EM modeling, parasitic extraction and characterization. (coll · ★22 · 2026-06)
+- [deanyou/virtuoso-cli](https://github.com/deanyou/virtuoso-cli) - Rust bridge and CLI to drive Cadence Virtuoso from agents, with skills for schematic-gen, gm-over-id sizing, Maestro, sim-measure, circuit optimization and OCEAN netlist regen. (coll · ★33 · 2026-09)
+- [simra-tech/OpenADA](https://github.com/simra-tech/OpenADA) - Open Agentic Design Automation defining an agent–EDA contract, with skills to bootstrap ASIC projects, characterize analog blocks, assess timing/PVT/yield, run synthesis and close layout incrementally. (coll · ★26 · 2026-08)
+- [SPREsxm/claude-pcb-designer](https://github.com/SPREsxm/claude-pcb-designer) - Open agent skill for the full PCB path: requirements, component selection, schematic review, stackup, placement/routing, SI/thermal, DFM/DFA and fabrication release with deterministic calculators. (★4 · 2026-09)
 
 ### FPGA / HDL
 
@@ -286,6 +425,19 @@ Vendor-official skills are tagged `official` in place. As of the snapshot they c
 - [wweiyi2004/minifpga-quartus-skill](https://github.com/wweiyi2004/minifpga-quartus-skill) - Quartus Cyclone IV Codex skill; the only Quartus skill with traction. (★8 · 2026-06)
 - [Tomer-Harari/claude-fpga-skills](https://github.com/Tomer-Harari/claude-fpga-skills) - Headless vendor flows: Vivado batch, ModelSim headless, cocotb testbench, CDC formal, timing closure, AXI-Stream verification. (coll · ★1 · 2026-08)
 - [londey/claude-skill-verilog](https://github.com/londey/claude-skill-verilog) - Verilog working skill. (★18 · 2026-04)
+- [QingquanYao/xilinx-skill](https://github.com/QingquanYao/xilinx-skill) - Xilinx/AMD full-toolchain skill generating runnable Vivado, Vitis HLS, Vitis Unified and PetaLinux Tcl scripts from natural language, covering HLS-to-boot-image FPGA/MPSoC flow. (★433 · 2026-04)
+- [babyworm/rtl-agent-team](https://github.com/babyworm/rtl-agent-team) - Claude Code plugin harness for automated RTL design and verification with 99 agents and 97 skills automating a 6-phase Research→Architecture→uArch→RTL→Verify→Design-Note pipeline. (coll · ★52 · 2026-08)
+- [ShenShan123/r2g-skills](https://github.com/ShenShan123/r2g-skills) - Claude Code skills driving an open-source RTL-to-GDS flow from natural-language spec through synthesis, place-and-route and full signoff (DRC/LVS/RCX) using Yosys, OpenROAD, KLayout and OpenRCX. (coll · ★43 · 2026-09)
+- [adeleempurpled290/FPGA-Agent-skills](https://github.com/adeleempurpled290/FPGA-Agent-skills) - Eight AMD Vivado/Vitis skills covering HLS synthesis, RTL simulation, synthesis, implementation, constraints, timing, debug and Tcl scripting. (coll · ★37 · 2026-09)
+- [LNC0831/oh-my-fpga](https://github.com/LNC0831/oh-my-fpga) - Open FPGA skill pack layering opinionated workflows (timing closure, CDC audit, ILA hardware debug, bitstream program, full-flow demo) over the SynthPilot MCP server's atomic tools. (coll · ★21 · 2026-06)
+- [oniondas/duck-rtl](https://github.com/oniondas/duck-rtl) - Token-optimized RTL build-and-verify loop for agents that validates module interfaces, gates compiles, runs cocotb co-simulation and diagrams control FSMs from the AST behind deterministic guardrails. (★6 · 2026-07)
+- [rtl-buddy/rtl_buddy](https://github.com/rtl-buddy/rtl_buddy) - Python CLI for Verilog/SystemVerilog regression testing with Verilator/VCS, shipping skills for dispatch, formal property verification, graph extraction, implementation and test. (coll · ★3 · 2026-09)
+- [hjxxlogic/open-vivado](https://github.com/hjxxlogic/open-vivado) - Skill package automating AMD Vivado FPGA workflows through a local JSON/TCP bridge to Vivado Tcl: project setup, RTL/XDC authoring, synthesis, implementation, timing and bitstream generation. (★12 · 2026-03)
+- [Fzhiyu1/chipforge-plugin](https://github.com/Fzhiyu1/chipforge-plugin) - AI-powered FPGA development plugin for Claude Code with a chipforge skill for Verilog simulation and a knowledge graph. (★4 · 2026-01)
+- [baranidh/FpgaSkills](https://github.com/baranidh/FpgaSkills) - Library of FPGA development-lifecycle skills covering functional spec, cocotb verification, functional coverage closure, bitstream and bring-up. (coll · ★0 · 2026-07)
+- [edawise/edagent-skills](https://github.com/edawise/edagent-skills) - Open-source chip-design verification skills for testbench generation, waveform debugging, root-cause analysis, RAL register-model generation and regression triage, for Claude Code, Codex and Copilot. (coll · ★0 · 2026-08)
+- [11philip22/fpga-skills](https://github.com/11philip22/fpga-skills) - Codex skills for Xilinx Spartan-6 command-line workflows: building Verilog with Dockerized ISE 14.7, SPI flash programming via OpenFPGALoader, and a LiteX/LiteScope JTAGBone debug flow. (coll · ★1 · 2026-09)
+- [hslee-cmyk/chip-design-skills](https://github.com/hslee-cmyk/chip-design-skills) - Chip-design skills for analog gm/Id design, chip/formal/UVM verification and Lattice FPGA work. (coll · ★0 · 2026-07)
 
 ### Wireless
 
@@ -303,6 +455,12 @@ Vendor-official skills are tagged `official` in place. As of the snapshot they c
 - [rnd-southerniot/rak3112-rs485-node `.claude/skills/`](https://github.com/rnd-southerniot/rak3112-rs485-node) - LoRaWAN OTAA provisioning, deprovisioning and join verification in ChirpStack for RAK3172 / RAK3112. (coll · ★1 · 2026-07)
 - [JasonYANG170/esp-dev-skill `esp-zigbee-sdk`](https://github.com/JasonYANG170/esp-dev-skill/tree/main/repos/esp-zigbee-sdk) - ESP Zigbee SDK sub-skill. (★27 · 2026-08)
 - [SnailSploit/Claude-Red `Skills/wireless`](https://github.com/SnailSploit/Claude-Red) - Offensive BLE, LoRaWAN / sub-GHz, Zigbee / Thread / Matter and Z-Wave skills; security-side only. (coll · ★5.1k · 2026-08)
+- [mateuszsury/uZigbee](https://github.com/mateuszsury/uZigbee) - MicroPython Zigbee 3.0 library for ESP32-C6 with seven skills covering the native C bridge, Zigbee protocol, firmware build, Python API, memory/perf and CI. (coll · ★2 · 2026-02)
+- [kuohsianglu/wisblock-zephyr-skills](https://github.com/kuohsianglu/wisblock-zephyr-skills) - Agent skills for Zephyr-based RAK WisBlock projects: a datasheet-driven devicetree overlay generator and a LoRaWAN Class A sensor-uplink app scaffolder. (coll · ★0 · 2026-02)
+- [rnd-southerniot/rak4630-e-ink-claude](https://github.com/rnd-southerniot/rak4630-e-ink-claude) - Gate-driven ESP-IDF firmware skills for RAK WisBlock LoRaWAN nodes: RAK4630/RAK3312 pin reference, PlatformIO build, serial capture, ChirpStack onboarding and LoRaWAN provisioning. (coll · ★0 · 2026-07)
+- [p0fi/matter-cli](https://github.com/p0fi/matter-cli) - Matter CLI project with an esp32-matter skill and a matter-js test-device skill for building and testing Matter devices on ESP32. (★2 · 2026-09)
+- [amscotti/hermes-meshtastic-adapter](https://github.com/amscotti/hermes-meshtastic-adapter) - Hermes Agent plugin that connects to a Meshtastic LoRa mesh, receiving plain-text mesh messages and relaying them to the agent. (★7 · 2026-09)
+- [urmzd/zigbee-skill](https://github.com/urmzd/zigbee-skill) - AI-native smart-home skill letting agents control Zigbee devices directly with no cloud and no hub. (★0 · 2026-06)
 
 ### Hardware security
 
@@ -310,6 +468,12 @@ Vendor-official skills are tagged `official` in place. As of the snapshot they c
 - [dslsdzc/rev-skills](https://github.com/dslsdzc/rev-skills) - 122 reverse-engineering skills including `re-hardware-io` for UART, SPI and JTAG work and `re-javacard`. (coll · ★58 · 2026-09)
 - [keycard-tech/keycard-cli](https://github.com/keycard-tech/keycard-cli) - Keycard smartcard CLI with `keycard-admin` and `keycard-signing` skills. (official · coll · ★57 · 2026-09)
 - [nemanjan00/claude-code-skills](https://github.com/nemanjan00/claude-code-skills) - Small personal set that happens to hold the only Bus Pirate and smartcard skills in existence. (coll · ★0 · 2026-08)
+- [OrbitCurve/firmware-reverse-engineering](https://github.com/OrbitCurve/firmware-reverse-engineering) - Five firmware reverse-engineering skills for Claude Code and Codex: unblob extraction, ELF static analysis, Ghidra RE with bundled scripts, QEMU/Firmadyne emulation and security reporting. (coll · ★189 · 2026-09)
+- [darkmentorllc/bt-re-mad-skillz](https://github.com/darkmentorllc/bt-re-mad-skillz) - LLM skills for reverse-engineering Bluetooth Controller firmware at the HCI layer and below, driving Ghidra for Claude Code and Codex. (coll · ★29 · 2026-08)
+- [ByteLandTechnology/headless-ghidra](https://github.com/ByteLandTechnology/headless-ghidra) - Headless Ghidra reverse-engineering skill family for reproducible, evidence-backed workflows: intake, discovery, batch decompile, function analysis and an agent CLI. (coll · ★5 · 2026-05)
+- [jxw1102/flipper-claude-buddy](https://github.com/jxw1102/flipper-claude-buddy) - Claude Code plugin for Flipper Zero workflows with a notify skill and companion tooling for the device. (★49 · 2026-07)
+- [Nikolaibibo/flipper-blackhat-skill](https://github.com/Nikolaibibo/flipper-blackhat-skill) - Claude skill for WiFi penetration testing with the Flipper Zero WiFi Dev Board running BlackHat OS, covering reconnaissance, attack planning and BlackHat OS commands. (★4 · stale since 2025-10)
+- [vezril/claude-toolkit](https://github.com/vezril/claude-toolkit) - Personal Claude toolkit whose skills include flipper-zero and flipper-unleashed for driving Flipper Zero and Unleashed firmware. (coll · ★1 · 2026-09)
 
 ### Automotive
 
@@ -318,6 +482,15 @@ Vendor-official skills are tagged `official` in place. As of the snapshot they c
 - [philipkocanda/canair](https://github.com/philipkocanda/canair) - WiCAN OBD-II Wi-Fi / BLE dongle toolkit with skills for signal reverse-engineering and the WiCAN protocol. (coll · ★25 · 2026-08)
 - [spawahh/openpilot-claude-kit](https://github.com/spawahh/openpilot-claude-kit) - Four Claude Code plugins for openpilot including a read-only comma device API and SSH device work. (coll · ★1 · 2026-08)
 - [JiaxI2/Codex-Skills `ethercat-cia402`](https://github.com/JiaxI2/Codex-Skills) - EtherCAT slave / CiA 402 / TwinCAT NC diagnosis. Chinese. (★1 · 2026-09)
+- [danielrosehill/Claude-OBD-Diagnostics-Plugin](https://github.com/danielrosehill/Claude-OBD-Diagnostics-Plugin) - Work-in-progress Claude Code plugin for reading OBD-II data from an ELM327-class adapter into JSON snapshots or NDJSON drive logs, decoding DTCs, diagnosing faults and planning maintenance; its capture script has not yet been run against a real vehicle. (coll · ★0 · 2026-08)
+- [wexcomm/hp-tuners-ai-agent](https://github.com/wexcomm/hp-tuners-ai-agent) - Agent for HP Tuners ECU tuning and vehicle diagnostics on the LFX 3.6L V6, with skills for HPT file conversion and SAE J2534 PassThru access. (coll · ★8 · 2026-04)
+- [thongdt89/asr_bsw](https://github.com/thongdt89/asr_bsw) - Codex skills for AUTOSAR Classic BSW configuration: ARXML inventory, BSW review, patch proposals and configuring Com, PduR, CanIf, CanTp and related modules. (coll · ★2 · 2026-07)
+- [ptsilivis/autonomousguy](https://github.com/ptsilivis/autonomousguy) - AI skill prompts for embedded automotive engineers covering AUTOSAR BSW and SWC work (COM stack, ARXML, RTE, CAN/LIN/Ethernet/UDS), MISRA, ISO 26262 and ECU code review. (coll · ★31 · 2026-07)
+- [Washabii14/agent-skills `skills/automotive-embedded-skills/`](https://github.com/Washabii14/agent-skills/tree/main/skills/automotive-embedded-skills) - Skill with C/C++ and CAPL practices for automotive ECUs under MISRA, AUTOSAR, ISO 26262 and ISO 21434, covering CAN FD, LIN, Ethernet, DoIP and SOME/IP communication. (★11 · 2026-02)
+- [sdv-playground/SOVDd `.skills/`](https://github.com/sdv-playground/SOVDd/tree/main/.skills) - Rust ASAM SOVD server that translates REST calls into UDS over CAN/ISO-TP or DoIP, with skills for ECU configuration, software flashing and OTA, and triage. (coll · ★0 · 2026-09)
+- [TongLi0406/uds-diagnostic-test](https://github.com/TongLi0406/uds-diagnostic-test) - UDS diagnostic test skill that parses a diagnostic survey table, generates test scripts for DIDs, DTCs, IOControl and RoutineControl, runs them over CAN and writes reports. (★3 · 2026-05)
+- [canforge/dbckit](https://github.com/canforge/dbckit) - Python library and CLI for parsing, editing, validating, diffing and encoding/decoding DBC CAN database files, with a skill for correct agent usage. (★0 · 2026-07)
+- [matlab/simulink-agentic-toolkit](https://github.com/matlab/simulink-agentic-toolkit) - MathWorks' Simulink skills catalog for Model-Based Design, including embedded code generation and optimization, A2L customization, motor control, Simscape models and model testing. (official · coll · ★1.1k · 2026-09)
 
 ### Industrial / PLC
 
@@ -340,11 +513,32 @@ Vendor-official skills are tagged `official` in place. As of the snapshot they c
 - [studioxvii/modbus-skills](https://github.com/studioxvii/modbus-skills/tree/main/plugins/modbus-skills/skills) - 20 read-only Modbus engineering skills: extract a register map from an OEM PDF, normalize it, check byte order, plan reads, build modpoll / ModScan / Node-RED packs, analyze captures. (coll · ★1 · 2026-09)
 - [wirenboard/wb-ai-skills](https://github.com/wirenboard/wb-ai-skills) - Wiren Board PLC vendor skills: talk to controllers over MQTT and Modbus, write wb-rules, manage Zigbee and serial devices, root-cause analysis. (official · coll · ★3 · 2026-09)
 - [TuojianLYU/openplc-codex-skill](https://github.com/TuojianLYU/openplc-codex-skill) - Generate an OpenPLC v4 project with ladder `.ld` files. (★1 · 2026-06)
+- [arkbsz/siemens-tia-skill-suite](https://github.com/arkbsz/siemens-tia-skill-suite) - Siemens TIA Portal V16-V21 skill suite for Codex and other agents: Openness readiness probing, project backup, PLC-as-code workspaces, SCL/LAD/FBD read-write, WinCC HMI automation and a Codex TIA client workflow. (coll · ★2 · 2026-09)
+- [ac-rosu/skills](https://github.com/ac-rosu/skills) - Skills for Siemens S7-1200/S7-1500 programming in TIA Portal (SCL, LAD, FBD, STL, GRAPH, CEM) and for WinCC Unified scripting and custom web controls. (coll · ★0 · 2026-09)
+- [rraxge/Agent_skill_tia_openness_api](https://github.com/rraxge/Agent_skill_tia_openness_api) - TIA Portal V19 Openness API skill: create and open projects, import and export PLC blocks, manage tag tables, write LAD/SCL XML and debug Openness errors. (★2 · 2026-06)
+- [mianmianlingqi/tia-openness-reader](https://github.com/mianmianlingqi/tia-openness-reader) - Codex skill with a bundled C# CLI that reads TIA Portal V17 projects through Openness, exports PLC blocks and tags, and analyzes the exported XML. (★0 · 2026-05)
+- [ActionUnity/tia-v18-lad-agent](https://github.com/ActionUnity/tia-v18-lad-agent) - Harness skill for editing Siemens TIA Portal V18 PLC objects in LAD through Openness export, import and compile, with safety gates for FB/FC XML, global DBs, UDTs and tag tables. (★0 · 2026-07)
+- [Lance0901/AI-TwinCAT-Skill](https://github.com/Lance0901/AI-TwinCAT-Skill) - PowerShell module with 34 cmdlets and a skill that lets AI tools automate the TwinCAT 3 IDE, build and deploy PLC programs, read and write variables over ADS and run tests. (★14 · 2026-04)
+- [idomp/twincat-skills](https://github.com/idomp/twincat-skills) - Skills and setup docs for driving TwinCAT MCP servers: automation, code search, drive parameters, .tsproj mappings and Scope recording. (coll · ★0 · 2026-06)
+- [georgeturneruk/tckit `.claude/skills/`](https://github.com/georgeturneruk/tckit/tree/main/.claude/skills) - TwinCAT MCP server with skills for the build, deploy and TcUnit test loop, Beckhoff docs lookup, configuration and ADRs. (coll · ★5 · 2026-08)
+- [SionVerhoef/twincat-scope](https://github.com/SionVerhoef/twincat-scope) - Skill for recording and triaging Beckhoff TwinCAT 3 Scope measurements: envelope plots, event detection and .tcscopex config generation. (★0 · 2026-09)
+- [DiamondLightSource/fastcs-catio `.claude/skills/`](https://github.com/DiamondLightSource/fastcs-catio/tree/main/.claude/skills) - Diamond Light Source's FastCS integration for EtherCAT I/O under TwinCAT via pyads, with skills for Beckhoff ESI XML, ADS simulator testing and controller connection. (coll · ★1 · 2026-09)
+- [chency1024dy/Codesys-Skill](https://github.com/chency1024dy/Codesys-Skill) - CLI and skill for CODESYS 3.5 and HCPWorks3 projects through the official CLI and ScriptEngine: inspect and edit ST, POUs, GVLs, tasks and I/O, build, and diagnose compiler errors. (★3 · 2026-09)
+- [mokouliszt/iec61131-3-motioncontrol-skill](https://github.com/mokouliszt/iec61131-3-motioncontrol-skill) - Skill for writing IEC 61131-3 ST with Mitsubishi MELSEC iQ-R PLCopen Motion Control FBs on RD77 simple motion units and CC-Link IE Field with MR-J4-GF servos. (★0 · 2026-05)
+- [johannesPettersson80/trust-platform `.codex/skills/`](https://github.com/johannesPettersson80/trust-platform/tree/main/.codex/skills) - Codex skills in the truST IEC 61131-3 Structured Text toolchain for IEC compliance decisions, LSP work, HMI contracts, test authoring and release gates. (coll · ★220 · 2026-09)
+- [php-opcua/opcua-cli `.ai/skills/opcua-cli/`](https://github.com/php-opcua/opcua-cli/tree/master/.ai/skills/opcua-cli) - OPC UA command-line tool with a skill covering its commands to browse, read, write and watch values, explore the address space, discover endpoints and manage certificate trust. (★0 · 2026-08)
+- [TheThoughtagen/ignition-ide-plugins `claude-code-plugin/skills/`](https://github.com/TheThoughtagen/ignition-ide-plugins/tree/main/claude-code-plugin/skills) - Claude Code plugin for Inductive Automation Ignition with skills for the system.* scripting API, expressions, linting, testing and end-to-end tests. (coll · ★14 · 2026-09)
+- [vogler75/monster-mq `.agents/skills/`](https://github.com/vogler75/monster-mq/tree/main/.agents/skills) - MQTT broker with skills for integrating new device connectors such as Modbus and OPC UA, broker configuration, GraphQL config and data, and dashboard development. (coll · ★142 · 2026-09)
+- [dscsystems/scadavis-synoptic3 `skills/`](https://github.com/dscsystems/scadavis-synoptic3/tree/main/skills) - SCADAvis Synoptic Toolkit web component with skills for its API and SVG synoptic displays used in real-time industrial dashboards. (official · coll · ★4 · 2026-04)
 
 ### Pro AV and building systems
 
 - [shorty456132/av-module-maker](https://github.com/shorty456132/av-module-maker) - Generates Q-SYS, Extron and Crestron control modules, with SIMPL+, SIMPL# and SIMPL# Pro skills. (coll · ★9 · 2026-09)
 - [Crestron/CrestronAISkills](https://github.com/Crestron/CrestronAISkills) - Crestron's own agent-skill plugin and Copilot variant for AV control programming; the only pro-AV vendor to ship skills. (official · coll · ★4 · 2026-09)
+- [mvanhorn/printing-press-library `cli-skills/pp-qsys/`](https://github.com/mvanhorn/printing-press-library/tree/main/cli-skills/pp-qsys) - Q-SYS skill driving the qsys-pp-cli offline index of specs, configuration, wiring, compatibility and fault articles for checking equipment lists; sibling pp-crestron indexes Crestron products, spec sheets and firmware, and pp-extron indexes Extron spec sheets and manuals. (★2k · 2026-09)
+- [RAKWireless/RAK-BACnet-Profiles `.agents/skills/generate-bacnet-profile/`](https://github.com/RAKWireless/RAK-BACnet-Profiles/tree/main/.agents/skills/generate-bacnet-profile) - RAKwireless skill that generates or repairs RAK BACnet device profiles with uplink, downlink and test fixtures from protocol docs, decoders and sample payloads. (official · ★0 · 2026-09)
+- [songzh96/aptishome-knx-edge-agent](https://github.com/songzh96/aptishome-knx-edge-agent) - MCP and OpenAPI bridge for AptisHome KNX Edge ESP32 gateways with a Codex skill to manage KNX rooms, devices, scenes and local automations and control devices. (★0 · 2026-08)
+- [bbartling/diy-bacnet-router `.cursor/skills/`](https://github.com/bbartling/diy-bacnet-router/tree/master/.cursor/skills) - Embedded Linux BACnet router project with skills giving product and dashboard context for the educational router and debugging Buildroot OS builds in a local VM. (coll · ★0 · 2026-09)
 
 ### Lab instruments
 
@@ -358,6 +552,26 @@ Vendor-official skills are tagged `official` in place. As of the snapshot they c
 - [KRATSZ/labscriptai-ot](https://github.com/KRATSZ/labscriptai-ot) - Opentrons plugin: MCP server, seven skills, safety policy, protocol library. (coll · ★2 · 2026-07)
 - [DCC-Lab/PyHardwareLibrary](https://github.com/DCC-Lab/PyHardwareLibrary) - USB / serial lab-device library (spectrometers, stages, lasers, DAQ) with a driver-authoring skill. (★12 · 2026-08)
 - [deepmodeling/Uni-Lab-OS](https://github.com/deepmodeling/Uni-Lab-OS) - Self-driving-lab platform with AGENTS.md and an `add-device` Cursor skill. (cursor-rules · ★177 · 2026-09)
+- [BCDA-APS/opencode-skills](https://github.com/BCDA-APS/opencode-skills) - OpenCode skills for EPICS beamline development at Argonne's APS, including Aerotech AeroScript motion programs, areaDetector drivers and IOCs, and synApps IOCs. (coll · ★2 · 2026-06)
+- [curtisgalloway/public-skills `plugins/hardware-lab/`](https://github.com/curtisgalloway/public-skills/tree/main/plugins/hardware-lab) - Hardware-lab plugin skills for a Siglent SDS1000X-E oscilloscope over SCPI, Bus Pirate, Cynthion USB capture and decoding, and an MCCI 3411 USB switch. (coll · ★2 · 2026-09)
+- [determlab/shal `integrations/claude-code/skills/`](https://github.com/determlab/shal/tree/main/integrations/claude-code/skills) - SHAL turns lab hardware and software into typed, permission-gated agent tools, with Claude Code skills for writing new device drivers, bus transports and YAML configs. (coll · ★2 · 2026-09)
+- [pragmatest-dev/testerkit `src/testerkit/skills/`](https://github.com/pragmatest-dev/testerkit/tree/main/src/testerkit/skills) - Pytest-based hardware test platform for electronics validation and production, with skills for stations, capturing waveforms and sensor evidence, data and datasheets. (coll · ★1 · 2026-09)
+- [pragmatest-dev/lvkit `src/lvkit/skill_templates/`](https://github.com/pragmatest-dev/lvkit/tree/main/src/lvkit/skill_templates) - CLI for describing, rendering, diffing and converting LabVIEW VIs without LabVIEW, with agent skills installed by lvkit setup to describe, document, query, review, resolve and convert VIs. (coll · ★38 · 2026-09)
+- [sendu2wfdx/rigol-dho-scpi](https://github.com/sendu2wfdx/rigol-dho-scpi) - Codex skill for querying and controlling RIGOL DHO800/DHO900 oscilloscopes over LAN or USBTMC/VISA. (★0 · 2026-08)
+- [fooping-tech/rigol_ds1104 `.codex/skills/rigol-ds1104z-lan/`](https://github.com/fooping-tech/rigol_ds1104/tree/main/.codex/skills/rigol-ds1104z-lan) - Skill for controlling a RIGOL DS1104Z oscilloscope over LAN/LXI: SCPI, screenshots, single-shot captures, waveform CSV export and measurement logging. (★1 · 2026-05)
+- [chouswei/MXO4-SigCapture `.cursor/skills/rs-scpi-scopes/`](https://github.com/chouswei/MXO4-SigCapture/tree/main/.cursor/skills/rs-scpi-scopes) - Skill for authoring, reviewing and debugging SCPI for Rohde & Schwarz oscilloscopes (MXO4/5, RTO/RTO6, RTP, RTM/RTA) in an MXO4 remote-capture project. (★0 · 2026-07)
+- [zhaojiseng/debug-lab-instruments](https://github.com/zhaojiseng/debug-lab-instruments) - Skill with LAN-SCPI Python controllers for a SIGLENT SDG function generator and RIGOL DHO/MHO oscilloscope: discovery, connection tests, waveform output and measurements. (★0 · 2026-07)
+- [LHX369963/sdg2122-cli](https://github.com/LHX369963/sdg2122-cli) - Typed Linux USBTMC CLI and Codex skill for the SIGLENT SDG2122X waveform generator, covering both outputs, modulation, sweep, burst and arbitrary waves. (★0 · 2026-08)
+- [Erlla/DM3058E-skills](https://github.com/Erlla/DM3058E-skills) - Skill for the RIGOL DM3058E digital multimeter: readings, logging and SCPI control over USBTMC, including native Windows USB communication. (★1 · 2026-07)
+- [zxf1023818103/cmw-wlan-test](https://github.com/zxf1023818103/cmw-wlan-test) - Claude Code skill and Python for pure-SCPI WLAN signaling test automation on the Rohde & Schwarz CMW500. (★0 · 2026-08)
+- [pasrom/kiprim-psu](https://github.com/pasrom/kiprim-psu) - Driver, CLI and skill for KIPRIM DC310S/DC605S (OWON SPE3103/SPE6053) bench power supplies over USB serial. (★0 · 2026-07)
+- [metachow/instrument-software-skill](https://github.com/metachow/instrument-software-skill) - Skill in English and Chinese for developing Python control software for scientific instruments such as SMUs, lock-in amplifiers and temperature controllers. (★0 · 2026-06)
+- [DavidBlackCN/econtest-bench-mcp](https://github.com/DavidBlackCN/econtest-bench-mcp) - USB/VISA MCP server and skill for safely driving a SIGLENT SDS2000X Plus oscilloscope and SDG6000X generator in electronics-contest signal tasks. (★1 · 2026-08)
+- [HuMoran/tt-skills](https://github.com/HuMoran/tt-skills) - Personal Claude Code skill collection with a Keysight DSO5000 and RIGOL DS1000Z oscilloscope driver, RS-485 Modbus RTU, PTC Creo J-Link automation and EasyEDA Pro to KiCad conversion. (coll · ★0 · 2026-08)
+- [analogdevicesinc/scopy `tools/scopy_dev_plugin/skills/`](https://github.com/analogdevicesinc/scopy/tree/main/tools/scopy_dev_plugin/skills) - Analog Devices' developer skills for Scopy, its oscilloscope and signal-analysis app, covering IIO widget patterns, API quality checks and plugin development. (official · coll · ★499 · 2026-09)
+- [Opentrons/opentrons `.cursor/skills/`](https://github.com/Opentrons/opentrons/tree/edge/.cursor/skills) - Cursor skills in the Opentrons monorepo for Flex and OT-2 liquid-handling robot software, including robot Python projects, analyses snapshot testing and AI client/server work. (official · coll · ★520 · 2026-09)
+- [jsgoecke/photron-fastcam-skill](https://github.com/jsgoecke/photron-fastcam-skill) - Skill for programming and integrating Photron FASTCAM high-speed cameras (Mini R5-4K, Nova, SA-Z) with the PDCLIB SDK. (★0 · 2026-02)
+- [ni/labview-fpga-hdl-tools `.github/skills/labview-fpga-hdl-tools/`](https://github.com/ni/labview-fpga-hdl-tools/tree/main/.github/skills/labview-fpga-hdl-tools) - NI's skill for the nihdl Python CLI that automates Vivado project creation, compilation, target plugin generation and LabVIEW integration for NI FPGA hardware targets. (official · ★3 · 2026-09)
 
 ### Digital fabrication
 
@@ -368,6 +582,24 @@ Vendor-official skills are tagged `official` in place. As of the snapshot they c
 - [jl-codes/laser-skills](https://github.com/jl-codes/laser-skills) - LightBurn design, preflight and job skills; design-only, never fires the laser. (coll · ★0 · 2026-08)
 - [Lordgrimz/escpos-skill](https://github.com/Lordgrimz/escpos-skill) - Byte-accurate ESC/POS command streams for thermal receipt printers, derived from the canonical specification. (★0 · 2026-04)
 - [johncattrall/keymap-ai](https://github.com/johncattrall/keymap-ai) - Audit and generate ZMK / QMK keymaps (home-row mods, layers). (★22 · 2026-08)
+- [FracktalWorks/agent-3dprinter-expert](https://github.com/FracktalWorks/agent-3dprinter-expert) - Fracktal Works' agent for debugging its Klipper-based 3D printers (Dragon, TwinDragon, Volterra) across Klipper logs, OctoPrint and Moonraker APIs, printer.cfg, MCU and thermistor errors. (official · coll · ★0 · 2026-08)
+- [moggieuk/Happy-Hare `.claude/skills/`](https://github.com/moggieuk/Happy-Hare/tree/main/.claude/skills) - Klipper MMU driver for ERCF, Tradrack, Box Turtle and other filament changers, with Claude Code skills on gate endstop invariants, the NFC/RFID subsystem and Kconfig menus. (coll · ★1.1k · 2026-09)
+- [makermate/claw3d-skill](https://github.com/makermate/claw3d-skill) - Modular 3D workflow skill that creates models with AI, searches Thingiverse, slices and sends prints. (★64 · 2026-03)
+- [bbolinger/snapmaker-u1-toolkit](https://github.com/bbolinger/snapmaker-u1-toolkit) - Toolkit to print on a Snapmaker U1 from a phone via Telegram, with headless OrcaSlicer, Moonraker upload, camera verification and a human-approved start gate, plus a slicing automation skill. (★20 · 2026-09)
+- [estampo/estampo](https://github.com/estampo/estampo) - Build system for reproducible 3D prints with a skill for setting up estampo.toml, choosing slicer engines and profiles and running print pipelines for STL, STEP, 3MF or code-CAD output. (★16 · 2026-08)
+- [CarlosZiegler/bambu-h2c-skills](https://github.com/CarlosZiegler/bambu-h2c-skills) - Skills for the Bambu Lab H2C: slice and validate Bambu Studio projects with AMS and nozzle mapping, run authorized prints, preflight FDM checks, troubleshoot prints and prepare Blender models. (coll · ★2 · 2026-09)
+- [Ethan2298/bambu-printer-agent-plugin](https://github.com/Ethan2298/bambu-printer-agent-plugin) - Mac-local agent plugin wrapping bambu-printer-mcp with a skill for checking and controlling a Bambu Lab A1 printer. (★0 · 2026-09)
+- [phoenixjyb/openclaw-3dprint](https://github.com/phoenixjyb/openclaw-3dprint) - OpenClaw skill for a text-to-3D-print pipeline that turns chat messages into physical objects on Bambu Lab printers. (★3 · 2026-03)
+- [Flatsher/elegoo-centauri-skill](https://github.com/Flatsher/elegoo-centauri-skill) - Skill that controls and monitors an Elegoo Centauri Carbon 3D printer over the SDCP WebSocket protocol: status, temperatures, files, print control, fans, lights, jogging and uploads. (★0 · 2026-04)
+- [AlchemyDevelopment/3d-printing-jarvis](https://github.com/AlchemyDevelopment/3d-printing-jarvis) - Skill for a Creality Ender 5 Plus covering slicing optimization, bed adhesion, Klipper and Moonraker printer control, G-code edits and failure diagnostics. (★0 · 2026-09)
+- [danthi123/Q1Libre `.claude/skills/`](https://github.com/danthi123/Q1Libre/tree/main/.claude/skills) - Open firmware patches for the Qidi Q1 Pro with Claude Code skills for deploying over USB, patching Klipper, diagnosing the printer and cutting releases. (coll · ★7 · 2026-07)
+- [ttracx/qidi-q2-hermes](https://github.com/ttracx/qidi-q2-hermes) - Hermes Agent integration for the Qidi Q2 3D printer using the Moonraker API for natural-language control, monitoring and timelapse. (★1 · 2026-08)
+- [toprak1919/flashforge-3d-print-skill](https://github.com/toprak1919/flashforge-3d-print-skill) - Claude Code skill for FlashForge network printing: printer discovery, slicing, G-code conversion (M82 to M83), upload and streaming. (★0 · 2026-03)
+- [therynamo/3d-print-skill](https://github.com/therynamo/3d-print-skill) - Claude skill that ingests a model, slices it with codified adjustment rules, previews and sends a real print to the printer. (★1 · 2026-07)
+- [jchadwick/autofab-skills](https://github.com/jchadwick/autofab-skills) - Skills for a model-to-print loop: 3D modeling, printer setup, slicing, and uploading, queuing and starting G-code through Moonraker. (coll · ★0 · 2026-07)
+- [flux3dp/beam-studio `.agents/skills/`](https://github.com/flux3dp/beam-studio/tree/main/.agents/skills) - FLUX's Beam Studio laser software repo with skills for the FCode task format, camera calibration and preview, path preview and print-and-cut. (official · coll · ★25 · 2026-09)
+- [peytoncasper/modeling `skills/`](https://github.com/peytoncasper/modeling/tree/main/skills) - Fusion 360 skills for sketching, solids, assemblies and CAM, including CAM setup and 2D and 3D machining operations such as adaptive clearing, contour and scallop. (coll · ★1 · 2026-03)
+- [KlaKalma/Ma_CNC `.claude/skills/`](https://github.com/KlaKalma/Ma_CNC/tree/main/.claude/skills) - LinuxCNC machine build with EtherCAT servos and an RS-485 VFD, including Claude Code skills for LinuxCNC config, EtherCAT, pendant HMI, feeds and speeds and safety interlocks. (coll · ★2 · 2026-08)
 
 ### Smart Home
 
@@ -378,6 +610,26 @@ Vendor-official skills are tagged `official` in place. As of the snapshot they c
 - [jtenniswood/espcontrol `.agents/skills/`](https://github.com/jtenniswood/espcontrol) - `flash-displays` for ESPHome OTA and USB flashing of ESP32 display boards. (★1k · 2026-09)
 - [bradsjm/hassio-addons](https://github.com/bradsjm/hassio-addons) - Seven HA skills published through an add-on: automation scripts, dashboard cards, entities and services, ESPHome, integrations, custom integrations, AWTRIX. (coll · ★45 · 2026-07)
 - [nodnarbnitram/claude-code-extensions `esphome-config-helper`](https://github.com/nodnarbnitram/claude-code-extensions) - ESPHome YAML generation, validation and troubleshooting. (★16 · 2026-04)
+- [tonylofgren/aurora-smart-home](https://github.com/tonylofgren/aurora-smart-home) - Independent Claude skills for the whole smart home: Home Assistant, ESPHome, Node-RED, custom integrations, dashboards and fab-ready hardware design. (coll · ★104 · 2026-09)
+- [SmartThingsCommunity/wwst-skills](https://github.com/SmartThingsCommunity/wwst-skills) - SmartThings skills for Works With SmartThings developers: hub-connected, cloud-connected and direct-connected (st-device-sdk-c) devices, app-to-app linking and QR onboarding for Matter and Zigbee. (official · coll · ★21 · 2026-07)
+- [401Unauthorized/smartthings-skills](https://github.com/401Unauthorized/smartthings-skills) - Agent skills for the SmartThings ecosystem covering the public API, CLI, Edge drivers and SmartApps. (coll · ★0 · 2026-02)
+- [DanielWinks/Hubitat-Public `skills/`](https://github.com/DanielWinks/Hubitat-Public/tree/main/skills) - Hubitat apps, drivers and libraries with skills for Hubitat Groovy development, code review and package releases. (coll · ★2 · 2026-09)
+- [jbaruch/hubitat-dev](https://github.com/jbaruch/hubitat-dev) - Tessl context plugin for Hubitat Elevation with skills to deploy and debug apps and drivers and to send and confirm device commands over HTTP. (coll · ★0 · 2026-09)
+- [timvdhoorn/homey-cli-skill](https://github.com/timvdhoorn/homey-cli-skill) - Agent skill that drives a Homey Pro through the official homey CLI, with full advanced-flow JSON support. (★2 · 2026-09)
+- [KrauseFx/homey-cli](https://github.com/KrauseFx/homey-cli) - CLI with a skill for safe, agent-friendly control of Athom Homey devices and flows. (★1 · 2026-03)
+- [markusleben/ha-nova](https://github.com/markusleben/ha-nova) - Home Assistant control through a lean relay plus 31 LLM skills for Claude Code, Codex and OpenCode, covering admin, Assist, backups and more. (coll · ★21 · 2026-09)
+- [nolte/claude-home-assistant](https://github.com/nolte/claude-home-assistant) - Claude Code skills and agents for Home Assistant development: custom integrations, Lovelace cards, blueprints and automations, and ESPHome. (coll · ★1 · 2026-09)
+- [beclab/hass-cli `skills/`](https://github.com/beclab/hass-cli/tree/main/skills) - Home Assistant CLI with skills for automations, scripts and scenes, Assist, backups and other admin tasks. (coll · ★1 · 2026-06)
+- [ESJavadex/claude-homeassistant-plugins](https://github.com/ESJavadex/claude-homeassistant-plugins) - Claude plugin marketplace for Home Assistant with a skill for creating and managing YAML configuration: automations, scripts, templates, blueprints and Lovelace dashboards. (★26 · 2025-11)
+- [PineappleEmperor/ha-skills](https://github.com/PineappleEmperor/ha-skills) - Claude Code plugin for building Home Assistant custom integrations, with skills for integration development, panel design and issue triage, plus with-skill eval results. (coll · ★0 · 2026-09)
+- [mobilewhatelse/home-assistant-skill](https://github.com/mobilewhatelse/home-assistant-skill) - Claude Code skill for Home Assistant automation development with solar control, dashboards and YAML patterns. (★1 · 2026-09)
+- [sam2kb/openclaw-home-assistant](https://github.com/sam2kb/openclaw-home-assistant) - Safety-first OpenClaw skill that operates, diagnoses and repairs a Home Assistant instance over its REST and WebSocket APIs: logs, history, registries, automation traces and service calls. (★0 · 2026-08)
+- [sofiaferro/rpi-voice-satellite-skill](https://github.com/sofiaferro/rpi-voice-satellite-skill) - Skill for building voice satellites on a Raspberry Pi Zero 2 W with the ReSpeaker 2-Mic HAT, Wyoming and Home Assistant. (★0 · 2026-04)
+- [yaniv-golan/smalltv-ultra-skill](https://github.com/yaniv-golan/smalltv-ultra-skill) - Claude skills for the GeekMagic SmallTV Ultra desk display: control themes, brightness and images, and install alternative firmware such as ESPHome. (coll · ★10 · 2026-03)
+- [omarshahine/lutron-cli](https://github.com/omarshahine/lutron-cli) - Terminal control of Lutron Caseta lighting with an OpenClaw and Claude Code skill for scenes, Smart Away and devices. (★0 · 2026-08)
+- [McCavity/iobroker-plugin](https://github.com/McCavity/iobroker-plugin) - Backend-agnostic ioBroker skills bundle for Claude Code and Codex: diagnose devices, find states by pattern and check batteries. (coll · ★0 · 2026-06)
+- [alackmann/openhab-config-manager-skill](https://github.com/alackmann/openhab-config-manager-skill) - OpenClaw skill for managing openHAB configs in private repos: edit items, rules and things, deploy to remote servers over SSH and query live state. (★3 · 2026-04)
+- [deworn/claude-market `plugins/loxone-config/`](https://github.com/deworn/claude-market/tree/main/plugins/loxone-config) - Claude plugin for Loxone that reads and safely edits Miniserver .Loxone config files by resolving the block-and-wire graph, plus a Loxone documentation skill. (coll · ★0 · 2026-07)
 
 ## MCP servers and bridges
 
@@ -398,6 +650,15 @@ Tool servers an agent calls at runtime. The best current surveys of this space a
 - [neusse/Codex-Circuitpython-MCP](https://github.com/neusse/Codex-Circuitpython-MCP) - CircuitPython board discovery, file deployment, serial read, interrupt and reset. (★7 · 2026-05)
 - [ctrlpi/pico-bay](https://github.com/ctrlpi/pico-bay) - Manage Raspberry Pi Pico and ESP32 boards over USB running either MicroPython or CircuitPython. (★5 · 2026-09)
 - [Wokwi MCP mode](https://docs.wokwi.com/wokwi-ci/mcp-support) - `wokwi-cli mcp` exposes hosted Wokwi simulation to an agent: run Arduino / ESP32 / RP2040 firmware and read serial without a board. (official)
+- [jinw06k/esp-idf-monitor-mcp](https://github.com/jinw06k/esp-idf-monitor-mcp) - Drop-in extension for ESP-IDF's idf.py mcp-server that adds PTY-wrapped monitor tools for boot logs and interactive serial I/O. (★13 · 2026-03)
+- [cmd0s/esp32-ai-loop-mcp-server](https://github.com/cmd0s/esp32-ai-loop-mcp-server) - MCP server with 11 tools that closes the ESP-IDF build, flash and serial-observe loop on a real ESP32 board. (★8 · 2026-04)
+- [cunjun/McuBuddy](https://github.com/cunjun/McuBuddy) - MCU debugging MCP server exposing debug probes, Keil MDK projects, ELF/DWARF symbols, SVD registers, UART/RTT logs, FreeRTOS state and flash operations. (★6 · 2026-08)
+- [powerdragonfire/platformio.mcp](https://github.com/powerdragonfire/platformio.mcp) - PlatformIO MCP server (uvx platformio.mcp) to build, flash, watch serial, run tests, decode crashes and shrink firmware. (★3 · 2026-09)
+- [Umer-Mahmood/embedded-mcp](https://github.com/Umer-Mahmood/embedded-mcp) - MCP server for TI CC26xx (XDS110/dslite) and Nordic nRF52/nRF91 (nrfjprog) that detects, erases, programs, resets and captures UART or RTT logs. (★3 · 2026-08)
+- [Helistana/mcp-e2studio-server](https://github.com/Helistana/mcp-e2studio-server) - MCP server for Renesas e2studio RA/RX projects covering build, flash, debug and fault diagnosis with structured JSON results. (★0 · 2026-08)
+- [ByteAsk/ByteAsk-Embedded-MCP](https://github.com/ByteAsk/ByteAsk-Embedded-MCP) - Open-source MCP server behind ByteAsk Embedded Docs that returns page-cited verbatim snippets from embedded reference docs (registers, Modbus codes, SCPI commands); the retrieval engine and corpus live only in the hosted endpoint. (★24 · 2026-06)
+- [Aarav-J/zephyr-mcp-server](https://github.com/Aarav-J/zephyr-mcp-server) - MCP server (npx @aarav-j/zephyr-mcp-server) giving grounded Zephyr RTOS Kconfig symbols, Devicetree bindings and API signatures. (★3 · 2026-07)
+- [jaklys/Lvgl-mcp-esp32](https://github.com/jaklys/Lvgl-mcp-esp32) - MCP server that compiles LVGL UI snippets for ESP32 in a headless simulator and returns PNG screenshots as visual feedback. (★12 · 2026-07)
 
 ### On-device MCP servers
 
@@ -415,6 +676,10 @@ MCP servers that run on the microcontroller or SBC itself, so the device is the 
 - [PedroFnseca/esp32-mcp](https://github.com/PedroFnseca/esp32-mcp) - Arduino Library Manager `ESP32-MCP`: stateless MCP 2026-07-28 with host unit tests and CI. (★1 · 2026-08)
 - [matta-pie/micro-mcp](https://github.com/matta-pie/micro-mcp) - MicroPython MCP server verified on Pico W / Pico 2 W; HTTP and stdio-over-USB transports. (★1 · 2026-02)
 - [solnera/esp32-ble-mcp-server](https://github.com/solnera/esp32-ble-mcp-server) - The one real MCP-over-BLE GATT transport: ESP32 server plus FastMCP / TS / Swift BLE client transports. (★1 · 2026-02)
+- [Kongnitive/Kongnitive-ESP32-Harness](https://github.com/Kongnitive/Kongnitive-ESP32-Harness) - Kongnitive EdgeMCP, an MCP server on ESP32 with an embedded Lua 5.4 runtime so agents can push scripts and read logs without reflashing. (★10 · 2026-05)
+- [Ai-Thinker-Open/emMCP](https://github.com/Ai-Thinker-Open/emMCP) - Tiny MCU C library (62 B RAM) implementing Ai-Thinker's UART-MCP protocol so a microcontroller can register MCP tools for an AI voice module. (official · ★5 · 2026-07)
+- [jurgen178/esp32-mcp](https://github.com/jurgen178/esp32-mcp) - JSON-RPC 2.0 MCP server running on an Arduino Nano ESP32 with a small embedded C++ MCP SDK exposing hardware controls as tools. (★7 · 2025-12)
+- [ertgtct/mcpesp](https://github.com/ertgtct/mcpesp) - Arduino library for running MCP servers on ESP32 over the built-in WebServer with tool registration and schema validation. (★4 · 2025-11)
 
 ### Serial / bus / debug (MCP)
 
@@ -427,6 +692,22 @@ MCP servers that run on the microcontroller or SBC itself, so the device is the 
 - [magnusmalm/smolmux](https://github.com/magnusmalm/smolmux) - C11 serial and GDB-SWD multiplexer with an MCP server, so one probe serves several consumers. (★2 · 2026-08)
 - [Pan-Robotics/bus-mcp](https://github.com/Pan-Robotics/bus-mcp) - Raspberry Pi CAN / CAN-FD, RS-485 / UART, I2C, SPI and GPIO as MCP tools, read-only by default. (★2 · 2026-06)
 - [mcp2everything/mcp2mqtt](https://github.com/mcp2everything/mcp2mqtt) - MCP → MQTT bridge for hardware control; the most-cited early work, but unmaintained. Siblings `mcp2serial` and `mcp2tcp` are equally stale. (★371 · stale since 2024-12)
+- [signal-slot/mcp-gdb](https://github.com/signal-slot/mcp-gdb) - GDB MCP server (npx mcp-gdb) for sessions, breakpoints, stepping, memory, registers and core dumps. (★159 · 2026-07)
+- [Klievan/jlink-mcp](https://github.com/Klievan/jlink-mcp) - MCP server for SEGGER J-Link, OpenOCD and Black Magic probes that flashes, halts, reads fault registers and diagnoses crashes, demoed on an nRF52840-DK. (★30 · 2026-09)
+- [cyj0920/jlink_mcp](https://github.com/cyj0920/jlink_mcp) - J-Link MCP server for SWD/JTAG connection, memory read/write, flash programming, breakpoints and RTT. (★34 · 2026-04)
+- [es617/serial-mcp-server](https://github.com/es617/serial-mcp-server) - Stateful pyserial MCP server that lists ports, opens connections, toggles DTR/RTS and supports protocol specs and device plugins. (★20 · 2026-03)
+- [KenosInc/sigrok-mcp-server](https://github.com/KenosInc/sigrok-mcp-server) - `sigrok-cli` MCP server that scans logic analyzers, captures data and decodes protocols with sigrok decoders. (★11 · 2026-08)
+- [luiox/openocd-mcp](https://github.com/luiox/openocd-mcp) - OpenOCD MCP server that reuses VS Code launch.json for flashing, async GDB/MI debugging and SEGGER RTT logs. (★10 · 2026-06)
+- [konbakuyomu/pyocd-debug-mcp](https://github.com/konbakuyomu/pyocd-debug-mcp) - `pyOCD` MCP server with 58 tools for CMSIS-DAP probes: flashing with verification, hardware breakpoints, watchpoints, registers and HardFault analysis. (★1 · 2026-04)
+- [wegitor/logic-analyzer-ai-mcp](https://github.com/wegitor/logic-analyzer-ai-mcp) - Experimental (alpha) MCP server for Saleae logic analyzers that configures and runs captures, parses capture files and exports data, tested with the legacy Logic 1.2.40 software. (★10 · 2026-07)
+- [qarnet/serial-mcp](https://github.com/qarnet/serial-mcp) - Rust serial MCP server with always-on RX capture, SLIP/COBS framing, AT/NMEA/Modbus ASCII parsers, DTR/RTS and BREAK control. (★9 · 2026-09)
+- [okhsunrog/flashprobe-mcp](https://github.com/okhsunrog/flashprobe-mcp) - MCP server that flashes and monitors firmware via probe-rs (JTAG/SWD with RTT or semihosting) or espflash, with defmt decoding and early-exit capture. (★5 · 2026-09)
+- [Rance-OwO/Serial-Agent](https://github.com/Rance-OwO/Serial-Agent) - Serial Agent, a VS Code extension plus MCP server and skill that gives agents serial port, log and firmware tool access for embedded debugging. (★40 · 2026-08)
+- [woooooooooolf/ser2mcp](https://github.com/woooooooooolf/ser2mcp) - Rust UART MCP server with 14 uart_* tools for multi-port read/write, pattern matching, hex/text modes and file streaming. (★7 · 2026-09)
+- [felixfinal/agent-dsviewer-logic-analyzer](https://github.com/felixfinal/agent-dsviewer-logic-analyzer) - MCP server, native dslogic-cli backend and agent skills for capturing and decoding with DreamSourceLab DSLogic USB logic analyzers. (★4 · 2026-06)
+- [BeaCox/gdb-mcp](https://github.com/BeaCox/gdb-mcp) - Multi-session GDB/MI MCP server for local programs, core files and gdbserver targets with compact frame and backtrace responses. (★9 · 2026-09)
+- [paulopalaoro/cortex-mcp-bridge](https://github.com/paulopalaoro/cortex-mcp-bridge) - VS Code extension that exposes live Cortex-Debug and PlatformIO debug state over MCP and drives STM32 peripherals through OpenOCD without firmware. (★5 · 2026-04)
+- [harrisonfaulkner/canbus-mcp](https://github.com/harrisonfaulkner/canbus-mcp) - CAN bus reverse-engineering MCP server for PEAK PCAN-USB that reads, analyzes and maps ECU messages with DBC import/export. (★2 · 2026-05)
 
 ### Robotics (MCP)
 
@@ -455,6 +736,14 @@ MCP servers that run on the microcontroller or SBC itself, so the device is the 
 - [gtoff/moveit-mcp-server](https://github.com/gtoff/moveit-mcp-server) - MoveIt 2 planning as MCP tools. (★4 · 2026-03)
 - [ros-claw/inspire-rh56-mcp](https://github.com/ros-claw/inspire-rh56-mcp) - Inspire RH56 dexterous hand over CAN, revalidated on a physical hand. (★1 · 2026-07)
 - [erh/viam-mcp-server](https://github.com/erh/viam-mcp-server) - MCP as a Viam module: per-method tools generated from each component's Go interface, by Viam's CEO. (★0 · 2026-04)
+- [ajtudela/nav2_mcp_server](https://github.com/ajtudela/nav2_mcp_server) - MCP server for ROS 2 Nav2 robots: navigate to poses, follow waypoints, clear costmaps and manage lifecycle. (★84 · 2026-05)
+- [proxi666/amazing-ros2-mcp](https://github.com/proxi666/amazing-ros2-mcp) - Native rclpy ROS 2 MCP server covering topics, services, actions, parameters, images and Nav2 with velocity clamping and topic blocklists. (★14 · 2026-05)
+- [LCAS/ros2_mcp](https://github.com/LCAS/ros2_mcp) - ROS 2 MCP server from LCAS for topic echo, image retrieval for VLMs and interface introspection. (★9 · 2025-12)
+- [selfpatch/ros2_medkit_mcp](https://github.com/selfpatch/ros2_medkit_mcp) - MCP adapter for the ros2_medkit SOVD gateway that exposes ROS 2 diagnostics, operations, parameters and lifecycle status. (official · ★6 · 2026-09)
+- [zhou-zhichao/robotstudio-mcp](https://github.com/zhou-zhichao/robotstudio-mcp) - ABB RobotStudio bridge (C# add-in with CLI, skills and MCP) that inspects stations, uploads RAPID code and runs simulations. (★86 · 2026-09)
+- [PixelML/reachy-mini-mcp](https://github.com/PixelML/reachy-mini-mcp) - MCP server for Reachy Mini robots with dances, emotions, head movement, camera capture, face tracking and local TTS. (★21 · 2026-01)
+- [danmartinez78/VectorClaw](https://github.com/danmartinez78/VectorClaw) - MCP server that exposes Anki Vector robot capabilities over local gRPC via Wire-Pod. (★19 · 2026-06)
+- [Jizai-inc/palmimo-devkit](https://github.com/Jizai-inc/palmimo-devkit) - Python SDK, MCP server and agent examples for the Palmimo six-legged tabletop robot (18 leg servos, servo neck, face display). (official · ★9 · 2026-09)
 
 ### Drones (MCP)
 
@@ -466,6 +755,11 @@ MCP servers that run on the microcontroller or SBC itself, so the device is the 
 - [rmeadomavic/ardupilot-mcp](https://github.com/rmeadomavic/ardupilot-mcp) - SITL-first, safety-gated ArduPilot MAVLink MCP. (★2 · 2026-08)
 - [starlordz12/inav-mcp](https://github.com/starlordz12/inav-mcp) - Setup, diagnosis and tuning of iNAV fixed-wing flight controllers over USB. (★2 · 2026-08)
 - [bvandevliet/betaflight-mcp](https://github.com/bvandevliet/betaflight-mcp) - Live Betaflight CLI configuration and PID assistant with a bundled tuning skill. (★1 · 2026-08)
+- [deepak61296/mavlink-mcp](https://github.com/deepak61296/mavlink-mcp) - MAVLink MCP server that flies ArduPilot vehicles and captures camera frames, tested in ArduPilot SITL (not yet on real hardware), with flight tools off by default. (★4 · 2026-09)
+- [robotto-xyz/ai-drone-toolkit](https://github.com/robotto-xyz/ai-drone-toolkit) - A uv monorepo with MCP servers for PX4 ULog flight-log analysis and simulation-only PX4 SITL commanding with safety checks. (coll · ★3 · 2026-06)
+- [Project-GrADyS/uav_mcp](https://github.com/Project-GrADyS/uav_mcp) - MCP-to-HTTP shim over uav-api for arming, GPS/NED movement and telemetry of ArduPilot quadcopters or SITL. (★3 · 2026-05)
+- [furkanisikay/ardupilot-mcp](https://github.com/furkanisikay/ardupilot-mcp) - MCP server that diagnoses ArduPilot .bin flight logs (vibration, parameters, calibration, power margin) with links to ArduPilot docs. (★4 · 2026-07)
+- [alireza787b/dronesphere](https://github.com/alireza787b/dronesphere) - DroneSphere, PX4 drone fleet control with an MCP interface, natural-language navigation in GPS and NED frames and telemetry. (★14 · 2025-09)
 
 ### Simulators (MCP)
 
@@ -478,6 +772,10 @@ MCP servers that run on the microcontroller or SBC itself, so the device is the 
 - [SchiopuAndreiViorel/coppelia-mcp](https://github.com/SchiopuAndreiViorel/coppelia-mcp) - Claude ↔ CoppeliaSim. (★4 · 2026-03)
 - [lyuai/genesis-mcp](https://github.com/lyuai/genesis-mcp) - Genesis World simulator MCP with visualization. (★5 · 2025-03)
 - [punithkrishnakeepudi/webots-mcp-server](https://github.com/punithkrishnakeepudi/webots-mcp-server) - Webots launch, monitor, RL training and scene manipulation; the only Webots MCP found. (★0 · 2026-04)
+- [omnilink-tech/omnisim](https://github.com/omnilink-tech/omnisim) - OmniSim, a Newton-physics robotics simulator for coding agents with HTTP/JSON control, a first-party MCP server and a ROS 2 sidecar. (★180 · 2026-09)
+- [sherndon79/agent-world](https://github.com/sherndon79/agent-world) - Isaac Sim extensions with HTTP APIs and MCP tools for building scenes, camera control, navigation and recording. (coll · ★4 · 2025-10)
+- [SofianeAlla/carla-mcp](https://github.com/SofianeAlla/carla-mcp) - CARLA MCP server with 55 tools for simulator launch, world control, full sensor rigs, lidar point-cloud analysis and KITTI-style dataset export. (★2 · 2026-05)
+- [Croquembouche/CARLA_MCP](https://github.com/Croquembouche/CARLA_MCP) - WebUI and MCP server (49 tools) for a customized CARLA UE5 simulator with scenario control, parking, sensors, recording and ROS 2 bags. (★2 · 2026-09)
 
 ### Industrial IoT (MCP)
 
@@ -493,6 +791,21 @@ MCP servers that run on the microcontroller or SBC itself, so the device is the 
 - [efranceschetti/festo-codesys-mcp](https://github.com/efranceschetti/festo-codesys-mcp) - Festo / CODESYS MCP with ST authoring, PLCopen XML, motion control and error-diagnosis skills. (★1 · 2026-09)
 - [lwsinclair/IoT-Edge-MCP-Server](https://github.com/lwsinclair/IoT-Edge-MCP-Server) - Unifies MQTT, Modbus and InfluxDB for SCADA / PLC work. (★3 · 2025-11)
 - [daedalus/mcp-snap7](https://github.com/daedalus/mcp-snap7) - Siemens S7 PLC via python-snap7. (★0 · 2026-04)
+- [ezhuk/modbus-mcp](https://github.com/ezhuk/modbus-mcp) - Python Modbus MCP server (`uv add modbus-mcp`) that lets agents read sensor registers and actuate Modbus devices in building automation and industrial control systems over a Streamable HTTP endpoint. (★4 · 2026-09)
+- [ezhuk/mqtt-mcp](https://github.com/ezhuk/mqtt-mcp) - Python MQTT MCP server (`uv add mqtt-mcp`) that lets agents subscribe to sensor topics and publish commands to MQTT devices in industrial, building and smart-home systems. (★22 · 2026-09)
+- [shriramkv/opcua-mcp](https://github.com/shriramkv/opcua-mcp) - OPC UA MCP server that publishes allowlisted tags from PLCs, SCADA gateways and historians as agent tools, read-only by default with deliberately gated setpoint writes. (★20 · 2026-07)
+- [mwieczorkiewicz/opcua-mcp](https://github.com/mwieczorkiewicz/opcua-mcp) - Go OPC UA MCP server that lets an LLM browse, search, read, write and subscribe to live PLC and robot data over stdio or HTTP, with an address-space index and a Docker Compose demo against a test OPC UA server. (★5 · 2026-08)
+- [luke-harriman/Codesys-MCP](https://github.com/luke-harriman/Codesys-MCP) - MCP server that exposes the CODESYS V3.5 IDE scripting API as 41 tools and 3 resources, keeping the CODESYS UI open so agent edits to PLC projects appear live in the IDE. (★80 · 2026-05)
+- [KerberosClaw/kc_modbus_mcp](https://github.com/KerberosClaw/kc_modbus_mcp) - Modbus TCP MCP server where YAML device profiles let agents read and write PLC registers by name with data-type conversion, plus a built-in simulator for testing without hardware. (★2 · 2026-03)
+- [alejoseb/ModbusMCP](https://github.com/alejoseb/ModbusMCP) - MCP server providing Modbus RTU and TCP client and simulated slave functionality, with serial-port discovery and read/write of coils, discrete inputs and registers across multiple concurrent connections. (★3 · 2026-02)
+- [MountainClimberJiwen/plc-mcp](https://github.com/MountainClimberJiwen/plc-mcp) - PLC MCP server that maps Siemens TIA Portal (via TIA Openness) and Inovance AM600/InoProShop projects into a virtual file system so agents can ls, cat, write and diff program blocks. (★4 · 2026-07)
+- [WagoAlex/wago-plc-mcp-server](https://github.com/WagoAlex/wago-plc-mcp-server) - MCP server that connects assistants to a fleet of WAGO PLCs through the WAGO WDA REST API with 29 tools, bearer auth, a hash-chained audit log and write gates the agent cannot override. (★3 · 2026-09)
+- [fieldworks-build/fieldworks-adapters](https://github.com/fieldworks-build/fieldworks-adapters) - Rust workspace of MCP protocol adapters that give agents one nine-tool surface for industrial data, with working MQTT, OPC UA and Modbus TCP adapters and stubs for DNP3, EtherNet/IP and AVEVA PI. (coll · ★0 · 2026-08)
+- [zhiningsun/industrial-mcp](https://github.com/zhiningsun/industrial-mcp) - MCP server that turns Modbus TCP and MQTT industrial devices into agent tools (list, read, set speed, start, stop), with OPC UA only simulated, a built-in device simulation engine and inspection and emergency-stop prompts. (★3 · 2026-08)
+- [rjboer/OMRON-MCP](https://github.com/rjboer/OMRON-MCP) - Go MCP server and Windows workbench for OMRON Sysmac Studio projects that lets agents inspect programs and variables, investigate faults, generate Structured Text and apply reviewed changes. (★2 · 2026-08)
+- [dad-io/kepware_mcp_server](https://github.com/dad-io/kepware_mcp_server) - MCP server for Kepware KEPServerEX that manages channels, devices, tags, IoT Gateway, datalogger and users through the Configuration API over stdio, SSE or HTTPS. (★2 · 2026-03)
+- [arhunn/s7-plc-mcp](https://github.com/arhunn/s7-plc-mcp) - MCP server that talks directly to Siemens S7-1200/1500 PLCs on TCP port 102 using pure-Python python-snap7, with no external DLL. (★0 · 2026-04)
+- [OAKHEN1412/wecon-plc-mcp](https://github.com/OAKHEN1412/wecon-plc-mcp) - MCP server for WECON LX3V PLCs and PIStudio HMIs that authors ladder logic as text, generates project files and has Modbus live-read tools not yet tested on hardware, with offline tests that need no hardware. (★0 · 2026-07)
 
 ### Automotive (MCP)
 
@@ -505,6 +818,12 @@ MCP servers that run on the microcontroller or SBC itself, so the device is the 
 - [mikehaller/kuksa-mcp-server](https://github.com/mikehaller/kuksa-mcp-server) - Read and write COVESA VSS signals through the Eclipse Kuksa Databroker; the only VSS MCP found. (★0 · 2026-06)
 - [cyrusdavirusss/j2534-mcp-server](https://github.com/cyrusdavirusss/j2534-mcp-server) - J2534 PassThru UDS / OBD-II; the only J2534 MCP found. Windows. (★0 · 2026-09)
 - [daedalus/mcp-canbus](https://github.com/daedalus/mcp-canbus) - Minimal CAN bus MCP. (★0 · 2026-03)
+- [cobanov/teslamate-mcp](https://github.com/cobanov/teslamate-mcp) - MCP server that hands a TeslaMate PostgreSQL database to AI clients so they can answer questions about a Tesla's battery degradation, drives and charging costs without SQL. (★140 · 2026-08)
+- [ysrdevs/tesla-mcp](https://github.com/ysrdevs/tesla-mcp) - MCP server for the Tesla Fleet API with 96 tools covering vehicle control, climate, charging, navigation, media, Sentry and valet modes and live vehicle data. (★1 · 2026-04)
+- [Zenotech-bv/teslafi-mcp](https://github.com/Zenotech-bv/teslafi-mcp) - MCP server for the TeslaFi API that answers questions about a Tesla's live status, drive and charge history and commutes, with vehicle commands only when explicitly enabled. (★2 · 2026-09)
+- [keithah/tessie-mcp](https://github.com/keithah/tessie-mcp) - Self-hosted Streamable HTTP MCP server for Tessie that lists vehicles, reads state, analyzes drive history and paths and sends vehicle commands behind a bearer token. (★9 · 2026-08)
+- [ayhammouda/obd-mcp-server](https://github.com/ayhammouda/obd-mcp-server) - Safety-first, read-only OBD MCP server that gives AI clients structured vehicle diagnostics from a deterministic simulator or an ELM327 adapter, with extensible driver and diagnostic profiles. (★0 · 2026-09)
+- [mbohaychuk/OBD-II-MCP-Server](https://github.com/mbohaychuk/OBD-II-MCP-Server) - FastMCP server bridging MCP hosts to a live OBD-II port through an ELM327 adapter, with live PIDs, DTCs, freeze frames, session recording, OBDb Ford signal sets and NHTSA recall lookup. (★0 · 2026-06)
 
 ### Building automation and energy (MCP)
 
@@ -521,6 +840,15 @@ MCP servers that run on the microcontroller or SBC itself, so the device is the 
 - [javierojan/askacharge-mcp](https://github.com/javierojan/askacharge-mcp) - Operate a fleet of OCPP charge points. (★0 · 2026-09)
 - [cr2007/mcp-helvarnet](https://github.com/cr2007/mcp-helvarnet) - Helvar DALI lighting via HelvarNet; the only DALI MCP found. (★0 · 2026-01)
 - [SAP/e-mobility-charging-stations-simulator `skills/`](https://github.com/SAP/e-mobility-charging-stations-simulator) - EVSE-simulator skill for SAP's OCPP-J simulator; simulation, not hardware. (official · ★225 · 2026-09)
+- [Smarteon/lox-mcp](https://github.com/Smarteon/lox-mcp) - Java MCP server that connects assistants to Loxone Miniserver Gen 1/Gen 2 to control lights, blinds and scenes and read real-time states over WebSocket, with a desktop configurator. (★9 · 2026-07)
+- [New-Forest-Technology-Services/Loxone-MCP](https://github.com/New-Forest-Technology-Services/Loxone-MCP) - MCP server with more than 80 tools over the Loxone Miniserver local API covering lights, lighting moods, blinds, climate and other controls. (★1 · 2026-07)
+- [Yveshby27/brick-bacnet-mcp](https://github.com/Yveshby27/brick-bacnet-mcp) - Read-only BACnet/IP gateway that exposes building automation point databases to LLM agents via MCP, applying Brick and Project Haystack semantic tags at ingest. (★1 · 2026-06)
+- [marcinn2/goodwe-inverter-mcp](https://github.com/marcinn2/goodwe-inverter-mcp) - MCP server that monitors and controls GoodWe solar inverters on the local network, reading PV, battery and grid data and changing operation modes, export limit and battery depth of discharge. (★0 · 2026-09)
+- [huber/fronius-mcp-server](https://github.com/huber/fronius-mcp-server) - TypeScript MCP server covering the Fronius Solar API v1 for inverter real-time data, logger and LED status, smart meters and power flow. (★4 · 2025-11)
+- [beldur/fronius-mcp](https://github.com/beldur/fronius-mcp) - MCP server and CLI for Fronius inverters and smart meters that exposes realtime inverter, power-flow and meter data and answers questions about historical production and battery state. (★0 · 2026-07)
+- [xianman/enphase-mcp](https://github.com/xianman/enphase-mcp) - MCP server for the Enphase Developer API v4 with 30 read tools for solar production, consumption, battery and grid telemetry, and opt-in battery and EV-charger writes. (★1 · 2026-05)
+- [holger1411/unofficial-solaredge-mcp](https://github.com/holger1411/unofficial-solaredge-mcp) - Unofficial MCP server giving assistants structured access to a SolarEdge PV installation through the SolarEdge Monitoring API. (★0 · 2026-06)
+- [karlattard237/V2C-Cloud-MCP](https://github.com/karlattard237/V2C-Cloud-MCP) - FastMCP server for V2C Trydan EV chargers that monitors charging sessions and controls current, power mode, PV solar integration, timers and lock state. (★0 · 2026-04)
 
 ### Smart Home (MCP)
 
@@ -560,6 +888,28 @@ MCP servers that run on the microcontroller or SBC itself, so the device is the 
 - [sandraschi/dreame-mcp](https://github.com/sandraschi/dreame-mcp) - Dreame robot vacuums via the DreameHome cloud with optional local miIO. (★4 · 2026-09)
 - [cacack/mcp-server-zwave-js-ui](https://github.com/cacack/mcp-server-zwave-js-ui) - Z-Wave JS UI WebSocket MCP: values, config, inclusion and exclusion. (★0 · 2026-08)
 - [Buggy1111/shelly-mcp](https://github.com/Buggy1111/shelly-mcp) - Shelly Gen1–4 and BLU devices, local-first; one of the very few smart-home servers in the official MCP registry. (★0 · 2026-08)
+- [Coolver/home-assistant-vibecode-agent](https://github.com/Coolver/home-assistant-vibecode-agent) - Home Assistant add-on (or standalone Docker) agent exposing a REST API that its companion MCP server uses so Claude Code, Cursor and VS Code can inspect a live Home Assistant and build, deploy, test and debug automations, scripts and dashboards on board. (★629 · 2026-09)
+- [robbrad/homeassistant-mcp](https://github.com/robbrad/homeassistant-mcp) - FastMCP server for Home Assistant with 40 tools for lights, climate, covers, locks, media players, vacuums and cameras, BM25 on-demand tool search, resources and guided prompts. (★106 · 2026-05)
+- [tdeckers/openhab-mcp](https://github.com/tdeckers/openhab-mcp) - MCP server for a real openHAB instance that lists, creates and updates items, things and rules over the REST API, including thing status and firmware updates. (★25 · 2026-06)
+- [deswong/Openhab-MCP](https://github.com/deswong/Openhab-MCP) - Node.js MCP server that exposes the openHAB v5+ REST API as tools for items, things, rules, persistence and semantic tags. (★7 · 2026-07)
+- [saihgupr/esphome-mcp](https://github.com/saihgupr/esphome-mcp) - MCP server for the ESPHome Device Builder that lets agents list devices, edit and validate YAML configs, compile firmware and flash it over the air. (★16 · 2026-08)
+- [loryanstrant/Zigbee2MQTT-MCP](https://github.com/loryanstrant/Zigbee2MQTT-MCP) - MCP server that lists, inspects and controls Zigbee devices and manages the bridge through the Zigbee2MQTT frontend WebSocket API, with no direct MQTT broker access needed. (★4 · 2026-08)
+- [solaegis/hubitat-mcp](https://github.com/solaegis/hubitat-mcp) - MCP server for Hubitat Elevation hubs that controls devices through the Maker API, with optional gated admin tools for firmware, Z-Wave mesh and backups. (★0 · 2026-08)
+- [tim661811/homey-mcp](https://github.com/tim661811/homey-mcp) - MCP server for Homey Pro that reads the whole home, queries sensor and energy history and builds working Flows from a plain-language description. (★0 · 2026-09)
+- [langowarny/smartthings-mcp](https://github.com/langowarny/smartthings-mcp) - MCP server wrapping the Samsung SmartThings Public API for devices, capabilities, commands, rooms, scenes, rules, hubs and event subscriptions. (★4 · 2025-12)
+- [mp-consulting/homebridge-mcp-server](https://github.com/mp-consulting/homebridge-mcp-server) - MCP server for Homebridge (via homebridge-config-ui-x) that controls accessories, restarts the server, reads and replaces config.json, looks up plugins and their config schemas and reads logs. (★5 · 2026-09)
+- [adrighem/domoticz-mcp](https://github.com/adrighem/domoticz-mcp) - MCP server for the Domoticz home automation system that searches and controls devices, scenes, user variables and event scripts, with resources and prompt templates. (★0 · 2026-09)
+- [joeynyc/Govee-MCP](https://github.com/joeynyc/Govee-MCP) - TypeScript MCP server that controls Govee smart lights by natural language through the Govee cloud API, with device allowlists, rate limiting, command coalescing and a dry-run mode; the LAN adapter is only a placeholder that falls back to cloud. (★9 · 2026-04)
+- [Roach/airglow](https://github.com/Roach/airglow) - Philips Hue MCP server plus Claude Code hooks that animate Hue lights in real time to show what the agent is doing, such as thinking, working, success or waiting on a permission prompt. (★10 · 2026-06)
+- [tsali/lifx-mcp](https://github.com/tsali/lifx-mcp) - Python MCP server for direct LAN control of LIFX lights over UDP, with discovery, groups, color presets, scenes and breathe/pulse effects and no cloud dependency. (★0 · 2026-04)
+- [Tommertom/sonos-ts-mcp](https://github.com/Tommertom/sonos-ts-mcp) - TypeScript MCP server that controls Sonos speakers on the local network over UPnP/SOAP, covering playback, zone grouping, queues, music library browsing and alarms. (★15 · 2025-11)
+- [emrikol/ecobee-mcp](https://github.com/emrikol/ecobee-mcp) - TypeScript MCP server for controlling Ecobee thermostats, built on a performance fork of the official MCP TypeScript SDK. (★1 · 2026-08)
+- [holger1411/roborock-mcp](https://github.com/holger1411/roborock-mcp) - Unofficial MCP server for Roborock V1-protocol robot vacuums that reads status, sends room cleaning jobs and reports cleaning history and consumable wear. (★2 · 2026-07)
+- [caffeinum/irobot-mcp](https://github.com/caffeinum/irobot-mcp) - CLI and MCP server that talks to an iRobot Roomba's own MQTT broker on the LAN to read state, start, pause and dock missions and decode why the robot stopped. (★0 · 2026-09)
+- [andresgarcia0313/samsung-tv-mcp](https://github.com/andresgarcia0313/samsung-tv-mcp) - MCP server with 18 tools that controls Samsung Tizen smart TVs on the local network with SSDP auto-discovery and no cloud or SmartThings account. (★0 · 2026-03)
+- [tanny-pm/switchbot-mcp](https://github.com/tanny-pm/switchbot-mcp) - Rust MCP server that exposes SwitchBot devices as tools over SwitchBot API v1.1 with HMAC-SHA256 signing to list, query and operate devices. (★1 · 2026-07)
+- [Jacou/lg-thinq-mcp](https://github.com/Jacou/lg-thinq-mcp) - MCP server for LG ThinQ appliances over the ThinQ Connect API that lists devices, reads status and sends control commands to washers, dryers, dishwashers and more, plus a separate MQTT listener that posts cycle-complete notifications to a webhook. (★0 · 2026-01)
+- [danecodes/roku-mcp](https://github.com/danecodes/roku-mcp) - MCP server and CLI that lets agents inspect Roku SceneGraph UI, take screenshots, send remote input, sideload dev builds and run smoke tests on Roku devices. (★4 · 2026-04)
 
 ### Lab instruments (MCP)
 
@@ -583,6 +933,16 @@ MCP servers that run on the microcontroller or SBC itself, so the device is the 
 - [nygmeta/OpenLabAI](https://github.com/nygmeta/OpenLabAI) - MCP servers for Opentrons OT-2, Hamilton STAR, Biomek FXP and Cellario with human-approval gates. (★0 · 2026-09)
 - [ghollyer/AMADEUS](https://github.com/ghollyer/AMADEUS) - Gatan / DigitalMicrograph electron microscope: stage, beam, STEM, EDS over ZMQ. (★4 · 2026-07)
 - [sandraschi/sdr-mcp](https://github.com/sandraschi/sdr-mcp) - RTL-SDR: spectrum, waterfall, FM demodulation, GNU Radio. (★7 · 2026-09)
+- [masahiro-999/oscilloscope-mcp](https://github.com/masahiro-999/oscilloscope-mcp) - MCP server that lets an agent operate a RIGOL DS1000Z bench oscilloscope over LAN/SCPI, setting triggers and channels, reading measurements and capturing real waveforms as feedback for FPGA work. (★3 · 2026-06)
+- [DVSProductions/rigol-mcp](https://github.com/DVSProductions/rigol-mcp) - MCP server that drives Rigol DS1000Z/MSO1000Z oscilloscopes over raw SCPI on TCP port 5555 with no VISA, returning screenshots, measurements and waveform captures. (★0 · 2026-07)
+- [gloveboxes/rigol-mcp](https://github.com/gloveboxes/rigol-mcp) - Standards-based stdio MCP server for Rigol oscilloscopes over LAN, tested on the DHO814 with a model-filtered command catalog and streamed memory downloads. (★0 · 2026-09)
+- [mp911de/siglent-scpi-mcp](https://github.com/mp911de/siglent-scpi-mcp) - MCP server that connects Siglent oscilloscopes and power supplies over SCPI/TCP with typed, validated tools, reporting the SCPI applied by each write, plus OpenTelemetry observability. (★0 · 2026-09)
+- [abhinav937/pyvisa-mcp](https://github.com/abhinav937/pyvisa-mcp) - MCP server that puts PyVISA in front of AI tools to discover and drive oscilloscopes and other SCPI instruments over USB, GPIB, serial and Ethernet, learning each instrument's dialect across sessions. (★0 · 2026-09)
+- [colingimenez/SCPI_MCP](https://github.com/colingimenez/SCPI_MCP) - MCP server exposing a network-connected waveform generator, multimeter, oscilloscope and power supply as 76 tools, including a raw SCPI passthrough, so coding agents can investigate circuits on the bench. (★1 · 2026-08)
+- [rbxxswap/labview-mcp](https://github.com/rbxxswap/labview-mcp) - LabVIEW MCP plugin that lets Claude run VIs, read and write front-panel controls, run test suites, generate VI code, build executables and read TDMS data, including on Community Edition. (★2 · 2026-06)
+- [AnterCreeper/keyscope-mcp](https://github.com/AnterCreeper/keyscope-mcp) - Pure-Python MCP service that controls Keysight EDUX1052G oscilloscopes over USBTMC through a single compact-DSL tool returning waveforms, data and screenshots. (★0 · 2026-05)
+- [clarholm/NanoVNA-MCP](https://github.com/clarholm/NanoVNA-MCP) - MCP server for the NanoVNA-H4 vector network analyzer over serial that sweeps antennas and measures bandwidth and impedance, bundled with a skill that produces SWR and Smith chart PDF reports. (★0 · 2026-03)
+- [createskyblue/Yingjia_EMK850_low-power_analyzer_MCP](https://github.com/createskyblue/Yingjia_EMK850_low-power_analyzer_MCP) - Reverse-engineered serial driver, CLI and MCP server for the Yingjia EMK850+ low-power analyzer that automates µA/µW power capture and programmable supply control. (★2 · 2026-08)
 
 ### Cameras (MCP)
 
@@ -592,6 +952,11 @@ MCP servers that run on the microcontroller or SBC itself, so the device is the 
 - [sandraschi/tapo-mcp](https://github.com/sandraschi/tapo-mcp) - TP-Link Tapo cameras: PTZ, snapshot, streaming. (★2 · 2026-09)
 - [ros-claw/librealsense-mcp](https://github.com/ros-claw/librealsense-mcp) - A pyrealsense2 wrapper with 26 tools: depth, point cloud, calibration, multi-camera. (★1 · 2026-07)
 - [oneshot2001/onvif-pp-cli](https://github.com/oneshot2001/onvif-pp-cli) - ONVIF Profile S / T / G / M CLI and MCP, 64 commands, smoke-tested on Axis cameras. (★0 · 2026-05)
+- [brianegge/dahua-mcp](https://github.com/brianegge/dahua-mcp) - MCP server that manages multiple Dahua and Amcrest IP cameras through their CGI HTTP API over stdio or HTTP. (★5 · 2026-09)
+- [ed-dryha/reolink-mcp](https://github.com/ed-dryha/reolink-mcp) - Local-network MCP server for Reolink cameras that returns snapshots, device and AI detection state, PTZ presets and controls spotlight, siren and IR/white LEDs without a cloud or NVR. (★2 · 2026-07)
+- [oneshot2001/onvif-mcp](https://github.com/oneshot2001/onvif-mcp) - Experimental governed MCP server for IP cameras over AXIS VAPIX and ONVIF SOAP with snapshot and PTZ tools plus VAPIX-only config-drift tools, where every call passes a fail-closed per-agent policy gate and emits a signed hash-chained receipt. (★1 · 2026-09)
+- [DataKnifeAI/unifi-protect-mcp](https://github.com/DataKnifeAI/unifi-protect-mcp) - Go MCP server for Ubiquiti UniFi Protect that queries cameras, sensors, smart lights, chimes, live views, viewers, NVR and security events and runs PTZ patrols and presets, RTSPS streams and talkback sessions; flagged as early development. (★0 · 2026-08)
+- [vijayg10/iot-onvif-mcp](https://github.com/vijayg10/iot-onvif-mcp) - Dockerized ONVIF MCP server over HTTP/SSE that lists camera profiles and stream URIs, captures images via snapshot or FFmpeg RTSP fallback and drives PTZ moves and presets. (★1 · 2026-03)
 
 ### Wireless and SDR (MCP)
 
@@ -608,6 +973,10 @@ MCP servers that run on the microcontroller or SBC itself, so the device is the 
 - [oliveres/chirpstack-mcp-server](https://github.com/oliveres/chirpstack-mcp-server) - ChirpStack v4 LoRaWAN over gRPC with live uplink debugging. (★0 · 2026-08)
 - [swannman/openthread-mcp](https://github.com/swannman/openthread-mcp) - OpenThread CLI MCP and Prometheus exporter on an Arduino Nano Matter; the only Thread MCP found. (★1 · 2026-03)
 - [koolsb/zwavejs-mcp](https://github.com/koolsb/zwavejs-mcp) - Z-Wave JS UI maintenance: heal, interview, diagnose, with lock-safety redaction. (★0 · 2026-06)
+- [yoelbassin/gr-mcp](https://github.com/yoelbassin/gr-mcp) - Marconi (formerly GR-MCP), a GNU Radio agent toolkit that surveys spectrum and builds receivers as SigMF captures, YAML pipelines and .grc flowgraphs; v1.0 is simulation-only. (★49 · 2026-08)
+- [patrickrb/smartsdr-mcp](https://github.com/patrickrb/smartsdr-mcp) - MCP server for FlexRadio SmartSDR radios with frequency/mode control, CW decoding, SSB transcription and approval-gated transmit. (★3 · 2026-03)
+- [ConsentirDev/meshtastic.mcp](https://github.com/ConsentirDev/meshtastic.mcp) - Meshtastic MCP server that connects over USB serial, TCP or Bluetooth to send messages, traceroute and read node telemetry. (★6 · 2025-11)
+- [millsymills-com/flipperzero-mcp](https://github.com/millsymills-com/flipperzero-mcp) - Flipper Zero MCP server over protobuf RPC via USB or the WiFi Dev Board, with storage, app, GPIO and CLI tools and TX/write tools off by default. (★5 · 2026-09)
 
 ### USB, HID and KVM (MCP)
 
@@ -619,6 +988,13 @@ MCP servers that run on the microcontroller or SBC itself, so the device is the 
 - [sunasaji/mcp-serial-hid-kvm](https://github.com/sunasaji/mcp-serial-hid-kvm) - CH9329 USB-HID plus HDMI capture: an agent drives a physical PC as a KVM, with OCR. (★3 · 2026-04)
 - [yindia/qmkmcp](https://github.com/yindia/qmkmcp) - Any QMK / VIA keyboard over raw HID: lighting, keymaps, macros. (★0 · 2026-08)
 - [Kevin-HYX/kvmctl](https://github.com/Kevin-HYX/kvmctl) - V4L2 plus USB-gadget HID KVM control service on an Orange Pi, CLI and MCP. (★0 · 2026-09)
+- [mantis5x5/kvm-automation](https://github.com/mantis5x5/kvm-automation) - MCP server, CLI and skills for out-of-band automation of GLKVM, PiKVM and TinyPilot IP-KVMs via HDMI capture and USB HID. (★18 · 2026-08)
+- [shvartzj1/jetkvm-mcp](https://github.com/shvartzj1/jetkvm-mcp) - MCP server for stock JetKVM devices: screenshots, typing, clicking, boot media mounting and power control below the OS. (★6 · 2026-09)
+- [kennypeh85/glkvm-mcp](https://github.com/kennypeh85/glkvm-mcp) - GL.iNet GLKVM MCP server with keyboard, mouse, screenshots and Tesseract OCR so agents click UI elements by text. (★8 · 2026-06)
+- [DVSProductions/comet-kvm-mcp](https://github.com/DVSProductions/comet-kvm-mcp) - MCP server for the GL.iNet Comet (GL-RM1) KVM wrapping the kvmd HTTP API for screenshots, keyboard, mouse and ATX power. (★6 · 2026-07)
+- [DustinTrap/kvm-pilot](https://github.com/DustinTrap/kvm-pilot) - Gated, audited MCP server controlling bare-metal machines through IP-KVMs (PiKVM, GLKVM, BliKVM), BMCs (Redfish/IPMI), Intel AMT and SSH. (★5 · 2026-08)
+- [KultivatorConsulting/pikvm_mcp_server](https://github.com/KultivatorConsulting/pikvm_mcp_server) - PiKVM MCP server with keyboard, mouse and screen access plus vision-based automatic mouse calibration. (★3 · 2026-03)
+- [JacobBeningo/devusb](https://github.com/JacobBeningo/devusb) - CLI and MCP server for USB power switching and power-cycling of bench devices through Yepkit YKUSH hubs or generic uhubctl-compatible hubs. (★5 · 2026-07)
 
 ### EDA / PCB / CAD (MCP)
 
@@ -636,6 +1012,29 @@ MCP servers that run on the microcontroller or SBC itself, so the device is the 
 - [Netlist-Studio/kicad-mcp](https://github.com/Netlist-Studio/kicad-mcp) - KiCad 9 control over its IPC API. (★18 · 2026-02)
 - [octoco-ltd/sheetsdata-mcp](https://github.com/octoco-ltd/sheetsdata-mcp) - Component datasheets: specs, pinouts and absolute-maximum ratings from PDFs. (★11 · 2026-04)
 - [WangErShao/SynthAid_quartus_mcp](https://github.com/WangErShao/SynthAid_quartus_mcp) - 22-tool Intel Quartus MCP. (★3 · 2026-06)
+- [neka-nat/freecad-mcp](https://github.com/neka-nat/freecad-mcp) - FreeCAD addon plus MCP server that lets agents create and edit models, run Python scripts, inspect documents and run FEM analyses. (★2.4k · 2026-09)
+- [eyfel/mcp-server-solidworks](https://github.com/eyfel/mcp-server-solidworks) - SolidPilot, a SolidWorks MCP server whose low-level CAD tools are joined by a CAD-neutral Feature Graph IR compiler, currently used to rebuild parts from IR, and a maturing DXF/DWG drawing reader. (★317 · 2026-09)
+- [spkane/freecad-addon-robust-mcp-server](https://github.com/spkane/freecad-addon-robust-mcp-server) - FreeCAD Robust MCP server with an MCP Bridge workbench addon, installable via pip or Docker. (★232 · 2026-09)
+- [hyl64/jlcmcp](https://github.com/hyl64/jlcmcp) - JLCEDA (EasyEDA Pro) MCP server that compiles tool calls into official eda.* API code run through JLC's Run API Gateway extension for schematic and PCB automation. (★223 · 2026-08)
+- [ReshefElisha/jarvis-onshape-mcp](https://github.com/ReshefElisha/jarvis-onshape-mcp) - Claude Code plugin that drives Onshape (sketches, extrudes, mates, FeatureScript) with structured regen feedback, multi-view PNG renders and a vision-decomposition skill. (★170 · 2026-04)
+- [hedless/onshape-mcp](https://github.com/hedless/onshape-mcp) - Onshape MCP server with 48 tools for sketches, features, assemblies and mates, variable tables, FeatureScript and STEP/STL export. (★141 · 2026-09)
+- [RobertCoop/openscad-mcp](https://github.com/RobertCoop/openscad-mcp) - OpenSCAD MCP server (uvx openscad-mcp) that renders, measures geometry, checks assembly interference and clearance, judges printability and exports parts. (★137 · 2026-09)
+- [AuraFriday/Fusion-360-MCP-Server](https://github.com/AuraFriday/Fusion-360-MCP-Server) - Autodesk Fusion add-in that exposes Fusion to AI agents through the MCP-Link server, with a generic API bridge and Python execution inside Fusion. (★126 · 2026-01)
+- [jdilla1277/agentcad](https://github.com/jdilla1277/agentcad) - CAD CLI and MCP server where agents write build123d scripts and get STEP/STL export, PNG renders, geometric metrics, validation and diffing. (★125 · 2026-09)
+- [Averyy/pcbparts-mcp](https://github.com/Averyy/pcbparts-mcp) - MCP server for parametric component search across JLCPCB, Mouser and DigiKey with KiCad footprints, pinouts, alternatives and reference-board design rules. (★114 · 2026-09)
+- [pzfreo/build123d-mcp](https://github.com/pzfreo/build123d-mcp) - `build123d` MCP server that lets agents build CAD models step by step, render previews, measure geometry and export STEP, STL, SVG and DXF. (★87 · 2026-09)
+- [embedded-society/altium-designer-mcp](https://github.com/embedded-society/altium-designer-mcp) - MCP server that reads and writes Altium Designer .PcbLib footprint and .SchLib symbol libraries so agents can create IPC-7351B components. (★60 · 2026-09)
+- [andrewbartels1/SolidworksMCP-python](https://github.com/andrewbartels1/SolidworksMCP-python) - Python MCP server for SolidWorks with 132 tools across modeling, sketching, drawings, analysis, export and macros via COM/VBA. (★74 · 2026-09)
+- [faust-machines/fusion360-mcp-server](https://github.com/faust-machines/fusion360-mcp-server) - MCP server plus Fusion 360 add-in that forwards agent commands over TCP to run Fusion API calls on the main thread. (★97 · 2026-09)
+- [clanker-lover/spicebridge](https://github.com/clanker-lover/spicebridge) - SPICEBridge, an ngspice MCP server with 28 tools for AC/transient/DC simulation, Monte Carlo, circuit templates and KiCad schematic export. (★35 · 2026-04)
+- [xuio/ltspice-mcp](https://github.com/xuio/ltspice-mcp) - LTspice MCP server for macOS that runs simulations, generates schematics, renders plots and queries RAW vectors for verification. (★19 · 2026-05)
+- [ariklapid/pyslang-mcp](https://github.com/ariklapid/pyslang-mcp) - Read-only MCP server that gives agents pyslang compiler-backed Verilog/SystemVerilog context: diagnostics, instance hierarchy and symbol references. (★21 · 2026-06)
+- [najaeda/naja-scope](https://github.com/najaeda/naja-scope) - MCP server built on the najaeda netlist engine that lets agents trace connectivity and walk the hierarchy of elaborated SystemVerilog designs. (official · ★16 · 2026-09)
+- [blwfish/kicad-mcp](https://github.com/blwfish/kicad-mcp) - KiCad MCP server with 17 tools for schematic capture, placement, FreeRouting autorouting, DRC and panelized manufacturing output. (★16 · 2026-09)
+- [cheewee2000/flamingo-pcb](https://github.com/cheewee2000/flamingo-pcb) - Prompt-first PCB CAD driven over MCP (34 tools) that picks real LCSC parts, autoroutes with Freerouting, runs DRC and exports JLCPCB fab packages. (★6 · 2026-09)
+- [abbbe/fpga-mcp-servers](https://github.com/abbbe/fpga-mcp-servers) - Two MCP servers for DE10-Nano development: async Intel Quartus builds and board management. (coll · ★10 · 2026-01)
+- [lcapossio/fpgaZeroMCP](https://github.com/lcapossio/fpgaZeroMCP) - MCP server with an open FPGA toolchain: lint, simulate, synthesize, place-and-route and program bitstreams for 11 board presets such as iCEBreaker and ULX3S. (★5 · 2026-08)
+- [Cai-aa/CAD-Agent-Hub](https://github.com/Cai-aa/CAD-Agent-Hub) - Windows MCP servers and bridges for CATIA V5, SolidWorks and Siemens NX, plus a Fusion Electronics write bridge and an ANSYS Workbench skill. (coll · ★59 · 2026-09)
 
 ### Edge AI and SBC (MCP)
 
@@ -645,6 +1044,8 @@ MCP servers that run on the microcontroller or SBC itself, so the device is the 
 - [marc-shade/coral-tpu-mcp](https://github.com/marc-shade/coral-tpu-mcp) - Google Coral Edge TPU inference; the only Coral entry. (★1 · 2026-02)
 - [dmmdea/Hailo-8L-Analysis-Pipelines](https://github.com/dmmdea/Hailo-8L-Analysis-Pipelines) - 14-tool MCP running face detection, OCR and CLIP on a Hailo-8L. (★0 · 2026-08)
 - [grammy-jiang/RaspberryPiOS-MCP](https://github.com/grammy-jiang/RaspberryPiOS-MCP) - Raspberry Pi OS: GPIO, I2C, camera. (★0 · 2026-03)
+- [zja0011/edgesentinel-visionops](https://github.com/zja0011/edgesentinel-visionops) - EdgeSentinel, a vision agent harness on Jetson Nano with real-time detection, MCP tools, RBAC confirmation gates and offline fallback. (★22 · 2026-08)
+- [nbhansen/retroMCP](https://github.com/nbhansen/retroMCP) - MCP server that manages Raspberry Pi systems over SSH, including hardware info, controllers, temperatures and RetroPie setup. (★3 · 2025-10)
 
 ### Digital fabrication (MCP)
 
@@ -660,6 +1061,14 @@ MCP servers that run on the microcontroller or SBC itself, so the device is the 
 - [zackpeters93/ugs-mcp](https://github.com/zackpeters93/ugs-mcp) - GRBL CNC via the Universal GCode Sender Pendant REST API, token-gated motion. (★5 · 2026-06)
 - [damione1/maslow-desktop](https://github.com/damione1/maslow-desktop) - Maslow CNC (FluidNC) control panel with MCP. (★3 · 2026-07)
 - [bleugreen/openpnp-mcp](https://github.com/bleugreen/openpnp-mcp) - OpenPnP; the only pick-and-place MCP found. (★0 · 2026-03)
+- [mikehatch/KlipperMCP](https://github.com/mikehatch/KlipperMCP) - MCP server that reads and edits Klipper printer.cfg files with automatic backups, evaluates macros and Jinja2 templates, runs G-code and controls prints on multiple printers via Moonraker. (★7 · 2026-08)
+- [synman/bambu-mcp](https://github.com/synman/bambu-mcp) - Self-contained LAN-mode MCP server for Bambu Lab 3D printers with tools for discovery, print control, climate, filament/AMS, camera and files over MQTT and FTPS. (★4 · 2026-09)
+- [Eyalm321/bambu-mcp](https://github.com/Eyalm321/bambu-mcp) - An npm MCP server (`npx bambu-mcp`) that slices, uploads, prints and monitors on Bambu Lab P2S, P1S and X1 printers in LAN mode over MQTT and FTPS. (★1 · 2026-07)
+- [MrMebelMan/bambuddy-mcp](https://github.com/MrMebelMan/bambuddy-mcp) - MCP server that generates tools at startup from a Bambuddy print-farm instance's OpenAPI spec and exposes the whole REST API through three meta-tools for category browsing, search and execution, returning camera snapshots as images. (★5 · 2026-02)
+- [gioelemo/prusa-mcp](https://github.com/gioelemo/prusa-mcp) - MCP server for Prusa Connect that lists printers, tracks jobs, browses files and sends pause, resume and temperature commands after a one-time OAuth2 PKCE login. (★2 · 2026-09)
+- [nixkor/moonraker-mcp](https://github.com/nixkor/moonraker-mcp) - HTTP MCP daemon designed to run on the Raspberry Pi next to Moonraker that exposes Klipper printer status, temperatures, files, print-job control and G-code/macro execution. (★1 · 2026-06)
+- [skribascode/elegoo-mcp-server](https://github.com/skribascode/elegoo-mcp-server) - Local MCP server that controls Elegoo 3D printers over the SDCP protocol, with multi-printer management, status and print pause, resume, stop and start, tested on the Centauri Carbon. (★2 · 2026-01)
+- [WhitneyDesignLabs/cnc-fluidnc-mcp](https://github.com/WhitneyDesignLabs/cnc-fluidnc-mcp) - MCP server with 27 tools that lets Claude control a FluidNC CNC router over WebSocket and HTTP to check status, jog axes, run G-code, manage SD files, back up configs and create macros. (★0 · 2026-03)
 
 ### Audio, lighting and bio (MCP)
 
@@ -670,6 +1079,14 @@ MCP servers that run on the microcontroller or SBC itself, so the device is the 
 - [tamengual/neptune-apex-mcp](https://github.com/tamengual/neptune-apex-mcp) - Neptune Apex aquarium controller: probes, outlets, feed, program edit. (★2 · 2026-03)
 - [prmichaelsen/dmx-mcp](https://github.com/prmichaelsen/dmx-mcp) - DMX lighting via OLA and an Enttec USB adapter. (★0 · 2026-03)
 - [jamiew/digitakt-digitone-mcp](https://github.com/jamiew/digitakt-digitone-mcp) - Elektron Digitakt / Digitone over MIDI, 43 tools each. (★0 · 2026-07)
+- [anteriovieira/osc-mcp-server](https://github.com/anteriovieira/osc-mcp-server) - MCP server that controls Behringer X32 and Midas M32 digital mixers over OSC, covering faders, mutes, pan, 4-band EQ, gates, compressors and aux sends. (★12 · 2025-12)
+- [elisha-rudenkov/x32-mcp-server](https://github.com/elisha-rudenkov/x32-mcp-server) - Expanded rewrite of an X32 OSC MCP server that lets an LLM audit scenes, trace signal flow, repair routing, tune EQ, swap FX and snapshot meters on a Behringer X32, tested on X32 firmware 4.13 with M32 and other variants expected but untested. (★3 · 2026-07)
+- [wramsdell/ETC_Eos_OSC_MCP](https://github.com/wramsdell/ETC_Eos_OSC_MCP) - Python MCP server that controls ETC Eos family lighting consoles over OSC for patching, cue creation, effects, palettes and blind programming. (★1 · 2025-12)
+- [film42/wled-mcp](https://github.com/film42/wled-mcp) - Rust MCP server that discovers WLED LED controllers via mDNS and manages their state, presets, effects and schedules, with optional OAuth. (★4 · 2026-04)
+- [feamster/digitakt-midi-mcp](https://github.com/feamster/digitakt-midi-mcp) - MCP server that controls the Elektron Digitakt II over MIDI, triggering tracks, changing parameters via CC/NRPN and handling transport and patterns. (★8 · 2026-07)
+- [Turik1/morningstar-midi-mcp](https://github.com/Turik1/morningstar-midi-mcp) - MCP server that programs Morningstar MIDI foot controllers over USB from natural language, using 545+ OpenMIDI device profiles and conflict detection. (★1 · 2026-03)
+- [daredoole/evoburrow-mcp](https://github.com/daredoole/evoburrow-mcp) - Unofficial MCP server for A1 Evo AcoustiX, REW and Audyssey calibration that runs protected measurements and makes allowlisted LAN changes to Denon/Marantz AV receivers with backups and verification. (★4 · 2026-09)
+- [amineutron/denon-mcp](https://github.com/amineutron/denon-mcp) - MCP server for Denon AVR home-cinema receivers over the local telnet control protocol for power, volume, mute, input selection and status, tested on an AVR-X1700H. (★0 · 2026-09)
 
 ### Space and ground stations (MCP)
 
@@ -677,6 +1094,7 @@ MCP servers that run on the microcontroller or SBC itself, so the device is the 
 - [dsi012/mcp-server-cFS](https://github.com/dsi012/mcp-server-cFS) - Natural-language control of a NASA core Flight System software bus. (★1 · 2025-10)
 - [Pranav-d33/gnuradio-mcp-server](https://github.com/Pranav-d33/gnuradio-mcp-server) - Build and run GNU Radio flowgraphs. (★1 · 2026-06)
 - [harris-mohamed/satnogs-mcp](https://github.com/harris-mohamed/satnogs-mcp) - The SatNOGS satellite ground-station network. (★0 · 2026-04)
+- [mgrandau/telescope-mcp](https://github.com/mgrandau/telescope-mcp) - MCP server and web dashboard for AI-operated telescopes that discovers cameras, captures frames, slews to targets and manages observing sessions, with a simulation digital twin for every hardware component. (★1 · 2026-04)
 
 ### Marine, aviation and rail (MCP)
 
@@ -685,6 +1103,8 @@ MCP servers that run on the microcontroller or SBC itself, so the device is the 
 - [HO44-PROJECT/MrJ-JMRI-MCP](https://github.com/HO44-PROJECT/MrJ-JMRI-MCP) - JMRI for DCC model railroads: turnouts, throttles, routes. (★1 · 2026-08)
 - [pipeworx-io/mcp-opensky](https://github.com/pipeworx-io/mcp-opensky) - ADS-B aircraft tracking through the OpenSky Network. (★0 · 2026-09)
 - [deanjbrown/geotab-mcp](https://github.com/deanjbrown/geotab-mcp) - MyGeotab fleet telematics: device status, faults, tachograph files, fuel. (★0 · 2026-09)
+- [dirkhh/adsb-mcp-server](https://github.com/dirkhh/adsb-mcp-server) - MCP server that exposes an ADS-B feeder's live aircraft positions, callsigns and altitudes, receiver statistics and range data, with aircraft search by callsign or hex code. (★9 · 2025-11)
+- [sailingnaturali/signalk-mcp](https://github.com/sailingnaturali/signalk-mcp) - MCP server that wraps a SignalK boat data server and exposes sensor paths, the active route, battery banks and depth with under-keel clearance as agent tools. (★1 · 2026-08)
 
 ### Semiconductor and science instruments (MCP)
 
@@ -700,6 +1120,9 @@ MCP servers that run on the microcontroller or SBC itself, so the device is the 
 - [reowens/qsys-tools](https://github.com/reowens/qsys-tools) - QSC Q-SYS over QRC as CLI, TypeScript client and MCP server, tested against a real Core. (★3 · 2026-07)
 - [DaScheife/Sklera-Digital-Signage-MCP-Server](https://github.com/DaScheife/Sklera-Digital-Signage-MCP-Server) - Sklera digital-signage screens. (★2 · 2026-06)
 - [tkrisztian95/eink-mcp-server](https://github.com/tkrisztian95/eink-mcp-server) - Draw dashboards or raw pixels on a Waveshare e-ink panel. (★0 · 2026-04)
+- [guycochran/atem-mcp-server](https://github.com/guycochran/atem-mcp-server) - MCP server that controls Blackmagic ATEM video switchers from natural language, cutting and transitioning sources, running macros and starting streaming and recording over stdio or OAuth-protected HTTP. (★7 · 2026-09)
+- [Desluca/crestron-mcp](https://github.com/Desluca/crestron-mcp) - Python MCP server for Crestron Home's REST API that discovers rooms and devices and controls shades, scenes and thermostats, reads sensors and resolves device names by fuzzy matching; lights can be listed but have no dedicated control tool. (★4 · 2025-10)
+- [SolutionAVAutomation/mcp-for-crestron-client](https://github.com/SolutionAVAutomation/mcp-for-crestron-client) - Free client half of MCP for Crestron that exposes a Crestron 4-Series processor running the MCP for Crestron modules as MCP tools over a TLS text protocol, shipped as a Claude Desktop .mcpb and on npm. (★0 · 2026-08)
 
 ### Medical and retail devices (MCP)
 
@@ -728,6 +1151,7 @@ A2A (Agent2Agent) has no real hardware implementation seventeen months after lau
 - [agntcy/slim](https://github.com/agntcy/slim) - AGNTCY's Secure Low-Latency Interactive Messaging; with `slim-a2a-*` and A2A's own SLIM-RPC extension it is the only low-latency transport binding A2A has. (★218 · 2026-09)
 - [QUSD-ai/m5stick-nanda](https://github.com/QUSD-ai/m5stick-nanda) - ESP32 firmware for an M5StickC Plus 2 serving an agent card and JSON-RPC from the device itself; it keyword-matches instead of dispatching on the protocol's methods, and was abandoned the day it appeared. Listed because it is the closest artifact to A2A-on-hardware that exists. (★0 · 2026-01)
 - [r1marcus/TinyA2A](https://github.com/r1marcus/TinyA2A) - C11 agentic-intent library for STM32 and ESP-IDF with an MQTT JSON profile and a 64-byte CAN-FD frame profile. Shares the name but not the wire format with Linux Foundation A2A. (★2 · 2026-05)
+- [kushalsinha/openmhp](https://github.com/kushalsinha/openmhp) - Open Model Hardware Protocol, an MCP-style spec plus Python reference for agents to discover lab instruments, robots and industrial equipment and run long jobs on them with leases, telemetry streams and edge-side safety checks. (★0 · 2026-09)
 
 ### On-device agent runtimes
 
@@ -747,6 +1171,15 @@ Agent loops that run on the microcontroller or SBC itself, with tool calling, ra
 - [XiaoMi/xiaomi-miloco](https://github.com/XiaoMi/xiaomi-miloco) - OpenClaw plugin with MiMo: home-camera perception drives Mi Home device control; needs a 4 GB+ host, not an MCU. (official · ★3.3k · 2026-09)
 - [NVIDIA-AI-IOT/jetson-ai-lab](https://github.com/NVIDIA-AI-IOT/jetson-ai-lab) - The official OpenClaw-on-Jetson path: Ollama on Orin Nano, vLLM on AGX / Thor. (official · ★207 · 2026-09)
 - [HeyWillow/willow](https://github.com/HeyWillow/willow) - ESP32-S3 voice-device firmware that streams to a server which executes the tools; like esp-ai and ElatoAI, no on-device agent loop. (★3.1k · 2026-09)
+- [tnm/zclaw](https://github.com/tnm/zclaw) - C AI assistant firmware for ESP32 that fits in an 888 KiB all-in budget, with GPIO control, scheduled tasks, persistent memory and natural-language custom tools. (★2.2k · 2026-05)
+- [nullclaw/nullclaw](https://github.com/nullclaw/nullclaw) - Autonomous assistant runtime in Zig as a 678 KB static binary using about 1 MB RAM, with a peripheral interface for serial, Arduino, Raspberry Pi GPIO and STM32/Nucleo plus MCP support. (★8.1k · 2026-07)
+- [atiti/espclaw](https://github.com/atiti/espclaw) - ESP32-native agent runtime with an LLM tool loop, local GPIO/I2C/PWM/camera tools, hot-swappable Lua apps, OTA and web, UART or Telegram control. (★8 · 2026-03)
+- [xinnan-tech/xiaozhi-esp32-server](https://github.com/xinnan-tech/xiaozhi-esp32-server) - Self-hosted Python/Java backend for xiaozhi-esp32 voice devices, supporting MQTT+UDP and WebSocket protocols, MCP endpoints, voiceprint recognition and a knowledge base. (★10.6k · 2026-09)
+- [huangjunsen0406/py-xiaozhi](https://github.com/huangjunsen0406/py-xiaozhi) - Python xiaozhi client for desktops and ARM boards such as Raspberry Pi, RDK and Jetson Nano, with realtime voice, vision, an MCP tool server, offline wake word and GPIO control. (★3.5k · 2026-09)
+- [akdeb/ElatoAI](https://github.com/akdeb/ElatoAI) - Realtime voice AI for Arduino ESP32 devices over secure WebSockets and Deno edge functions, with OpenAI Realtime, Gemini Live, xAI Grok, ElevenLabs, Hume and Boson pipelines; local-model support lives in the separate local-ai-toys repo. (★2k · 2026-09)
+- [livekit/client-sdk-esp32](https://github.com/livekit/client-sdk-esp32) - LiveKit SDK for ESP32-S3 and ESP32-P4 that streams audio, video and data so the device can talk to cloud LiveKit Agents, with RPC support. (official · ★150 · 2026-09)
+- [second-state/echokit_server](https://github.com/second-state/echokit_server) - Voice agent server for EchoKit ESP32 devices that runs ASR, LLM and TTS pipelines with any OpenAI-compatible endpoint and can call MCP servers; firmware is in echokit_box. (★593 · 2026-02)
+- [m5stack/StackChan](https://github.com/m5stack/StackChan) - Open-source firmware, remote controller firmware, mobile app and server for M5Stack's CoreS3-based StackChan desktop robot (servos, RGB LEDs, camera, sensors), whose factory firmware includes an AI agent. (official · ★1.3k · 2026-08)
 
 ### Robot and embodied agent frameworks
 
@@ -760,12 +1193,20 @@ Agent loops that run on the microcontroller or SBC itself, with tool calling, ra
 - [nasa-jpl/rosa](https://github.com/nasa-jpl/rosa) - LangChain agent that inspects, diagnoses and operates ROS 1 / 2 robots by natural language. (★1.6k · 2026-03)
 - [FlagOpen/RoboOS](https://github.com/FlagOpen/RoboOS) - BAAI's brain–cerebellum embodied OS: RoboBrain MLLM, skill library and shared memory for multi-robot. (official · ★622 · 2025-12)
 - [automatika-robotics/embodied-agents](https://github.com/automatika-robotics/embodied-agents) - ROS 2-native framework for interactive physical agents with LLM / VLM components. (★67 · 2026-09)
+- [RobotecAI/rai](https://github.com/RobotecAI/rai) - Vendor-agnostic agent framework for ROS 2 robots with multi-agent core, embodiment self-description from URDF and docs, ASR/TTS, perception, simulation connectors and the rai_bench benchmark suite. (★588 · 2026-09)
+- [OpenMind/OM1](https://github.com/OpenMind/OM1) - Modular Go runtime for multimodal agents on humanoids, quadrupeds, TurtleBot 4 and Gazebo/Isaac Sim, with hardware plugins over ROS 2, Zenoh and CycloneDDS. (★2.9k · 2026-09)
+- [fujitatomoya/ros2ai](https://github.com/fujitatomoya/ros2ai) - ROS 2 CLI extension that answers questions and runs ros2 commands through OpenAI or Ollama models, supporting Humble through Rolling with apt packages for Jazzy, Kilted and Rolling. (★330 · 2026-08)
+- [ROSClaw/rosclaw](https://github.com/ROSClaw/rosclaw) - Workspace bootstrap for ROSClaw, which connects the OpenClaw agent runtime to ROS 2 robots via robot-side packages, an OpenClaw plugin and optional WebRTC signaling. (★6 · 2026-03)
+- [bob-ros2/bob_llm](https://github.com/bob-ros2/bob_llm) - ROS 2 node that turns any OpenAI-compatible LLM into a robot agent with conversation state and dynamically loadable tools that call the robot's functions. (★3 · 2026-06)
 
 ### Smart-home and device platforms
 
 - [Home Assistant LLM API](https://developers.home-assistant.io/docs/core/llm/) - The official Assist LLM API: integrations register tools any conversation agent can call. (official)
 - [acon96/home-llm](https://github.com/acon96/home-llm) - Home Assistant integration plus fine-tuned local models for device control. (★1.4k · 2026-09)
 - [arm/mcp](https://github.com/arm/mcp) - Arm's official MCP: docs search, migration analysis, assembly performance analysis. Nordic, Microchip, Silicon Labs, TI and ADI have shipped similar docs-only vendor MCPs. (official · ★91 · 2026-09)
+- [Google Home MCP](https://developers.home.google.com/mcp/home) - Google's early-access Home MCP server gives MCP agents five tools to list homes and devices, read states and history and run device actions on Google Home devices, for Google Home Premium Advanced subscribers.
+- [thingsboard/thingsboard-mcp](https://github.com/thingsboard/thingsboard-mcp) - Official ThingsBoard MCP server, shipped as a Docker image, that lets agents query devices, manage entities and analyze telemetry on ThingsBoard Cloud, self-hosted or Edge. (official · ★98 · 2026-03)
+- [nRF Cloud MCP server](https://docs.nrfcloud.com/docs/platform/mcp-server) - Nordic's hosted, read-only nRF Cloud MCP server exposes fleet device metadata, telemetry, vitals, reboot history and crash traces over OAuth.
 
 ## Verification infrastructure
 
@@ -787,6 +1228,19 @@ Tools for running a hardware skill's `evals/`. Simulators and hosted virtual boa
 - [Home Assistant demo mode](https://www.home-assistant.io/integrations/demo/) - `hass --demo-mode` creates fake lights, climate and sensors behind the real REST / WebSocket API. Our `L1 (ha-demo)` pre-check backend. (official)
 - [micropython/micropython unix port](https://github.com/micropython/micropython/tree/master/ports/unix) - MicroPython VM on the host; logic-level checks only, no peripherals. (★22k · 2026-09)
 - [ARM-software/AVH](https://github.com/ARM-software/AVH) - Arm Virtual Hardware: Cortex-M FVPs (Corstone-300 / 310 / 315) with GitHub Actions examples; free for open source and evaluation. (official · ★54 · 2026-09)
+- [davidmonterocrespo24/velxio](https://github.com/davidmonterocrespo24/velxio) - Open-source browser emulator for AVR, RP2040/RP2350, STM32, ESP32 Xtensa/RISC-V and Raspberry Pi Linux boards with 150+ parts and an MCP server; the self-hosted Docker image covers only the Arduino, Pico and ESP32 families, and a CI CLI ships separately as velxio/velxio-cli. (★2.9k · 2026-09)
+- [wokwi/rp2040js](https://github.com/wokwi/rp2040js) - Raspberry Pi Pico RP2040 emulator in JavaScript that runs Arduino code and the MicroPython REPL in Node.js or the browser. (★526 · 2026-09)
+- [wokwi/avr8js](https://github.com/wokwi/avr8js) - JavaScript library implementing the AVR 8-bit architecture for the browser and Node.js, the core of Wokwi's Arduino simulator. (★845 · 2026-08)
+- [buserror/simavr](https://github.com/buserror/simavr) - Lean AVR simulator for Linux and macOS with GDB support and VCD trace output, usable headless to test Arduino-class firmware in CI. (★1.8k · 2026-09)
+- [lcgamboa/picsimlab](https://github.com/lcgamboa/picsimlab) - Realtime emulator of PIC, AVR, STM32 and ESP32 development boards with spare parts like LEDs, displays and W5500 Ethernet, plus MPLAB X and avr-gdb debugger integration. (★668 · 2026-09)
+- [verilator/verilator](https://github.com/verilator/verilator) - Fast open-source Verilog/SystemVerilog simulator and linter that compiles RTL to multithreaded C++ or SystemC, used as the simulator backend by agent RTL benchmarks such as AgentDV and by cocotb test runs. (★3.9k · 2026-09)
+- [cocotb/cocotb](https://github.com/cocotb/cocotb) - Python coroutine testbench framework for RTL verification that drives Verilator, Icarus, GHDL and commercial simulators from pytest-style tests. (★2.5k · 2026-09)
+- [Genesis-Embodied-AI/genesis-world](https://github.com/Genesis-Embodied-AI/genesis-world) - Genesis World physics platform for robotics with rigid, FEM, MPM and particle solvers, a robotics renderer and URDF/MJCF/USD import behind a Python API. (★30k · 2026-09)
+- [newton-physics/newton](https://github.com/newton-physics/newton) - Linux Foundation GPU physics engine for robotics built on NVIDIA Warp with MuJoCo Warp as primary backend, OpenUSD support and differentiability. (★5.6k · 2026-09)
+- [carla-simulator/carla](https://github.com/carla-simulator/carla) - Open-source autonomous driving simulator with sensor suites, traffic scenarios and a Python API for closed-loop testing of vehicle software. (★14.4k · 2026-09)
+- [iamaisim/ProjectAirSim](https://github.com/iamaisim/ProjectAirSim) - Project AirSim, the successor to Microsoft's AirSim now maintained by IAMAI Simulations, for drones and other autonomous systems, with a lightweight runtime for fast controller and CI tests and an Unreal Engine 5 mode for cameras, LiDAR and radar. (★864 · 2026-09)
+- [ArduPilot/ardupilot](https://github.com/ArduPilot/ardupilot) - ArduPilot autopilot source for copters, planes, rovers and subs, whose SITL build runs the real flight code on a PC and is what drone MCP servers and agent papers test against. (★15.9k · 2026-09)
+- [qilingframework/qiling](https://github.com/qilingframework/qiling) - Instrumentable binary emulation framework for ARM, MIPS, RISC-V and x86 firmware and OS binaries, with hooks, snapshots and a reverse debugger. (★6.1k · 2026-09)
 
 Not viable for CI, listed so nobody re-checks: Tinkercad Circuits (no API), SimulIDE (GUI only), Proteus VSM (commercial, GUI-centric), Simulavr (dormant since 2023).
 
@@ -802,6 +1256,11 @@ Not viable for CI, listed so nobody re-checks: Tinkercad Circuits (no API), Simu
 - [Zephyr twister device testing](https://docs.zephyrproject.org/latest/develop/test/twister.html) - `twister --device-testing --hardware-map` runs the test suite on attached boards; [golioth/zephyr_twister_hil_testing](https://github.com/golioth/zephyr_twister_hil_testing) shows it on a GitHub self-hosted runner. (official)
 - [Wokwi CI](https://docs.wokwi.com/wokwi-ci/getting-started) - Hosted simulation inside GitHub Actions; free token for open-source projects. (official)
 - [OpenHiL](https://openhil.github.io/) - Community hub for open hardware-in-the-loop tooling.
+- [agentic-hil/agentic-hil](https://github.com/agentic-hil/agentic-hil) - Python package, MCP server and agent skill that let Claude Code, Codex or OpenCode flash and test firmware on a real board via OpenOCD, pyOCD or STM32CubeProgrammer with UART/CAN checks, YAML test plans and an audit log. (★13 · 2026-09)
+- [espressif/pytest-embedded](https://github.com/espressif/pytest-embedded) - Espressif's pytest plugin for embedded tests with services for serial DUTs, ESP-IDF, Arduino, NuttX, JTAG, QEMU and Wokwi targets. (official · ★155 · 2026-09)
+- [Rahix/tbot](https://github.com/Rahix/tbot) - Python automation and test tool for embedded Linux that orchestrates serial consoles, SSH hosts and board power to run tests on real hardware in CI. (★101 · 2026-09)
+- [everypinio/hardpy](https://github.com/everypinio/hardpy) - Pip-installable Python library for building pytest-based device test benches with a browser operator UI and results stored in CouchDB, JSON or StandCloud. (★76 · 2026-06)
+- [lgirdk/boardfarm](https://github.com/lgirdk/boardfarm) - Python test automation framework, originally from Qualcomm, for flashing and testing OpenWrt/RDK-B routers and IoT devices across board farms. (★32 · 2026-09)
 
 ## Benchmarks and evals
 
@@ -822,6 +1281,15 @@ Only the first two have published results on physical MCUs; everything else is c
 - [stepjam/RLBench](https://github.com/stepjam/RLBench) - 100 manipulation tasks in CoppeliaSim. (★1.8k · 2025-01)
 - [holi-lab/SimuHome](https://github.com/holi-lab/SimuHome) - Matter-grounded, time-accelerated smart-home simulator with 600 episodes including scheduling and implicit intent. ICLR 2026 oral. (★34 · 2026-04)
 - [SMH-Bench](https://arxiv.org/abs/2606.01912) - 1,100 smart-home tasks in homes of up to 135 devices; code not yet released.
+- [NVlabs/cvdp_benchmark](https://github.com/NVlabs/cvdp_benchmark) - NVIDIA's CVDP harness for expert-written RTL design, verification and debugging problems in agentic and non-agentic modes, run in Docker with a Hugging Face dataset (the paper reports 783 problems; the public release omits 20). (official · ★221 · 2026-06)
+- [LGAI-Research/PCBWorld](https://github.com/LGAI-Research/PCBWorld) - Gymnasium environment built on KiCad's push-and-shove router where agents route real .kicad_pcb boards scored by KiCad DRC, with RL, LLM tool-calling and FreeRouting baselines. (★13 · 2026-09)
+- [pengjas/posteda-bench](https://github.com/pengjas/posteda-bench) - PostEDA-Bench: 145 tasks for LLM agents fixing layout DRC violations in KLayout and optimizing PPA on real OpenROAD flows, with ReAct, ToT and Reflexion agent baselines. (★2 · 2026-07)
+- [Luoji-zju/Agents4PLC_release](https://github.com/Luoji-zju/Agents4PLC_release) - Verifiable benchmark of 96 natural-language to IEC 61131-3 Structured Text tasks with nuXmv/PLCverif formal specs and reference code, from the Agents4PLC multi-agent PLC work. (★78 · 2026-08)
+- [HPAI-BSC/TuRTLe](https://github.com/HPAI-BSC/TuRTLe) - Unified harness and leaderboard that scores LLMs on RTL generation across VerilogEval, RTLLM and other suites for syntax, function, synthesis and PPA. (★49 · 2026-07)
+- [Phoenix-bench](https://arxiv.org/abs/2605.15226) - 511 verified Verilator bug-fix instances from 114 hardware repos with Docker-pinned EDA, showing coding agents lose 37-58% versus SWE-bench Verified.
+- [PDAgent-Bench](https://arxiv.org/abs/2606.17253) - 353 VLSI physical-design problems plus a closed-loop agent workflow over EDA tools, evaluated on 11 models that remain weak at tool-centric execution such as Innovus script generation (42.2%); code release announced.
+- [HSCO-Bench](https://arxiv.org/abs/2605.19399) - End-to-end hardware-software co-design benchmark where LLM agents build accelerator-rich SoCs deployed on an AMD VC707 FPGA; code at B07901087/hsco_bench.
+- [CaP-X](https://arxiv.org/abs/2603.22435) - CaP-Gym environment and CaP-Bench for coding agents that control robot manipulators by writing programs over perception and control primitives, evaluated on 12 models.
 
 ## Papers and articles
 
@@ -840,6 +1308,25 @@ Only the first two have published results on physical MCUs; everything else is c
 - [Toward a Modular Architecture for Embedded AI Agent Systems at the Edge](https://arxiv.org/abs/2606.02862) - On-device agent runtime design; compare with esp-claw and the claw family.
 - [Coscientist](https://github.com/gomesgroup/coscientist) - GPT-4 agent driving an Opentrons liquid handler and Emerald Cloud Lab. Nature 2023. (★211 · 2025-08)
 - [Autonomous Chemistry and Materials Innovation Driven by Scientific Agents](https://pubs.acs.org/doi/10.1021/jacsau.6c00213) - Survey of LLM-run self-driving labs. JACS Au 2026.
+- [IoT-MCP: Bridging LLMs and IoT Systems Through Model Context Protocol](https://arxiv.org/abs/2510.01260) - IoT-MCP (arXiv 2025-09): edge-deployed MCP servers for 22 sensor types on 6 MCUs plus IoT-MCP Bench with 1,254 tasks; code at Duke-CEI-Center/IoT-MCP-Servers.
+- [An LLM-Agnostic, MAVLink-Based Drone Command and Control Interface and Agentic Harness Using the Model Context Protocol](https://arxiv.org/abs/2601.15486) - DroneServer (arXiv 2026-01): 98-tool MCP-to-MAVLink harness for ArduPilot and PX4 with server-side geofence and confirmations, tested over 1,000 SITL flights and on three real quadcopters.
+- [Demonstration-Free Robotic Control via LLM Agents](https://arxiv.org/abs/2601.20334) - FAEA (arXiv 2026-01): runs the unmodified Claude Agent SDK as a manipulation controller on LIBERO, ManiSkill3 and MetaWorld, reaching 84.9-96% success without demonstrations given privileged environment state; code at robiemusketeer/faea-sim.
+- [AgentRob: From Virtual Forum Agents to Hijacked Physical Robots](https://arxiv.org/abs/2602.13591) - AgentRob (arXiv 2026-02): forum-reading LLM agents dispatch commands over MCP to VLM controllers on Unitree Go2 and G1 robots, highlighting hijack risks of physical agents.
+- [ROSClaw: An OpenClaw ROS 2 Framework for Agentic Robot Control and Interaction](https://arxiv.org/abs/2603.26997) - ROSClaw (arXiv 2026-03): executive layer joining OpenClaw and ROS 2 with capability discovery, pre-execution safety validation and audit logs, deployed on wheeled, quadruped and humanoid robots.
+- [Say the Mission, Execute the Swarm: Agent-Enhanced LLM Reasoning in the Web-of-Drones](https://arxiv.org/abs/2605.03788) - Web-of-Drones (arXiv 2026-05): LLM agent core with an MCP gateway over W3C WoT drone Things for swarm missions, evaluated with six LLMs in ArduPilot simulation.
+- [Octopus Protocol: One-Shot Hardware Discovery and Control for AI Agents via Infrastructure-as-Prompts](https://arxiv.org/abs/2605.09055) - Octopus Protocol (arXiv 2026-05): a coding agent enumerates host hardware, infers capabilities, generates typed MCP tools and driver code and deploys them as a live endpoint from one bootstrap command.
+- [AutoMCU: Feasibility-First MCU Neural Network Customization via LLM-based Multi-Agent Systems](https://arxiv.org/abs/2605.21560) - AutoMCU (arXiv 2026-05): multi-agent system that designs MCU neural networks using vendor toolchain feedback in the loop to reject candidates that break RAM and Flash limits.
+- [When Agents Control Robots: A Zero Trust Policy Model for Agentic Cyber-Physical Systems](https://arxiv.org/abs/2605.25653) - ZTPM (arXiv 2026-05): zero-trust policy model with 25 primitives and physical impact tiers, derived from attacks on a four-agent UR3e arm control system.
+- [Can AI Agents Really Complete RTL-to-GDS? Lessons from Benchmarking Tool-Interactive EDA Workflows](https://arxiv.org/abs/2607.17528) - RTL-to-GDS agents study (arXiv 2026-07): runs Claude Code and other agents with EDA skills through a PicoRV32 flow on commercial tools, finding skills help subtasks but not long-horizon completion.
+- [AgentDV: Closed-Loop Agentic AI for Hardware Design Verification](https://arxiv.org/abs/2608.27148) - AgentDV (arXiv 2026-08): closed-loop agent that builds Verilator/cocotb/pyUVM testbenches with runnability filtering and coverage-guided refinement, evaluated on OpenTitan IP blocks.
+- [LLM-based Hardware Development with Hierarchical IRs and End-to-End Multi-Agent Workflow](https://arxiv.org/abs/2608.30659) - Hierarchical-IR hardware agents (arXiv 2026-08): multi-agent flow using architectural-sketch and operational-spec IRs with a debug loop that picks signals to probe, reaching 95.5% pass@5 on VerilogEval.
+- [Spec2Control: Automating PLC/DCS Control-Logic Engineering from Natural Language Requirements with LLMs - A Multi-Plant Evaluation](https://arxiv.org/abs/2510.04519) - Spec2Control (arXiv 2025-10): LLM workflow from ABB that turns control narratives into IEC 61131-3 function block diagrams, open-sourced at hkoziolek/Spec2Control.
+- [Vendor-Aware Industrial Agents: RAG-Enhanced LLMs for Secure On-Premise PLC Code Generation](https://arxiv.org/abs/2511.09122) - Vendor-aware PLC agents (arXiv 2025-11): on-premise RAG coding assistant for Mitsubishi Electric PLC dialects that compiles generated code in the loop and uses small local models.
+- [ROSBag MCP Server: Analyzing Robot Data with LLMs for Agentic Embodied AI Applications](https://arxiv.org/abs/2511.03497) - ROSBag MCP Server (arXiv 2025-11): paper on an MCP server that lets LLMs and VLMs analyze, visualize and process ROS and ROS 2 bag files.
+- [The Dawn of Agentic EDA: A Survey of Autonomous Digital Chip Design](https://arxiv.org/abs/2512.23189) - Agentic EDA survey (arXiv 2025-12): frames the shift from AI-for-EDA point tools to agents orchestrating the RTL-to-GDSII flow.
+- [Spec2RTL-Agent: Automated Hardware Code Generation from Complex Specifications Using LLM Agent Systems](https://arxiv.org/abs/2506.13905) - Spec2RTL-Agent (arXiv 2025-06): multi-agent system that reads full specification documents, plans implementation and refines synthesizable C++ with error-tracing reflection, then produces RTL through HLS, cutting human interventions by up to 75%.
+- [Embedded Firmware Development with Claude Code](https://reversetobuild.com/devlogs/claude-code-embedded-firmware-development/) - Engineering write-up on using Claude Code for nRF52840 Zephyr/NCS firmware: devicetree overlays, hooks that stop hallucinated Kconfig symbols, build-error tracing and HardFault decoding.
+- [How Firmware Engineers Get the Most Out of Claude](https://hubble.com/community/guides/how-firmware-engineers-get-the-most-out-of-claude/) - Hubble Network guide for firmware engineers on using Claude for register-map header generation, embedded-specific code review and linker error diagnosis with map files.
 
 ## Agent-ready docs
 
@@ -864,6 +1351,35 @@ Vendor documentation that serves `llms.txt` — verified live and plain-text on 
 - [Adafruit Learn](https://learn.adafruit.com/llms.txt) - Guides for Adafruit boards and breakouts.
 - [Tuya](https://developer.tuya.com/llms.txt) - IoT platform.
 - [Flux.ai](https://docs.flux.ai/llms.txt) - Browser EDA.
+- [Espressif MCP servers](https://mcp.espressif.com/) - Espressif's hub of hosted MCP servers for documentation search, ESP Component Registry, RainMaker, ESP-VISION, troubleshooting workflows and ESP Pilot board configuration.
+- [Google Home Developer MCP](https://developers.home.google.com/mcp/developer) - Google's Home Developer MCP server (homedevelopers.googleapis.com/mcp) lets coding agents search Home APIs docs, the Matter 1.5.1 and Thread 1.4.1 specs and OpenThread docs.
+- [Silicon Labs MCP server](https://docs.silabs.com/mcp/1.0.0/mcp-start/) - Silicon Labs' hosted AskAI MCP server, which requires a Silicon Labs account and gives agents one tool to search Silicon Labs documentation and resources.
+- [OPC UA Online Reference MCP](https://opcconnect.opcfoundation.org/2026/06/updates-to-online-reference-for-humans-and-ai/) - OPC Foundation's MCP endpoint at reference.opcfoundation.org/mcp searches OPC UA specs by text, NodeId, conformance unit and term, with Markdown and JSONL spec downloads.
+- [docs.modalai.com llms.txt](https://docs.modalai.com/llms.txt) - Official llms.txt index of ModalAI VOXL and VOXL 2 companion computers for PX4 and ArduPilot drones.
+- [docs.auterion.com llms.txt](https://docs.auterion.com/llms.txt) - Official llms.txt index of Auterion Suite drone fleet management and Mission Control.
+- [docs.hello-robot.com llms.txt](https://docs.hello-robot.com/llms.txt) - Official llms.txt index of Hello Robot Stretch mobile manipulators.
+- [docs.picknik.ai llms.txt](https://docs.picknik.ai/llms.txt) - Official llms.txt index of MoveIt Pro robot arm application platform, including behavior trees.
+- [docs.formant.io llms.txt](https://docs.formant.io/llms.txt) - Official llms.txt index of Formant robot fleet monitoring, interventions and teleoperation.
+- [rerun.io llms.txt](https://rerun.io/llms.txt) - Official llms.txt index of Rerun, the multimodal robotics and spatial data logging and visualization platform.
+- [docs.saleae.com llms.txt](https://docs.saleae.com/llms.txt) - Official llms.txt index of Saleae Logic 2 automation, extension and MSO APIs.
+- [docs.lagerdata.com llms.txt](https://docs.lagerdata.com/llms.txt) - Official llms.txt index of Lager hardware test automation for embedded devices.
+- [docs.flipper.net llms.txt](https://docs.flipper.net/llms.txt) - Official llms.txt index of Flipper Zero and Flipper One user and developer documentation.
+- [docs.tuyaopen.ai llms.txt](https://docs.tuyaopen.ai/llms.txt) - Official llms.txt index of TuyaOpen, Tuya's open-source AI+IoT device OS and SDK.
+- [docs.emqx.com llms.txt](https://docs.emqx.com/llms.txt) - Official llms.txt index of EMQX MQTT broker, edge and industrial IoT products.
+- [thingsboard.io llms.txt](https://thingsboard.io/llms.txt) - Official llms.txt index of ThingsBoard IoT device management platform.
+- [docs.hubble.com llms.txt](https://hubble.com/docs/llms.txt) - Official llms.txt index of Hubble Network's Bluetooth-to-satellite IoT connectivity and device SDKs.
+- [docs.qualcomm.com llms.txt](https://docs.qualcomm.com/llms.txt) - Official llms.txt index of Qualcomm SDKs, APIs and platform guides.
+- [developers.soracom.io llms.txt](https://developers.soracom.io/llms.txt) - Official llms.txt index of Soracom cellular IoT connectivity APIs and SDKs.
+- [docs.hologram.io llms.txt](https://docs.hologram.io/llms.txt) - Official llms.txt index of Hologram IoT cellular SIMs and connectivity.
+- [docs.helium.com llms.txt](https://docs.helium.com/llms.txt) - Official llms.txt index of Helium LoRaWAN IoT and mobile network.
+- [apps.developer.homey.app llms.txt](https://apps.developer.homey.app/llms.txt) - Official llms.txt index of the Homey Apps SDK for building apps that run on Homey hubs.
+- [docs.aqara.com llms.txt](https://docs.aqara.com/llms.txt) - Official llms.txt index of the Aqara developer documentation center.
+- [kb.shelly.cloud llms.txt](https://kb.shelly.cloud/llms.txt) - Official llms.txt index of the Shelly device knowledge base with per-model pages.
+- [developer.govee.com llms.txt](https://developer.govee.com/llms.txt) - Official llms.txt index of the Govee Developer Platform APIs for listing, controlling and subscribing to Govee smart-home devices.
+- [apidocs.verkada.com llms.txt](https://apidocs.verkada.com/llms.txt) - Official llms.txt index of Verkada camera and access control APIs.
+- [docs.jitx.com llms.txt](https://docs.jitx.com/llms.txt) - Official llms.txt of JITX code-driven PCB design, served as a full-text dump of the documentation.
+- [docs.quilter.ai llms.txt](https://docs.quilter.ai/llms.txt) - Official llms.txt index of Quilter automated PCB layout.
+- [docs.allspice.io llms.txt](https://learn.allspice.io/llms.txt) - Official llms.txt index of AllSpice hardware design review and version control.
 
 Checked and absent (404 or HTML): Zephyr, Espressif, Nordic, ST, PlatformIO, KiCad, ROS docs, Golioth, Home Assistant, ESPHome, MicroPython, CircuitPython, Raspberry Pi, Seeed wiki, Isaac Sim / Lab, Embassy, BeagleBoard, ThingsBoard. Zephyr ships an `AGENTS.md`, a `CLAUDE.md` and a `copilot-instructions.md` instead; nRF Connect SDK has none of the three at HEAD.
 
@@ -880,8 +1396,8 @@ like a design consequence rather than an oversight: a device is exclusively owne
 deadline-bound, while A2A models a retryable conversation between opaque peers. Every device-side protocol
 effort since — MCP-over-MQTT, Arm Device Connect, DCP — attached itself to MCP instead.
 
-**Vendors have barely shown up.** Three silicon vendors have published a host-side skill: Arm, Renesas and
-Texas Instruments. STMicroelectronics has 786 public repos and none; Infineon has 2,301; NXP 221; Raspberry Pi
+**Vendors have barely shown up.** Four silicon vendors have published a host-side skill: Arm, Renesas, Texas
+Instruments and, inside its ESP-DL repo, Espressif. STMicroelectronics has 786 public repos and none; Infineon has 2,301; NXP 221; Raspberry Pi
 115 with the Pico SDK bare. `espressif/skills` is an official repo whose README tells you to install it and
 whose tree is `README.md` plus `skills/.gitkeep`, created and abandoned within three hours on 2026-04-24. Seven
 vendors ship an MCP server and not one of them can execute anything in simulation.
@@ -897,9 +1413,10 @@ not emulators.
 is the one with published evidence behind it: frontier models score 0% deployment success without hardware
 feedback and beat human experts within seven iterations with it. It is also the only route to a passing skill.
 
-Also empty, each verified rather than assumed: Wi-Fi provisioning, Raspberry Pi 5 Linux, device tree and
-U-Boot, Thread and device-side Matter, non-offensive NFC, Lattice FPGA tooling, VLA policies as agent tools,
-Boston Dynamics Spot, and generic USB control (USB *analysis* is now covered).
+Also empty, each verified rather than assumed: Raspberry Pi 5 Linux, device tree and U-Boot, Thread and
+device-side Matter, non-offensive NFC, VLA policies as agent tools, Boston Dynamics Spot, and generic USB control
+(USB *analysis* is now covered). Wi-Fi provisioning and Lattice FPGA tooling each have a single skill now and no
+MCP server.
 
 ## Related lists
 
@@ -911,6 +1428,12 @@ Boston Dynamics Spot, and generic USB control (USB *analysis* is now covered).
 - [skillmatic-ai/awesome-agent-skills](https://github.com/skillmatic-ai/awesome-agent-skills) - General Agent Skills directory.
 - [skills.sh](https://skills.sh) - Skill registry with install counts; the numbers quoted above come from here.
 - [ClawHub](https://www.clawhub.ai) - OpenClaw's skill registry; hosts hardware skills with no GitHub source (esp32, arduino, raspberry, bambu-cli, meshtastic) whose install counts are quoted above.
+- [s87343472/awesome-ai-hardware](https://github.com/s87343472/awesome-ai-hardware) - Reviewed list of reproducible open-source projects connecting LLMs and agents to real hardware, from smart home and wearables to robotics, microcontrollers and hardware protocol bridges. (★12 · 2026-09)
+- [GT-RIPL/Awesome-LLM-Robotics](https://github.com/GT-RIPL/Awesome-LLM-Robotics) - Large curated list of papers and code using language and multimodal models for robotics, including reasoning, planning, manipulation and agents. (★4.5k · 2026-07)
+- [zchoi/Awesome-Embodied-Robotics-and-Agent](https://github.com/zchoi/Awesome-Embodied-Robotics-and-Agent) - Curated research list on embodied robots and agents built on LLMs and VLMs, including benchmarks and planning work. (★1.9k · 2026-09)
+- [ai4eda/awesome-AI4EDA](https://github.com/ai4eda/awesome-AI4EDA) - Curated AI-for-EDA paper list rendered at ai4eda.github.io, covering LLM and agent work on chip design. (★217 · 2026-05)
+- [labclaw/awesome-physical-ai-for-science](https://github.com/labclaw/awesome-physical-ai-for-science) - Curated list on self-driving labs, lab robotics and AI agents that operate scientific instruments. (★8 · 2026-03)
+- [natnew/awesome-physical-ai](https://github.com/natnew/awesome-physical-ai) - Engineering-oriented map of 229 physical AI resources across robot learning, VLA models, simulation, safety and robot hardware. (★141 · 2026-09)
 
 ## Contributing
 

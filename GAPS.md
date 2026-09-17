@@ -112,8 +112,9 @@ The interesting finding is that this pattern is *rare*. A census of roughly 95 v
 repositories turned up exactly one true placeholder. What is common is nothing at all: STMicroelectronics (786
 repos), NXP (221), Infineon (2,301), Nuvoton (289), Raspberry Pi (115, with `pico-sdk` and `linux` both bare),
 SiFive (295), SparkFun (1,482), Pimoroni (250), PlatformIO (73), FreeRTOS (44), KiCad (136), Digilent (309),
-Saleae (72), Unitree (55), Universal Robots (72), DJI (50), Parrot (134) and Bitcraze (78) have no skill, no
-device-driving MCP and no `llms.txt` between them.
+Unitree (55), Universal Robots (72), DJI (50), Parrot (134) and Bitcraze (78) have no skill, no
+device-driving MCP and no `llms.txt` between them. Saleae (72 repos), which was on this list, has since
+published an official [`llms.txt`](https://docs.saleae.com/llms.txt) for its Logic 2 automation APIs.
 
 Four repos sit just above the placeholder line and are worth watching, because they are what a vendor looks
 like when it is starting: [arm/agent-resources](https://github.com/arm/agent-resources) (a registry of agent
@@ -133,8 +134,10 @@ also ships a second one that captures packets off a real radio. Veecle's sharper
 **Closest thing to a counter-example.** [TexasInstruments/C2000-IDEA](https://github.com/TexasInstruments/C2000-IDEA)
 ships a real skill at `docs/skills/c2000-idea/` with a full `references/` tree — F28x device migration phased
 across four documents, bitfield-to-driverlib migration, SysConfig ePWM conversion — and it drives a real
-`idea-mcp` endpoint alongside CCS Project, SysConfig and TI assembly MCP servers. It makes TI the third
-silicon vendor with a host-side skill, after Arm and Renesas, and it is the template the other twenty-seven
+`idea-mcp` endpoint alongside CCS Project, SysConfig and TI assembly MCP servers. It made TI the third
+silicon vendor with a host-side skill, after Arm and Renesas; Espressif has since become the fourth, with skills
+for model quantization and deployment inside [espressif/esp-dl](https://github.com/espressif/esp-dl). It is the
+template the other twenty-seven
 could copy tomorrow.
 
 **Vendors outside MCU silicon do occasionally show up**, which makes the silicon vendors' absence sharper
@@ -197,8 +200,10 @@ takes frontier models from 0% to better-than-expert.
 Only a handful of projects close it today: tinyusb's `hil` skill, SensorsIot's ESP-IDF harness,
 [Gundry-Consultancy/sbc-mcu-dut-controller](https://github.com/Gundry-Consultancy/sbc-mcu-dut-controller)
 (power relays, an I2C mux and camera proof over ESP32 / RP2040 / SAMD), hispark's `hil-smoke`, Hailo-15's
-deploy skills, Adafruit's CircuitPython runner, and the M5Stack onboarding skills in Anthropic's own
-`cwc-makers` plugin. Everything else in this list stops at "here is the code".
+deploy skills, Adafruit's CircuitPython runner, the M5Stack onboarding skills in Anthropic's own
+`cwc-makers` plugin, and [agentic-hil](https://github.com/agentic-hil/agentic-hil), an MCP server and skill that
+flashes a real board through OpenOCD, pyOCD or STM32CubeProgrammer and checks UART and CAN output against a YAML
+test plan. Everything else in this list stops at "here is the code".
 
 **Why it matters.** It is the only pattern with published evidence behind it, and it is the only route to a
 passing skill: this list counts nothing but a run on a physical board as a pass.
@@ -207,30 +212,37 @@ passing skill: this list counts nothing but a run on a physical board as a pass.
 
 Each of these was searched specifically. Where something exists but falls short, it is named.
 
-**Wi-Fi provisioning** — `EMPTY`. No skill and no MCP for SoftAP, BLE provisioning, SmartConfig, `esp-prov` or
-Improv Wi-Fi. A search for `esp-prov` returns 372 repositories, every one of them a mobile client in Flutter,
-React Native or Dart. Nobody has wrapped the provisioning flow itself for an agent.
+**Wi-Fi provisioning** — `PARTIAL`. One ESP-IDF skill now exists: `esp32-wifi-provision` in
+[full-stack-skills/firmware-skills](https://github.com/full-stack-skills/firmware-skills) covers method selection
+across Unified Provisioning, SmartConfig and DPP, the provisioning state machine and security rules. Improv
+Wi-Fi, non-Espressif chips and any MCP that drives `esp-prov` against a device are still missing. A search for
+`esp-prov` returns 372 repositories, every one of them a mobile client in Flutter, React Native or Dart.
 
-**Raspberry Pi 5 Linux** — `EMPTY` in substance. The only Pi coverage is three pin-toggle MCP servers. Nothing
+**Raspberry Pi 5 Linux** — `EMPTY` in substance. Pi coverage is three pin-toggle MCP servers and a vendor skill for
+SunFounder's Pironman 5 case, which drives the case's fan, OLED and RGB rather than the Pi itself. Nothing
 touches `libcamera`, device-tree overlays or HAT ID EEPROMs. This matters more than it sounds: the Pi 5 moved
 to RP1 and dropped the sysfs GPIO path, so `RPi.GPIO` no longer works there — which is exactly the kind of
 fact a model trained on older tutorials gets confidently wrong.
 
-**Device tree, U-Boot and Armbian** — `EMPTY` as dedicated skills; what exists is project-internal. The reach
+**Device tree, U-Boot and Armbian** — `EMPTY` as dedicated skills; what exists is project-internal or a section
+of a general embedded-Linux collection. The reach
 here is unusually wide, since Pi, BeagleBone, Rockchip, Armbian and Yocto all share the same overlay mechanics.
 
 **Thread, device-side Matter, and non-offensive NFC** — `EMPTY`. Thread has exactly one MCP. Matter is covered
 controller-side but not on the device. Every NFC result is an offensive-security tool — Proxmark3, Chameleon,
 Flipper — and nothing addresses a PN532 reading a tag.
 
-**Lattice FPGA tooling** — `EMPTY`. Radiant, Diamond and iCEcube returned nothing across four searches, in
-contrast to Vivado and Quartus, which both have skills and MCP servers.
+**Lattice FPGA tooling** — `PARTIAL`. One skill exists, `lattice-fpga` inside
+[hslee-cmyk/chip-design-skills](https://github.com/hslee-cmyk/chip-design-skills), with references on devices,
+constraints, Synplify issues and Reveal debugging. No MCP server drives Radiant, Diamond or iCEcube, in contrast
+to Vivado and Quartus.
 
 **VLA policies as agent tools** — `EMPTY`. Octo, RDT, Helix and SmolVLA have no tool-calling wrapper or MCP of
 their own across nine distinct searches. π0 and GR00T are reachable only through IsaacLab-Arena's serving
 skills and OpenRAL.
 
-**Drones beyond the common stacks** — `EMPTY` for Skydio, Parrot, Crazyflie and MAVSDK specifically. ArduPilot,
+**Drones beyond the common stacks** — `EMPTY` for Skydio, Parrot and MAVSDK specifically; Crazyflie appears only
+as a simulator skill, not as flight control. ArduPilot,
 Betaflight, iNAV and PX4 are covered, and DJI now has one waypoint-planning server.
 
 **Boston Dynamics Spot** — `EMPTY`, and the largest single robot-vendor hole. `spot-sdk` and `spot-cpp-sdk`
@@ -259,8 +271,8 @@ to build as a link is.
 framework, despite ESA's equivalent having one. Nothing at all for high-altitude balloons.
 
 **Marine and aviation.** Everything marine goes through SignalK; nothing speaks NMEA 0183 or 2000 at the wire,
-and there is no OpenCPN or autopilot-control tooling. Every ADS-B result calls the OpenSky cloud API — no
-local receiver (dump1090, Stratux, PiAware) has been wrapped.
+and there is no OpenCPN or autopilot-control tooling. ADS-B is mostly the OpenSky cloud API; the one local
+receiver wrapped so far is a readsb / tar1090 feeder, and Stratux and PiAware have nothing.
 
 **Rail and off-highway.** Real railway signalling — ERTMS, ETCS, CBTC — has nothing; only model railroading via
 JMRI. Forklifts and FMS telematics have nothing beyond Geotab.
@@ -348,7 +360,8 @@ documentation, plus refusing by default to write to mass-storage and HID-keyboar
 
 ### 4. A Wi-Fi provisioning skill — *low*
 
-Nothing exists in any form and the surface is small and stable. Cover `esp_prov` for SoftAP and BLE, the
+Only one ESP-IDF skill exists, with no Improv Wi-Fi coverage and no device-side tooling, and the surface is small
+and stable. Cover `esp_prov` for SoftAP and BLE, the
 `wifi_provisioning` component configuration, and the Improv Wi-Fi serial and BLE spec.
 
 First three evals: asked to provision over BLE, the agent uses `--transport ble --sec_ver 2` with SRP6a salt
