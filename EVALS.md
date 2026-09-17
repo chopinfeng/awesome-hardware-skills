@@ -484,7 +484,8 @@ revision, the chip ID, the framework version, the agent model and harness, every
 self-tests, the hardware evidence, one bench photo per session, and a permalink to the committed run records with
 the SHA-256 of their `SHA256SUMS` file. It requires confirming that the runs were on a physical board, that every
 run started from the host baseline with the eval out of the agent's reach, that every run is reported, that no
-hints were given, and that the transcripts are unedited.
+hints were given, and that the transcripts are unedited. The one permitted edit is replacing a secret such as an
+API key or Wi-Fi password with `[REDACTED]`; check transcripts for them before publishing.
 
 ## Review
 

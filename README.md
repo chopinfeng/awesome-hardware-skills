@@ -63,6 +63,18 @@ Tasks assert on physical side effects a script can observe (serial output, GPIO 
 
 As of the snapshot, one listed skill ships an `evals/` package and it is at `L0`. **No skill in this list has passed yet**, because passing needs someone to run the tasks on the board. If you own one of the boards below, that is the most valuable contribution you can make.
 
+To build a skill of your own with an eval package, or to test one on your board, install
+[hardware-skill-creator](skills/hardware-skill-creator/) — an Agent Skill in this repository that works like Claude's
+skill-creator for hardware. In Claude Code:
+
+```
+/plugin marketplace add chopinfeng/awesome-hardware-skills
+/plugin install hardware-skill-creator@awesome-hardware-skills
+```
+
+Its README explains how to use it and how to submit results: a pull request to list a skill, a commit in the
+skill's repository for Phase 0, and run records plus an attestation issue for a test on a board.
+
 ## Skills
 
 Entries in the [Agent Skills](https://agentskills.io) format: a folder with a `SKILL.md` (frontmatter `name` + `description`) and optional `references/` and `scripts/`. Installable into Claude Code, Codex, Cursor and others. `coll` = a collection of several skills; a path after the repo name points at one skill inside a monorepo. Within a category, entries are ordered by usefulness, not stars — a 15k-star monorepo that happens to contain one small skill does not outrank a focused 50-star one.
@@ -902,4 +914,4 @@ Boston Dynamics Spot, and generic USB control (USB *analysis* is now covered).
 
 ## Contributing
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md). Short version: one line per entry in the right category, run `python scripts/l0_check.py readme README.md`, and if you are adding a skill you maintain, copy [`template/evals/`](template/evals/) into it (or let [hardware-skill-creator](skills/hardware-skill-creator/) build the package with you) and file an [L2 attestation](.github/ISSUE_TEMPLATE/attestation.yml) once you have run it on a board.
+Read [CONTRIBUTING.md](CONTRIBUTING.md). Short version: one line per entry in the right category, run `python scripts/l0_check.py readme README.md`, and if you are adding a skill you maintain, copy [`template/evals/`](template/evals/) into it (or let `hardware-skill-creator` build the package with you) and file an [L2 attestation](.github/ISSUE_TEMPLATE/attestation.yml) once you have run it on a board.

@@ -99,7 +99,8 @@ body:
       label: Run records and transcripts
       description: >-
         A commit or tag permalink — not a branch — to the directory holding every run record, its evidence files,
-        the unedited agent transcripts and a SHA256SUMS file covering all of them.
+        the agent transcripts (unedited except secrets replaced with [REDACTED]) and a SHA256SUMS file covering all
+        of them.
     validations:
       required: true
   - type: input
@@ -125,5 +126,7 @@ body:
           required: true
         - label: I reported every run, including failed and invalid ones, and did not choose which runs to count.
           required: true
-        - label: I gave the agent each prompt verbatim, with no extra hints, and the transcripts are unedited.
+        - label: >-
+            I gave the agent each prompt verbatim, with no extra hints, and the transcripts are unedited except for
+            secrets replaced with [REDACTED].
           required: true

@@ -44,6 +44,16 @@
 
 没有 `evals/` 包的 Skill 仍然可以被收录，只是不显示徽章。
 
+## 提交测试结果
+
+结果以两部分提交：保存在 git 中的证据，加上一份可供维护者审核的声明。
+
+1. **阶段 0**，由 Skill 作者提交：把 fixtures 和阶段 0 日志提交到 Skill 的仓库，并把该提交的永久链接填进 `eval_validated.evidence`。
+2. **板上运行**，任何人都可以提交：把每次运行的记录、日志、抓包文件和对话记录连同 `SHA256SUMS` 文件提交到你能控制的仓库，然后开一个 **L2 hardware attestation** issue，附上提交的永久链接和 `SHA256SUMS` 的摘要。公开前把对话记录中的机密替换为 `[REDACTED]`，不要做其他改动。
+3. **徽章**，由维护者更新：接受背书后，维护者会发 Pull Request 更新两个 README 中该条目的徽章。请不要在你自己的 Pull Request 里修改徽章。
+
+逐步的命令（包括发 Pull Request 用的 `gh` 命令）见 [hardware-skill-creator 的 README](skills/hardware-skill-creator/README.zh-CN.md#提交结果)。
+
 ## 添加新的模拟器或断言类型
 
 见 [EVALS.zh-CN.md](EVALS.zh-CN.md) 的最后一节。

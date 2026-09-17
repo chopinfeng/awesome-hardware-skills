@@ -63,6 +63,21 @@ The short version:
 
 A skill without an `evals/` package can still be listed; it simply shows no badge.
 
+## Submitting test results
+
+Results travel as evidence in git plus a claim a maintainer can review:
+
+1. **Phase 0**, by the skill author: commit the fixtures and Phase 0 logs to the skill's repository and put that
+   commit's permalink in `eval_validated.evidence`.
+2. **Runs on a board**, by anyone: commit every run record, log, capture and transcript to a repository you control,
+   with a `SHA256SUMS` file, and open an **L2 hardware attestation** issue with the commit permalink and the digest
+   of `SHA256SUMS`. Replace secrets in transcripts with `[REDACTED]` before publishing; make no other edits.
+3. **Badges**, by a maintainer: after accepting an attestation, the maintainer opens a pull request updating the
+   entry's badge in both READMEs. Please do not edit badges in your own pull request.
+
+The step-by-step commands, including the `gh` commands for the pull request, are in the
+[hardware-skill-creator README](skills/hardware-skill-creator/README.md#submit-results).
+
 ## Adding a simulator or assertion type
 
 See the last section of [EVALS.md](EVALS.md).

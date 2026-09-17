@@ -1,0 +1,19 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "awesome-hardware-skills",
+  "description": "Skills from awesome-hardware-skills for building and testing Agent Skills on real hardware",
+  "owner": {
+    "name": "chopinfeng"
+  },
+  "plugins": [
+    {
+      "name": "hardware-skill-creator",
+      "description": "Create or improve an Agent Skill for a board, SDK or instrument, with an eval package proven on the physical board: tasks with observable assertions, reference/broken/spoof fixtures, Phase 0, bench runs, L2 attestation and ΔPass.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/hardware-skill-creator"],
+      "category": "development",
+      "homepage": "https://github.com/chopinfeng/awesome-hardware-skills/tree/main/skills/hardware-skill-creator"
+    }
+  ]
+}

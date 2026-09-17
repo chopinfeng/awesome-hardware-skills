@@ -63,6 +63,15 @@
 
 截至本次快照，列表中有一个 Skill 提供了 `evals/` 包，处于 `L0`。**列表中还没有任何 Skill 通过**，因为通过需要有人在板子上把任务跑一遍。如果你手上有下面某块板子，这就是你能做的最有价值的贡献。
 
+想自己做一个带 eval 包的 Skill，或者在自己的板子上测试某个 Skill，可以安装 [hardware-skill-creator](skills/hardware-skill-creator/README.zh-CN.md)。它是本仓库里的一个 Agent Skill，作用相当于硬件版的 Claude skill-creator。在 Claude Code 中输入：
+
+```
+/plugin marketplace add chopinfeng/awesome-hardware-skills
+/plugin install hardware-skill-creator@awesome-hardware-skills
+```
+
+它的 README 说明了怎么使用，以及怎么提交结果：收录 Skill 发 Pull Request，阶段 0 提交到 Skill 自己的仓库，板上测试则提交运行记录并开一个背书 issue。
+
 ## Skills
 
 采用 [Agent Skills](https://agentskills.io) 格式的条目：一个包含 `SKILL.md`（frontmatter 含 `name` 与 `description`）的目录，可选 `references/` 和 `scripts/`。可安装进 Claude Code、Codex、Cursor 等。`coll` 表示这是多个 Skill 的合集；仓库名后面的路径指向 monorepo 中的某一个 Skill。同一分类内按有用程度排序，而非星数——一个恰好包含一个小 Skill 的 1.5 万星 monorepo，不应该排在一个专注的 50 星仓库前面。
@@ -882,6 +891,6 @@ A2A（Agent2Agent）发布十七个月后仍没有任何真正的硬件实现：
 
 ## 贡献
 
-请阅读 [CONTRIBUTING.zh-CN.md](CONTRIBUTING.zh-CN.md)。简而言之：每个条目一行、放进正确的分类，运行 `python scripts/l0_check.py readme README.md`；如果你添加的是自己维护的 Skill，请把 [`template/evals/`](template/evals/) 复制进去（或者让 [hardware-skill-creator](skills/hardware-skill-creator/) 和你一起搭建这个包），并在真实板子上跑过之后提交一份 [L2 实测背书](.github/ISSUE_TEMPLATE/attestation.yml)。
+请阅读 [CONTRIBUTING.zh-CN.md](CONTRIBUTING.zh-CN.md)。简而言之：每个条目一行、放进正确的分类，运行 `python scripts/l0_check.py readme README.md`；如果你添加的是自己维护的 Skill，请把 [`template/evals/`](template/evals/) 复制进去（或者让 `hardware-skill-creator` 和你一起搭建这个包），并在真实板子上跑过之后提交一份 [L2 实测背书](.github/ISSUE_TEMPLATE/attestation.yml)。
 
 新增或修改条目时，请**同时修改** `README.md` 与本文件——CI 会检查两份文档的条目是否一一对应。
