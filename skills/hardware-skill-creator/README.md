@@ -59,10 +59,13 @@ A typical session:
 2. **Skill.** The agent drafts SKILL.md and `references/` with facts about the part, keeping task answers out.
 3. **Tasks.** It proposes three tasks built around those mistakes, with assertions the board can show. You approve.
 4. **Package.** It scaffolds `evals/` and writes the reference, broken and spoof firmware for each task.
-5. **Static checks.** L0 plus the checks L0 cannot do, such as assertions that pass on an empty project.
-6. **Phase 0 on the board.** It asks which port is the test board, then flashes each fixture and evaluates the
-   assertions with you. Logic analyser, sniffer and button presses are your hands.
-7. **Improve and test.** Development runs show where the skill is weak; the bench runs of Phases 1-3 decide.
+5. **Static checks and the trigger pre-check.** L0 plus the checks L0 cannot do, such as assertions that pass on an
+   empty project; then about 20 requests on the host show whether the skill loads when it should and stays out
+   when it should not. No board needed.
+6. **Phase 0 on the board.** It asks which port is the test board, then flashes each fixture and runs the five
+   checks with you, the last being an agent told to cheat. Logic analyser, sniffer and button presses are your hands.
+7. **Improve and test.** Development runs show where the skill is weak; the bench runs of Phases 1-3 decide, and
+   every passing run is reviewed by a person.
 
 The scripts also work without an agent:
 
@@ -74,7 +77,25 @@ python $S/check_package.py my-skill --run-empty
 python $S/bench.py capture --port /dev/ttyUSB0 --seconds 15 --out run.log --reset rts
 python $S/bench.py serial run.log my-skill/evals/tasks/01-toggle.yaml --manifest my-skill/evals/manifest.yaml
 python $S/stats.py delta 12 15 6 15
+python $S/stats.py passk 4 5 2
 ```
+
+## Rules the tests follow
+
+The full rules are in [EVALS.md](../../EVALS.md), and this skill walks you through them. What changed on 2026-09-18:
+
+| Rule | What to do | Why |
+|---|---|---|
+| Phase 0 check 5 | Run an agent told to fool the assertions and read its transcript either way; or give an ordinary agent a task the board cannot do, where any pass is a cheat | An author's spoof covers the cheats the author thought of; agents have hard-coded UART output on real microcontrollers |
+| Review every pass | Before counting it, read the transcript and frozen source; faked work fails as `illegitimate` | Even with hidden tests at least 16% of successful runs failed review, and transcripts themselves can be forged |
+| Protect tester and board | Scan the skill before the first run; block irreversible commands such as eFuse burns; record `bench_damage`; put boards with radios on an isolated network | 36.82% of published skills have security flaws; agents lock boards |
+| Record hardware access | `agent.hardware_access` says raw shell or which tool, and both A/B arms use the same | Hardware feedback alone can move success rates a long way |
+| Report reliability | Mark tasks whose runs all passed (`n/n`); in A/B give pass^2 and a per-task table | Two of three is a gate, not a reliability claim |
+| `harm` label | Label ΔPass `harm` when its interval sits below zero | Skills that make the agent worse exist |
+| A/A check (optional) | Compare the skill with itself first to see the bench's own noise | A difference inside the noise is not a gain |
+| Trigger pre-check | About 20 requests in `evals/trigger_queries.json`, three runs each | A skill that never loads scores zero on the bench, and this needs no board |
+
+`claude plugin eval` can run the trigger pre-check, but it cannot see a board, so its results never count as a pass.
 
 ## Submit results
 
@@ -120,8 +141,10 @@ If the skill is already listed, open a pull request here that mentions Phase 0 i
 ### 3. Report test runs on a board (records, then an attestation issue)
 
 1. **Save the records in a repository you control.** Fork the skill's repository, or use any repository of yours.
-   Put one session's files in one directory: a run record per run (template in `assets/run-record.yaml`), the
-   build and flash logs, serial logs, `.sr` and `.pcapng` captures, bench photos and agent transcripts.
+   Put one session's files in one directory: a run record per run (template in `assets/run-record.yaml`, with
+   `agent.hardware_access`, `bench_damage` and, for passing runs, `legitimacy_review`), the build and flash logs,
+   serial logs, `.sr` and `.pcapng` captures, bench photos, agent transcripts, and the security scan of the skill
+   made before the first run.
 
    ```
    evals/runs/2026-09-20-esp32-c3-devkitm-1-<your-github-name>/
@@ -149,7 +172,8 @@ If the skill is already listed, open a pull request here that mentions Phase 0 i
    <https://github.com/chopinfeng/awesome-hardware-skills/issues/new?template=attestation.yml>. It asks for the
    skill and the commit you tested, the board, the chip ID, versions, every run in order with its result, the
    self-tests, hardware evidence, photos, the records permalink and the `SHA256SUMS` digest.
-   This skill's `stats.py task` and `stats.py wilson` produce the numbers it asks for.
+   It also asks you to confirm that every passing run was reviewed. This skill's `stats.py task` and
+   `stats.py wilson` produce the numbers it asks for.
 
 5. **Optionally, open a pull request to the skill's repository** adding your records directory, so the author keeps
    a copy.
@@ -164,15 +188,16 @@ append the attestation to `verified.L2` in the manifest. Testers do not edit bad
 | Script | Purpose |
 |---|---|
 | `scripts/init_skill.py` | Scaffold a skill and eval package for `esp32`, `nrf52`, `stm32`, `rp2040` or `other` |
-| `scripts/check_package.py` | Checks L0 does not: leftover TODOs, prompt values, fixtures, vacuous or unrunnable commands, leakage hints |
+| `scripts/check_package.py` | Checks L0 does not: leftover TODOs, prompt values, fixtures, vacuous or unrunnable commands, leakage hints, trigger-query format and balance |
 | `scripts/l0_check.py` | A copy of this repository's L0 checker; CI keeps the two identical |
 | `scripts/bench.py` | Install without `evals/`, hash, freeze, serial capture, serial assertions with the reboot guard |
-| `scripts/stats.py` | Two-of-three task verdict, Wilson interval, ΔPass with Newcombe interval |
+| `scripts/stats.py` | Two-of-three task verdict, Wilson interval, ΔPass with Newcombe interval and label (incl. `harm`), pass^k |
 
 `scripts/test_skill_creator.py` at the repository root tests them in CI.
 
 ## Status
 
 This skill has its own eval package in `evals/`: three tasks on an ESP32-C3-DevKitM-1 in which the agent must
-produce a package whose reference firmware works on the board. Phase 0 has not been done for it. Its status is
+produce a package whose reference firmware works on the board, plus a 20-query trigger set. Phase 0 has not been
+done for it. Its status is
 `L0`, and it has not passed.

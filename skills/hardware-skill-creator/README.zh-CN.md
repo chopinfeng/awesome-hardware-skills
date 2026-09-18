@@ -53,9 +53,9 @@ rsync -a --exclude evals awesome-hardware-skills/skills/hardware-skill-creator ~
 2. **编写 Skill。** agent 起草 SKILL.md 和 `references/`，写的是关于器件的事实，不写任务答案。
 3. **设计任务。** 它围绕这些错误提出三个任务，断言都是板子能呈现的现象。由你确认。
 4. **生成包。** 它生成 `evals/` 脚手架，并为每个任务编写 reference、broken 和 spoof 固件。
-5. **静态检查。** L0，加上 L0 做不到的检查，比如在空工程上也会通过的断言。
-6. **在板子上做阶段 0。** 它先问清哪个端口是测试板，再逐个烧录 fixture，和你一起评估断言。逻辑分析仪、抓包器和按键操作由你动手。
-7. **改进与测试。** 开发性运行暴露 Skill 的薄弱处；阶段 1–3 的测试台运行给出结论。
+5. **静态检查与触发预检。** L0，加上 L0 做不到的检查，比如在空工程上也会通过的断言；再用约 20 条请求在主机上测 Skill 该加载时会不会加载、不该加载时会不会误触发，不需要板子。
+6. **在板子上做阶段 0。** 它先问清哪个端口是测试板，再逐个烧录 fixture，和你一起完成五项检查，最后一项是让一个 Agent 专门尝试作弊。逻辑分析仪、抓包器和按键操作由你动手。
+7. **改进与测试。** 开发性运行暴露 Skill 的薄弱处；阶段 1–3 的测试台运行给出结论，每一次通过都要经过人工审查。
 
 不经过 agent，也可以直接使用脚本：
 
@@ -67,7 +67,25 @@ python $S/check_package.py my-skill --run-empty
 python $S/bench.py capture --port /dev/ttyUSB0 --seconds 15 --out run.log --reset rts
 python $S/bench.py serial run.log my-skill/evals/tasks/01-toggle.yaml --manifest my-skill/evals/manifest.yaml
 python $S/stats.py delta 12 15 6 15
+python $S/stats.py passk 4 5 2
 ```
+
+## 测试规则要点
+
+完整规则见 [EVALS.zh-CN.md](../../EVALS.zh-CN.md)，这个 Skill 会带你逐条做到。其中 2026-09-18 更新的部分：
+
+| 规则 | 要做什么 | 为什么 |
+|---|---|---|
+| 阶段 0 第 5 项检查 | 让一个 Agent 专门尝试骗过断言，不论成败都读它的对话记录；也可以给普通 Agent 一个板子做不到的任务，只要通过就是作弊 | 作者写的伪造固件只覆盖作者想得到的骗法；已有 Agent 在真实单片机上硬编码串口输出 |
+| 审查每一次通过 | 计入之前读对话记录和冻结的源码，伪造的判为 `illegitimate` | 即使测试被隐藏，仍有至少 16% 的成功运行经不起审查；对话记录本身也可能被伪造 |
+| 保护测试者与板子 | 首次运行前扫描 Skill；可以拦截烧 eFuse 等不可逆命令；每次记录 `bench_damage`；带无线的板子放在隔离网络 | 36.82% 的已发布 Skill 有安全缺陷；Agent 会锁死板子 |
+| 记录硬件接触方式 | `agent.hardware_access` 写明是原始 shell 还是某个工具，A/B 两组必须相同 | 有无硬件反馈，成功率可以差出一大截 |
+| 报告可靠性 | 标出全部运行都通过的任务（`n/n`），A/B 时给出 pass^2 和按任务的差值表 | 三取二是门槛，不是可靠性声明 |
+| `harm` 标签 | ΔPass 区间整体低于零时标为 `harm` | 装了 Skill 反而更差的情况真实存在 |
+| A/A 对照（可选） | 先让 Skill 和它自己比一次，看台架本身的噪声 | 落在噪声以内的差异不算增益 |
+| 触发预检 | `evals/trigger_queries.json` 约 20 条请求，每条跑三次 | 不被加载的 Skill 在台架上测出来就是零，而这一步不需要板子 |
+
+`claude plugin eval` 可以用来跑触发预检，但它看不到板子，结果永远不算通过。
 
 ## 提交结果
 
@@ -109,7 +127,7 @@ https://github.com/<you>/<skill-repo>/tree/<commit-sha>/evals/phase0/0.1.0
 
 ### 3. 提交在板子上的测试运行（先存记录，再开背书 issue）
 
-1. **把记录存进你能控制的仓库。** Fork 这个 Skill 的仓库，或者用你自己的任意仓库。一次会话的文件放在同一个目录里：每次运行一份运行记录（模板见 `assets/run-record.yaml`），以及编译和烧录日志、串口日志、`.sr` 和 `.pcapng` 抓包文件、测试台照片和 agent 对话记录。
+1. **把记录存进你能控制的仓库。** Fork 这个 Skill 的仓库，或者用你自己的任意仓库。一次会话的文件放在同一个目录里：每次运行一份运行记录（模板见 `assets/run-record.yaml`，其中要填 `agent.hardware_access`、`bench_damage`，通过的运行还要填 `legitimacy_review`），以及编译和烧录日志、串口日志、`.sr` 和 `.pcapng` 抓包文件、测试台照片、agent 对话记录，和首次运行前对 Skill 的安全扫描结果。
 
    ```
    evals/runs/2026-09-20-esp32-c3-devkitm-1-<your-github-name>/
@@ -131,7 +149,7 @@ https://github.com/<you>/<skill-repo>/tree/<commit-sha>/evals/phase0/0.1.0
    git rev-parse HEAD                  # 这个 SHA 用于永久链接
    ```
 
-4. **开背书 issue**：<https://github.com/chopinfeng/awesome-hardware-skills/issues/new?template=attestation.yml>。表单会要求填写：被测 Skill 与提交、板子、芯片 ID、版本、按顺序列出的每次运行及结果、自检、硬件证据、照片、记录的永久链接和 `SHA256SUMS` 摘要。表单要的数字可以用本 Skill 的 `stats.py task` 和 `stats.py wilson` 算出来。
+4. **开背书 issue**：<https://github.com/chopinfeng/awesome-hardware-skills/issues/new?template=attestation.yml>。表单会要求填写：被测 Skill 与提交、板子、芯片 ID、版本、按顺序列出的每次运行及结果、自检、硬件证据、照片、记录的永久链接和 `SHA256SUMS` 摘要。表单还要求确认每一次通过的运行都经过了审查。表单要的数字可以用本 Skill 的 `stats.py task` 和 `stats.py wilson` 算出来。
 
 5. **可选：向 Skill 的仓库发一个 Pull Request**，把你的记录目录加进去，让作者也保留一份。
 
@@ -142,13 +160,13 @@ https://github.com/<you>/<skill-repo>/tree/<commit-sha>/evals/phase0/0.1.0
 | 脚本 | 用途 |
 |---|---|
 | `scripts/init_skill.py` | 为 `esp32`、`nrf52`、`stm32`、`rp2040` 或 `other` 生成 Skill 和 eval 包的脚手架 |
-| `scripts/check_package.py` | 执行 L0 不做的检查：残留 TODO、prompt 中的取值、fixtures、空转或无法运行的命令、泄漏提示 |
+| `scripts/check_package.py` | 执行 L0 不做的检查：残留 TODO、prompt 中的取值、fixtures、空转或无法运行的命令、泄漏提示、触发查询的格式与数量 |
 | `scripts/l0_check.py` | 本仓库 L0 检查器的副本；CI 保证两者一致 |
 | `scripts/bench.py` | 不带 `evals/` 安装、计算哈希、冻结工作目录、抓取串口、评估串口断言与重启保护 |
-| `scripts/stats.py` | 三取二任务判定、Wilson 区间、带 Newcombe 区间的 ΔPass |
+| `scripts/stats.py` | 三取二任务判定、Wilson 区间、带 Newcombe 区间与 `harm` 等标签的 ΔPass、pass^k |
 
 仓库根目录的 `scripts/test_skill_creator.py` 在 CI 中测试这些脚本。
 
 ## 状态
 
-这个 Skill 在 `evals/` 里有自己的 eval 包：在 ESP32-C3-DevKitM-1 上的三个任务，agent 必须产出一个包，并且包里的 reference 固件要在板子上真正工作。它的阶段 0 还没有做。当前状态是 `L0`，尚未通过。
+这个 Skill 在 `evals/` 里有自己的 eval 包：在 ESP32-C3-DevKitM-1 上的三个任务，agent 必须产出一个包，并且包里的 reference 固件要在板子上真正工作；另有一套 20 条的触发查询。它的阶段 0 还没有做。当前状态是 `L0`，尚未通过。
