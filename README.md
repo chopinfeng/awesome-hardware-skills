@@ -58,7 +58,7 @@ A skill passes only when its tasks have run on a physical board and every assert
 
 **`L2 ×N`** — **Passed.** The eval was first validated on the board — a reference solution passes, an empty project fails every assertion, a deliberately broken solution and a spoof are caught — and then each task passed in two of at most three runs on a physical board, with the eval kept out of the agent's reach, the host and board reset before every run, and every assertion holding, including those a simulator would skip. The tester files an attestation with every run record, two passing bench self-tests, the chip's unique ID and the serial log. `×N` counts attestations on different chips from different people. Hosted virtual boards such as Wokwi or Chiplab do not count; a remote farm that flashes real boards does.
 
-**`ΔPass +42%`** — With-skill minus without-skill task pass rate on the same model, measured on a physical board over five alternating runs per task in each arm and published with a 95% confidence interval and a `gain`, `low-gain` or `inconclusive` label, so that noise is never mistaken for proof. It shows whether the skill carries knowledge the model did not already have. Coming soon.
+**`ΔPass +42%`** — With-skill minus without-skill task pass rate on the same model, measured on a physical board over five alternating runs per task in each arm and published with a 95% confidence interval and a `gain`, `harm`, `low-gain` or `inconclusive` label, so that noise is never mistaken for proof. It shows whether the skill carries knowledge the model did not already have. Coming soon.
 
 **`stale`** — The most recent passing attestation is more than 12 months old, the skill's tasks changed after it, or upstream has not pushed in 12 months.
 

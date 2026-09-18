@@ -39,8 +39,8 @@
 1. 把 [`template/evals/`](template/evals/) 复制到你的 Skill 中，填写 `manifest.yaml`——或者安装 [hardware-skill-creator](skills/hardware-skill-creator/)：这是一个 Agent Skill，会生成包的脚手架、检查它，并带着你和你的 agent 走完下面每一步。
 2. 写大约三个任务——简单、中等、困难——其断言观测物理副作用，并且至少有一条强于 `compile_only`。
 3. 运行 `python scripts/l0_check.py skill path/to/skill`，直到通过。
-4. **阶段 0——验证 eval。** 为每个任务在 `evals/fixtures/<task-id>/` 下添加 `reference/`、`broken/` 与 `spoof/` 三份方案，并在板子上证明：参考方案通过、空工程上每条断言都失败、错误方案与伪造固件都被抓住。确认 Skill 中不含任何任务的答案。把结果记为 manifest 中的 `eval_validated`。
-5. **阶段 1–2——通过判定运行。** 在两次通过的测试台自检之间，让每个任务在真实板子上运行——或者请有这块板子的人来跑——每次运行前都安装**不带** `evals/` 的 Skill、把主机恢复到基线、并完全复位板子，然后附上全部运行记录，提交一个 **L2 hardware attestation** issue。一个任务在最多三次运行中有两次通过即算通过；在每个任务都通过之前，这个 Skill 都不算通过。
+4. **阶段 0——验证 eval。** 为每个任务在 `evals/fixtures/<task-id>/` 下添加 `reference/`、`broken/` 与 `spoof/` 三份方案，并在板子上证明：参考方案通过、空工程上每条断言都失败、错误方案与伪造固件都被抓住、被要求作弊的 Agent 也被抓住。确认 Skill 中不含任何任务的答案。把结果记为 manifest 中的 `eval_validated`。再添加 `evals/trigger_queries.json` 用于触发预检，这一步不需要板子。
+5. **阶段 1–2——通过判定运行。** 在两次通过的测试台自检之间，让每个任务在真实板子上运行——或者请有这块板子的人来跑——每次运行前都安装**不带** `evals/` 的 Skill、把主机恢复到基线、并完全复位板子，审查每一次通过的运行有没有伪造工作，然后附上全部运行记录，提交一个 **L2 hardware attestation** issue。一个任务在最多三次运行中有两次通过即算通过；在每个任务都通过之前，这个 Skill 都不算通过。
 
 没有 `evals/` 包的 Skill 仍然可以被收录，只是不显示徽章。
 

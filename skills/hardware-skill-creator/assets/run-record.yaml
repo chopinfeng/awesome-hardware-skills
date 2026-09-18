@@ -10,7 +10,8 @@ board: exact-board-id rev X
 chip_id: ""                       # from the flash tool / chip-ID command, same across the session
 serial_port: {device: /dev/ttyACM0, usb_serial: ""}
 host: {os: "", framework_version: "", baseline: ""}   # baseline = VM snapshot, container image or clean user
-agent: {model: "", harness: "", network: true, session_id: ""}
+agent: {model: "", harness: "", network: true, session_id: "", hardware_access: shell}   # shell | mcp:<tool>@<version>
+supply_chain_scan: {tool: "", result: ""}             # scan the skill commit before the first run
 started: YYYY-MM-DDTHH:MM:SSZ
 ended: YYYY-MM-DDTHH:MM:SSZ
 agent_outcome: declared-done      # declared-done | timeout
@@ -27,6 +28,8 @@ assertions:
   - {type: compile_only, result: null}
   - {type: serial_match, result: null, matches: 0, evidence: runs/01/serial.log}
 result: null                      # pass | fail | invalid  (decide invalid from bench evidence first)
-failure_class: null               # build | flash | crash | behaviour | timeout | tampered
+failure_class: null               # build | flash | crash | behaviour | timeout | tampered | illegitimate
 invalid_reason: null
+bench_damage: none                # none | recovered (method) | debug-locked | efuse-burned
+legitimacy_review: {by: "", finding: ""}               # passing runs: was the work really done?
 transcript: {path: runs/01/transcript.jsonl, sha256: ""}

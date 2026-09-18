@@ -5,6 +5,8 @@
   stats.py task RESULT [RESULT ...]          two-of-at-most-three verdict; results are pass|fail|invalid in run order
   stats.py delta K_WITH N_WITH K_WITHOUT N_WITHOUT
                                              ΔPass with its 95% Newcombe interval and label
+                                             (gain | harm | low-gain | inconclusive)
+  stats.py passk C N K                       unbiased pass^k from C passes in N runs, e.g. passk 4 5 2 -> 0.6
   stats.py selftest                          checks the formulas against published reference values
 
 Invalid runs are rerun and never counted; they are skipped by `task` but still belong in the record.
@@ -32,8 +34,16 @@ def delta_pass(k_with: int, n_with: int, k_without: int, n_without: int):
     d = p1 - p2
     lo = d - sqrt((p1 - l1) ** 2 + (u2 - p2) ** 2)
     hi = d + sqrt((u1 - p1) ** 2 + (p2 - l2) ** 2)
-    label = "gain" if lo > 0 else "low-gain" if hi < 0.15 else "inconclusive"
+    label = "gain" if lo > 0 else "harm" if hi < 0 else "low-gain" if hi < 0.15 else "inconclusive"
     return d, lo, hi, label
+
+
+def pass_k(c: int, n: int, k: int) -> float:
+    """Unbiased estimate of pass^k (all k independent runs pass) from c passes in n runs: C(c,k)/C(n,k)."""
+    from math import comb
+    if not 0 <= c <= n or k > n:
+        raise SystemExit("need 0 <= c <= n and k <= n")
+    return comb(c, k) / comb(n, k)
 
 
 def task_verdict(results: list[str]) -> str:
@@ -66,6 +76,8 @@ def selftest() -> None:
     assert task_verdict(["pass", "fail"]).endswith("run a third time")
     assert task_verdict(["pass", "invalid", "fail", "pass"]).startswith("task pass (2/3)")
     assert task_verdict(["fail", "fail"]).startswith("task fail")
+    assert delta_pass(0, 15, 10, 15)[3] == "harm"
+    assert [round(pass_k(c, 5, 2), 2) for c in (5, 4, 3)] == [1.0, 0.6, 0.3]
     print("selftest ok")
 
 
@@ -86,6 +98,9 @@ def main(argv: list[str]) -> int:
         print(f"ΔPass {d * 100:+.0f} pts [{lo * 100:+.0f}, {hi * 100:+.0f}] ({nw} v {no}), {label}")
         if nw < 100 or no < 100:
             print("note: below ~100 runs per arm, low-gain is out of reach; inconclusive is the honest label")
+    elif cmd == "passk":
+        c, n, k = map(int, rest)
+        print(f"pass^{k} = {pass_k(c, n, k):.2f} ({c}/{n} runs passed)")
     elif cmd == "selftest":
         selftest()
     else:

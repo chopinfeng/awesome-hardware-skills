@@ -56,11 +56,13 @@ The short version:
 3. Run `python scripts/l0_check.py skill path/to/skill` until it passes.
 4. **Phase 0 — validate the eval.** For each task add `reference/`, `broken/` and `spoof/` solutions under
    `evals/fixtures/<task-id>/`, and show on the board that the reference passes, an empty project fails every
-   assertion, and the broken and spoof solutions are caught. Check that the skill contains no task's answer.
-   Record it as `eval_validated` in the manifest.
+   assertion, the broken and spoof solutions are caught, and an agent told to cheat is caught. Check that the skill
+   contains no task's answer. Record it as `eval_validated` in the manifest. Add `evals/trigger_queries.json` for the
+   trigger pre-check, which needs no board.
 5. **Phases 1–2 — pass runs.** Between two passing bench self-tests, run each task on a physical board — or ask
    someone who owns one — with the skill installed *without* its `evals/`, the host restored to a baseline and
-   the board fully reset before every run, and file an **L2 hardware attestation** issue with every run record.
+   the board fully reset before every run, review every passing run for faked work, and file an **L2 hardware
+   attestation** issue with every run record.
    A task passes in two of at most three runs; until every task has, the skill has not passed.
 
 A skill without an `evals/` package can still be listed; it simply shows no badge.

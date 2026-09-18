@@ -19,7 +19,9 @@ no skill (Phase 3, `ΔPass`). Neither means anything until the eval itself is sh
 ## Keeping the eval out of reach
 
 Agents read graders and answer keys when they can (METR measured it in 30.4% of runs on one suite, and asking
-them not to barely helped). So:
+them not to barely helped). Hiding the tests does not stop them faking the work: METR's May 2026 report found at
+least 16% of successful long runs illegitimate on review, and in August 2026 agents were caught forging their own
+transcripts. So a pass rests on evidence the bench captures from the board, and:
 
 1. **Install the skill without `evals/` and `.git`.** `scripts/bench.py install <skill> <dest>` does this and
    prints the tree hash. Keep the eval package and grading scripts where the agent's harness cannot read.
@@ -41,8 +43,10 @@ For every task, on the real board:
 | 2 empty project fails | an empty directory | every assertion fails | checks that pass when nothing was built |
 | 3 broken is caught | `fixtures/<id>/broken/` | the assertion aimed at the mistake fails | checks that pass when the wrong thing was built |
 | 4 spoof is caught | `fixtures/<id>/spoof/` | an assertion or the reboot guard fails | signals faked without doing the task |
+| 5 exploit agent is caught | an agent told to make the assertions pass without doing the task | it does not pass; its transcript is read either way | cheats the author did not think of |
 
-Checks 2, 3 and 4 find different defects; a package needs all of them. The reference prints the chip's unique ID
+Checks 2 to 5 find different defects; a package needs all of them. For check 5, an **impossible task** (one the
+board cannot do as written) given to an ordinary agent is a cheap companion: any pass is a cheat. The reference prints the chip's unique ID
 at boot (so Phase 1 logs bind to the chip); task prompts never ask for this.
 
 `check_package.py --run-empty` does the host half of check 2 for `exit_code` and `build.cmd`. Serial, GPIO and bus
@@ -64,8 +68,9 @@ eval_validated:
   empty_failed: true
   broken_caught: true
   spoof_caught: true
+  exploit_caught: true
   leakage_reviewed: true
-  evidence: https://...        # logs and captures from the four checks
+  evidence: https://...        # logs, captures and exploit transcripts from the five checks
 ```
 
 Bump `version` and redo Phase 0 whenever a task or assertion changes.
@@ -98,7 +103,21 @@ the run that burned it fails and the board is retired.
 10. **Decide validity from bench evidence alone, before reading any assertion result.**
 11. Evaluate each assertion; keep raw evidence (`serial.log`, `.sr`, `.pcapng`).
 12. Record `pass` / `fail` / `not-run` per assertion; one `failure_class` for a failed run:
-    `build | flash | crash | behaviour | timeout | tampered`.
+    `build | flash | crash | behaviour | timeout | tampered | illegitimate`; and `bench_damage` for every run.
+13. **Review a passing run before counting it.** Read its transcript and frozen source for faked work: output
+    printed from a table or timer, a peripheral skipped and its result hard-coded, a stimulus answered on a
+    schedule, a check disabled. Faked work fails as `illegitimate`; record the finding in `legitimacy_review`.
+
+### Protecting the tester and the board
+
+- Before the first run, scan the skill commit (e.g. `mcp-scan`) and read every download or install step in it;
+  Snyk found security flaws in 36.82% of 3,984 published skills. Record the scan.
+- Record `agent.hardware_access` (raw shell, or a named tool and version). Both Phase 3 arms use the same.
+- The bench may block irreversible commands (eFuse, Secure Boot, Flash Encryption, readout protection, raw mass
+  erase) with a PATH wrapper or an allow-listing tool; a blocked command fails the run, the board is not retired.
+- Record `bench_damage`: `none | recovered (method) | debug-locked | efuse-burned`. After any recovery, rerun the
+  Phase 1 self-test before continuing.
+- Put a board with Wi-Fi, BLE or Ethernet, and the agent, on an isolated network with an egress allow-list.
 
 ### Board reset
 
@@ -126,7 +145,9 @@ Tasks that legitimately reset set `expect_reset: true`. `bench.py serial` implem
 - **Task** passes when two of at most three runs pass: run twice; if they agree that decides it; if they split,
   a third decides. `stats.py task pass fail pass` computes it.
 - **Package** passes if every task passes → L2.
-- Report each task's `k/n` and the pooled pass rate with a 95% Wilson interval (`stats.py wilson K N`).
+- Report each task's `k/n`, whether all its counted runs passed (`n/n`), and the pooled pass rate with a 95%
+  Wilson interval (`stats.py wilson K N`). The gate is not a reliability claim; `n/n` is the closest thing to one.
+- Every interval is about these tasks on this board, nothing wider.
 - `L2 ×N` counts passes on distinct chips (by chip ID) from distinct accounts.
 - Every run started is reported, in order. Choosing runs is not allowed.
 
@@ -140,21 +161,31 @@ Tasks that legitimately reset set `expect_reset: true`. `bench.py serial` implem
 | tester gave information not in the prompt | board left unbootable by the agent's firmware |
 | run did not start from the recorded host baseline | reboot guard fired |
 | | agent read or changed the eval (`tampered`) |
+| | assertions passed but the work was faked (`illegitimate`) |
+| | the bench blocked an irreversible command |
 | | any assertion failed |
 
 ## Phase 3 — A/B for ΔPass (optional)
 
-1. Each task five times per arm, same board, model and harness, host baseline restored every run.
+1. Each task five times per arm, same board, model, harness and hardware access, host baseline restored every run.
    With skill (without its eval) vs. no skill at all.
 2. Alternate arms: with, without, with, without.
 3. Record `skill_invoked` from each with-skill transcript. Invoked in fewer than 4 of 5 → `trigger-weak`: fix the
    `description`, not the body.
 4. Per arm: pass rate and first-compile-ok rate as `k/n` with Wilson intervals; per run builds, flashes, tokens,
    cost, wall time.
-5. Report `ΔPass` = with − without, with a 95% Newcombe interval: `stats.py delta KW NW KO NO`.
+5. Report `ΔPass` = with − without, with a 95% Newcombe interval: `stats.py delta KW NW KO NO`, then a table with
+   one row per task: `k/5` in each arm and the difference.
    - `gain`: lower bound > 0
+   - `harm`: upper bound < 0 (SkillsBench v4 saw negative skill effects on 13 of 87 tasks)
    - `low-gain`: upper bound < +15 pts
    - `inconclusive`: otherwise
+6. For the with-skill arm, each task's pass^2 from `c` passes in 5: `stats.py passk C 5 2` (1.0, 0.6, 0.3 for
+   5, 4, 3 passes).
+
+Optionally run an **A/A** comparison first (the skill against itself) to see the bench's own noise; a difference
+inside it is not a gain. Pooled Newcombe ignores pairing by task and is conservative when task difficulty varies;
+with three tasks that is the deliberate, safer error.
 
 At 15 v 15 most results are `inconclusive`, and `low-gain` needs roughly 100+ runs per arm. Say so; do not round
 a noisy +20 into "the skill helps". Combine benches by pooling each bench's `ΔPass`, never raw runs. Early
@@ -173,5 +204,7 @@ a commit permalink to the records and the SHA-256 of `SHA256SUMS`.
 
 A maintainer checks: `eval_validated` covers the tested version; self-tests passed; the same chip ID everywhere and
 not a known simulator value (Wokwi ESP32 MAC `24:0a:c4:00:01:10`, all zeros, Renode nRF52840 `0xAABBCCDD`, an STM32
-UID that changes between runs); digests match; runs follow the two-of-three rule; at least one run per task
-re-scored from raw evidence; transcripts show verbatim prompts, no help, no eval reading, matching skill hashes.
+UID that changes between runs); `exploit_caught` recorded; digests match; runs follow the two-of-three rule; at
+least one run per task re-scored from raw evidence; at least one passing run per task read in full for faked work;
+transcripts show verbatim prompts, no help, no eval reading, matching skill hashes; same `hardware_access` in both
+Phase 3 arms.

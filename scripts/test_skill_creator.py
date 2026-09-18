@@ -109,6 +109,14 @@ def main() -> int:
         check("check_package treats a missing build tool as an error, not a failing assertion",
               "could not run (exit 127" in r.stdout, r.stdout)
 
+        (pkg / "evals" / "trigger_queries.json").write_text('[{"query": "x"}]')
+        r = run(str(S / "check_package.py"), str(pkg))
+        check("check_package rejects a malformed trigger_queries.json", "must be a list of" in r.stdout, r.stdout)
+        (pkg / "evals" / "trigger_queries.json").unlink()
+
+        r = run(str(S / "stats.py"), "delta", "0", "15", "10", "15")
+        check("stats labels a significant negative ΔPass as harm", r.stdout.strip().split("\n")[0].endswith("harm"), r.stdout)
+
         r = run(str(S / "check_package.py"), str(SK))
         check("hardware-skill-creator's own eval package has no errors", r.returncode == 0, r.stdout)
         r = run(str(S / "check_package.py"), str(ROOT / "template"))

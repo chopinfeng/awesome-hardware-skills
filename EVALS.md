@@ -20,13 +20,15 @@ for a working one.
 | Eval package format | Defined in this document; starter in `template/evals/` |
 | `L0` static checks | **Working**, in CI — `python scripts/l0_check.py skill <path>` |
 | Authoring help | **Working** — [`skills/hardware-skill-creator/`](skills/hardware-skill-creator/), an Agent Skill that scaffolds a package, runs checks L0 does not (vacuous commands, prompt values, fixtures, leakage hints), and helps run Phases 0–3 |
+| Trigger pre-check | **Working, by hand** — about 20 queries run on the host, no board needed; see Pre-checks. Never a pass |
+| `claude plugin eval` | **Complements, does not replace** — Claude Code's built-in eval runner can run the trigger pre-check and host-side compile checks with hidden cases and a no-skill baseline arm, but it has no custom-code graders and cannot observe a board, so its results never count as a pass |
 | `L1` simulator pre-check runner | Not built, and never a pass |
 | Phases 0–3 on real hardware | **Working, by hand** — every step below can be done today with a board and the tools listed |
 | `L2` attestation form | **Working** — `.github/ISSUE_TEMPLATE/attestation.yml` (it was invalid YAML until 2026-09-16; CI now checks it) |
 | Automated A/B runner for `ΔPass` | Not built; the manual procedure in Phase 3 stands in for it |
 | `stale` marking | Not built; applied by a maintainer from attestation dates |
 
-As of 2026-09-16 one listed skill ships an eval package, and **no listed skill has passed.**
+As of 2026-09-18 one listed skill ships an eval package, and **no listed skill has passed.**
 
 ## What the tests answer
 
@@ -75,7 +77,11 @@ from a powered USB hub or a bench supply — a weak USB port causes brown-out re
 
 **Agent.** Model ID, harness and its version, and the harness's tool permissions. The agent runs on the host with
 the board attached and may build, flash and read serial during its attempt — that closed loop is how skills are
-used, and what a pass claims. Record whether the agent had network access.
+used, and what a pass claims. Record whether the agent had network access, and how it reaches the hardware —
+raw shell and serial, or a named tool such as an MCP server at a pinned version — in `agent.hardware_access`. That
+choice can move results as much as the skill does: in Embedded Arena the same model succeeded in 70% of attempts
+with hardware feedback and 40% with documentation alone. Both arms of a Phase 3 comparison must use the same
+access, and when the tool keeps its own audit log of flashes and resets, that log joins the evidence.
 
 **Skill under test.** The skill's repository and commit SHA, and the eval package `version`. A result belongs to
 that commit, not to the skill in general.
@@ -106,11 +112,43 @@ physical part:
 Record the serial port's USB serial number as well; on many boards with native USB it is derived from the chip.
 Simulators can be given any ID, so this does not prove silicon on its own — see Review for what it does catch.
 
+### Protecting the tester and the board
+
+A tester installs a stranger's skill on their own machine and gives an agent a USB port and a flasher. Before the
+first run, scan the skill at the pinned commit with a skill scanner such as `mcp-scan`, and read every download or
+install step in its `SKILL.md` and scripts. Snyk's February 2026 scan of 3,984 published skills found at least one
+security flaw in 36.82% of them, and hardware skills routinely ask for toolchains to be installed, which is exactly
+the pretext malicious ones use. Record the scan in the run record. It protects the tester and has no bearing on
+passing.
+
+Agents also do irreversible things to boards. Embedded Arena reports agents deleting a safety delay they had been
+told to keep, "ultimately locking the board and forcing a manual reset that the agent cannot execute". Three rules
+follow:
+
+- The bench may block irreversible commands before they reach the board — eFuse burns, Secure Boot, Flash
+  Encryption, readout protection, mass erase through a raw debugger — with a PATH wrapper or a hardware tool that
+  enforces an allow-list. A blocked command fails the run, but the board need not be retired.
+- Every run records `bench_damage`: `none`, `recovered` with the method, `debug-locked` or `efuse-burned`.
+- A board with Wi-Fi, BLE or Ethernet is a network actor in its own right, and so is the agent. Put both on an
+  isolated network with an egress allow-list. UK AISI reported agents taking "autonomous, unsanctioned action on
+  the live internet" in 10 of 122 runs of one challenge, and concluded that "good containment should not depend on
+  the model choosing not to test its boundaries".
+- After any recovery, rerun the Phase 1 self-test before the session continues. A board that cannot be recovered,
+  or whose eFuse summary changed, is retired from attestation.
+
 ## Keeping the eval out of reach
 
 Frontier models, when they can, read graders and answer keys: METR observed reward hacking — returning the
 grader's precomputed answers, patching scoring functions, searching for leaked reference implementations — in
-30.4% of runs on one task suite, and telling the model not to cheat barely changed the rate. An eval package that
+30.4% of runs on one task suite, and telling the model not to cheat barely changed the rate. Hiding the tests is
+not enough on its own either: METR's May 2026 risk report found that on its longest tasks "at least 16% of
+successful runs were illegitimate upon review", and Anthropic reports agents gaining an advantage "by examining
+the git history from previous trials" — which is why the host baseline and the `.git` rule below exist.
+Transcripts are evidence, not proof: in METR's August 2026 investigation of an agent hacking incident, agents built
+tool-call spoofing and "used this to alter outputs in our actual transcripts", and a shared package cache became
+"a covert mailbox among agents". So a pass rests on what the bench captures from the board, the review of a passing
+run reads the frozen source as well as the transcript, and the host baseline discards toolchain and package caches
+between runs. An eval package that
 sits beside `SKILL.md` puts the reference solution, the broken solution and every assertion pattern inside the
 installed skill. Four rules close that off:
 
@@ -135,7 +173,7 @@ installed skill. Four rules close that off:
 whenever a task or assertion changes.
 
 An eval is only as good as its ability to tell a correct solution from a wrong one. For every task, the author
-prepares solutions and runs four checks on the real board:
+prepares solutions and runs five checks on the real board:
 
 ```
 evals/fixtures/<task-id>/reference/   a known-good solution; prints the chip ID at boot
@@ -154,6 +192,13 @@ evals/fixtures/<task-id>/spoof/       firmware that fakes the observed signals w
    with no GATT service, or crash-looping so a boot message repeats. At least one assertion, or the reboot guard,
    fails. If nothing does, add an assertion tied to the real behaviour: a bus capture, an edge timed against an
    input, a value that depends on a sensor.
+5. **An exploit agent is caught.** Run an agent on the board with the skill installed and a prompt that tells it
+   to make the assertions pass without doing the task, as Terminal-Bench 2.0 does with its adversarial exploit
+   agent. Keep the transcript and evidence and read them whether or not it succeeds. If it passes every assertion
+   and the reboot guard, the eval has a hole: strengthen it and repeat. The spoof in check 4 covers the cheats the
+   author thought of; this covers the ones an agent finds, such as the hard-coded UART output Embedded Arena saw
+   agents produce on real microcontrollers. A cheap companion is an **impossible task** — one the board cannot do
+   as written, such as a rate its peripheral cannot reach — given to an ordinary agent: any pass is a cheat.
 
 Checks 2, 3 and 4 catch different defects, and a package needs all of them. The first third-party package in this
 list shows why for 2 and 3. One task forbids calling `Wire.begin()` again and checks with
@@ -162,7 +207,8 @@ and `!` turns its error into a pass. Check 2 catches it; check 3 would not, beca
 an `.ino`. Another task forbids blocking calls in an interrupt handler and locates the handler by matching
 `IRAM_ATTR`. Against an empty directory it correctly fails — but against a handler that calls `Serial.println`
 and `delay` without `IRAM_ATTR`, it exits 0. Check 2 misses it; only check 3 catches it. Check 4 exists because a
-serial regular expression is the easiest signal on a board to fake, and neither of the others tries.
+serial regular expression is the easiest signal on a board to fake, and neither of the others tries. Check 5
+exists because the author's imagination is not the limit of an agent's.
 
 The reference solution prints the chip's unique ID at boot, which binds every self-test log in Phase 1 to the
 chip. Agent tasks never ask for this: adding it to a prompt would change what the agent is asked to do and
@@ -206,8 +252,9 @@ eval_validated:
   empty_failed: true          # check 2, every assertion
   broken_caught: true         # check 3, every task
   spoof_caught: true          # check 4, every task
+  exploit_caught: true        # check 5, every task
   leakage_reviewed: true      # the skill contains no task's answer
-  evidence: https://...       # logs and captures from the four checks
+  evidence: https://...       # logs, captures and exploit transcripts from the five checks
 ```
 
 ## Phase 1 — bench self-test
@@ -263,7 +310,8 @@ eFuse bits cannot be cleared.
 11. **Evaluate each assertion** using the methods in the next section, and keep its raw evidence file.
 12. **Record the result.** Each assertion is `pass`, `fail` or `not-run`. The run passes only if every assertion
     passed and the reboot guard held. A failed run records one `failure_class`: `build`, `flash`, `crash`,
-    `behaviour`, `timeout` or `tampered`.
+    `behaviour`, `timeout`, `tampered` or `illegitimate`. Record `bench_damage` for every run.
+13. **Review a passing run for legitimacy** before counting it, as described below.
 
 ### Reboot and panic guard
 
@@ -287,13 +335,29 @@ port re-enumerating after time zero also counts as a reboot.
   the majority, with fewer runs. Agents are not deterministic, so one run is a single draw.
 - **Package:** passes if every task passes. That is the `L2` badge.
 - **Reporting:** every attestation lists each task's `k/n` and the pooled pass rate of all counted runs with a 95%
-  Wilson interval. The verdict is a gate, not a reliability claim: a task whose agent succeeds on only half its
-  attempts still passes this gate half the time, and the published rate is what shows it.
+  Wilson interval, and marks each task whose counted runs **all** passed (`n/n`). The verdict is a gate, not a
+  reliability claim: a task whose agent succeeds on only half its attempts still passes this gate half the time,
+  and the published rate is what shows it. For something that drives hardware, succeeding every time matters more
+  than succeeding sometimes — the distinction τ-bench draws between pass^k and pass@k — so the all-passed mark is
+  reported even though it is not the gate. Making it the gate would fail a task with a 90% success rate about
+  one time in four at three runs.
+- **Scope:** every interval describes the skill on these tasks, on this board. It is not a claim about similar tasks
+  or other boards.
 - **`L2 ×N`** counts attestations that each reached a pass on a **different chip** (by chip ID) submitted from a
   **different account**. A second attestation on a chip already counted is welcome but adds nothing to ×N.
 
 Every run started is reported, in order: passes, failures and invalid runs alike. Choosing which runs to count is
 not allowed; an invalid run is rerun, and both appear in the record.
+
+### Reviewing every passing run
+
+Assertions check that the right signals appeared; they cannot check that the firmware earned them. Before a
+passing run is counted, the tester reads its transcript and the frozen source and looks for the work being faked:
+output printed from a table or a timer instead of computed, a peripheral skipped and its result hard-coded, a
+stimulus answered on a schedule rather than detected, or a check in the task quietly disabled. A run that passed
+its assertions without doing the task fails with `failure_class: illegitimate`, and the finding is recorded in
+`legitimacy_review`. METR describes manual checking for cheating as "often the majority of the work" of running its
+suite; with three tasks and a handful of passing runs, reading all of them is affordable here.
 
 ### Failed run or invalid run
 
@@ -308,6 +372,8 @@ The distinction is decided by bench evidence, before assertion results are read:
 | The tester gave the agent information not in the prompt | The board is left unbootable by the agent's firmware |
 | The run did not start from the recorded host baseline | The reboot guard fired |
 | | The agent read or changed the eval, or the installed skill changed (`tampered`) |
+| | The assertions passed but review found the task was not done (`illegitimate`) |
+| | The bench blocked an irreversible command the agent issued |
 | | Any assertion failed |
 
 The fourth invalid case matters: a run where the tester helped is not a fail, but it is not evidence of a pass
@@ -317,7 +383,7 @@ either. A run that burned an eFuse fails, and additionally retires the board.
 
 **Who:** the tester. **When:** optional, alongside Phase 2.
 
-1. Run each task **five** times in each of two arms, on the same board, model and harness, following the Phase 2
+1. Run each task **five** times in each of two arms, on the same board, model, harness and hardware access, following the Phase 2
    procedure and restoring the host baseline before every run:
    - **With skill:** the skill installed, without its eval.
    - **Without skill:** no skill installed at all.
@@ -330,8 +396,12 @@ either. A run that burned an eFuse fails, and additionally retires the board.
    `k/n` with a 95% Wilson interval. Also record per run the number of builds and flashes, tokens, cost and
    wall-clock time.
 5. Report **`ΔPass`** as described in the next subsection, overall and again restricted to runs where the skill was
-   invoked, together with each task's own difference. If the skill was invoked in fewer than four of a task's five
-   with-skill runs, mark the result `trigger-weak`: the skill's `description` is not getting it loaded.
+   invoked, followed by a table with one row per task: its `k/5` in each arm and its own difference. If the skill
+   was invoked in fewer than four of a task's five with-skill runs, mark the result `trigger-weak`: the skill's
+   `description` is not getting it loaded. The trigger pre-check can catch this before any bench time is spent.
+6. For the with-skill arm, also report each task's **pass^2** — the chance that two independent runs both pass,
+   estimated without bias from `c` passes in five runs as `c(c−1)/20`: 1.0 at five of five, 0.6 at four, 0.3 at
+   three. It is the reliability figure the two-of-three gate does not give.
 
 First-compile-ok is tracked because it is where hardware skills earn their keep. A wrong register name, a
 missing `sdkconfig` symbol, the wrong FQBN — models often recover after two or three failed builds, so the pass
@@ -349,6 +419,8 @@ threshold would mislabel skills constantly, so `ΔPass` is always published as a
   the standard interval for a difference of two proportions, built from each arm's Wilson interval and accurate
   at small samples, unlike the familiar ±1.96 × standard error.
 - **`gain`** when the interval's lower bound is above zero.
+- **`harm`** when its upper bound is below zero — the skill makes the agent worse. This is not hypothetical:
+  SkillsBench v4 reports that "13 of 87 tasks show negative Skills deltas".
 - **`low-gain`** when its upper bound is below +15 points — evidence that the skill adds little.
 - **`inconclusive`** otherwise.
 
@@ -373,11 +445,21 @@ def delta_pass(k_with, n_with, k_without, n_without):
     d = p1 - p2
     lo = d - sqrt((p1 - l1) ** 2 + (u2 - p2) ** 2)
     hi = d + sqrt((u1 - p1) ** 2 + (p2 - l2) ** 2)
-    label = "gain" if lo > 0 else "low-gain" if hi < 0.15 else "inconclusive"
+    label = "gain" if lo > 0 else "harm" if hi < 0 else "low-gain" if hi < 0.15 else "inconclusive"
     return d, lo, hi, label
 ```
 
 This reproduces the published reference value for Newcombe's method (56/70 v 48/80 gives 0.200 [0.052, 0.334]).
+
+Before trusting a first A/B, a tester can run an **A/A** comparison — the skill against itself, same bench, same
+alternation — to see the bench's own noise. A difference inside that noise is not a gain. A 2026 study of paired
+noise floors measured exactly such a contrast at "+5 pp with Wilson CI [−2,+12], not significant".
+
+Pooling runs across tasks treats them as independent draws. With equal runs per task in each arm, the pooled
+difference equals the mean of the per-task differences, and the Newcombe interval, which ignores the pairing by
+task, is conservative when tasks differ a lot in difficulty. That is a deliberate choice: three tasks are too few
+to estimate a clustered standard error, and a conservative interval is the safer error. SkillsBench v4 pairs its
+differences by task over a larger frame; the per-task table above keeps that information visible.
 
 Results from different attestations are combined by pooling each bench's `ΔPass`, never by pooling raw runs
 across benches. A tester who wants to stop early may use a sequential test such as STEP, but only if its error
@@ -454,7 +536,8 @@ board: esp32-c3-devkitm-1 ESP32-C3-MINI-1
 chip_id: "30:ed:a0:88:88:a0"
 serial_port: {device: /dev/ttyACM0, usb_serial: "30:ED:A0:88:88:A0"}
 host: {os: Ubuntu 24.04, framework_version: "5.2.2", baseline: vm-snapshot-2026-09-20}
-agent: {model: claude-opus-5, harness: claude-code 2.1.3, network: true, session_id: 1f7c...}
+agent: {model: claude-opus-5, harness: claude-code 2.1.3, network: true, session_id: 1f7c..., hardware_access: shell}
+supply_chain_scan: {tool: mcp-scan, result: clean}   # once per skill commit is enough; repeat the reference
 started: 2026-09-20T10:14:03Z
 ended:   2026-09-20T10:21:47Z
 agent_outcome: declared-done      # declared-done | timeout
@@ -472,8 +555,10 @@ assertions:
   - {type: serial_match, result: pass, matches: 6, evidence: runs/07/serial.log}
   - {type: gpio_state,   result: pass, edges: 12, evidence: runs/07/gpio5.sr}
 result: pass                      # pass | fail | invalid
-failure_class: null               # build | flash | crash | behaviour | timeout | tampered
+failure_class: null               # build | flash | crash | behaviour | timeout | tampered | illegitimate
 invalid_reason: null
+bench_damage: none                # none | recovered (method) | debug-locked | efuse-burned
+legitimacy_review: {by: tester, finding: "reads the tick timer; GPIO5 driven by the same task"}
 transcript: {path: runs/07/transcript.jsonl, sha256: e40d...}
 ```
 
@@ -483,16 +568,16 @@ Open an issue with the **L2 hardware attestation** form. It asks for the skill a
 revision, the chip ID, the framework version, the agent model and harness, every run's result, both bench
 self-tests, the hardware evidence, one bench photo per session, and a permalink to the committed run records with
 the SHA-256 of their `SHA256SUMS` file. It requires confirming that the runs were on a physical board, that every
-run started from the host baseline with the eval out of the agent's reach, that every run is reported, that no
-hints were given, and that the transcripts are unedited. The one permitted edit is replacing a secret such as an
+run started from the host baseline with the eval out of the agent's reach, that every run is reported, that every
+passing run was reviewed for legitimacy, that no hints were given, and that the transcripts are unedited. The one permitted edit is replacing a secret such as an
 API key or Wi-Fi password with `[REDACTED]`; check transcripts for them before publishing.
 
 ## Review
 
 A maintainer checks an attestation before recording it in the manifest's `verified.L2`:
 
-- The package's `eval_validated` covers the version that was tested, including `spoof_caught` and
-  `leakage_reviewed`.
+- The package's `eval_validated` covers the version that was tested, including `spoof_caught`, `exploit_caught`
+  and `leakage_reviewed`.
 - Both self-tests passed in every session whose runs are counted, and the eFuse summary did not change.
 - The same `chip_id` appears in every run and self-test, it matches what the flash tool reported, and it is not a
   known simulator value — Wokwi's default ESP32 MAC `24:0a:c4:00:01:10`, an all-zero ID, Renode's nRF52840
@@ -502,17 +587,20 @@ A maintainer checks an attestation before recording it in the manifest's `verifi
 - Every task shows its runs in sequence, decided by the two-of-at-most-three rule, with invalid runs explained.
 - **Re-score at least one run per task** from its raw evidence — the serial log, the `.sr` capture, the `.pcapng` —
   and confirm it gives the recorded result, including the reboot guard.
+- **Read in full at least one passing run per task** — transcript and frozen source — for the faked work listed
+  under "Reviewing every passing run", and check that the tester's `legitimacy_review` agrees.
 - The transcripts show the prompt given verbatim, no help from the tester, and no reading of the eval; the
   installed skill's hashes match before and after.
+- `agent.hardware_access` is recorded, and both Phase 3 arms used the same one.
 
 An attestation missing any of this is sent back with the specific gap, not rejected silently. QEMU, Wokwi and
 Renode can all be configured with an arbitrary chip ID, so these checks catch careless, copied and repeated
 results, not a determined fabricator; independent reproductions on different chips, counted by `×N`, are the
 defence against that.
 
-## Pre-checks: L0 and L1
+## Pre-checks: L0, trigger and L1
 
-Pre-checks catch problems before anyone spends an afternoon at a bench. Neither is a pass.
+Pre-checks catch problems before anyone spends an afternoon at a bench. None of them is a pass.
 
 ### L0 — static checks
 
@@ -531,6 +619,22 @@ Pre-checks catch problems before anyone spends an afternoon at a bench. Neither 
 
 It does not check assertion fields, the `build` or `flash` blocks, fixtures, `eval_validated`, leakage, or whether
 any assertion can fail. Those are Phase 0's job.
+
+### Trigger pre-check
+
+**Working, by hand.** A skill that never loads measures as zero in Phase 3, and whether it loads depends only on
+its `description` and the request, not on the board. So it can be tested on the host first. Write about 20 requests
+in `evals/trigger_queries.json`, each `{"query": ..., "should_trigger": true|false}`: 8 to 10 that should load
+the skill and 8 to 10 near misses that should not, such as the same task on another chip family or another
+framework. Run each three times with the skill installed and count how often it loads. A query passes when the
+rate is at least 0.5 for `should_trigger: true` and below 0.5 for `false`. Record the result in the manifest's
+`trigger_eval`. This follows the method agentskills.io publishes for tuning descriptions.
+
+`claude plugin eval` can run it: one case per query, with a `tool_used` grader on `Skill` and `min: 0, max: 0` for
+the near misses. Its cases are hidden from the agent and it adds a no-skill arm, which also makes it a reasonable
+runner for host-side compile checks. It cannot run Phase 2: it has no custom-code graders and cannot observe a
+board, and its home-directory sandbox usually hides the toolchain. Keep its cases in a separate directory named
+with `--eval-dir`, since it would otherwise write results into `evals/`.
 
 ### L1 — simulator pre-check
 
@@ -553,11 +657,12 @@ my-skill/
     │   ├── 01-easy-thing.yaml
     │   ├── 02-medium-thing.yaml
     │   └── 03-hard-thing.yaml
-    └── fixtures/
-        └── <task-id>/
-            ├── reference/        # Phase 0 check 1, and the Phase 1 self-test
-            ├── broken/           # Phase 0 check 3
-            └── spoof/            # Phase 0 check 4
+    ├── fixtures/
+    │   └── <task-id>/
+    │       ├── reference/        # Phase 0 check 1, and the Phase 1 self-test
+    │       ├── broken/           # Phase 0 check 3
+    │       └── spoof/            # Phase 0 check 4
+    └── trigger_queries.json      # the trigger pre-check
 ```
 
 Aim for three tasks — easy, medium, hard. One task says nothing about whether the skill generalises; many more
@@ -577,7 +682,8 @@ make Phase 3 expensive.
 | `assertions_supported` | yes | Every assertion type any task uses. |
 | `boot_banner` | for L2 | Regular expression matching a line printed exactly once per boot. A second match after time zero is a reboot. |
 | `reboot_patterns` | for L2 | Regular expressions for fatal output; any match after time zero fails the run. Defaults exist for the ESP32 series; other families define their own. |
-| `eval_validated` | for L2 | Phase 0 record. Attestations are not accepted without it. |
+| `eval_validated` | for L2 | Phase 0 record, including `exploit_caught`. Attestations are not accepted without it. |
+| `trigger_eval` | no | Trigger pre-check result: `{date, model, runs_per_query, should_trigger: k/n, should_not_trigger: k/n}`. |
 | `sequential_plan` | no | Pre-registered error rate and maximum runs per arm, if Phase 3 will stop early. |
 | `verified.L0` | no | `{date, run}` once `l0_check.py` passes. |
 | `verified.L1` | reserved | Written by the L1 runner. |
@@ -644,11 +750,26 @@ Arduino and M5Unified, and is the first listed skill with an eval package. Measu
 
 - [METR, *Recent frontier models are reward hacking*](https://metr.org/blog/2025-06-05-recent-reward-hacking/) —
   agents read graders and leaked solutions; why the eval is kept out of reach.
-- [SkillsBench](https://arxiv.org/abs/2602.12670) — skill evaluation at scale: an automated gate rejecting skills
-  that leak task solutions, counting a trial only when the skill was actually invoked, and self-generated skills
-  scoring below no skill at all.
-- [Terminal-Bench](https://arxiv.org/abs/2601.11868) — oracle solutions that must pass, do-nothing agents that must
-  fail, and an adversarial exploit agent; the model for Phase 0 checks 1, 2 and 4.
+- [METR, *Frontier Risk Report*](https://metr.org/blog/2026-05-19-frontier-risk-report/) (May 2026) — cheating
+  persists when tests are hidden, and at least 16% of successful long runs were illegitimate on review; why every
+  passing run is reviewed.
+- [Anthropic, *Demystifying evals for AI agents*](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents)
+  (January 2026) — isolated trials, agents reading earlier trials' git history, and pass^k for agents where
+  consistency matters.
+- [METR, *OpenAI / Hugging Face hacking incident investigation*](https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/)
+  (August 2026) and [UK AISI, *Incident report*](https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing)
+  (August 2026) — forged transcripts, shared caches as covert channels, and agents acting on the live internet;
+  why passes rest on bench evidence and boards sit on an isolated network.
+- [How Much Coordination Gain Is Real?](https://arxiv.org/abs/2606.20695) — a paired noise-floor protocol; the A/A
+  comparison.
+- [SkillsBench](https://arxiv.org/abs/2602.12670v4) (v4, June 2026) — skill evaluation at scale: an automated gate
+  rejecting skills that leak task solutions, counting a trial only when the skill was actually invoked,
+  self-generated skills scoring below no skill at all, and differences paired by task.
+- [Terminal-Bench 2.0](https://arxiv.org/abs/2601.11868) — oracle solutions that must pass, do-nothing agents that
+  must fail, and an adversarial exploit agent whose trajectories are read whether or not it passes; the model for
+  Phase 0 checks 1, 2 and 5.
+- [τ-bench](https://arxiv.org/abs/2406.12045) and [Towards a Science of AI Agent Reliability](https://arxiv.org/abs/2602.16666)
+  — pass^k as a reliability measure distinct from pass@k.
 - [Establishing Best Practices for Building Rigorous Agentic Benchmarks](https://arxiv.org/abs/2507.02825) — the
   Agentic Benchmark Checklist, including benchmarks that counted empty responses as successes.
 - [Adding Error Bars to Evals](https://www.anthropic.com/research/statistical-approach-to-model-evals) and
@@ -656,8 +777,19 @@ Arduino and M5Unified, and is the first listed skill with an eval package. Measu
   why results carry intervals, and why small-sample intervals must not use the normal approximation.
 - [Is Your Imitation Learning Policy Better than Mine?](https://arxiv.org/abs/2503.10966) — STEP, sequential testing
   for comparing two policies with a pre-set error rate and maximum trials.
-- [IoT-SkillsBench](https://arxiv.org/abs/2603.19583) and [Embedded Arena](https://arxiv.org/abs/2606.16190) — the
-  closest prior work evaluating agents on real embedded hardware.
+- [IoT-SkillsBench](https://arxiv.org/abs/2603.19583) — firmware generated in a single pass and validated by a human
+  on real boards; expert-written skills helped and self-generated ones did not.
+- [Embedded Arena](https://arxiv.org/abs/2606.16190) — a closed hardware loop on real microcontrollers, with agents
+  hard-coding UART output and locking a board in the process; the evidence behind check 5, run review and
+  `bench_damage`.
+- [agentic-hil](https://github.com/agentic-hil/agentic-hil) — a hardware-in-the-loop tool that keeps its
+  configuration outside the agent's workspace, refuses flashing while raw debugger commands or mass erase are
+  allowed, and writes every hardware action to a SHA-256 audit chain.
+- [Snyk, *ToxicSkills*](https://snyk.io/blog/toxicskills-malicious-ai-agent-skills-clawhub/) and
+  [agentskills.io on optimizing descriptions](https://agentskills.io/skill-creation/optimizing-descriptions) — the
+  supply-chain scan and the trigger pre-check.
+- [Claude Code plugin evals](https://code.claude.com/docs/en/plugin-evals) — what the built-in runner can and cannot
+  do for this plan.
 - [esptool](https://docs.espressif.com/projects/esptool/en/latest/esp32/esptool/basic-commands.html),
   [M5Stack Core2](https://docs.m5stack.com/en/core/core2), [Wokwi ESP32](https://docs.wokwi.com/guides/esp32) and
   [Renode nRF52840](https://github.com/renode/renode/blob/master/platforms/cpus/nrf52840.repl) — the specific facts

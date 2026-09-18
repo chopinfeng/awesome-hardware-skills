@@ -18,10 +18,11 @@ my-skill/
     │   ├── 01-<easy>.yaml
     │   ├── 02-<medium>.yaml
     │   └── 03-<hard>.yaml
-    └── fixtures/<task-id>/
-        ├── reference/             # Phase 0 check 1 and the Phase 1 self-test
-        ├── broken/                # Phase 0 check 3
-        └── spoof/                 # Phase 0 check 4
+    ├── fixtures/<task-id>/
+    │   ├── reference/             # Phase 0 check 1 and the Phase 1 self-test
+    │   ├── broken/                # Phase 0 check 3
+    │   └── spoof/                 # Phase 0 check 4
+    └── trigger_queries.json       # trigger pre-check: [{"query": ..., "should_trigger": true|false}, ...]
 ```
 
 Three tasks: one says nothing about generalising, many make Phase 3 expensive.
@@ -40,7 +41,8 @@ Three tasks: one says nothing about generalising, many make Phase 3 expensive.
 | `assertions_supported` | yes | Every assertion type any task uses. |
 | `boot_banner` | yes for the guard | Regex matching a line printed exactly once per boot. A second match after time zero is a reboot. |
 | `reboot_patterns` | yes for the guard | Regexes for fatal output (panic, fault, brown-out). Any match after time zero fails the run. |
-| `eval_validated` | for L2 | Phase 0 record. |
+| `eval_validated` | for L2 | Phase 0 record, including `exploit_caught`. |
+| `trigger_eval` | no | Trigger pre-check result: `{date, model, runs_per_query, should_trigger: k/n, should_not_trigger: k/n}`. |
 | `sequential_plan` | no | Pre-registered error rate and max runs per arm, if Phase 3 stops early. |
 | `verified.L0/L1/L2` | no | Filled by CI, the future L1 runner, and maintainers from accepted attestations. |
 | `ab.*` | no | Phase 3 results. |

@@ -23,9 +23,13 @@ assertions_supported:
   - bus_capture                  # only checked at L2 here; see l1_skippable in tasks/02
 
 # Phase 0 of the test plan in EVALS.md: on the board, the reference solution in fixtures/<task-id>/reference
-# passes, an empty project fails every assertion, and fixtures/<task-id>/broken is caught.
+# passes, an empty project fails every assertion, fixtures/<task-id>/broken and /spoof are caught, and an agent
+# told to cheat is caught.
 # Required before any attestation is accepted.
-eval_validated: null             # {date, board, framework_version, reference_passed, empty_failed, broken_caught, spoof_caught, leakage_reviewed, evidence}
+eval_validated: null             # {date, board, framework_version, reference_passed, empty_failed, broken_caught, spoof_caught, exploit_caught, leakage_reviewed, evidence}
+
+# Trigger pre-check on the host, from evals/trigger_queries.json. Never a pass.
+trigger_eval: null               # {date, model, runs_per_query, should_trigger: k/n, should_not_trigger: k/n}
 
 # Reboot guard. The boot that time zero starts prints boot_banner once; a second match is a reboot.
 # Any reboot_patterns match after time zero fails the run. ESP32-series defaults; other families define their own.

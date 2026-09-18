@@ -1,0 +1,82 @@
+[
+  {
+    "query": "My ESP32-C3 should show up in nRF Connect and send a temperature reading every second. How do I set up the GATT server with NimBLE in ESP-IDF 5.2?",
+    "should_trigger": true
+  },
+  {
+    "query": "esp32-s3 ble peripheral w/ notify characteristic, notifications stop after 20 bytes?? using nimble",
+    "should_trigger": true
+  },
+  {
+    "query": "Write me an ESP-IDF app that advertises as 'plant-sensor' over BLE and exposes soil moisture as a readable characteristic.",
+    "should_trigger": true
+  },
+  {
+    "query": "Getting BLE_HS_ENOTCONN when I call ble_gattc_notify_custom on my ESP32-C3, what am I doing wrong",
+    "should_trigger": true
+  },
+  {
+    "query": "Add a BLE characteristic with write support to my existing esp-idf project so my phone app can set the LED colour",
+    "should_trigger": true
+  },
+  {
+    "query": "How should I tune connection interval and MTU for an ESP32-C3 GATT server streaming IMU data to an iPhone?",
+    "should_trigger": true
+  },
+  {
+    "query": "Port my Bluedroid GATT server on ESP32 to NimBLE, it's for a C3 devkit",
+    "should_trigger": true
+  },
+  {
+    "query": "The ESP32-C3 GATT service shows in LightBlue but notify never fires on the characteristic. sdkconfig attached.",
+    "should_trigger": true
+  },
+  {
+    "query": "Make the esp32 BLE heart-rate profile example send fake values that ramp up and down",
+    "should_trigger": true
+  },
+  {
+    "query": "I need a BLE UART-style service on ESP32-C3 so a web app using Web Bluetooth can send commands",
+    "should_trigger": true
+  },
+  {
+    "query": "Set up a GATT server on an nRF52840 DK with Zephyr that notifies temperature every second.",
+    "should_trigger": false
+  },
+  {
+    "query": "My ESP32 won't connect to Wi-Fi after deep sleep, how do I keep the connection?",
+    "should_trigger": false
+  },
+  {
+    "query": "Write an Android app in Kotlin that scans for BLE devices and lists their RSSI.",
+    "should_trigger": false
+  },
+  {
+    "query": "Classic Bluetooth SPP between an ESP32 and a PC, how do I pair it?",
+    "should_trigger": false
+  },
+  {
+    "query": "How do I flash MicroPython onto an ESP32-C3 and blink the LED?",
+    "should_trigger": false
+  },
+  {
+    "query": "Explain the difference between BLE advertising and scan response in general terms.",
+    "should_trigger": false
+  },
+  {
+    "query": "Set up ESP-NOW between two ESP32 boards to send sensor data without a router.",
+    "should_trigger": false
+  },
+  {
+    "query": "STM32WB BLE stack: how do I add a custom service with CubeMX?",
+    "should_trigger": false
+  },
+  {
+    "query": "My Arduino Nano 33 BLE needs to act as a BLE central and read a heart-rate strap.",
+    "should_trigger": false
+  },
+  {
+    "query": "Configure a Zigbee end device on ESP32-H2 with esp-zigbee-sdk.",
+    "should_trigger": false
+  }
+]

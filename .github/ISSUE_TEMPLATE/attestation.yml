@@ -67,8 +67,9 @@ body:
       label: Run results
       description: >-
         Phase 2. Every run in order, including failed and invalid ones. A run passes only if every assertion held on
-        the board, including ones marked l1_skippable, and the reboot guard did not fire. A task passes in two of at
-        most three runs. Finish with each task's k/n and the pooled pass rate with its 95% Wilson interval.
+        the board, including ones marked l1_skippable, the reboot guard did not fire, and review found the work was
+        really done. A task passes in two of at most three runs. Finish with each task's k/n, whether all its counted
+        runs passed, and the pooled pass rate with its 95% Wilson interval.
       placeholder: |
         01-blink        run 1: pass   run 2: pass                                  -> task pass (2/2)
         02-gatt-notify  run 3: pass   run 4: fail (crash)   run 5: invalid (USB disconnect)   run 6: pass   -> task pass (2/3)
@@ -123,6 +124,10 @@ body:
             its evals/, which the agent could not read.
           required: true
         - label: I decided which runs were invalid from bench evidence, before reading their assertion results.
+          required: true
+        - label: >-
+            I reviewed every passing run's transcript and frozen source for faked work before counting it, and every
+            run records its bench_damage.
           required: true
         - label: I reported every run, including failed and invalid ones, and did not choose which runs to count.
           required: true

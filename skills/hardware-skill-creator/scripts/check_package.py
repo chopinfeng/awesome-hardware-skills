@@ -27,7 +27,7 @@ import yaml
 
 errors = 0
 VALIDATED_FIELDS = ["date", "board", "framework_version", "reference_passed", "empty_failed",
-                    "broken_caught", "spoof_caught", "leakage_reviewed", "evidence"]
+                    "broken_caught", "spoof_caught", "exploit_caught", "leakage_reviewed", "evidence"]
 # Build-system and include lines every project of a framework shares; not answers.
 BOILERPLATE = re.compile(r"^(#include|include\(|idf_component_register|cmake_minimum_required|project\(|CONFIG_|zephyr_|target_sources|find_package)")
 FAMILY_WORDS = re.compile(r"^(esp32|esp32-s3|esp32-c3|nrf52|stm32|rp2040|arduino|raspberry ?pi)$", re.I)
@@ -241,6 +241,28 @@ def main() -> int:
             elif fixture_is_placeholder(d):
                 (err if args.attest else note)(f"{tid}: fixtures/{tid}/{kind}/ is still a placeholder")
         check_leakage(root, tid, t, fixtures)
+
+    tq = evals / "trigger_queries.json"
+    if not tq.is_file():
+        review("no evals/trigger_queries.json; the trigger pre-check (EVALS.md, Pre-checks) is the cheapest check there is")
+    else:
+        import json
+        try:
+            queries = json.loads(tq.read_text())
+        except json.JSONDecodeError as e:
+            queries = None
+            err(f"evals/trigger_queries.json is not valid JSON: {e}")
+        if queries is not None:
+            if not isinstance(queries, list) or not all(isinstance(q, dict) and isinstance(q.get("query"), str)
+                                                        and isinstance(q.get("should_trigger"), bool) for q in queries):
+                err("evals/trigger_queries.json must be a list of {\"query\": str, \"should_trigger\": bool}")
+            else:
+                if any("TODO:" in q["query"] for q in queries):
+                    err("evals/trigger_queries.json: unfinished TODO")
+                pos = sum(q["should_trigger"] for q in queries)
+                if pos < 8 or len(queries) - pos < 8:
+                    review(f"evals/trigger_queries.json has {pos} should-trigger and {len(queries) - pos} near-miss "
+                           "queries; aim for 8-10 of each")
 
     v = m.get("eval_validated")
     if not v:

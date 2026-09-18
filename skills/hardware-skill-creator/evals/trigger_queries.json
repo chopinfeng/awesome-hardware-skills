@@ -1,0 +1,82 @@
+[
+  {
+    "query": "I have an ESP32-S3 dev board and a pile of notes about its PSRAM quirks. Turn them into an agent skill and add evals that actually run on the board.",
+    "should_trigger": true
+  },
+  {
+    "query": "How do I prove my Zephyr nRF52840 skill works? I want tests that flash the board and check the serial output.",
+    "should_trigger": true
+  },
+  {
+    "query": "my SKILL.md for the M5Stack Core2 has no evals yet, can you add three tasks with serial assertions?",
+    "should_trigger": true
+  },
+  {
+    "query": "Check whether the exit_code assertions in ./stm32-skill/evals can actually fail on an empty project.",
+    "should_trigger": true
+  },
+  {
+    "query": "Help me write reference, broken and spoof firmware for my RP2040 skill's eval tasks.",
+    "should_trigger": true
+  },
+  {
+    "query": "I ran my skill's tasks on the board 3 times each, here are the run records. Does it pass, and what's the ΔPass?",
+    "should_trigger": true
+  },
+  {
+    "query": "Create a Claude skill for our company's CAN gateway board with tests that run on the hardware bench.",
+    "should_trigger": true
+  },
+  {
+    "query": "We want to submit an L2 attestation for the esp32 BLE skill, what evidence do we need to collect?",
+    "should_trigger": true
+  },
+  {
+    "query": "Design eval tasks for a Raspberry Pi Pico skill that catch the mistakes models make with PIO.",
+    "should_trigger": true
+  },
+  {
+    "query": "Write a SKILL.md that teaches agents our Arduino Uno R4 pinout, and a way to test it on the real board.",
+    "should_trigger": true
+  },
+  {
+    "query": "Write firmware for my ESP32 that blinks an LED every 500 ms.",
+    "should_trigger": false
+  },
+  {
+    "query": "Create a skill that formats my weekly status report in our team's style.",
+    "should_trigger": false
+  },
+  {
+    "query": "Set up pytest for my Python web API and add CI with GitHub Actions.",
+    "should_trigger": false
+  },
+  {
+    "query": "How do I read the MAC address of an ESP32 with esptool?",
+    "should_trigger": false
+  },
+  {
+    "query": "Review this Zephyr devicetree overlay for my nRF52840 sensor board.",
+    "should_trigger": false
+  },
+  {
+    "query": "Optimize the description of my PDF-summarizing skill so it triggers more often.",
+    "should_trigger": false
+  },
+  {
+    "query": "My STM32 HardFaults after enabling the watchdog, help me debug it.",
+    "should_trigger": false
+  },
+  {
+    "query": "Build a Home Assistant automation that turns on the fan when humidity goes above 70%.",
+    "should_trigger": false
+  },
+  {
+    "query": "What's the difference between pass@k and pass^k for LLM evals?",
+    "should_trigger": false
+  },
+  {
+    "query": "Write unit tests for my C ring buffer library using Unity.",
+    "should_trigger": false
+  }
+]

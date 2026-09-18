@@ -115,8 +115,11 @@ assertions_supported:
 # Chip unique ID: {fam["chip_id"]}
 # Full erase before every run: {fam["erase"]}
 
-# Phase 0 record. Fill it only after all four checks ran on the board.
-eval_validated: null   # {{date, board, framework_version, reference_passed, empty_failed, broken_caught, spoof_caught, leakage_reviewed, evidence}}
+# Phase 0 record. Fill it only after all five checks ran on the board.
+eval_validated: null   # {{date, board, framework_version, reference_passed, empty_failed, broken_caught, spoof_caught, exploit_caught, leakage_reviewed, evidence}}
+
+# Trigger pre-check on the host (evals/trigger_queries.json). Never a pass.
+trigger_eval: null     # {{date, model, runs_per_query, should_trigger: k/n, should_not_trigger: k/n}}
 
 # Reboot guard: the boot that time zero starts prints boot_banner once; a second banner is a reboot.
 # Any line matching reboot_patterns after time zero fails the run.
@@ -222,6 +225,9 @@ def main() -> int:
             d = root / "evals" / "fixtures" / tid / kind
             d.mkdir(parents=True)
             (d / "PLACEHOLDER.md").write_text(fixture_readme(kind, tid))
+    (root / "evals" / "trigger_queries.json").write_text(
+        '[\n  {"query": "TODO: a request that should load this skill", "should_trigger": true},\n'
+        '  {"query": "TODO: a near miss that should not, e.g. the same task on another chip", "should_trigger": false}\n]\n')
     print(f"created {root}")
     print("next: replace every TODO: and each fixture's PLACEHOLDER.md, then run check_package.py on it")
     return 0

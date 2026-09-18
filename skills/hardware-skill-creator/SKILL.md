@@ -32,7 +32,7 @@ Find the stage, then start there. Check the conversation and the filesystem befo
 | An idea, or know-how in chat, notes or a firmware repo | 1 Capture the target |
 | A SKILL.md with no `evals/` | 1 briefly, then 3 Design tasks |
 | An `evals/` package | 5 Static checks, then fix what they find |
-| Tasks plus filled `reference/`, `broken/`, `spoof/` fixtures | 6 Phase 0 on the board |
+| Tasks plus filled `reference/`, `broken/`, `spoof/` fixtures | 6 Phase 0 on the board (five checks) |
 | `eval_validated` recorded | 8 Bench runs, attestation, ΔPass |
 
 ## 1. Capture the target
@@ -101,6 +101,11 @@ python scripts/check_package.py <skill-dir> --run-empty
 `--run-empty` executes the package's `exit_code` and build commands in an empty directory. Run it on packages you
 or the user wrote; read the commands first if the package came from elsewhere.
 
+Run the **trigger pre-check** now too: write `evals/trigger_queries.json` (8-10 requests that should load the
+skill, 8-10 near misses such as the same task on another chip family), run each three times with the skill
+installed, and count loads. A skill that does not load measures as zero on the bench. `claude plugin eval` can run
+these as cases with a `tool_used: Skill` grader; it is a pre-check and never a pass.
+
 Before a board is available, you can still test the serial assertion logic: write short synthetic logs for the
 reference, the spoof and a crash loop in the format `bench.py` documents, and run `bench.py serial` on them. That
 finds wrong windows and patterns early. Synthetic logs are never evidence, and never go into `eval_validated`.
@@ -128,7 +133,11 @@ GPIO and bus assertions need the user's instruments; tell them exactly what to c
 file to hand back, then evaluate it together. Power removal and button presses are the user's hands.
 
 When a check fails, decide with the user whether the eval or the fixture is wrong, fix it, and repeat that check.
-When all four hold for every task, write `eval_validated` with the date, board revision, framework version and a
+Then check 5: run an agent with the skill installed and a prompt telling it to make the assertions pass without
+doing the task, and read its transcript whether or not it succeeds. If it passes, the eval has a hole; strengthen
+it and repeat. An impossible task given to an ordinary agent is a cheap companion check.
+
+When all five hold for every task, write `eval_validated` with the date, board revision, framework version and a
 link or path to the logs. If some check could not be run (no sniffer, say), leave the record empty and say which
 check is missing.
 
@@ -148,17 +157,21 @@ as ΔPass. Any change to a task or assertion bumps `version` and sends you back 
 ## 8. Bench runs, attestation, ΔPass
 
 For the real test — by the author or, better, by other people with their own boards — walk the tester through
-`references/test-plan.md`: host baseline, board reset, verbatim prompt, freeze, build, flash, observe, validity
-before results, one record per run from `assets/run-record.yaml`.
+`references/test-plan.md`: a supply-chain scan of the skill first, then per run the host baseline, board reset,
+verbatim prompt, freeze, build, flash, observe, validity before results, a legitimacy review of every passing run,
+and one record per run from `assets/run-record.yaml` including `bench_damage` and `agent.hardware_access`. Put a
+board with a radio on an isolated network.
 
 ```bash
 python scripts/stats.py task pass fail pass          # two of at most three
 python scripts/stats.py wilson 5 6                   # pooled pass rate with interval
 python scripts/stats.py delta 12 15 6 15             # ΔPass with Newcombe interval and label
+python scripts/stats.py passk 4 5 2                  # pass^2 for a task that passed 4 of 5 with the skill
 ```
 
-Report ΔPass as the interval and label the script prints. At five runs per task per arm most results are
-`inconclusive`; say so plainly rather than calling a +20 a gain.
+Report ΔPass as the interval and label the script prints (`gain`, `harm`, `low-gain`, `inconclusive`), with a
+per-task table. At five runs per task per arm most results are `inconclusive`; say so plainly rather than calling
+a +20 a gain. Report whether each task's counted runs all passed; the two-of-three gate is not a reliability claim.
 
 The tester files the **L2 hardware attestation** issue in awesome-hardware-skills with the records permalink and
 SHA256SUMS digest. A maintainer reviews it and records `verified.L2`.
