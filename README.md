@@ -594,7 +594,6 @@ Vendor-official skills are tagged `official` in place. As of the snapshot they c
 - [Ethan2298/bambu-printer-agent-plugin](https://github.com/Ethan2298/bambu-printer-agent-plugin) - Mac-local agent plugin wrapping bambu-printer-mcp with a skill for checking and controlling a Bambu Lab A1 printer. (★0 · 2026-09)
 - [phoenixjyb/openclaw-3dprint](https://github.com/phoenixjyb/openclaw-3dprint) - OpenClaw skill for a text-to-3D-print pipeline that turns chat messages into physical objects on Bambu Lab printers. (★3 · 2026-03)
 - [Flatsher/elegoo-centauri-skill](https://github.com/Flatsher/elegoo-centauri-skill) - Skill that controls and monitors an Elegoo Centauri Carbon 3D printer over the SDCP WebSocket protocol: status, temperatures, files, print control, fans, lights, jogging and uploads. (★0 · 2026-04)
-- [AlchemyDevelopment/3d-printing-jarvis](https://github.com/AlchemyDevelopment/3d-printing-jarvis) - Skill for a Creality Ender 5 Plus covering slicing optimization, bed adhesion, Klipper and Moonraker printer control, G-code edits and failure diagnostics. (★0 · 2026-09)
 - [danthi123/Q1Libre `.claude/skills/`](https://github.com/danthi123/Q1Libre/tree/main/.claude/skills) - Open firmware patches for the Qidi Q1 Pro with Claude Code skills for deploying over USB, patching Klipper, diagnosing the printer and cutting releases. (coll · ★7 · 2026-07)
 - [ttracx/qidi-q2-hermes](https://github.com/ttracx/qidi-q2-hermes) - Hermes Agent integration for the Qidi Q2 3D printer using the Moonraker API for natural-language control, monitoring and timelapse. (★1 · 2026-08)
 - [toprak1919/flashforge-3d-print-skill](https://github.com/toprak1919/flashforge-3d-print-skill) - Claude Code skill for FlashForge network printing: printer discovery, slicing, G-code conversion (M82 to M83), upload and streaming. (★0 · 2026-03)
@@ -808,7 +807,6 @@ MCP servers that run on the microcontroller or SBC itself, so the device is the 
 - [rjboer/OMRON-MCP](https://github.com/rjboer/OMRON-MCP) - Go MCP server and Windows workbench for OMRON Sysmac Studio projects that lets agents inspect programs and variables, investigate faults, generate Structured Text and apply reviewed changes. (★2 · 2026-08)
 - [dad-io/kepware_mcp_server](https://github.com/dad-io/kepware_mcp_server) - MCP server for Kepware KEPServerEX that manages channels, devices, tags, IoT Gateway, datalogger and users through the Configuration API over stdio, SSE or HTTPS. (★2 · 2026-03)
 - [arhunn/s7-plc-mcp](https://github.com/arhunn/s7-plc-mcp) - MCP server that talks directly to Siemens S7-1200/1500 PLCs on TCP port 102 using pure-Python python-snap7, with no external DLL. (★0 · 2026-04)
-- [OAKHEN1412/wecon-plc-mcp](https://github.com/OAKHEN1412/wecon-plc-mcp) - MCP server for WECON LX3V PLCs and PIStudio HMIs that authors ladder logic as text, generates project files and has Modbus live-read tools not yet tested on hardware, with offline tests that need no hardware. (★0 · 2026-07)
 
 ### Automotive (MCP)
 

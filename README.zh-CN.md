@@ -590,7 +590,6 @@
 - [Ethan2298/bambu-printer-agent-plugin](https://github.com/Ethan2298/bambu-printer-agent-plugin) - 在 Mac 本地运行的 agent 插件，封装 bambu-printer-mcp，并附带检查和控制 Bambu Lab A1 打印机的 skill。(★0 · 2026-09)
 - [phoenixjyb/openclaw-3dprint](https://github.com/phoenixjyb/openclaw-3dprint) - OpenClaw skill，实现文字到 3D 打印的流水线，把聊天消息变成 Bambu Lab 打印机上的实物。(★3 · 2026-03)
 - [Flatsher/elegoo-centauri-skill](https://github.com/Flatsher/elegoo-centauri-skill) - 通过 SDCP WebSocket 协议控制和监控 Elegoo Centauri Carbon 3D 打印机的 skill：状态、温度、文件、打印控制、风扇、灯光、移轴和上传。(★0 · 2026-04)
-- [AlchemyDevelopment/3d-printing-jarvis](https://github.com/AlchemyDevelopment/3d-printing-jarvis) - 面向 Creality Ender 5 Plus 的 skill，涵盖切片优化、首层附着、Klipper 与 Moonraker 打印机控制、G-code 修改和故障诊断。(★0 · 2026-09)
 - [danthi123/Q1Libre `.claude/skills/`](https://github.com/danthi123/Q1Libre/tree/main/.claude/skills) - Qidi Q1 Pro 的开源固件补丁，附带 Claude Code skill：通过 USB 部署、给 Klipper 打补丁、诊断打印机和发布版本。(coll · ★7 · 2026-07)
 - [ttracx/qidi-q2-hermes](https://github.com/ttracx/qidi-q2-hermes) - Qidi Q2 3D 打印机的 Hermes Agent 集成，借助 Moonraker API 实现自然语言控制、监控和延时摄影。(★1 · 2026-08)
 - [toprak1919/flashforge-3d-print-skill](https://github.com/toprak1919/flashforge-3d-print-skill) - FlashForge 网络打印的 Claude Code skill：打印机发现、切片、G-code 转换（M82 转 M83）、上传与流式传输。(★0 · 2026-03)
@@ -804,7 +803,6 @@ Agent 在运行时调用的工具服务器。目前对这个领域最好的综�
 - [rjboer/OMRON-MCP](https://github.com/rjboer/OMRON-MCP) - 面向 OMRON Sysmac Studio 工程的 Go MCP server 与 Windows 工作台，让智能体查看程序与变量、排查故障、生成结构化文本并应用经审核的修改。(★2 · 2026-08)
 - [dad-io/kepware_mcp_server](https://github.com/dad-io/kepware_mcp_server) - 面向 Kepware KEPServerEX 的 MCP server，通过 Configuration API 管理通道、设备、标签、IoT Gateway、数据记录器和用户，支持 stdio、SSE 与 HTTPS。(★2 · 2026-03)
 - [arhunn/s7-plc-mcp](https://github.com/arhunn/s7-plc-mcp) - MCP server，使用纯 Python 的 python-snap7 经 TCP 102 端口直连 Siemens S7-1200/1500 PLC，无需外部 DLL。(★0 · 2026-04)
-- [OAKHEN1412/wecon-plc-mcp](https://github.com/OAKHEN1412/wecon-plc-mcp) - 面向 WECON LX3V PLC 与 PIStudio HMI 的 MCP server，以文本方式编写梯形图并生成工程文件，另有尚未在硬件上测试的 Modbus 实时读取工具，并附带无需硬件的离线测试。(★0 · 2026-07)
 
 ### 汽车（MCP）
 
