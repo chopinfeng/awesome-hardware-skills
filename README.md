@@ -12,6 +12,9 @@ contributions with the eval assertions to aim at.
 
 Snapshot: 2026-09-18. Stars, last-push dates and skills.sh / ClawHub install counts are from that day. `stale` marks projects with no push in 12+ months. `official` marks repos under the hardware or SDK vendor's own GitHub org.
 
+Prefer tables? [CATALOG.md](CATALOG.md) holds the same entries as one table per category, with the tags, stars
+and last-push date in their own columns. It is generated from this file.
+
 ## Contents
 
 - [How entries are verified](#how-entries-are-verified)

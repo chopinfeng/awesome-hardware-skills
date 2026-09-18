@@ -19,6 +19,7 @@ jobs:
       - run: python scripts/l0_check.py links GAPS.md
       - run: python scripts/l0_check.py links CONTRIBUTING.md
       - run: python scripts/l0_check.py links EVALS.md
+      - run: python scripts/gen_catalog.py --check
 
   translation-sync:
     # Non-English readers see the same list. An English-only PR failing here is fine:
@@ -37,6 +38,7 @@ jobs:
       - run: python scripts/l0_check.py links GAPS.zh-CN.md
       - run: python scripts/l0_check.py links CONTRIBUTING.zh-CN.md
       - run: python scripts/l0_check.py links EVALS.zh-CN.md
+      - run: python scripts/l0_check.py sync CATALOG.md CATALOG.zh-CN.md
 
   template:
     runs-on: ubuntu-latest
