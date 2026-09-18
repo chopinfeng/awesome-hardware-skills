@@ -22,7 +22,9 @@ Tags in the trailing parenthesis: `official` (repo lives under the vendor's own 
 
 Then run `python scripts/l0_check.py readme README.md` before opening the PR — and
 `python scripts/l0_check.py links GAPS.md` if you touched that file. CI runs the same checks plus a weekly
-link-rot sweep.
+link-rot sweep. Maintainers refresh stars and last-push dates with `python scripts/refresh_meta.py` (needs an
+authenticated `gh`); it marks entries with no push in 12 months `stale since YYYY-MM`, follows renames, and
+reports repositories that disappeared, then `python scripts/gen_catalog.py` rebuilds the tables in `CATALOG.md`.
 
 The list also exists in Simplified Chinese as [README.zh-CN.md](README.zh-CN.md), and CI checks that both files
 carry the same entries in the same order. If you read Chinese, add the translated line in the same place. If you

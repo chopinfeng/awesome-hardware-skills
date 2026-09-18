@@ -20,7 +20,7 @@
 
 末尾括号中的标签：`official`（仓库位于厂商自己的组织下）、`coll`（多个 Skill 的合集）、`cursor-rules`、`placeholder`、`stale since YYYY-MM`。星数以千计时用 `k` 表示。
 
-提交 PR 前请运行 `python scripts/l0_check.py readme README.md`；如果改动了 `GAPS.md`，再运行 `python scripts/l0_check.py links GAPS.md`。CI 会执行同样的检查，并每周扫描一次失效链接。
+提交 PR 前请运行 `python scripts/l0_check.py readme README.md`；如果改动了 `GAPS.md`，再运行 `python scripts/l0_check.py links GAPS.md`。CI 会执行同样的检查，并每周扫描一次失效链接。维护者用 `python scripts/refresh_meta.py`（需要已登录的 `gh`）刷新星数和最近推送时间：它会把 12 个月没有推送的条目标为 `stale since YYYY-MM`、跟随仓库改名，并报告已消失的仓库；之后运行 `python scripts/gen_catalog.py` 重建 `CATALOG.md` 中的表格。
 
 本列表同时有简体中文版 [README.zh-CN.md](README.zh-CN.md)，CI 会检查两份文件是否以相同顺序收录了相同的条目。如果你能读中文，请在对应位置加上翻译后的那一行；如果不能，只改 `README.md` 即可——此时 `translation-sync` 这个 job 会失败，这是预期行为，维护者会补上译文。`GAPS.md` 与本文件同理，它们的译文分别是 [GAPS.zh-CN.md](GAPS.zh-CN.md) 和本文件。
 
