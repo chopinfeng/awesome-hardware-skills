@@ -1007,6 +1007,7 @@ Agent 在运行时调用的工具服务器。目前对这个领域最好的综�
 - [circuit-synth/kicad-sch-api](https://github.com/circuit-synth/kicad-sch-api) - KiCad 原理图 s-expression 的 Python API，带一个 [MCP 封装](https://github.com/circuit-synth/mcp-kicad-sch-api)。(★53 · 2025-12)
 - [Netlist-Studio/kicad-mcp](https://github.com/Netlist-Studio/kicad-mcp) - 通过 IPC API 控制 KiCad 9。(★19 · 2026-02)
 - [octoco-ltd/sheetsdata-mcp](https://github.com/octoco-ltd/sheetsdata-mcp) - 元器件数据手册：从 PDF 提取规格、引脚图与绝对最大额定值。(★12 · 2026-04)
+- [bboinzg-dev/partsplan-plugin](https://github.com/bboinzg-dev/partsplan-plugin) - 托管式数据手册 MCP 服务器，附 Claude Code 与 Cursor 插件：为引脚图、电气参数表、曲线图和 BOM 检查给出制造商文档及页码。(★0 · 2026-11)
 - [WangErShao/SynthAid_quartus_mcp](https://github.com/WangErShao/SynthAid_quartus_mcp) - 22 个工具的 Intel Quartus MCP。(★3 · 2026-06)
 - [neka-nat/freecad-mcp](https://github.com/neka-nat/freecad-mcp) - FreeCAD 插件加 MCP server，让 Agent 创建和编辑模型、运行 Python 脚本、检查文档并运行 FEM 分析。(★2.4k · 2026-09)
 - [eyfel/mcp-server-solidworks](https://github.com/eyfel/mcp-server-solidworks) - SolidPilot：SolidWorks MCP server，在底层 CAD 工具之外提供与 CAD 无关的 Feature Graph IR 编译器（目前用于从 IR 重建零件）以及仍在完善的 DXF/DWG 图纸读取器。(★321 · 2026-09)

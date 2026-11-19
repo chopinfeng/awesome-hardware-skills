@@ -1011,6 +1011,7 @@ MCP servers that run on the microcontroller or SBC itself, so the device is the 
 - [circuit-synth/kicad-sch-api](https://github.com/circuit-synth/kicad-sch-api) - Python API for KiCad schematic s-expressions, with an [MCP wrapper](https://github.com/circuit-synth/mcp-kicad-sch-api). (★53 · 2025-12)
 - [Netlist-Studio/kicad-mcp](https://github.com/Netlist-Studio/kicad-mcp) - KiCad 9 control over its IPC API. (★19 · 2026-02)
 - [octoco-ltd/sheetsdata-mcp](https://github.com/octoco-ltd/sheetsdata-mcp) - Component datasheets: specs, pinouts and absolute-maximum ratings from PDFs. (★12 · 2026-04)
+- [bboinzg-dev/partsplan-plugin](https://github.com/bboinzg-dev/partsplan-plugin) - Hosted datasheet MCP server with a Claude Code and Cursor plugin: cites the manufacturer's document and page for pinouts, electrical tables, graphs and BOM checks. (★0 · 2026-11)
 - [WangErShao/SynthAid_quartus_mcp](https://github.com/WangErShao/SynthAid_quartus_mcp) - 22-tool Intel Quartus MCP. (★3 · 2026-06)
 - [neka-nat/freecad-mcp](https://github.com/neka-nat/freecad-mcp) - FreeCAD addon plus MCP server that lets agents create and edit models, run Python scripts, inspect documents and run FEM analyses. (★2.4k · 2026-09)
 - [eyfel/mcp-server-solidworks](https://github.com/eyfel/mcp-server-solidworks) - SolidPilot, a SolidWorks MCP server whose low-level CAD tools are joined by a CAD-neutral Feature Graph IR compiler, currently used to rebuild parts from IR, and a maturing DXF/DWG drawing reader. (★321 · 2026-09)
