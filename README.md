@@ -136,7 +136,8 @@ Vendor-official skills are tagged `official` in place. As of the snapshot they c
 - [yukina0079/ai-mcu-auto-debug](https://github.com/yukina0079/ai-mcu-auto-debug) - AI-agent MCU auto-debug toolchain wrapping CMake, Keil, ESP-IDF, OpenOCD, J-Link, pyOCD and probe-rs behind adapters exposed as CLI, Python API, MCP tools and an installable skill. (★2 · 2026-07)
 - [pedrominatel/esp-workshops](https://github.com/pedrominatel/esp-workshops) - Workshop repo with esp-idf agent skills for ESP-IDF builds, component management, esp-sr speech recognition and ESP-IDF v6 migration. (★3 · 2026-06)
 - [H1D/agent-skills-esp32](https://github.com/H1D/agent-skills-esp32) - Two agent skills for debugging ESP32 and embedded devices over USB serial: real-time serial log monitoring and sending serial commands to emulate button presses. (★9 · 2026-01)
-
+- [Electronic-Team/serial-agent-toolkit](https://github.com/Electronic-Team/serial-agent-toolkit) - Three skills for serial ports: capture COM traffic on a port another app or MCP server already holds (Serial Port Monitor), virtual COM pairs and read-only shared ports (Virtual Serial Port Driver), and network-shared ports between Windows and Linux (Serial to Ethernet Connector); the tools are commercial with free trials. (official · coll · ★N · 2026-11)
+  
 ### RTOS
 
 - [beriberikix/zephyr-agent-skills](https://github.com/beriberikix/zephyr-agent-skills) - The most complete Zephyr catalog (21 skills): foundations, board bring-up (HWMv2), devicetree, build system, kernel, BLE / IP / USB / CAN connectivity, IoT protocols, multicore, `native_sim`, power, security updates, storage, testing; a keyword / Kconfig / compatible-scored router picks the right one. (coll · ★64 · 2026-05)
