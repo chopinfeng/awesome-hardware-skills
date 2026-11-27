@@ -984,6 +984,7 @@ MCP servers that run on the microcontroller or SBC itself, so the device is the 
 - [tinqiao-oss/clawtouch-mcp](https://github.com/tinqiao-oss/clawtouch-mcp) - Exposes a real USB-HID keyboard and mouse on a Raspberry Pi Pico 2 as MCP tools. (★10 · 2026-09)
 - [Oliver0804/cynthion-mcp](https://github.com/Oliver0804/cynthion-mcp) - Drives a Cynthion USB test instrument: sniff, decode and emulate USB traffic. (★5 · 2026-05)
 - [bsu-tool/bsu-tool](https://github.com/bsu-tool/bsu-tool) - "Behavioral Sleuth for USB": capture, decode and analyse USB protocols on Linux, as a CLI and an MCP server. (★5 · 2026-08)
+- [emirmrkaljevic/usb-rea](https://github.com/emirmrkaljevic/usb-rea) - Infers a USB device's protocol from a usbmon or USBPcap capture and generates a Python driver, as a CLI and an MCP server. (★171 · 2026-11)
 - [elgatosf/elgato-mcp-server](https://github.com/elgatosf/elgato-mcp-server) - Elgato's official MCP for automating its apps. (official · ★10 · 2026-09)
 - [sunasaji/mcp-serial-hid-kvm](https://github.com/sunasaji/mcp-serial-hid-kvm) - CH9329 USB-HID plus HDMI capture: an agent drives a physical PC as a KVM, with OCR. (★4 · 2026-04)
 - [yindia/qmkmcp](https://github.com/yindia/qmkmcp) - Any QMK / VIA keyboard over raw HID: lighting, keymaps, macros. (★0 · 2026-08)
