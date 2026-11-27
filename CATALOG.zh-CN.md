@@ -40,7 +40,7 @@
   - [实验室仪器（MCP）](#实验室仪器mcp) (30)
   - [摄像头（MCP）](#摄像头mcp) (11)
   - [无线与软件无线电（MCP）](#无线与软件无线电mcp) (17)
-  - [USB、HID 与 KVM（MCP）](#usbhid-与-kvmmcp) (15)
+  - [USB、HID 与 KVM（MCP）](#usbhid-与-kvmmcp) (16)
   - [EDA / PCB / CAD（MCP）](#eda--pcb--cadmcp) (37)
   - [边缘 AI 与 SBC（MCP）](#边缘-ai-与-sbcmcp) (8)
   - [数字制造（MCP）](#数字制造mcp) (20)
@@ -1089,7 +1089,7 @@
 
 ### USB、HID 与 KVM（MCP）
 
-共 15 条。
+共 16 条。
 
 | 条目 | 是什么 | 标签 | ★ | 更新 |
 |---|---|---|---|---|
@@ -1097,6 +1097,7 @@
 | [tinqiao-oss/clawtouch-mcp](https://github.com/tinqiao-oss/clawtouch-mcp) | 把树莓派 Pico 2 上真实的 USB-HID 键盘与鼠标暴露为 MCP 工具。 |  | 10 | 2026-09 |
 | [Oliver0804/cynthion-mcp](https://github.com/Oliver0804/cynthion-mcp) | 驱动 Cynthion USB 测试仪：嗅探、解码与模拟 USB 通信。 |  | 5 | 2026-05 |
 | [bsu-tool/bsu-tool](https://github.com/bsu-tool/bsu-tool) | "Behavioral Sleuth for USB"：在 Linux 上抓取、解码与分析 USB 协议，同时提供 CLI 与 MCP server。 |  | 5 | 2026-08 |
+| [emirmrkaljevic/usb-rea](https://github.com/emirmrkaljevic/usb-rea) | 从 usbmon 或 USBPcap 抓包推断 USB 设备的协议并生成 Python 驱动，同时提供 CLI 与 MCP server。 |  | 171 | 2026-11 |
 | [elgatosf/elgato-mcp-server](https://github.com/elgatosf/elgato-mcp-server) | Elgato 官方用于自动化其应用的 MCP。 | official | 10 | 2026-09 |
 | [sunasaji/mcp-serial-hid-kvm](https://github.com/sunasaji/mcp-serial-hid-kvm) | CH9329 USB-HID 加 HDMI 采集：Agent 像 KVM 一样操作一台真实电脑，并带 OCR。 |  | 4 | 2026-04 |
 | [yindia/qmkmcp](https://github.com/yindia/qmkmcp) | 通过 raw HID 操作任意 QMK / VIA 键盘：灯光、键位、宏。 |  | 0 | 2026-08 |
